@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { Http, Response } from '@angular/http';
-//import { NavController } from 'ionic-angular';
-
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/map';
 import {Observable} from 'rxjs/Observable';
 
-//import { BasketListComponent } from '/home/guest/hoopnet/hoopnet/src/components/basket-list';
-
+import { CourtDataService } from '../../services/courtDataService.service';
 
 
 @Component({
@@ -15,26 +12,16 @@ import {Observable} from 'rxjs/Observable';
 })
 export class HomePage {
 
-  posts: any;
-
   // To be filled with dummy data from our database
   dummy: any;
-
-  private data: Observable<Array<any>>;
-  private values: Array<any> = [];
-  private anyErrors: boolean;
-  private finished: boolean;
-
   private serverData: Observable<any>;
   private courtRes: Response;
 
-
-  constructor(public http: Http) {
-    this.http = http;
-    this.dummy = "dummy data";
+  constructor(public http: Http, private courtDataService: CourtDataService) {
+    this.dummy = courtDataService.getTotalHoopers();
   }
 
-
+// make get request on port 3000. Behavior to test the response object.
   serverRequest() {
 
     // urls I have tried:
@@ -63,38 +50,23 @@ export class HomePage {
     else {
       this.dummy = this.courtRes.text();
     }
+  } // server request paren
 
-  };
-
-  // Practice using Observables
-  observerFun(){
-
-    // Get data from observable
-    this.data = new Observable(observer => {
-      setTimeout(() => {
-        observer.next("gang gang baby got data from observable");
-      }, 1000);
-      // throw an error
-      setTimeout(() => {
-        observer.error(new Error("something shitty on poipous"));
-      }, 2000)
-      // unsubscribe
-      setTimeout(() => {
-        subscription.unsubscribe();
-      }, 3000)
-      // After having unsubscribed, this will not reach the subscription
-      setTimeout(() => {
-        observer.next("This will not appear on screen")
-      }, 4000)
-    }); // Observable paren
-
-    let subscription = this.data.subscribe(
-          value => {this.values.push(value)},
-          error => {this.anyErrors = true},
-          () => this.finished = true
-    );
-  } // server fun paren
+  // perform a simple put request on port 3000 using dummy data.
+  putRequest(){
+    let test = {
+      "full": "stack",
+      "eli": "awesome"
+    }
 
 
+    let headers = new Headers({ 'Content-Type': 'application/json' });
+
+    this.http.delete('http://localhost:3000/');
+
+    /*
+    this.http.put('http://localhost:3000/', JSON.stringify(test), headers)
+      .subscribe();*/
+  } // put request paren
 
 }

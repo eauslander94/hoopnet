@@ -5,18 +5,14 @@
 </ion-header>
 
 <ion-content padding>
+
+
   <h2 style="text-align: center;"> homepage </h2>
 
   <button ion-button full round (click)="serverRequest()">get request - Port 3000</button>
-  <button ion-button full round (click)="observerFun()">observer fun</button>
+  <button ion-button full round (click)="putRequest()">put request - Port 3000</button>
+
   <div><p>{{dummy}}</p></div>
 
-  <h6 style="margin-bottom: 0">VALUES:</h6>
-  <div *ngFor="let value of values">- {{ value }}</div>
-  <h6 style="margin-bottom: 0">ERRORs:</h6>
-  <div>Errors: {{anyErrors}}</div>
-
-  <h6 style="margin-bottom: 0">FINISHED:</h6>
-  <div>Finished: {{ finished }}</div>
 
 </ion-content>

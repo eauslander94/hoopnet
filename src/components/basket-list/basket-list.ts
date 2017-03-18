@@ -18,9 +18,9 @@ export class BasketListComponent {
   }
 
   // post: modal based on DetailedGameInfoComponent is presented to le view
-  presentDetailedCourtPage() {
+  presentDetailedCourtPage(basket) {
     // create and present modal from the DetailedGameInfoComponent
-    this.modalCtrl.create(DetailedGameInfoComponent).present();
+    this.modalCtrl.create(DetailedGameInfoComponent, basket).present();
   }
 
   // post: navigate to enter basic info page
@@ -28,7 +28,7 @@ export class BasketListComponent {
   //    the current basket the user has clicked
   presentEnterCourtInfoPage(basket){
     this.navCtrl.push(EnterBasicInfoPage, {
-      wait: 3
+      basket: basket
     });
   }
 
@@ -36,20 +36,42 @@ export class BasketListComponent {
   buildJSON(){
 
     let basket1 = {
+      "basketNo": 1,
       "game": "4v",
-      "skillLevel": 83,
+      "skillLevel": 88,
       "wait": 2,
-      "physicality": 3,
-      "ball movement": 4,
+      "physicality": 82,
+      "ballMovement": 55,
       "gameComments": ""
     }
 
     let basket2 = {
+      "basketNo": 2,
       "game": "3v",
-      "skillLevel": 75,
+      "skillLevel": 80,
       "wait": 1,
-      "physicality": 2,
-      "ball movement": 4,
+      "physicality": 75,
+      "ballMovement": 85,
+      "gameComments": ""
+    }
+
+    let basket3 = {
+      "basketNo": 3,
+      "game": "1v",
+      "skillLevel": 62,
+      "wait": 0,
+      "physicality": 60,
+      "ballMovement": 60,
+      "gameComments": ""
+    }
+
+    let basket4 = {
+      "basketNo": 4,
+      "game": "3v",
+      "skillLevel": 88,
+      "wait": 2,
+      "physicality": 75,
+      "ballMovement": 90,
       "gameComments": ""
     }
 
@@ -57,7 +79,7 @@ export class BasketListComponent {
       "baskets": 4,
       "totalPlayers": 17,
       "name": "Maxcy Hall Field House",
-      "basketArray": [basket1, basket2, basket1, basket2]
+      "basketArray": [basket1, basket2, basket3, basket4]
     }
     return JSON.stringify(obj);
   }

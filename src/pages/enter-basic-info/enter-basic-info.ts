@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
 import {EnterDetailedInfoPage} from '../../pages/enter-detailed-info/enter-detailed-info'
 
+
 @Component({
   selector: 'page-enter-basic-info',
   templateUrl: 'enter-basic-info.html'
@@ -11,8 +12,14 @@ export class EnterBasicInfoPage {
   skillLevel: any;
   selectOptions: any;
   skillDescriptor: Array<String>;
+  basket: any;
+  url: any;
+
   constructor(public navCtrl: NavController, public navParams: NavParams,
               private alertCtrl: AlertController) {
+
+    this.basket = navParams.get("basket");
+
     this.skillLevel = {
       "lower": 65,
       "upper": 85
@@ -29,9 +36,21 @@ export class EnterBasicInfoPage {
     this.navCtrl.push(EnterDetailedInfoPage);
   }
 
-  // post: TEMPORARY pops, retuening to basket list page
+  // post: data is sent to server
+  // alert prompts user for navigation options
   submit(){
-    this.presentSubmitMessage();
+    // preparing the object that will be sent to the server
+    let basicInfo = {
+      "basketNo": this.basket.basketNo,
+      "skillLow": this.skillLevel.lower,
+      "skillHigh": this.skillLevel.higher,
+      "game": "4v"
+    };
+
+
+
+
+    this.presentSubmitMessage();  // present the prompt
   }
 
   //method that creates alert message

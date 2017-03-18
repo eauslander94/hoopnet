@@ -11,9 +11,10 @@ import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-in
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
 // components
 import { BasketListComponent } from '../components/basket-list/basket-list';
-// component for the detailed info page
-import{ DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
-
+import { HttpComponentComponent } from '../components/http-component/http-component';
+import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
+// services
+import { CourtDataService } from '../services/courtDataService.service.ts';
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import{ DetailedGameInfoComponent } from '../components/detailed-game-info/detai
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     BasketListComponent,
-    DetailedGameInfoComponent
+    DetailedGameInfoComponent,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -41,8 +42,8 @@ import{ DetailedGameInfoComponent } from '../components/detailed-game-info/detai
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     BasketListComponent,
-    DetailedGameInfoComponent
+    DetailedGameInfoComponent,
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}]
+  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CourtDataService]
 })
 export class AppModule {}
