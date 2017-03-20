@@ -18,8 +18,27 @@ export class HomePage {
   private courtRes: Response;
 
   constructor(public http: Http, private courtDataService: CourtDataService) {
-    this.dummy = courtDataService.getTotalHoopers();
+    this.dummy = 485;
   }
+
+  CDSget(){
+    this.dummy = this.courtDataService.getRequest();
+  }
+
+  CDSput(){
+    this.dummy = this.courtDataService.putRequest();
+    this.dummy.subscribe(res => this.dummy = res.text());
+  }
+
+  CDSpost(){
+    this.dummy = this.courtDataService.postRequest();
+  }
+
+  CDSdelete(){
+    this.dummy = this.courtDataService.deleteRequest();
+  }
+
+
 
 // make get request on port 3000. Behavior to test the response object.
   serverRequest() {
