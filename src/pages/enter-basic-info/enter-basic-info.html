@@ -11,23 +11,23 @@ cd<!--
 </ion-header>
 
 <ion-content padding>
-<!-- Selecting the game that is currently being played
+<!-- Selecting the game that is currently being played -->
+  <div id="selectDiv">
+    <p>Current Game</p>
+    <ion-select [(ngModel)]="game" interface="action-sheet" [selectOptions]="selectOptions">
 
-  <h4 style="display: inline-block;">Game</h4>
-  <ion-select [(ngModel)]="game" interface="action-sheet" [selectOptions]="selectOptions" style="display: inline-block;">
+      <ion-option value="5v5" selected="true">5v5</ion-option>
+      <ion-option value="4v4">4v4</ion-option>
+      <ion-option value="3v3">3v3</ion-option>
+      <ion-option value="2v2">2v2</ion-option>
+      <ion-option value="1v1">1v1</ion-option>
+      <ion-option value="21">21</ion-option>
+      <ion-option value="shootaround">Shootaround</ion-option>
+      <ion-option value="other">Other</ion-option>
 
-    <ion-option value="5v5" selected="true">5v5</ion-option>
-    <ion-option value="4v4">4v4</ion-option>
-    <ion-option value="3v3">3v3</ion-option>
-    <ion-option value="2v2">2v2</ion-option>
-    <ion-option value="1v1">1v1</ion-option>
-    <ion-option value="21">21</ion-option>
-    <ion-option value="shootaround">Shootaround</ion-option>
-    <ion-option value="other">Other</ion-option>
-
-  </ion-select> -->
-
-  <h4 class="gameSkillHeader">Current Game</h4>
+    </ion-select>
+  </div>
+  <!-- <h4 class="gameSkillHeader">Current Game</h4>
   <div radio-group id="gameButtons">
 
     <button class="gameButtons">
@@ -61,11 +61,11 @@ cd<!--
 
     <button class='gameButtons'>
       <ion-label>shootaround</ion-label>
-      <ion-radio value="5v"></ion-radio>
+      <ion-radio value="shootaround"></ion-radio>
     </button>
     <button class='gameButtons'>
       <ion-label>empty</ion-label>
-      <ion-radio value="4v"></ion-radio>
+      <ion-radio value="empty"></ion-radio>
     </button>
 
     <button class='gameButtons'>
@@ -73,7 +73,7 @@ cd<!--
       <ion-radio value="other"></ion-radio>
     </button>
 
-  </div>
+  </div> -->
 
   <h4 class="gameSkillHeader">Skill Level</h4>
   <!-- Skill Level Slider -->
