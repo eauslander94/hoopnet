@@ -28,10 +28,10 @@ $colors: (
   secondary:  #ff5722,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222,
+  dark:       #222
 
-  navy:       #000059,
-  cement:     #AEB2BA
+  //navy:       #000059,
+  //cement:     #AEB2BA
 );
 
 // app wide theming
@@ -40,7 +40,14 @@ $background-color: #fdfdfd;
 $toolbar-background: #2196f3;
 $toolbar-border: none;
 
+$select-background-color: #2196f3;
+$in-primary-text: white;
 
+$select-ios-icon-color: #fdfdfd;
+$select-md-icon-color: #fdfdfd;
+
+$select-ios-padding-top: 6%;
+$select-md-padding-top: 6%;
 
 // App iOS Variables
 // --------------------------------------------------

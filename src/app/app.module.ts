@@ -13,6 +13,7 @@ import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detai
 import { BasketListComponent } from '../components/basket-list/basket-list';
 import { HttpComponentComponent } from '../components/http-component/http-component';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
+import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 
@@ -28,6 +29,7 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     EnterDetailedInfoPage,
     BasketListComponent,
     DetailedGameInfoComponent,
+    EnterBasketInfoComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -43,6 +45,7 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     EnterDetailedInfoPage,
     BasketListComponent,
     DetailedGameInfoComponent,
+    EnterBasketInfoComponent
   ],
   providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CourtDataService]
 })

@@ -6,87 +6,25 @@ cd<!--
 -->
 <ion-header>
   <ion-navbar>
-    <ion-title>enterBasicInfo</ion-title>
+    <ion-title>Enter Basket Info</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-<!-- Selecting the game that is currently being played -->
-  <div id="selectDiv">
-    <p>Current Game</p>
-    <ion-select [(ngModel)]="game" interface="action-sheet" [selectOptions]="selectOptions">
 
-      <ion-option value="5v5" selected="true">5v5</ion-option>
-      <ion-option value="4v4">4v4</ion-option>
-      <ion-option value="3v3">3v3</ion-option>
-      <ion-option value="2v2">2v2</ion-option>
-      <ion-option value="1v1">1v1</ion-option>
-      <ion-option value="21">21</ion-option>
-      <ion-option value="shootaround">Shootaround</ion-option>
-      <ion-option value="other">Other</ion-option>
+  <ion-slides pager="true" loop="true" effect="slide">
+    <ion-slide>
+      <enter-basket-info></enter-basket-info>
+    </ion-slide>
+    <ion-slide>
+      <enter-basket-info></enter-basket-info>
+    </ion-slide>
+    <ion-slide>
+      <enter-basket-info></enter-basket-info>
+    </ion-slide>
+    <ion-slide>
+      <enter-basket-info></enter-basket-info>
+    </ion-slide>
+</ion-slides>
 
-    </ion-select>
-  </div>
-  <!-- <h4 class="gameSkillHeader">Current Game</h4>
-  <div radio-group id="gameButtons">
-
-    <button class="gameButtons">
-      <ion-label>5v</ion-label>
-      <ion-radio value="5v"></ion-radio>
-    </button>
-
-    <button class='gameButtons'>
-      <ion-label>4v</ion-label>
-      <ion-radio value="4v"></ion-radio>
-    </button>
-    <button class='gameButtons'>
-      <ion-label>3v</ion-label>
-      <ion-radio value="3v"></ion-radio>
-    </button>
-
-    <button class='gameButtons'>
-      <ion-label>2v</ion-label>
-      <ion-radio value="2v"></ion-radio>
-    </button>
-    <button class='gameButtons'>
-      <ion-label>1v</ion-label>
-      <ion-radio value="1v"></ion-radio>
-    </button>
-
-    <button class='gameButtons'>
-
-      <ion-label>21</ion-label>
-      <ion-radio value="21"></ion-radio>
-    </button>
-
-    <button class='gameButtons'>
-      <ion-label>shootaround</ion-label>
-      <ion-radio value="shootaround"></ion-radio>
-    </button>
-    <button class='gameButtons'>
-      <ion-label>empty</ion-label>
-      <ion-radio value="empty"></ion-radio>
-    </button>
-
-    <button class='gameButtons'>
-      <ion-label>other</ion-label>
-      <ion-radio value="other"></ion-radio>
-    </button>
-
-  </div> -->
-
-  <h4 class="gameSkillHeader">Skill Level</h4>
-  <!-- Skill Level Slider -->
-  <div id="strongPdiv">weaker players   <ion-badge>{{skillLevel.lower}}</ion-badge>
-  </div>
-  <div id="weakPdiv">stronger players <ion-badge>{{skillLevel.upper}}</ion-badge></div>
-  <ion-range
-    min="50" max="100" [(ngModel)]="skillLevel"
-    pin="true" dualKnobs="true" mode="md"
-    >
-    </ion-range>
-
-
-  <button ion-button full round (tap)="submit()">Submit</button>
-  <button ion-button full round (tap)="enterDetailedInfo()">enter more information</button>
 </ion-content>

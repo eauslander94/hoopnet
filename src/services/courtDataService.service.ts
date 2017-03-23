@@ -22,9 +22,13 @@ export class CourtDataService{
       );
     }
 
+    getCourtByName(){
+
+
+    }
+
 
     getRequest() {
-
 
       // set observable to that returned from this http.get request
       this.observable = this.http.get('http://localhost:3000/')

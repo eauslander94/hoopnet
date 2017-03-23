@@ -1,8 +1,10 @@
-import { Component } from '@angular/core';
+import { Component,  } from '@angular/core';
 import { ModalController, NavController} from 'ionic-angular';
+
 // detailed game info component
 import { DetailedGameInfoComponent} from '../../components/detailed-game-info/detailed-game-info';
 import { EnterBasicInfoPage }       from '../../pages/enter-basic-info/enter-basic-info';
+import { CourtDataService } from '../../services/courtDataService.service';
 
 @Component({
   selector: 'basket-list',
@@ -12,9 +14,11 @@ import { EnterBasicInfoPage }       from '../../pages/enter-basic-info/enter-bas
 export class BasketListComponent {
 
   court: string;
+  dummy: any;
 
-  constructor(public modalCtrl: ModalController, public navCtrl: NavController) {
+  constructor(public modalCtrl: ModalController, public navCtrl: NavController, private courtDataService: CourtDataService) {
     this.court = JSON.parse(this.buildJSON());
+
   }
 
   // post: modal based on DetailedGameInfoComponent is presented to le view

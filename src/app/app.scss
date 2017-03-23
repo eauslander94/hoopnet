@@ -14,3 +14,42 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+#selectDiv{
+  border-radius: 3px;
+  background-color: $select-background-color;
+  height: 8%;
+  box-shadow: 0px 1px 1px grey;
+  display: table;
+  width: 100%;
+}
+
+// Centering of the following 2 divs on various screens can be an issue
+// perhaps a solution that uses table cells
+#selectDiv > p{
+  font-size: 5vw;
+  color: $in-primary-text;
+  float: left;
+  vertical-align: middle;
+  padding-left:5%;
+
+  /*position: absolute;
+  height: .8%;
+  top: 1.4%;
+  bottom: 1.5%;
+  left: 10%;*/
+
+}
+
+
+#selectDiv > ion-select{
+
+  //border: 1px solid black;
+  float: right;
+  vertical-align: middle;
+  padding-right: 5%;
+
+//  height: 100%;
+//  position: absolute;
+  //right: 10%;
+}
