@@ -17,7 +17,6 @@ export class EnterDetailedInfoPage {
   // post: TEMPORARY: pops twice, retuening to basket list
   submit(){
     this.navCtrl.pop();
-    this.navCtrl.pop();
   }
 
 }// EnterDetailedInfo paren
