@@ -1,5 +1,5 @@
 import { Component, ViewChild } from '@angular/core';
-import { Slides } from 'ionic angular';
+import { Slides } from 'ionic-angular';
 
 import { EnterBasketInfoComponent  } from '../../../hoopnet/src/components/enter-basket-info/enter-basket-info';
 
@@ -9,10 +9,16 @@ import { EnterBasketInfoComponent  } from '../../../hoopnet/src/components/enter
 })
 export class EnterBasicInfoPage {
 
-
+  basketNumber: Number = 1;
 
   constructor() {
 
+  }
+
+  @ViewChild(Slides) slides: Slides;
+
+  slideChanged() {
+    this.basketNumber = this.slides.getActiveIndex();
   }
 
 }

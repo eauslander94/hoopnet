@@ -1,17 +1,20 @@
 page-enter-basic-info {
-
+  h3{
+    position: absolute;
+    top: 0;
+    width: 100%;
+    left: 0;
+    //border: 1px solid red;
+  }
 }
 
-ion-slide{
-  //border: 1px solid red;
-//  margin-top: -10%;
-}
+
 
 enter-basket-info {
   //border-top: 2px solid blue;
   //margin-top: -20%;
   position: absolute;
-  top: 0;
+  top: 10%;
   left: 0;
   width: 100%;
 }

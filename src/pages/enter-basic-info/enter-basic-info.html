@@ -12,17 +12,21 @@ cd<!--
 
 <ion-content padding>
 
-  <ion-slides pager="true" loop="true" effect="slide">
+  <ion-slides pager="true" loop="true" effect="slide" (ionSlideDidChange)="slideChanged()">
     <ion-slide no-padding>
+      <h3>Basket {{basketNumber}}</h3>
       <enter-basket-info></enter-basket-info>
     </ion-slide>
     <ion-slide>
+      <h3>Basket {{basketNumber}}</h3>
       <enter-basket-info></enter-basket-info>
     </ion-slide>
     <ion-slide>
+      <h3>Basket {{basketNumber}}</h3>
       <enter-basket-info></enter-basket-info>
     </ion-slide>
     <ion-slide>
+      <h3>Basket {{basketNumber}}</h3>
       <enter-basket-info></enter-basket-info>
     </ion-slide>
 </ion-slides>
