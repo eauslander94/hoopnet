@@ -1,6 +1,6 @@
 <ion-header>
   <ion-navbar>
-    <ion-title id="navbarTitle">hoop.next</ion-title>
+    <ion-title id="navbarTitle">homecourt</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -8,13 +8,7 @@
 
 
   <h2 style="text-align: center;"> homepage </h2>
-
-  <button ion-button full round (click)="CDSget()">get request - Port 3000</button>
-  <button ion-button full round (click)="CDSput()">put request - Port 3000</button>
-  <button ion-button full round (click)="CDSpost()">post request - Port 3000</button>
-  <button ion-button full round (click)="CDSdelete()">delete request - Port 3000</button>
-
-  <div><p>{{dummy}}</p></div>
-
+  <!-- <button ion-button (click)="addMarker()"><ion-icon name="add"></ion-icon>Add Marker</button>-->
+  <div #map id="map"></div>
 
 </ion-content>

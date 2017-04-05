@@ -12,6 +12,7 @@ export class DetailedGameInfoComponent {
   ballMovement: number;
   params: NavParams;
 
+
   constructor(params: NavParams, public viewCtrl: ViewController) {
     this.wait = params.get("wait");
     this.physicality = params.get("physicality");

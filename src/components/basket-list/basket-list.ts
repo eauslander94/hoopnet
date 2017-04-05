@@ -82,10 +82,10 @@ export class BasketListComponent {
     let obj: any = {
       "baskets": 4,
       "totalPlayers": 17,
-      "name": "Maxcy Hall Field House",
+      "name": "Test Court",
       "basketArray": [basket1, basket2, basket3, basket4]
     }
     return JSON.stringify(obj);
   }
 
-} //Basket List Component parenz
+} //Basket List Component paren
