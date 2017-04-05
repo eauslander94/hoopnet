@@ -1,6 +1,7 @@
 import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
+import { Geolocation } from '@ionic-native/geolocation';
 
 // pages
 import { AboutPage }          from '../pages/about/about';
@@ -16,6 +17,7 @@ import { DetailedGameInfoComponent } from '../components/detailed-game-info/deta
 import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
+
 
 
 @NgModule({
@@ -47,6 +49,10 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     DetailedGameInfoComponent,
     EnterBasketInfoComponent
   ],
-  providers: [{provide: ErrorHandler, useClass: IonicErrorHandler}, CourtDataService]
+  providers: [
+  {provide: ErrorHandler, useClass: IonicErrorHandler},
+  CourtDataService,
+  Geolocation
+]
 })
 export class AppModule {}

@@ -2,15 +2,19 @@ page-home {
 
 }
 
-#navbarTitle{
-  text-align: center;
-}
+.ios, .md {
 
-.scroll {
-    height: 100%;
-}
+  #navbarTitle{
+    text-align: center;
+  }
 
-#map {
-    width: 100%;
-    height: 100%;
+  .scroll {
+      height: 100%;
+  }
+
+  #map {
+      width: 100%;
+      height: 100%;
+  }
+
 }
