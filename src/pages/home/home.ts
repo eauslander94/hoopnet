@@ -24,13 +24,13 @@ export class HomePage {
 
   // load the map around the user's current location
   loadMap() {
-
+    // get the location, upon success the callback pulls up the map
     this.geolocation.getCurrentPosition().then((position) => {
       let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 
       let mapOptions = {
         center: latLng,
-        zoom: 10,
+        zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
 
@@ -39,6 +39,34 @@ export class HomePage {
     }, (err) => {
       console.log(err);
     });
+
+    this.addMarker();
+
  }
+
+
+ addMarker(){
+   let marker = new google.maps.Marker({
+    map: this.map,
+    animation: google.maps.Animation.DROP,
+    position: {lat: 44.660653, lng: -74.967158}
+  })
+
+  let content = "<h5>Maxcy Hall</h5>"
+
+  this.addInfoWindow(marker, content);
+ }
+
+ addInfoWindow(marker, content){
+   let infoWindow = new google.maps.InfoWindow({
+      content: content
+   });
+
+   google.maps.event.addListener(marker, 'click', () => {
+     infoWindow.open(this.map, marker);
+   });
+ }
+
+
 
 }
