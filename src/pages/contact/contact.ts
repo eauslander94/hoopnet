@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 
 import { NavController } from 'ionic-angular';
 
-import { Http, Response } from '@angular/http';
+import { Http } from '@angular/http';
 //import { NavController } from 'ionic-angular';
 
 import 'rxjs/add/operator/map';

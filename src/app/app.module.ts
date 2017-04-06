@@ -12,7 +12,6 @@ import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-in
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
 // components
 import { BasketListComponent } from '../components/basket-list/basket-list';
-import { HttpComponentComponent } from '../components/http-component/http-component';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
 import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
 // services

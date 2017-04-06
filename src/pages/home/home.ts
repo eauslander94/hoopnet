@@ -1,6 +1,7 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
+import { CourtDataService } from '../../services/courtDataService.service';
 
 declare var google;
 
@@ -12,14 +13,16 @@ export class HomePage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
+  test: any;
 
-  constructor(public navCtrl: NavController, public geolocation: Geolocation) {
-    //this.map = this.initMap();
-  }
+  constructor(public navCtrl: NavController,
+              public geolocation: Geolocation,
+              public courtDataService: CourtDataService) {}
 
   // load the map when the page has loaded
   ionViewDidLoad(){
     this.loadMap();
+    this.test = this.courtDataService.getAllCourts();
   }
 
   // load the map around the user's current location
@@ -65,6 +68,8 @@ export class HomePage {
    google.maps.event.addListener(marker, 'click', () => {
      infoWindow.open(this.map, marker);
    });
+
+   this.test = this.courtDataService.getAllCourts();
  }
 
 
