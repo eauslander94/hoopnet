@@ -24,7 +24,7 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #2196f3,
+  primary:    #fdfdfd,
   secondary:  #ff5722,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -34,13 +34,14 @@ $colors: (
   //cement:     #AEB2BA
 );
 
-// app wide theming
-$background-color: #fdfdfd;
+$primary: #fdfdfd;
 
-$toolbar-background: #2196f3;
+// app wide theming
+$background-color: #2196f3;
+$toolbar-background: #fdfdfd;
 $toolbar-border: none;
 
-$select-background-color: #2196f3;
+$select-background-color: #fdfdfd;
 $in-primary-text: white;
 
 $select-ios-icon-color: #fdfdfd;

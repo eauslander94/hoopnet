@@ -1,7 +1,8 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { NavController, PopoverController } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
 
 declare var google;
 
@@ -17,13 +18,23 @@ export class HomePage {
 
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
-              public courtDataService: CourtDataService) {}
+              public courtDataService: CourtDataService,
+              public popoverCtrl: PopoverController) {}
 
   // load the map when the page has loaded
   ionViewDidLoad(){
     this.loadMap();
     this.test = this.courtDataService.getAllCourts();
   }
+
+
+  presentPopover(myEvent){
+    let popover = this.popoverCtrl.create(MapSearchPopoverComponent);
+    popover.present({
+      ev: myEvent
+    });
+  }
+
 
   // load the map around the user's current location
   loadMap() {
@@ -44,7 +55,6 @@ export class HomePage {
     });
 
     this.addMarker();
-
  }
 
 
@@ -56,7 +66,6 @@ export class HomePage {
   })
 
   let content = "<h5>Maxcy Hall</h5>"
-
   this.addInfoWindow(marker, content);
  }
 
@@ -70,6 +79,11 @@ export class HomePage {
    });
 
    this.test = this.courtDataService.getAllCourts();
+ }
+
+ // center the map to the around the given address
+ moveMap(address){
+   this.map.setCenter(new google.maps.LatLng(40.723697, -73.988818))
  }
 
 

@@ -18,3 +18,20 @@ page-home {
   }
 
 }
+
+#addressInput{
+  background-color: color($colors, primary);
+  border-radius: 15px;
+
+//  position: absolute;
+  //bottom: 1%;
+}
+
+#navbarButton{
+  background-color: #fdfdfd;
+}
+
+#navbarButton ion-icon{
+  font-size: 3vh;
+  padding-right: 1vw;
+}

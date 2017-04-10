@@ -14,6 +14,7 @@ import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detai
 import { BasketListComponent } from '../components/basket-list/basket-list';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
 import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
+import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 
@@ -30,7 +31,8 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     EnterDetailedInfoPage,
     BasketListComponent,
     DetailedGameInfoComponent,
-    EnterBasketInfoComponent
+    EnterBasketInfoComponent,
+    MapSearchPopoverComponent,
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -46,7 +48,8 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     EnterDetailedInfoPage,
     BasketListComponent,
     DetailedGameInfoComponent,
-    EnterBasketInfoComponent
+    EnterBasketInfoComponent,
+    MapSearchPopoverComponent
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

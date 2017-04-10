@@ -1,16 +1,20 @@
 <ion-header>
   <ion-navbar>
-    <ion-title id="navbarTitle">homecourt</ion-title>
+    <ion-title id="navbarTitle">Court Map</ion-title>
+    <ion-buttons end>
+      <button id="navbarButton" (click)="addMarker()">
+        <ion-icon name="search"></ion-icon>
+      </button>
+  </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
 
+<!-- map div itself -->
+<div #map id="map"></div>
 
-  <h2 style="text-align: center;"> {{test}} </h2>
-  <button ion-button (click)="addMarker()">
-    <ion-icon name="add"></ion-icon>
-  Add Marker</button>
-  <div #map id="map"></div>
-
+   <!-- input for entering address
+   <ion-input type="text" placeholder="find courts by address" id="addressInput"></ion-input>-->
+ <!-- <button ion-button (click)="moveMap()"> search</button> -->
 </ion-content>
