@@ -32,15 +32,7 @@
   float: left;
   vertical-align: middle;
   padding-left:5%;
-
-  /*position: absolute;
-  height: .8%;
-  top: 1.4%;
-  bottom: 1.5%;
-  left: 10%;*/
-
 }
-
 
 #selectDiv > ion-select{
 
@@ -48,8 +40,9 @@
   float: right;
   vertical-align: middle;
   padding-right: 5%;
+}
 
-//  height: 100%;
-//  position: absolute;
-  //right: 10%;
+@font-face {
+  font-family: "bulls";
+  src: ('/home/guest/hoopnet/hoopnet/www/assets/fonts/bulls.ttf');
 }

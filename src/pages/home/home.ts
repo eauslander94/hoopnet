@@ -1,8 +1,15 @@
+// ionic imports
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, PopoverController } from 'ionic-angular';
+import { NavController, PopoverController, AlertController } from 'ionic-angular';
+// Map imports
 import { Geolocation } from '@ionic-native/geolocation';
+// communication with server
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
+// court report imports
 import { CourtDataService } from '../../services/courtDataService.service';
 import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
+import { AboutPage } from '/home/guest/hoopnet/hoopnet/src/pages/about/about';
 
 declare var google;
 
@@ -15,24 +22,22 @@ export class HomePage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   test: any;
+  dummy: any;
+
+  allCourtsObservable: Observable<Response>;
+
 
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
               public courtDataService: CourtDataService,
-              public popoverCtrl: PopoverController) {}
+              public popoverCtrl: PopoverController,
+              private alertCtrl: AlertController) {}
+
 
   // load the map when the page has loaded
   ionViewDidLoad(){
     this.loadMap();
-    this.test = this.courtDataService.getAllCourts();
-  }
-
-
-  presentPopover(myEvent){
-    let popover = this.popoverCtrl.create(MapSearchPopoverComponent);
-    popover.present({
-      ev: myEvent
-    });
+    //this.getCourts();
   }
 
 
@@ -47,39 +52,94 @@ export class HomePage {
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP
       }
-
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
+      }, (err) => { console.log(err) });
 
-    }, (err) => {
-      console.log(err);
-    });
-
-    this.addMarker();
+      // Once the map has loaded, call getCourts
+      google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
+        this.getCourts();
+      });
  }
 
 
- addMarker(){
+ // Post: 1) allCourtsObservable is set to the new observable returned bycourtDataService
+ //       2)processResponse is called upon successful reception of res
+  getCourts(){
+    this.allCourtsObservable = this.courtDataService.getAllCourts();
+    this.allCourtsObservable
+     .subscribe(
+      // here we extract the array of courts and call populate map
+      res => {
+        this.processResponse(res)
+      }, error => {this.dummy += error},  () => {}
+    )
+  }
+
+
+ // Param: a response object containing an array of courts
+ // Post: Each court is added to the map
+  processResponse(res: Response){
+    let courtArray = res.json();
+    //this.addCourtMarker(courtArray[0]);
+
+    for (let court of courtArray)
+      this.addCourtMarker(court);
+  }
+
+// Param: court - a court object as defined in the model
+// post: a marker corresponding to that court is added to the map
+ addCourtMarker(court){
    let marker = new google.maps.Marker({
     map: this.map,
     animation: google.maps.Animation.DROP,
-    position: {lat: 44.660653, lng: -74.967158}
+    position: {lat: court.location.lat, lng: court.location.long},
+    // Each marker has a court object attached to it.
+    // This is the object that will be passed into other parts of the app.
+    court: court
   })
-
-  let content = "<h5>Maxcy Hall</h5>"
-  this.addInfoWindow(marker, content);
+  google.maps.event.addListener(marker, 'click', (court) => {
+    this.markerClicked(marker.court);
+  })
+  //this.addInfoWindow(marker, "<h5>" + court.name + "</h5><br>"
+    //+ "<button ion button>Court Details</button>")
  }
 
- addInfoWindow(marker, content){
-   let infoWindow = new google.maps.InfoWindow({
-      content: content
+ // method markerClicked()
+ // Param: court - the court object corresponding to the clicked marker
+ // Post: Alert is presented
+ markerClicked(court){
+   let alert = this.alertCtrl.create({
+     title: court.name,
+     buttons: [{
+       text: 'View Court',
+       handler: (court) => {
+         let dismiss = alert.dismiss();
+
+         dismiss.then(() => {
+           //Navigate to court page
+           this.navCtrl.push(AboutPage);
+         });
+         return false;
+       }
+     }]
    });
+   alert.present();
+ }
+
+
+ // Param: Marker - the marker for the given spot on the map
+ //        content - the html for the info window
+ // Post: Corresponding marker is added to the map
+ addInfoWindow(marker, content){
+   let infoWindow = new google.maps.InfoWindow({ content: content });
 
    google.maps.event.addListener(marker, 'click', () => {
-     infoWindow.open(this.map, marker);
+     //infoWindow.open(this.map, marker);
+     //this.getCourts();
+     this.addCourtMarker(marker.court);
    });
-
-   this.test = this.courtDataService.getAllCourts();
  }
+
 
  // center the map to the around the given address
  moveMap(address){
@@ -87,5 +147,11 @@ export class HomePage {
  }
 
 
+ presentPopover(myEvent){
+   let popover = this.popoverCtrl.create(MapSearchPopoverComponent);
+   popover.present({
+     ev: myEvent
+   });
+ }
 
-}
+ }

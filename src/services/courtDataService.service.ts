@@ -13,22 +13,24 @@ export class CourtDataService{
     dummy: any;
     counter: number = 0;
 
-    constructor (private http: Http) {}ho
+    constructor (private http: Http) {}
 
+    //returns: Observable
+    //  which emits a response containing an array of All courts in the db
     getAllCourts(){
 
       // search params to be sent with get request
       let params = new URLSearchParams();
       params.set('courtQuery', 'all');
 
-      this.http.get('http://localhost:3000/', new RequestOptions({search: params}))
-        .subscribe(
-          res => {this.dummy = res.text(); this.counter += 1},
+      return this.http.get('http://localhost:3000/', new RequestOptions({search: params}))
+      /*  .subscribe(
+          res => {this.dummy = res; this.counter += 1},
           error => {return error;},
           () => {}
-        )
-
-      return this.dummy + " " + this.counter;
+        )*/
     }
+
+
 
 }

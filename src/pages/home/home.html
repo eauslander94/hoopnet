@@ -2,7 +2,7 @@
   <ion-navbar>
     <ion-title id="navbarTitle">Court Map</ion-title>
     <ion-buttons end>
-      <button id="navbarButton" (click)="addMarker()">
+      <button id="navbarButton" (click)="getCourts()">
         <ion-icon name="search"></ion-icon>
       </button>
   </ion-buttons>
@@ -10,11 +10,11 @@
 </ion-header>
 
 <ion-content>
-
 <!-- map div itself -->
 <div #map id="map"></div>
 
    <!-- input for entering address
    <ion-input type="text" placeholder="find courts by address" id="addressInput"></ion-input>-->
  <!-- <button ion-button (click)="moveMap()"> search</button> -->
+
 </ion-content>
