@@ -37,7 +37,7 @@ export class HomePage {
   // load the map when the page has loaded
   ionViewDidLoad(){
     this.loadMap();
-    //this.getCourts();
+    this.getCourts();
   }
 
 
@@ -79,10 +79,8 @@ export class HomePage {
  // Param: a response object containing an array of courts
  // Post: Each court is added to the map
   processResponse(res: Response){
-    let courtArray = res.json();
-    //this.addCourtMarker(courtArray[0]);
-
-    for (let court of courtArray)
+    //let courtArray = res.json();
+    for (let court of res.json())
       this.addCourtMarker(court);
   }
 
@@ -100,8 +98,6 @@ export class HomePage {
   google.maps.event.addListener(marker, 'click', (court) => {
     this.markerClicked(marker.court);
   })
-  //this.addInfoWindow(marker, "<h5>" + court.name + "</h5><br>"
-    //+ "<button ion button>Court Details</button>")
  }
 
  // method markerClicked()
@@ -113,31 +109,13 @@ export class HomePage {
      buttons: [{
        text: 'View Court',
        handler: (court) => {
-         let dismiss = alert.dismiss();
-
-         dismiss.then(() => {
-           //Navigate to court page
-           this.navCtrl.push(AboutPage);
-         });
+         // dismiss the alert before navigating
+         alert.dismiss().then(() => { this.navCtrl.push(AboutPage, court) });
          return false;
        }
      }]
    });
    alert.present();
- }
-
-
- // Param: Marker - the marker for the given spot on the map
- //        content - the html for the info window
- // Post: Corresponding marker is added to the map
- addInfoWindow(marker, content){
-   let infoWindow = new google.maps.InfoWindow({ content: content });
-
-   google.maps.event.addListener(marker, 'click', () => {
-     //infoWindow.open(this.map, marker);
-     //this.getCourts();
-     this.addCourtMarker(marker.court);
-   });
  }
 
 
