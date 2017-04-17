@@ -10,6 +10,7 @@ import { HomePage }           from '../pages/home/home';
 import { TabsPage }           from '../pages/tabs/tabs';
 import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-info';
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
+import { OneCourtPage } from '../pages/one-court/one-court';
 // components
 import { BasketListComponent } from '../components/basket-list/basket-list';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
@@ -29,6 +30,7 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     TabsPage,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
+    OneCourtPage,
     BasketListComponent,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
@@ -46,6 +48,7 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     TabsPage,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
+    OneCourtPage,
     BasketListComponent,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,

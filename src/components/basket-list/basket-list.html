@@ -7,19 +7,22 @@
 
 <!-- The court header -->
 <div id="courtHeader">
-  <p>{{court.name}}</p>
+  <p><!--{{court.name}}--></p>
 </div>
 <!-- Displaying the total number of players on the court -->
-<h4 style="text-align: center;">Total Players <ion-badge>{{court.totalPlayers}}</ion-badge></h4>
+<h4 style="text-align: center;" id="totalPlayers">Total Players <ion-badge>{{court.totalPlayers}}</ion-badge></h4>
 
 
-<!-- The list of baskets itself -->
+<!-- The list of baskets itself
 <ion-list>
   <ion-item class="oneCourt" *ngFor="let basket of court.basketArray"
     (tap)="presentDetailedCourtPage(basket)"
     (press)="presentEnterCourtInfoPage(basket)"
   >
     <div id='gamediv'> <h3>game</h3> <h1>{{basket.game}}</h1> </div>
-    <div id=skilldiv> <h3>skill level</h3> <h1>{{basket.skillLevel}}</h1></div>
+
   </ion-item>
-</ion-list>
+</ion-list> -->
+<div class="oneBasket" *ngFor="let basket of court.basketArray">
+  <p>{{basket.game}}</p>
+</div>

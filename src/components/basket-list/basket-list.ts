@@ -1,4 +1,4 @@
-import { Component,  } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ModalController, NavController} from 'ionic-angular';
 
 // detailed game info component
@@ -13,13 +13,14 @@ import { CourtDataService } from '../../services/courtDataService.service';
 
 export class BasketListComponent {
 
-  court: string;
   dummy: any;
+  @Input() court;
 
   constructor(public modalCtrl: ModalController, public navCtrl: NavController, private courtDataService: CourtDataService) {
-    this.court = JSON.parse(this.buildJSON());
 
   }
+
+
 
   // post: modal based on DetailedGameInfoComponent is presented to le view
   presentDetailedCourtPage(basket) {
@@ -61,7 +62,7 @@ export class BasketListComponent {
 
     let basket3 = {
       "basketNo": 3,
-      "game": "1v",
+      "game": "FREE",
       "skillLevel": 62,
       "wait": 0,
       "physicality": 60,
@@ -71,7 +72,7 @@ export class BasketListComponent {
 
     let basket4 = {
       "basketNo": 4,
-      "game": "3v",
+      "game": "free",
       "skillLevel": 88,
       "wait": 2,
       "physicality": 75,

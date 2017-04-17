@@ -1,11 +1,11 @@
 <ion-header>
   <ion-navbar>
     <ion-title id="navbarTitle">
-      homecourt
+      {{court.name}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-  <basket-list></basket-list>
+  <basket-list [court]="court"></basket-list>
 </ion-content>

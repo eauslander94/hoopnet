@@ -9,7 +9,7 @@ import { Response } from '@angular/http';
 // court report imports
 import { CourtDataService } from '../../services/courtDataService.service';
 import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
-import { AboutPage } from '/home/guest/hoopnet/hoopnet/src/pages/about/about';
+import { OneCourtPage } from '../one-court/one-court';
 
 declare var google;
 
@@ -108,9 +108,11 @@ export class HomePage {
      title: court.name,
      buttons: [{
        text: 'View Court',
-       handler: (court) => {
+       handler: () => {
          // dismiss the alert before navigating
-         alert.dismiss().then(() => { this.navCtrl.push(AboutPage, court) });
+         alert.dismiss().then(() => { this.navCtrl.push(OneCourtPage, {
+           court: court
+         }) });
          return false;
        }
      }]
