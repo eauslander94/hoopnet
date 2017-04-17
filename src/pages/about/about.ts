@@ -22,6 +22,7 @@ court: any;
         this.courtName = this.court.name;
       else
         this.court = this.buildJSON();
+
   }
 
   // Returns a JSON object that was hard coded into this method
@@ -80,7 +81,7 @@ court: any;
     let obj: any = {
       "baskets": 4,
       "totalPlayers": 17,
-      "name": "Test Court",
+      "name": "Tompkins Square Park",
       "basketArray": [basket5, basket5, basket1, basket2, basket3, basket4]
     }
 

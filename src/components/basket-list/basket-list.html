@@ -5,13 +5,11 @@
   for more info on Angular 2 Components.
 -->
 
-<!-- The court header -->
-<div id="courtHeader">
-  <p><!--{{court.name}}--></p>
-</div>
 <!-- Displaying the total number of players on the court -->
-<h4 style="text-align: center;" id="totalPlayers">Total Players <ion-badge>{{court.totalPlayers}}</ion-badge></h4>
-
+<div id="totalPlayers">
+  <p>Total Players</p>
+  <p id="totalNumber">{{court.totalPlayers}}</p>
+</div>
 
 <!-- The list of baskets itself
 <ion-list>
@@ -23,6 +21,9 @@
 
   </ion-item>
 </ion-list> -->
-<div class="oneBasket" *ngFor="let basket of court.basketArray">
-  <p>{{basket.game}}</p>
+<div id="baskets">
+  <p id="basketListHeader">CURRENT GAME</p>
+  <div class="oneBasket" *ngFor="let basket of court.basketArray">
+    <p>{{basket.game}}</p>
+  </div>
 </div>
