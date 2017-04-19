@@ -23,7 +23,13 @@
 </ion-list> -->
 <div id="baskets">
   <p id="basketListHeader">CURRENT GAME</p>
-  <div class="oneBasket" *ngFor="let basket of court.basketArray">
-    <p>{{basket.game}}</p>
+  <div class="basketAndHeader" *ngFor="let basket of court.basketArray">
+
+    <p>basket {{basket.basketNo}}</p>
+
+    <div class="oneBasket" (click)="presentDetailedBasketInfo(basket)">
+      <p>{{basket.game}}</p>
+    </div>
+
   </div>
 </div>

@@ -7,16 +7,15 @@ import { NavParams, ViewController } from 'ionic-angular';
 })
 export class DetailedGameInfoComponent {
 
-  wait: number;
-  physicality: number;
-  ballMovement: number;
+  courtName: String;
   params: NavParams;
+  basket: any;
 
 
   constructor(params: NavParams, public viewCtrl: ViewController) {
-    this.wait = params.get("wait");
-    this.physicality = params.get("physicality");
-    this.ballMovement = params.get("ballMovement");
+
+    this.basket = params.get("basket");
+    this.courtName = params.get("courtName")
   }
 
   // dismsses the modal, returns to basket list

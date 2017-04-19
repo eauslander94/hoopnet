@@ -7,21 +7,28 @@
 <ion-header>
   <ion-navbar>
     <ion-title id="navbarTitle">
-      detailed game info
+      {{courtName}}
     </ion-title>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
+<ion-content>
+  <p id="whichBasket">BASKET {{basket.basketNo}}</p>
   <ion-list>
-    <ion-item>
-      Wait: <ion-badge item-right>{{wait}}</ion-badge>
+    <ion-item no-lines>
+      Game <ion-badge item-right>{{basket.game}}</ion-badge>
     </ion-item>
-    <ion-item>
-      Physicality: <ion-badge item-right>{{physicality}}</ion-badge>
+    <ion-item no-lines>
+      Average Skill Level <ion-badge item-right>{{basket.skillLevel}}</ion-badge>
     </ion-item>
-    <ion-item>
-      Ball Movement <ion-badge item-right>{{ballMovement}}</ion-badge>
+    <ion-item no-lines>
+      Wait <ion-badge item-right>{{basket.wait}}</ion-badge>
+    </ion-item>
+    <ion-item no-lines>
+      Physicality <ion-badge item-right>{{basket.physicality}}</ion-badge>
+    </ion-item>
+    <ion-item no-lines>
+      Ball Movement <ion-badge item-right>{{basket.ballMovement}}</ion-badge>
     </ion-item>
 
 

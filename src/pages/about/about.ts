@@ -78,11 +78,21 @@ court: any;
       "gameComments": ""
     }
 
+    let basket6 = {
+      "basketNo": 5,
+      "game": "5 v 5",
+      "skillLevel": 88,
+      "wait": 2,
+      "physicality": 75,
+      "ballMovement": 90,
+      "gameComments": ""
+    }
+
     let obj: any = {
       "baskets": 4,
       "totalPlayers": 17,
       "name": "Tompkins Square Park",
-      "basketArray": [basket5, basket5, basket1, basket2, basket3, basket4]
+      "basketArray": [basket1, basket2, basket3, basket4, basket5, basket6]
     }
 
     return obj;

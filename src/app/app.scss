@@ -15,6 +15,15 @@
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
 
+ion-content {
+  //background-image: url('../assets/img/basketball-floor-texture.jpg');
+  background-size: contain;
+}
+
+ion-navbar ion-title{
+  font-family: bulls !important;
+}
+
 #selectDiv{
   border-radius: 3px;
   background-color: $select-background-color;
@@ -45,5 +54,17 @@
 @font-face {
   font-family: "bulls";
   src: url("../assets/fonts/bulls.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NBA_Celtics";
+  src: url('../assets/fonts/NBA_Celtics.ttf') format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "NBA_Cavaliers";
+  src: url('../assets/fonts/NBA_Cavaliers.ttf') format("truetype");
   font-style: normal;
 }
