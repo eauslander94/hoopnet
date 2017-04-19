@@ -79,7 +79,7 @@ court: any;
     }
 
     let basket6 = {
-      "basketNo": 5,
+      "basketNo": 6,
       "game": "5 v 5",
       "skillLevel": 88,
       "wait": 2,
