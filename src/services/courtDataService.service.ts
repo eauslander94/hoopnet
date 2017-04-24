@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptions, URLSearchParams, Headers  } from '@angular/http';
+import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map';
@@ -23,12 +23,24 @@ export class CourtDataService{
       let params = new URLSearchParams();
       params.set('courtQuery', 'all');
 
-      return this.http.get('http://localhost:3000/', new RequestOptions({search: params}))
+      return this.http.get('http://localhost:3000/', new RequestOptions({search: params}));
       /*  .subscribe(
           res => {this.dummy = res; this.counter += 1},
           error => {return error;},
           () => {}
         )*/
+    }
+
+    // function putOneGame()
+    // param: court    - The court to be updated
+    //        basketNo - the basket to be updated
+    //        game     - the game which will become the current game
+    // postcondition: the game corresponding to basket on court is put into the db.
+    putOneGame(court, basketNo: Number, game){
+
+      this.http.put('http://localhost:3000/putOneCourt', {"game": game}, 
+        {headers: new Headers({'Content-Type': 'application/json'})} )
+          .subscribe();
     }
 
 

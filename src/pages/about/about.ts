@@ -91,6 +91,7 @@ court: any;
     let obj: any = {
       "baskets": 4,
       "totalPlayers": 17,
+      "totalBaskets": 6,
       "name": "Tompkins Square Park",
       "basketArray": [basket1, basket2, basket3, basket4, basket5, basket6]
     }

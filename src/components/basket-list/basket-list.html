@@ -6,6 +6,7 @@
 -->
 
 <!-- Displaying the total number of players on the court -->
+{{dummy}}
 <div id="totalPlayers">
   <p>Total Players</p>
   <p id="totalNumber">{{court.totalPlayers}}</p>
@@ -27,7 +28,9 @@
 
     <p>basket {{basket.basketNo}}</p>
 
-    <div class="oneBasket" (click)="presentDetailedBasketInfo(basket)">
+    <div class="oneBasket"
+    (click)="presentDetailedBasketInfo(basket)"
+    (press)="presentGamePrompt(basket, court.totalBaskets)">
       <p>{{basket.game}}</p>
     </div>
 
