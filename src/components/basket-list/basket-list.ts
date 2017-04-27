@@ -37,7 +37,7 @@ export class BasketListComponent {
     //                  basket appears
     // Parameters: basket  - the basket for which we are entering Data
     //             counter - the number of baskets we have left to prompt for
-    presentGamePrompt(basket, counter){
+    presentGamePrompt(basket){
       let gamePrompt = this.alertCtrl.create();
       gamePrompt.setTitle('Current Game - Basket ' + basket.basketNo);
       gamePrompt.addInput({
@@ -63,21 +63,20 @@ export class BasketListComponent {
         text: 'Submit', handler: data => {
 
           this.courtDataService.putOneGame(this.court, basket.basketNo, data);
-          // call refreshCourt
+
 
 
           // Prompt for games until we have prompted all baskets
           gamePrompt.dismiss().then(() => {
-
-            this.courtDataService.refresh(this.court)
-            .subscribe(
-                  res => {
-                    // reflect the updated game
-                    this.court.basketArray[basket.basketNo - 1].game =
-                    res.json().basketArray[basket.basketNo - 1].game },
-                  error => {this.dummy = error},
-                    () => {}
-                );
+            // call refreshCourt
+            this.courtDataService.refresh(this.court).subscribe(
+              res => {
+                // reflect the updated game
+                this.court.basketArray[basket.basketNo - 1].game =
+                res.json().basketArray[basket.basketNo - 1].game },
+              error => {this.dummy = error},
+              () => {}
+            );
 
             /*counter--;
             if(counter !== 0){
