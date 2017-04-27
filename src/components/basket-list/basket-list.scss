@@ -20,10 +20,10 @@ basket-list {
 
   // both ps in total players
   #totalPlayers > p{
-    font-family: bulls;
+    font-family: NBA_Celtics;
     color: color($colors, primary);
     display: inline-block;
-    font-size: 120%;
+    font-size: 5vw;
     //border: 1px solid red;
     padding: 1%;
   }
@@ -41,7 +41,7 @@ basket-list {
     color: color($colors, primary);
     text-align: center;
     border-bottom: 2px solid black;
-    font-size: 200%;
+    font-size: 8vw;
 
     margin-top: 0;
     margin-bottom: 0;
@@ -87,7 +87,7 @@ basket-list {
     text-align: center;
     //border: 1px solid blue;
     margin-top: 9%;
-    font-size: 150%;
+    font-size: 6vw;
     color: color($colors, primary);
     font-family: "bulls";
   }

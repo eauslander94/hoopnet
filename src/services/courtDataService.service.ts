@@ -22,16 +22,7 @@ export class CourtDataService{
     //  which emits a response containing an array of All courts in the db
     getAllCourts(){
 
-      // search params to be sent with get request
-      let params = new URLSearchParams();
-      params.set('courtQuery', 'all');
-
-      return this.http.get('http://localhost:3000/', new RequestOptions({search: params}));
-      /*  .subscribe(
-          res => {this.dummy = res; this.counter += 1},
-          error => {return error;},
-          () => {}
-        )*/
+      return this.http.get('http://localhost:3000/getAllCourts');
     }
 
     // function putOneGame()
