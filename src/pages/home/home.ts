@@ -106,8 +106,12 @@ export class HomePage {
  markerClicked(court){
    let alert = this.alertCtrl.create({
      title: court.name,
-     buttons: [{
-       text: 'View Court',
+     subTitle: court.totalBaskets + " baskets",
+     buttons: [
+       { text: 'Cancel',
+       handler: data => {}
+      },
+       { text: 'View Court',
        handler: () => {
          // dismiss the alert before navigating
          alert.dismiss().then(() => { this.navCtrl.push(OneCourtPage, {
