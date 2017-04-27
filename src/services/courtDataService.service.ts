@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
+import  TsEventEmitter  from 'ts-eventemitter';
 
 import 'rxjs/add/operator/map';
 
@@ -13,7 +14,9 @@ export class CourtDataService{
     dummy: any;
     counter: number = 0;
 
-    constructor (private http: Http) {}
+    constructor (private http: Http) {
+
+    }
 
     //returns: Observable
     //  which emits a response containing an array of All courts in the db
@@ -38,11 +41,26 @@ export class CourtDataService{
     // postcondition: the game corresponding to basket on court is put into the db.
     putOneGame(court, basketNo: Number, game){
 
-      this.http.put('http://localhost:3000/putOneCourt', {"game": game}, 
-        {headers: new Headers({'Content-Type': 'application/json'})} )
+      let putData = {"court": court, "basketNo": basketNo, "game": game};
+
+      this.http.put('http://localhost:3000/putOneGame', putData,
+        { headers: new Headers({'Content-Type': 'application/json'}) } )
           .subscribe();
     }
 
+    // function refresh()
+    // param: court - the court to be refreshed
+    // returns - observable omitting the latest version of that court object
+    refresh(court){
+
+      let params = new URLSearchParams();
+      params.set('courtName', court.name);
+      params.set('lat', court.location.lat)
+      params.set('long', court.location.long)
+      return this.http.get('http://localhost:3000/refresh',
+                            new RequestOptions({search: params}));
+
+    }
 
 
 }

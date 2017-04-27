@@ -93,7 +93,11 @@ court: any;
       "totalPlayers": 17,
       "totalBaskets": 6,
       "name": "Tompkins Square Park",
-      "basketArray": [basket1, basket2, basket3, basket4, basket5, basket6]
+      "basketArray": [basket1, basket2, basket3, basket4],
+      "location": {
+        "lat": 40.726526,
+        "long":  -73.981737
+      }
     }
 
     return obj;

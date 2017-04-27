@@ -2,6 +2,9 @@ import { Component, Input } from '@angular/core';
 import { PopoverController, ModalController, AlertController } from 'ionic-angular';
 import { DetailedGameInfoComponent } from '../../components/detailed-game-info/detailed-game-info';
 
+// communication with server
+import { Observable } from 'rxjs/Observable';
+import { Response } from '@angular/http';
 
 import { CourtDataService } from '../../services/courtDataService.service';
 
@@ -14,6 +17,7 @@ export class BasketListComponent {
 
   dummy: any;
   @Input() court;
+  oneCourtObservable: Observable<Response>;
 
   constructor(private courtDataService: CourtDataService,
               public modalCtrl: ModalController,
@@ -57,16 +61,25 @@ export class BasketListComponent {
       gamePrompt.addButton('Cancel');
       gamePrompt.addButton({
         text: 'Submit', handler: data => {
-          // call court Data Service below
-          if(data !== undefined){
-            this.dummy = data;
-          }
-          else this.dummy = "data is undefined"
 
           this.courtDataService.putOneGame(this.court, basket.basketNo, data);
+          // call refreshCourt
+
+
           // Prompt for games until we have prompted all baskets
           gamePrompt.dismiss().then(() => {
-            counter--;
+
+            this.courtDataService.refresh(this.court)
+            .subscribe(
+                  res => {
+                    // reflect the updated game
+                    this.court.basketArray[basket.basketNo - 1].game =
+                    res.json().basketArray[basket.basketNo - 1].game },
+                  error => {this.dummy = error},
+                    () => {}
+                );
+
+            /*counter--;
             if(counter !== 0){
               // load the prompt with the next basket
               // REMEMBER: basket No begins at 1 but basketArray begins at 0
@@ -75,8 +88,10 @@ export class BasketListComponent {
                  nextBasket = 0;
               this.presentGamePrompt(this.court.basketArray[nextBasket], counter)
             }
-            // else say thank you for your data!
+            // else say thank you for your data!*/
+
           }
+
           );
         }
       })
