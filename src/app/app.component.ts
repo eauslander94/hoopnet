@@ -4,7 +4,8 @@ import { StatusBar, Splashscreen } from 'ionic-native';
 
 import { TabsPage } from '../pages/tabs/tabs';
 
-
+// Auth0Cordova
+import Auth0Cordova from '@auth0/cordova';
 
 @Component({
   templateUrl: 'app.html'
@@ -18,6 +19,12 @@ export class MyApp {
       // Here you can do any higher level native things you might need.
       StatusBar.styleDefault();
       Splashscreen.hide();
+
+      // for auth0 URL redirects
+      (<any>window).handleOpenURL = (url) => {
+        Auth0Cordova.onRedirectUri(url);
+      };
+
     });
   }
 }

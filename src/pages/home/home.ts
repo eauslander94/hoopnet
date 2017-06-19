@@ -51,7 +51,7 @@ export class HomePage {
         center: latLng,
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        styles: [
+        /*styles: [
             {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
             {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
             {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
@@ -130,7 +130,7 @@ export class HomePage {
               elementType: 'labels.text.stroke',
               stylers: [{color: '#17263c'}]
             }
-          ]
+          ]*/
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
       }, (err) => { console.log(err) });

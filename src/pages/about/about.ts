@@ -30,7 +30,7 @@ court: any;
 
     let basket1 = {
       "basketNo": 1,
-      "game": "4 on 4",
+      "game": "4 v 4",
       "skillLevel": 88,
       "wait": 2,
       "physicality": 82,
@@ -40,7 +40,7 @@ court: any;
 
     let basket2 = {
       "basketNo": 2,
-      "game": "3 on 3",
+      "game": "3 v 3",
       "skillLevel": 80,
       "wait": 1,
       "physicality": 75,

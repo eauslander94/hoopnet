@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
+import { NavController, NavParams, AlertController } from 'ionic-angular';
 import { EnterDetailedInfoPage} from '../../pages/enter-detailed-info/enter-detailed-info';
 
 /*
@@ -45,13 +45,6 @@ export class EnterBasketInfoComponent {
     // post: data is sent to server
     // alert prompts user for navigation options
     submit(){
-      // preparing the object that will be sent to the server
-      let basicInfo = {
-        "basketNo": this.basket.basketNo,
-        "skillLow": this.skillLevel.lower,
-        "skillHigh": this.skillLevel.higher,
-        "game": "4v"
-      };
 
       this.presentSubmitMessage();  // present the prompt
     }

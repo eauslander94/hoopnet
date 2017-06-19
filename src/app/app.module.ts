@@ -2,11 +2,22 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
+import { CoolLocalStorage } from 'angular2-cool-storage';
+
+// TO DO: clean up once auth is working
+// For auth0 authintication
+//import {App, Platform} from 'ionic-angular';
+//import {provide} from 'angular-provide';
+import {Http} from '@angular/http'
+import {AuthHttp, AuthConfig} from 'angular2-jwt';
+//import {Type} from '@angular/core';
+import {AuthService} from '../services/auth/auth';
 
 // pages
 import { AboutPage }          from '../pages/about/about';
 import { ContactPage }        from '../pages/contact/contact';
 import { HomePage }           from '../pages/home/home';
+import { ProfilePage }        from '../pages/profile/profile';
 import { TabsPage }           from '../pages/tabs/tabs';
 import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-info';
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
@@ -27,6 +38,7 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     AboutPage,
     ContactPage,
     HomePage,
+    ProfilePage,
     TabsPage,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
@@ -46,6 +58,7 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     ContactPage,
     HomePage,
     TabsPage,
+    ProfilePage,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     OneCourtPage,
@@ -57,7 +70,16 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   CourtDataService,
-  Geolocation
+  Geolocation,
+  CoolLocalStorage,
+    // auth0 providider
+    { provide: AuthHttp,
+      useFactory: (http) => {
+        return new AuthHttp(new AuthConfig(), http);
+      },
+      deps: [Http]
+    },
+    AuthService
 ]
 })
 export class AppModule {}
