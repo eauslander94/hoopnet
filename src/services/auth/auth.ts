@@ -1,8 +1,11 @@
-import {Injectable, NgZone} from '@angular/core';
+import {Injectable, NgZone, Output, EventEmitter} from '@angular/core';
 import {Observable, Subscription} from 'rxjs/Rx';
 
 import Auth0Cordova from '@auth0/cordova';
 import Auth0 from 'auth0-js';
+
+import {AuthHttp, JwtHelper, tokenNotExpired} from 'angular2-jwt';
+
 
 // Configuration object
 const auth0Config = {
@@ -15,10 +18,21 @@ const auth0Config = {
   packageIdentifier: 'com.ionicframework.hoopnet164917'
 };
 
+//
+declare var Auth0Lock: any;
 
 @Injectable()
 export class AuthService {
-  auth0 = new Auth0.WebAuth(auth0Config);
+
+  lock = new Auth0Lock('pu0puMWvKB1XANUkPh0sygZwdGGR_oE1', 'eauslander94-dev.auth0.com', {
+    auth: {
+      redirectUrl: location.href,
+    }
+  });
+
+  @Output() test: EventEmitter<String> = new EventEmitter<String>();
+
+
   accessToken: String;
   idToken: String;
   user: any;
@@ -28,63 +42,34 @@ export class AuthService {
   constructor(public zone: NgZone) {
     this.user = this.getStorageVariable('profile');
     this.idToken = this.getStorageVariable('id_token');
+    //this.lockLogin();
+
+    this.dummy = "no token";
   }
 
-  // from local storage, returns data value tied to 'name'
-  private getStorageVariable(name){
-    return JSON.parse(window.localStorage.getItem(name));
-  }
+  // Method: lockLogin()
+  // authenticates users via the lock widget
 
-  // puts name/data pair into local sotrage as key/value pair
-  private setStorageVariable(name, data){
-    window.localStorage.setItem(name, JSON.stringify(data));
-  }
+  public lockLogin() {
+    // show the lock, upon recieving access token set it to local storage
+      this.lock.show(
+        (err, accessToken) => {
+          if(err) alert (err);
 
-  private setIdToken(token){
-    this.idToken = token;
-    this.setStorageVariable('id_token', token);
-  }
+        }
+      );
 
-  private setAccessToken(token){
-    this.accessToken = token;
-    this.setStorageVariable('access_token', token);
-  }
+      // When we're authenticated show me the access token;
+      this.lock.on("authenticated", function(authResult) {
 
-  public isAuthenticated() {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
-    return Date.now() < expiresAt;
-  }
+        // set the tokens
+        this.setStorageVariable('access_token', authResult.accessToken);
+        this.setStorageVariable('id_token', authResult.idToken);
+        this.setStorageVariable('refresh_token', authResult.refreshToken);
 
-  public login() {
-    this.dummy = "in auth.login()";
-    const client = new Auth0Cordova(auth0Config);
-
-    const options = {
-      scope: 'open profile offline_access'
-    };
-
-    client.authorize(options, (err, authResult) => {
-      if(err) throw err;
-
-      // set id and access tokens
-      this.setIdToken(authResult.idToken);
-      this.setAccessToken(authResult.accessToken);
-
-      // get and set new expiresAt
-      const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
-      this.setStorageVariable('expires_at', expiresAt)
-
-      // upon getting user info
-      this.auth0.client.userInfo(this.accessToken, (err, profile) => {
-        if (err) {throw err}
-        // When we succesfully recieve the user's profile
-        profile.user_metadata = profile.user_metadata || {};
-        this.setStorageVariable('profile', profile);
-        this.zone.run(() => {
-          this.user = profile;
-        })
+        // Give profile the access token
+        this.test.emit(authResult.accesstoken);
       })
-    }); //end of client.authorize
   }
 
   // postcondition: User's current data is removed from local storage
@@ -98,4 +83,28 @@ export class AuthService {
     this.accessToken = null;
     this.user = null;
   }
+
+
+  public authenticated() {
+    // Check if there's an unexpired JWT
+    return tokenNotExpired();
+  }
+
+
+///////////////////////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////////////////////
+
+  // from local storage, returns data value tied to 'name'
+  private getStorageVariable(name){
+    return JSON.parse(window.localStorage.getItem(name));
+  }
+
+  // puts name/data pair into local sotrage as key/value pair
+  private setStorageVariable(name, data){
+    window.localStorage.setItem(name, JSON.stringify(data));
+  }
+
+
+///////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////
 }

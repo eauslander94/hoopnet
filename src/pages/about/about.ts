@@ -14,6 +14,7 @@ export class AboutPage {
 
 courtName: String;
 court: any;
+dummy: any;
 
   constructor(public navCtrl: NavController, public params: NavParams) {
 
@@ -22,7 +23,7 @@ court: any;
         this.courtName = this.court.name;
       else
         this.court = this.buildJSON();
-
+        this.dummy = window.localStorage.getItem('refreshToken');
   }
 
   // Returns a JSON object that was hard coded into this method

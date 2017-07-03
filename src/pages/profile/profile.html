@@ -1,22 +1,8 @@
 <ion-navbar *navbar>
     <ion-title>Profile</ion-title>
   </ion-navbar>
-
   <ion-content padding>
-    {{dummy}}
-    <!-- a login button if not authenticated -->
-     <div *ngIf="!auth.isAuthenticated()">
-       <button ion-button block color="primary" (click)="auth.login()">Login</button>
-     </div>
-
-     <!-- a card with your picture and name, plus a logout button -->
-     <div *ngIf="auth.isAuthenticated()">
-       <ion-card>
-         <img [src]="auth.user.picture" />
-         <ion-card-content>
-           <ion-card-title>{{ auth.user.name }}</ion-card-title>
-         </ion-card-content>
-       </ion-card>
-       <button ion-button block color="primary" (click)="auth.logout()">Logout</button>
-     </div>
+    dummy: {{dummy}}
+    dummy2: {{dummy2}}
+    <button ion-button full (click)="lockLogin()">login</button>
   </ion-content>

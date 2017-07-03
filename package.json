@@ -29,7 +29,6 @@
     "angular2-cool-storage": "^3.0.2",
     "angular2-jwt": "^0.2.3",
     "auth0-js": "^8.7.0",
-    "auth0-lock": "^10.17.0",
     "cordova-android": "^6.2.3",
     "cordova-plugin-console": "1.0.5",
     "cordova-plugin-customurlscheme": "^4.3.0",

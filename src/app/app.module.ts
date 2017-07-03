@@ -11,7 +11,6 @@ import { CoolLocalStorage } from 'angular2-cool-storage';
 import {Http} from '@angular/http'
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 //import {Type} from '@angular/core';
-import {AuthService} from '../services/auth/auth';
 
 // pages
 import { AboutPage }          from '../pages/about/about';
@@ -29,6 +28,7 @@ import { EnterBasketInfoComponent }     from '../components/enter-basket-info/en
 import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
+import {AuthService} from '../services/auth/auth';
 
 
 
@@ -46,7 +46,7 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     BasketListComponent,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
-    MapSearchPopoverComponent,
+    MapSearchPopoverComponent
   ],
   imports: [
     IonicModule.forRoot(MyApp)
@@ -65,13 +65,12 @@ import { CourtDataService } from '../services/courtDataService.service.ts';
     BasketListComponent,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
-    MapSearchPopoverComponent
+    MapSearchPopoverComponent,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   CourtDataService,
   Geolocation,
-  CoolLocalStorage,
     // auth0 providider
     { provide: AuthHttp,
       useFactory: (http) => {
