@@ -11,7 +11,7 @@ import { CourtDataService } from '../../services/courtDataService.service';
 import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
 import { OneCourtPage } from '../one-court/one-court';
 
-declare var google;
+declare var google: any;
 
 @Component({
   selector: 'page-home',
@@ -136,9 +136,10 @@ export class HomePage {
       }, (err) => { console.log(err) });
 
       // Once the map has loaded, call getCourts
-      google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
+      // This behavior will be cleanly implemented come polishing time
+      /*google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
         this.getCourts();
-      });
+      });*/
  }
 
 

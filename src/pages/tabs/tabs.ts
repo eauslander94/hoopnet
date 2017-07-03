@@ -3,7 +3,10 @@ import { Component } from '@angular/core';
 import { HomePage    } from '../home/home';
 import { AboutPage   } from '../about/about';
 import { ContactPage } from '../contact/contact';
-import { ProfilePage } from '../profile/profile';
+import { LoginPage } from '../login/login';
+
+// So that we can test the profile page
+import { Profile } from '../profile/profile';
 
 @Component({
   templateUrl: 'tabs.html'
@@ -13,7 +16,7 @@ export class TabsPage {
   // should be each tab's root Page
   tab1Root: any = HomePage;
   tab2Root: any = AboutPage;
-  tab3Root: any = ProfilePage;
+  tab3Root: any = Profile;
 
   constructor() {
 

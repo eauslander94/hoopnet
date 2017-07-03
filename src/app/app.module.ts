@@ -2,7 +2,10 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
-import { CoolLocalStorage } from 'angular2-cool-storage';
+import { BrowserModule } from '@angular/platform-browser';
+import { HttpModule } from '@angular/http';
+import { StatusBar } from '@ionic-native/status-bar';
+import { SplashScreen } from '@ionic-native/splash-screen';
 
 // TO DO: clean up once auth is working
 // For auth0 authintication
@@ -16,7 +19,7 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt';
 import { AboutPage }          from '../pages/about/about';
 import { ContactPage }        from '../pages/contact/contact';
 import { HomePage }           from '../pages/home/home';
-import { ProfilePage }        from '../pages/profile/profile';
+import { LoginPage }        from '../pages/login/login';
 import { TabsPage }           from '../pages/tabs/tabs';
 import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-info';
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
@@ -28,7 +31,10 @@ import { EnterBasketInfoComponent }     from '../components/enter-basket-info/en
 import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
-import {AuthService} from '../services/auth/auth';
+import { AuthService } from '../services/auth/auth';
+
+import { Profile } from '../pages/profile/profile';
+import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
 
 
@@ -38,7 +44,7 @@ import {AuthService} from '../services/auth/auth';
     AboutPage,
     ContactPage,
     HomePage,
-    ProfilePage,
+    LoginPage,
     TabsPage,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
@@ -46,10 +52,15 @@ import {AuthService} from '../services/auth/auth';
     BasketListComponent,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
-    MapSearchPopoverComponent
+    MapSearchPopoverComponent,
+
+    Profile,
+    ParallaxHeader,
   ],
   imports: [
-    IonicModule.forRoot(MyApp)
+    BrowserModule,
+    HttpModule,
+    IonicModule.forRoot(MyApp),
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -58,7 +69,8 @@ import {AuthService} from '../services/auth/auth';
     ContactPage,
     HomePage,
     TabsPage,
-    ProfilePage,
+    LoginPage,
+    Profile,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     OneCourtPage,
@@ -71,6 +83,9 @@ import {AuthService} from '../services/auth/auth';
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   CourtDataService,
   Geolocation,
+  StatusBar,
+  SplashScreen,
+  HttpModule,
     // auth0 providider
     { provide: AuthHttp,
       useFactory: (http) => {
