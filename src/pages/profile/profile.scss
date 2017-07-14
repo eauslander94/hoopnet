@@ -1,73 +1,81 @@
 page-profile {
 
-  .ios, .md {
-
-      page-home {
-        .header-image {
-         background-image: url(https://ununsplash.imgix.net/photo-1421091242698-34f6ad7fc088?fit=crop&fm=jpg&h=650&q=75&w=950);
-         height: 40vh;
-       }
-
-       .main-content {
-           background-color: map-get($colors, dark);
-           box-shadow: 0px -1px 13px 1px rgba(0,0,0,0.3);
-       }
-
-       .scroll-content {
-           padding-top: 0 !important;
-       }
-
-       ion-header {
-           backdrop-filter: blur(8px);
-       }
-
-       ion-navbar {
-           opacity: 0.4;
-           box-shadow: 0px 1px 13px 1px rgba(0,0,0,0.77);
-       }
-
-       ion-segment {
-           padding: 0px 12px;
-           opacity: 0.7;
-           position: relative;
-           top: -50px;
-       }
-
-       ion-segment-button {
-           border-color: map-get($colors, primary) !important;
-           color: #fff !important;
-       }
-
-       ion-card {
-           background-color: #fff;
-           width: 100%;
-           margin: 0;
-           margin-bottom: 25px;
-           position: relative;
-           top: -30px;
-       }
-
-       ion-card:last-of-type {
-           margin-bottom: 0 !important;
-       }
-
-       ion-item {
-           background-color: #fff;
-       }
-
-     }// page home paren
-   }// ion, md paren
-
 
    // Parallax header style
-   .header-image {
-     background-image: url(https://ununsplash.imgix.net/photo-1421091242698-34f6ad7fc088?fit=crop&fm=jpg&h=650&q=75&w=950);
-      height: 40vh;
+   .profile-parallax {
+      // background-image: url('../assets/img/IversonStepOver.jpg');
+      height: 100vh;
+      position: relative;
     }
- 
-    .main-content {
-      padding: 20px;
-      background-color: white;
+
+    .profile-parallax > img {
+      opacity: 0.7;
+      position: absolute;
+      z-index: -1;
     }
+
+    .profile-parallax ion-item{
+      position: static;
+      background-color: rgba(0, 0, 0, 0);
+      border: 2px solid red;
+    }
+
+
+    .profile-parallax ion-avatar img {
+    //  border: 1px solid blue;
+      text-align: center;
+      margin: 0 auto;
+      width: 38vw;
+      height: 38vw;
+      z-index: 2;
+      opacity: 1 !important;
+    }
+
+    // All text on the page
+    .profile-parallax p {
+      text-align: center;
+      font-family: Quicksand-Regular;
+      color: white;
+      font-weight: bold;
+    }
+    // Just the Name header
+    .profile-parallax > p {
+        font-size: 6vw;
+        //border: 2px solid blue;
+        font-family: FV_Almelo;
+    }
+
+    .profile-parallax ion-avatar {
+      margin-top: 6vh;
+      //border: 2px solid blue;
+    }
+
+    #userInfo{
+      //border: 2px solid blue;
+      position: fixed;
+      bottom: 15vh;
+    }
+
+    #userInfo div {
+      width: 30vw;
+      margin-left: 2vw;
+      height: 15vh;
+      display: inline-block;
+    }
+
+    #userInfo div p:nth-child(1){
+      font-weight: bold;
+      font-size: 3.8vw;
+      //border: 1px solid blue;
+      margin-bottom: 0;
+    }
+
+    #userInfo div p:nth-child(2){
+      font-size: 3.0vw;
+      //border: 1px solid green;
+      margin-top: 1vh
+    }
+
+
 
  }//page-profile paren

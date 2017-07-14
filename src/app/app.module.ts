@@ -24,11 +24,14 @@ import { TabsPage }           from '../pages/tabs/tabs';
 import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-info';
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
 import { OneCourtPage } from '../pages/one-court/one-court';
+import { CourtPage }  from '../pages/court-page/court-page';
 // components
 import { BasketListComponent } from '../components/basket-list/basket-list';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
 import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
 import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
+import { CourtReport } from '../components/court-report/court-report';
+import { HoopedCard  } from '../components/hooped-card/hooped-card';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 import { AuthService } from '../services/auth/auth';
@@ -53,9 +56,12 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
     MapSearchPopoverComponent,
+    CourtReport,
+    HoopedCard,
 
     Profile,
     ParallaxHeader,
+    CourtPage,
   ],
   imports: [
     BrowserModule,
@@ -74,10 +80,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     OneCourtPage,
-    BasketListComponent,
-    DetailedGameInfoComponent,
-    EnterBasketInfoComponent,
-    MapSearchPopoverComponent,
+    CourtPage,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

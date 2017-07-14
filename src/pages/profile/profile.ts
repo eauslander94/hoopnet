@@ -1,12 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-/**
- * Generated class for the Profile page.
- *
- * See http://ionicframework.com/docs/components/#navigation for more info
- * on Ionic pages and navigation.
- */
 @IonicPage()
 @Component({
   selector: 'page-profile',
@@ -14,16 +8,25 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 })
 export class Profile {
 
-  // For scrollable list
-  cards: any;
-  category: String = 'gear';
+
+  dummy: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
-    this.cards = new Array(10);
+    this.dummy = "hello";
+
+    let profile = {
+      "firstName": "Stephen",
+      "lastName": "Curry",
+      "nickName": "Buckets",
+    }
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad Profile');
+  }
+
+  public test(){
+    this.dummy = "success";
   }
 
 }

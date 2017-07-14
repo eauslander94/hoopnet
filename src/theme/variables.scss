@@ -15,6 +15,7 @@ $font-path: "../assets/fonts";
 
 
 
+
 // Named Color Variables
 // --------------------------------------------------
 // Named colors makes it easy to reuse colors on various components.
@@ -45,13 +46,12 @@ $colors: (
 
 */
 
-$primary: #d32f2f;
+$primary: #1976d2;
 
 $secondary_text: #757575;
 
 // app wide theming
 $background-color: #fdfdfd;
-$toolbar-background: green;
 $toolbar-border: none;
 
 $select-background-color: #fdfdfd;
@@ -108,4 +108,3 @@ $select-md-padding-top: 6%;
 
 @import "roboto";
 @import "noto-sans";
-//@import "/home/guest/hoopnet/hoopnet/www/assets/fonts/bulls.ttf";

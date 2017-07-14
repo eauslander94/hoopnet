@@ -23,15 +23,15 @@ export class ParallaxHeader {
 
         // set references and some initial styling
         let content = this.element.nativeElement.getElementsByClassName('scroll-content')[0];
-        this.header = content.getElementsByClassName('header-image')[0];
-        let mainContent = content.getElementsByClassName('main-content')[0];
+        this.header = content.getElementsByClassName('profile-parallax')[0];
+      //  let mainContent = content.getElementsByClassName('main-content')[0];
 
         this.headerHeight = this.header.clientHeight;
 
         // Use renderer so that we can alter styles regardless of platform/environment
         this.renderer.setElementStyle(this.header, 'webkitTransformOrigin', 'center bottom');
         this.renderer.setElementStyle(this.header, 'background-size', 'cover');
-        this.renderer.setElementStyle(mainContent, 'position', 'absolute');
+        //this.renderer.setElementStyle(mainContent, 'position', 'absolute');
     }
 
     // update the header height on a resize event

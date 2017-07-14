@@ -51,15 +51,39 @@ export class HomePage {
         center: latLng,
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
-        /*styles: [
-            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
+        styles: [
+
+          //hide points of attraction
+          { featureType: 'poi.attraction',
+          stylers: [{"visibility": 'off'}]  },
+          // Hide highways
+          { featureType: 'poi.business',
+          stylers: [{visibility: 'off'}]},
+          // hide poi.government
+          { featureType: 'poi.government',
+          stylers: [{"visibility": 'off'}]  },
+          //hide poi.medical
+          { featureType: 'poi.medical',
+          stylers: [{"visibility": 'off'}]  },
+            //hide poi.places of worshit
+          { featureType: 'poi.place_of_worship',
+          stylers: [{"visibility": 'off'}]  },
+            // Hide highways
+          { featureType: 'road.highway',
+          stylers: [{visibility: 'off'}]},
+          // Hide highways
+          { featureType: 'landscape.man_made',
+          stylers: [{visibility: 'off'}]}
+        ]
+            /*
             {
               featureType: 'administrative.locality',
               elementType: 'labels.text.fill',
               stylers: [{color: '#d59563'}]
             },
+            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
+            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
             {
               featureType: 'poi',
               elementType: 'labels.text.fill',

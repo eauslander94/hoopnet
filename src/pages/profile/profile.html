@@ -1,67 +1,49 @@
 <ion-header no-border>
-  <ion-navbar color="secondary">
-    <ion-buttons left>
-        <button ion-button icon-only color="light"><ion-icon name="arrow-back"></ion-icon></button>
-    </ion-buttons>
+  <ion-navbar>
+    <ion-title>Hoopnet</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content fullscreen parallax-header>
 
-    <div class="header-image"></div>
+  <!-- Parallax Header -->
+    <div class="profile-parallax">
 
-    <div class="main-content">
+        <img src='https://i.amz.mshcdn.com/kJsKVWzrBmN0e7A4xwcbAyGm9DI=/fit-in/1200x9600/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F108414%2FGettyImages-638822.jpg'/>
+        <!-- User Avatar -->
+        <ion-item no-lines>
+          <ion-avatar>
+            <img src='../assets/img/sampleAvatar.jpg'/>
+          </ion-avatar>
+        </ion-item>
 
-        <ion-segment [(ngModel)]="category">
-            <ion-segment-button value="gear">
-                Gear
-            </ion-segment-button>
-            <ion-segment-button value="clothing">
-                Clothing
-            </ion-segment-button>
-            <ion-segment-button value="nutrition">
-                Nutrition
-            </ion-segment-button>
-        </ion-segment>
+        <!-- User Name -->
+        <p>
+          Eli "Steve Bash" Auslander
+        </p>
 
-        <ion-card *ngFor="let card of cards">
+        <!-- User Info -->
+        <div id="userInfo">
+          <div>
+            <p>67</p>
+            <p>Friends</p>
+          </div>
+          <div>
+            <p>Tompkins Square Park</p>
+            <p>Homecourt</p>
+          </div>
+          <div>
+            <p>Mon Jun 12</p>
+            <p>Last Hooped</p>
+          </div>
+        </div>
 
-          <ion-item>
-            <ion-avatar item-left>
-              <img src="https://avatars.io/facebook/joshua.morony" />
-            </ion-avatar>
-            <h2>Josh Morony</h2>
-            <p>November 5, 1955</p>
-          </ion-item>
+    </div><!-- profile parralax div -->
 
-          <img src="http://placehold.it/500x200" />
+    <hooped-card></hooped-card>
 
-          <ion-card-content>
-            Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s.
-          </ion-card-content>
 
-          <ion-row>
-            <ion-col>
-              <button ion-button icon-left clear small>
-                <ion-icon name="thumbs-up"></ion-icon>
-                <div>12 Likes</div>
-              </button>
-            </ion-col>
-            <ion-col>
-              <button ion-button icon-left clear small>
-                <ion-icon name="text"></ion-icon>
-                <div>4 Comments</div>
-              </button>
-            </ion-col>
-            <ion-col center text-center>
-              <ion-note>
-                11h ago
-              </ion-note>
-            </ion-col>
-          </ion-row>
 
-        </ion-card>
 
-    </div>
 
 </ion-content>
