@@ -1,3 +1,71 @@
 hooped-card {
+  margin-top: 5vw;
+  margin-bottom: 50vw!important;
+
+  ion-card {
+
+    height: 24vw;
+    //border: 1px solid red;
+  }
+
+  #hoopCardHeader {
+    width: 100%;
+    height: 9vw;
+    position: relative;
+    text-align: center;
+
+
+    img {
+      height: 7vw;    width: 7vw;
+      position: absolute;   left: 1vw; top: 1vw;
+      display: inline-block;
+      border-radius: 25px;
+    }
+
+    p {
+      display: inline-block;
+      position: absolute; bottom: 1vw; left: 35%;
+      width: 30%;
+      font-family: Quicksand-Bold;  color: black; font-size: 5vw;
+    }
+
+    ion-icon {
+      color: $primary;  font-size: 5vw;
+      display: inline-block;
+      position: absolute; right: 2vw; top: 2vw;
+    }
+  }
+
+  #hoopCardCourt {
+    text-align: center;
+    font-size: 6vw;
+    font-family: Quicksand-Bold;
+    color: black;
+
+    // Add an elipsis when text is too long
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  #hoopCardTimestamp {
+    display: inline-block;
+    text-align: center;
+    margin-left: 19%;
+    width: 62%;
+
+    p{
+      display: inline-block;
+      text-align: center;
+    }
+
+    p:nth-child(1) {
+      border-right: 1px solid grey;
+      padding-right: 1vw;
+    }
+  }
+
+
+
 
 }
