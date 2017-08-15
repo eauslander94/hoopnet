@@ -83,7 +83,12 @@
     </div>
   </div>
 
+<!-- THIS IS AN ERROR - WE'RE CREATING MULTIPLE LISTS, NOT MULTIPLE COURT REPORTS -->
 
-  <court-report></court-report>
+  <!-- List of all of the post objects -->
+  <ion-list id="courtPageScroll" *ngFor = "let post of posts">
+    <!--If post is courtReport, create new courtReport sending this particular reportData -->
+    <court-report *ngIf="post.type === 'courtReport'" [reportData]="post.data"></court-report>
+  </ion-list>
 
 </ion-content>

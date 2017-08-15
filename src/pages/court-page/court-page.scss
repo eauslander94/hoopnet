@@ -103,6 +103,12 @@
 court-report {
   // Temporary positioning so that we can see what we're working on.
   // One step at a time
+
+}
+
+#courtPageScroll {
+  width: 100%;
+  //height: 100%;
   position: absolute;
   top: 64vw;
 }

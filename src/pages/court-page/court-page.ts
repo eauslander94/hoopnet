@@ -17,22 +17,56 @@ export class CourtPage {
 
   courtReport: any;
 
-  constructor(public navCtrl: NavController, public navParams: NavParams) {
+  posts: any[];
 
+  constructor(public navCtrl: NavController, public navParams: NavParams) {
+    // Generate the dummy reports upon construction
+    this.posts = [];
+    this.generateDummyReports();
   }
 
-  // Build dummy data court report used for testing
-  private buildReport() {
-    this.courtReport = {
-      "games": ["5v5", "4v4", "2v2"],
-      "timeStamp": Date(),
+  private generateDummyReports() {
+    let dummyReport = {
+      // attempt to create date Jun 10 2017, 10:00a
+      "timeStamp": new Date(2017, 6, 10, 10, 0, 0),
+      // valid level
       "valid": {
-        "total": 7,
+        "total": 9,
         "usersUp": [],
-        "usersDown": []
+        "userdDown": []
       },
-      "DetailedInfo": {}
+      "hoopingNow": "0-10",
+      // Games array
+      "games": [
+        {
+          "game": 5,
+          "details": {},
+          "comments": {}
+        },
+        {
+          "game": 4,
+          "details": {},
+          "comments": {}
+        },
+        {
+          "game": 2,
+          "Details": {},
+          "comments": {}
+        }]
     }
+
+    let post = {
+      "type": "courtReport",
+      "data": dummyReport
+    }
+
+    let post2 = {
+      "type": "courtReport",
+      "data": dummyReport
+    }
+
+    this.posts.push(post);
+    //this.posts.push(post2);
   }
 
 }

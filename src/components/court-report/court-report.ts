@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 /**
  * Generated class for the CourtReport component.
@@ -14,9 +14,11 @@ export class CourtReport {
 
   text: string;
 
+  @Input() reportData;
+
   constructor() {
     console.log('Hello CourtReport Component');
-    this.text = 'Hello World';
+
   }
 
 }

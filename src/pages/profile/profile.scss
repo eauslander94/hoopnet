@@ -76,6 +76,10 @@ page-profile {
       margin-top: 1vh
     }
 
-
+    #profileScroll {
+      position: absolute;
+      top: 100vh;
+      width: 100vw;
+    }
 
  }//page-profile paren

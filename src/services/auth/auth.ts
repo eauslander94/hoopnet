@@ -1,4 +1,4 @@
-import {Injectable, NgZone, Output, EventEmitter} from '@angular/core';
+import {Injectable, NgZone } from '@angular/core';
 import {Observable, Subscription} from 'rxjs/Rx';
 
 import Auth0Cordova from '@auth0/cordova';

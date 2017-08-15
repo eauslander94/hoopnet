@@ -4,11 +4,11 @@
     <div id="crIconHouse">
       <div class="courtReportIcon"></div>
     </div>
-    <p id="reportTimestamp">Mon Jun 10, 4:26p</p>
+    <p id="reportTimestamp">{{reportData.timeStamp.toDateString()}}</p>
 
     <div class="validArrows">
        <ion-icon name="thumbs-down"></ion-icon>
-       <p>17</p>
+       <p>{{reportData.valid.total}}</p>
        <ion-icon name="thumbs-up"></ion-icon>
     </div> <!-- validArrows -->
 
@@ -16,14 +16,14 @@
   <!-- <p id="gamesHeader">Runlist</p> -->
 
   <div id="hoopingNow">
-    <p>11-20</p>
+    <p>{{reportData.hoopingNow}}</p>
     <p>hooping</p>
   </div>
       <!-- Scrollable list of games -->
       <ion-scroll scrollX="true">
 
-          <div class="oneBasket">
-            <p>5</p><p>on</p><p>5</p>
+          <div class="oneBasket" *ngFor="let game of reportData.games">
+            <p>{{game.game}}</p><p>on</p><p>{{game.game}}</p>
           </div>
 
       </ion-scroll>

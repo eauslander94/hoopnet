@@ -32,6 +32,7 @@ import { EnterBasketInfoComponent }     from '../components/enter-basket-info/en
 import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
 import { CourtReport } from '../components/court-report/court-report';
 import { HoopedCard  } from '../components/hooped-card/hooped-card';
+import { TextPost }    from '../components/text-post/text-post';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 import { AuthService } from '../services/auth/auth';
@@ -58,6 +59,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     MapSearchPopoverComponent,
     CourtReport,
     HoopedCard,
+    TextPost,
 
     Profile,
     ParallaxHeader,
