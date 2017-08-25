@@ -1,13 +1,6 @@
-import { AuthService } from '../../services/auth/auth';
-import {Component, Injectable, NgZone, Output, EventEmitter} from '@angular/core';
-import {Observable, Subscription} from 'rxjs/Rx';
-
-import Auth0Cordova from '@auth0/cordova';
-import Auth0 from 'auth0-js';
-
-import {AuthHttp, JwtHelper, tokenNotExpired} from 'angular2-jwt';
-
-
+import {Component} from '@angular/core';
+import {Auth0Cordova} from '@auth0/cordova';
+import {Auth0} from 'auth0-js';
 
 
 declare var Auth0Lock: any;
@@ -31,7 +24,7 @@ export class LoginPage {
   dummy: String;
   dummy2: any;
 
-  constructor(private auth: AuthService) {
+  constructor() {
 
 
     // Listening for the authenticated event

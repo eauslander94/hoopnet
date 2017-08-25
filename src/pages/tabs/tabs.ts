@@ -1,11 +1,8 @@
 import { Component } from '@angular/core';
 
-import { HomePage    } from '../home/home';
-import { AboutPage   } from '../about/about';
-import { ContactPage } from '../contact/contact';
-import { LoginPage } from '../login/login';
-
+import { HoopMapPage } from '../hoop-map-page/hoop-map-page';
 import { CourtPage } from '../court-page/court-page';
+//import { LoginPage } from '../login/login';
 
 // So that we can test the profile page
 import { Profile } from '../profile/profile';
@@ -16,7 +13,7 @@ import { Profile } from '../profile/profile';
 export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
-  tab1Root: any = HomePage;
+  tab1Root: any = HoopMapPage;
   tab2Root: any = CourtPage;
   tab3Root: any = Profile;
 

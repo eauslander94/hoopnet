@@ -126,3 +126,70 @@ ion-navbar{
   src: url('../assets/fonts/Beba/BebasNeue-Regular.otf') format("truetype");
   font-style: normal;
 }
+
+// Below is the styling for the shared header on text/picture posts
+.postHeader {
+  height: 9vw;
+  width: 98%;
+  margin-left: 1%;
+  border-bottom: 1px solid grey;
+  position: relative;
+
+  // the avatar and the name
+  #avatarDiv {
+    display: inline-block;
+    // The user's icon
+    img {
+      height: 7vw;  width: 7vw;
+      border-radius: 25px;
+      display: inline-block;
+      margin-top: 1vw;
+      vertical-align: middle;
+    }
+    // The user's name
+    p {
+      display: inline-block;
+      vertical-align: middle;
+      margin-left: 1vw; margin-top: 1vw;
+      font-size: 3vw; font-family: Quicksand-bold;  color: black;
+    }
+  }
+
+  // the timestamp
+  #tsDiv{
+    display: inline-block;
+    position: absolute;   right: 11vw;    bottom: 2vw;
+    padding-right: 2vw;
+
+    // The actual text containing the timestamp
+    p {
+      font-size: 3vw;
+      font-family: Quicksand-bold;
+    }
+  }
+
+  // The thumbs up and the number
+  #validDivForPost{
+    display: inline-block;
+    float: right;
+    height: 100%;
+    font-size: 5vw;
+    margin-right: 1vw;
+    width: 10vw;
+    position:relative;
+    // The Number
+    p{
+      display: inline-block;
+      font-size: 4vw;   font-family: bulls;
+      position: absolute;   bottom: 1vw;  right: 5vw;
+    }
+    // The thumbs up icon
+    ion-icon{
+      float: right;
+      color: $primary;
+      position: absolute;  bottom: 2vw;  right: 0;
+    }
+  }
+
+
+}

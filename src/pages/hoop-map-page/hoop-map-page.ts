@@ -9,15 +9,15 @@ import { Response } from '@angular/http';
 // court report imports
 import { CourtDataService } from '../../services/courtDataService.service';
 import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
-import { OneCourtPage } from '../one-court/one-court';
+import { CourtPage }  from '../../pages/court-page/court-page';
 
 declare var google: any;
 
 @Component({
-  selector: 'page-home',
-  templateUrl: 'home.html'
+  selector: 'page-hoop-map',
+  templateUrl: 'hoop-map-page.html'
 })
-export class HomePage {
+export class HoopMapPage {
 
   @ViewChild('map') mapElement: ElementRef;
   map: any;
@@ -218,7 +218,7 @@ export class HomePage {
        { text: 'View Court',
        handler: () => {
          // dismiss the alert before navigating
-         alert.dismiss().then(() => { this.navCtrl.push(OneCourtPage, {
+         alert.dismiss().then(() => { this.navCtrl.push(CourtPage, {
            court: court
          }) });
          return false;

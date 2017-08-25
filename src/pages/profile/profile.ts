@@ -14,11 +14,6 @@ export class Profile {
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     this.dummy = "hello";
 
-    let profile = {
-      "firstName": "Stephen",
-      "lastName": "Curry",
-      "nickName": "Buckets",
-    }
   }
 
   ionViewDidLoad() {

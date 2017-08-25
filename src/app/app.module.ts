@@ -16,26 +16,22 @@ import {AuthHttp, AuthConfig} from 'angular2-jwt';
 //import {Type} from '@angular/core';
 
 // pages
-import { AboutPage }          from '../pages/about/about';
-import { ContactPage }        from '../pages/contact/contact';
-import { HomePage }           from '../pages/home/home';
+import { HoopMapPage }           from '../pages/hoop-map-page/hoop-map-page';
 import { LoginPage }        from '../pages/login/login';
 import { TabsPage }           from '../pages/tabs/tabs';
 import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-info';
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
-import { OneCourtPage } from '../pages/one-court/one-court';
 import { CourtPage }  from '../pages/court-page/court-page';
 // components
-import { BasketListComponent } from '../components/basket-list/basket-list';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
 import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
 import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
 import { CourtReport } from '../components/court-report/court-report';
 import { HoopedCard  } from '../components/hooped-card/hooped-card';
 import { TextPost }    from '../components/text-post/text-post';
+import { PicturePost } from '../components/picture-post/picture-post';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
-import { AuthService } from '../services/auth/auth';
 
 import { Profile } from '../pages/profile/profile';
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
@@ -45,21 +41,18 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 @NgModule({
   declarations: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    HoopMapPage,
     LoginPage,
     TabsPage,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
-    OneCourtPage,
-    BasketListComponent,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
     MapSearchPopoverComponent,
     CourtReport,
     HoopedCard,
     TextPost,
+    PicturePost,
 
     Profile,
     ParallaxHeader,
@@ -73,15 +66,12 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    AboutPage,
-    ContactPage,
-    HomePage,
+    HoopMapPage,
     TabsPage,
     LoginPage,
     Profile,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
-    OneCourtPage,
     CourtPage,
   ],
   providers: [
@@ -98,7 +88,6 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
       },
       deps: [Http]
     },
-    AuthService
 ]
 })
 export class AppModule {}

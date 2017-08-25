@@ -1,22 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
-/**
- * Generated class for the TextPost component.
- *
- * See https://angular.io/docs/ts/latest/api/core/index/ComponentMetadata-class.html
- * for more info on Angular Components.
- */
 @Component({
   selector: 'text-post',
   templateUrl: 'text-post.html'
 })
 export class TextPost {
 
-  text: string;
+  // Post data used to populate the post
+  @Input() postData;
 
-  constructor() {
-    console.log('Hello TextPost Component');
-    this.text = 'Hello World';
-  }
+  constructor() {}
+
+
 
 }

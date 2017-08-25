@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
-import  TsEventEmitter  from 'ts-eventemitter';
 
 import 'rxjs/add/operator/map';
 

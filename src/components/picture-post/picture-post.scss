@@ -1,0 +1,26 @@
+picture-post {
+
+  ion-card{
+    height: 106vw;
+    width: 100%;
+  //  border: 1px solid blue;
+  }
+
+  .postHeader{
+      border-bottom: none;
+  }
+
+  #postPicture{
+  //  height: 98vw;
+    width: 100%;
+  }
+
+  #pictureCaption {
+    padding: 1vw;
+    font-family: Quicksand-bold;
+    color: black;
+    white-space: initial;
+  }
+
+
+}
