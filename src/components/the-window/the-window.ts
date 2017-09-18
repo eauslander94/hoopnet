@@ -8,7 +8,7 @@ import { Component, Input } from '@angular/core';
  */
 @Component({
   selector: 'the-window',
-  templateUrl: 'the-window.html'
+  templateUrl: 'the-window.html',
 })
 
 export class TheWindow {
@@ -16,5 +16,24 @@ export class TheWindow {
   @Input() windowData;
 
   constructor() {}
+
+  // When games or activityBox has been pressed
+  private onPress(tapped){
+    if(tapped === "games"){
+      this.windowData.gtime = new Date();
+    }
+    else if (tapped === "activity"){
+      this.windowData.atime = new Date();
+    }
+    this.windowData.gtime = new Date();
+  }
+
+  // When games or activityBox has been double tapped
+  private onDoubleTap(tapped){
+    if (tapped === "games")
+      this.windowData.gtime = new Date();
+    else if (tapped === "activity")
+      this.windowData.atime = new Date();
+  }
 
 }

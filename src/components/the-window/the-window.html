@@ -36,7 +36,10 @@
   </div>
 
   <!-- Box describing the activity or life of the court -->
-  <div id="activityBox">
+  <div id="activityBox"
+    (dbltap)="onDoubleTap('activity')"
+    (press)="onPress('activity')"
+  >
     <p class="windowHeaders">Activity</p>
     <div id="activityWrapper">
       <p>{{windowData.activity}}</p>
@@ -44,7 +47,11 @@
     <p class="livingTimestamp">{{windowData.atime.toLocaleTimeString()}}</p>
   </div>
 
-  <div id="gameList">
+  <div id="gameList"
+    (dbltap)="onDoubleTap('games')"
+    (press)="onPress('games')"
+  >
+    <!-- The '' -->
     <p class="windowHeaders">Games</p>
 
     <!-- Scrollable list of games -->

@@ -29,12 +29,9 @@ ion-card{
   position: relative;
 }
 
-
-
 // The following pertains to the playing now list
 #playingNow{
-  height: 22vw; width: 96%;
-  border-bottom: 1px solid grey;
+  height: 22vw; width: 100%;
   margin: auto;
 }
 #playingNow ion-scroll{
@@ -43,6 +40,9 @@ ion-card{
   white-space: nowrap;
   overflow: hidden;
   overflow-x: scroll;
+  // for the bottom border
+  border-bottom: 1px solid grey;
+  width: 98%; margin: auto;
 }
 #playingNow ion-scroll ion-item{
   display: inline-block;

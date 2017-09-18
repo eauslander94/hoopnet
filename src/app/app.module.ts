@@ -22,6 +22,7 @@ import { TabsPage }           from '../pages/tabs/tabs';
 import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-info';
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
 import { CourtPage }  from '../pages/court-page/court-page';
+import { Profile } from '../pages/profile/profile';
 // components
 import { TheWindow } from '../components/the-window/the-window';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
@@ -33,8 +34,8 @@ import { TextPost }    from '../components/text-post/text-post';
 import { PicturePost } from '../components/picture-post/picture-post';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
-
-import { Profile } from '../pages/profile/profile';
+// Directives
+import { Dbltap } from '../components/dbltap/dbltap';
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
 
 
@@ -59,6 +60,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     Profile,
     ParallaxHeader,
     CourtPage,
+    Dbltap,
   ],
   imports: [
     BrowserModule,
