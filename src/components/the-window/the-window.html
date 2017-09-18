@@ -1,0 +1,60 @@
+<ion-card>
+  <!-- Displaying those who are currently at the court -->
+  <div id="playingNow">
+    <p class="windowHeaders">Players</p>
+    <ion-scroll scrollX="true" class="item">
+
+<!-- The Iverson Heads -->
+      <ion-item no-lines>
+          <ion-avatar>
+            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </ion-avatar>
+          <p>Allen Iverson</p>
+        </ion-item>
+
+        <ion-item no-lines>
+          <ion-avatar>
+            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </ion-avatar>
+          <p>Allen Iverson</p>
+        </ion-item>
+        <ion-item no-lines>
+          <ion-avatar>
+            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </ion-avatar>
+          <p>Allen Iverson</p>
+        </ion-item>
+        <ion-item no-lines>
+          <ion-avatar>
+            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </ion-avatar>
+          <p>Allen Iverson</p>
+        </ion-item>
+
+
+    </ion-scroll>
+  </div>
+
+  <!-- Box describing the activity or life of the court -->
+  <div id="activityBox">
+    <p class="windowHeaders">Activity</p>
+    <div id="activityWrapper">
+      <p>{{windowData.activity}}</p>
+    </div>
+    <p class="livingTimestamp">{{windowData.atime.toLocaleTimeString()}}</p>
+  </div>
+
+  <div id="gameList">
+    <p class="windowHeaders">Games</p>
+
+    <!-- Scrollable list of games -->
+    <ion-scroll scrollX="true">
+        <div class="oneBasket" *ngFor="let game of windowData.games">
+          <p>{{game}}</p><p>on</p><p>{{game}}</p>
+        </div>
+    </ion-scroll>
+
+    <!-- Living Timestamp -->
+    <p class="livingTimestamp">{{windowData.gtime.toLocaleTimeString()}}</p>
+  </div>
+</ion-card>

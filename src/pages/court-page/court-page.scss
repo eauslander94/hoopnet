@@ -1,26 +1,21 @@
 #courtHeader{
-  //border: 1px solid black;
-  height: 62vw;
-  width: 100vw;
-  position: absolute;
+  height: 24vw;   width: 100vw;
 }
 
 #courtHeader > p{
   text-align: center;
   font-family: beba-regular;
   font-size: 9vw;
-  margin-bottom: 3vw;
-  //border: 1px solid red;
-  margin-top: 8vw;
+  margin-bottom: 3vw;  margin-top: 8vw;
 }
 
 #infoSpace{
 //  border: 1px solid green;
+  position: absolute;    bottom: 0;
   width: 55vw;
   margin-top: 0;
   margin: auto;
   margin-bottom: 0;
-  top: 2vw;
 }
 
 #infoSpace div {

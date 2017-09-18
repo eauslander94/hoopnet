@@ -23,6 +23,7 @@ import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-in
 import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
 import { CourtPage }  from '../pages/court-page/court-page';
 // components
+import { TheWindow } from '../components/the-window/the-window';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
 import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
 import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
@@ -46,6 +47,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     TabsPage,
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
+    TheWindow,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
     MapSearchPopoverComponent,

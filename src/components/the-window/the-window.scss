@@ -1,0 +1,133 @@
+the-window {
+  height: 62vw;
+  width: 100vw;
+  position: relative;
+
+  // Classes used across the window
+  .windowHeaders {
+    margin-left: 1vw;
+    margin-top: 1vw;
+    font-family: Quicksand-bold;
+    color: black;
+    font-size: 3vw;
+  }
+
+  .livingTimestamp{
+    color: green !important;
+    //font-family: Quicksand-bold;
+    font-size: 3.2vw;
+    position: absolute;
+    right: 1vw;
+    bottom: 1vw;
+  }
+
+}
+
+ion-card{
+  height: 58vw;
+  width: 95vw;
+  position: relative;
+}
+
+
+
+// The following pertains to the playing now list
+#playingNow{
+  height: 22vw; width: 96%;
+  border-bottom: 1px solid grey;
+  margin: auto;
+}
+#playingNow ion-scroll{
+//  border: 1px solid green;
+  height: 18vw;
+  white-space: nowrap;
+  overflow: hidden;
+  overflow-x: scroll;
+}
+#playingNow ion-scroll ion-item{
+  display: inline-block;
+  height: 16vw;
+  width: 26vw;
+  text-align: center;
+  img {
+    height:10vw; width: 10vw;
+    margin: auto;
+  }
+  p{
+    //margin-top: 1vw;
+    font-size: 3vw;
+    font-family: NBA_cavaliers;
+  }
+
+}
+
+// The following all pertains to the activityBox
+#activityBox{
+  height: 33vw; width: 38%;
+  margin-top: 1vw; margin-bottom: 1vw;
+  border-right: 1px solid grey;
+  //margin-top: 1vw;  margin-bottom: 1vw;
+  display: inline-block;
+  position: relative;
+
+  #activityWrapper{
+    text-align: center;
+    margin-top: 7vw;
+    p{
+      font-family: bulls;
+      font-size: 11vw;
+      width: 100%;  margin: auto;
+      color: green;
+    }
+  }
+
+  // To account for the extra margin created by the border
+  p:nth-child(1){
+    margin-top: 0;
+  }
+  p:nth-child(3){
+    bottom: 0;
+  }
+}
+/////////////////////////////////////////////////
+//////////  End of Activity Box  ////////////////
+/////////////////////////////////////////////////
+
+
+// The following all pertain to the game list
+#gameList{
+  //border: 2px solid black;
+  height: 36vw; width: 62%;
+  display: inline-block;
+  float: right;
+  //position: relative;
+}
+  #gameList ion-scroll{
+    height: 24vw;
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-x: scroll;
+  }
+  // game basket icons
+  .oneBasket {
+      height: 16vw;
+      width: 16vw;
+      margin-left: 6vw;
+      opacity: 0.8;
+      margin-top: 5vw;
+  }
+  // text inside of game basket icons
+  .oneBasket p{
+    font-size: 5vw;
+    margin-top: 2.5vw;
+    color: black;
+    font-family: bulls;
+    opacity: 1.0!important;
+    display: inline-block;
+  }
+  // the 'on'
+  .oneBasket p:nth-child(2){
+    font-size: 4vw;
+    margin-left: .5vw;
+    margin-right: .3vw;
+  }
