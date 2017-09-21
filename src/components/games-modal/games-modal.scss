@@ -1,0 +1,35 @@
+games-modal {
+
+  //background: white;
+  border: 1px solid blue;
+
+
+  position: absolute;
+  overflow: hidden;
+  max-width: 86vw;
+  max-height:92vh;
+  border-radius: 15px;
+  width: 92vw;
+  height: 50vh;
+  bottom: 0!important;
+  left: 0;
+  right: 0;
+  margin: auto;
+  box-shadow: 0 16px 20px rgba(0,0,0,.4);
+  background-color: #fafafa;
+
+  ion-list{
+    padding-top: 20vw;
+  }
+
+
+  ion-item-options button{
+    background-color: red!important;
+  }
+
+p {
+  display: inline;
+  float: right;
+}
+
+}

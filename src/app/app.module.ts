@@ -32,6 +32,7 @@ import { CourtReport } from '../components/court-report/court-report';
 import { HoopedCard  } from '../components/hooped-card/hooped-card';
 import { TextPost }    from '../components/text-post/text-post';
 import { PicturePost } from '../components/picture-post/picture-post';
+import { GamesModal }  from '../components/games-modal/games-modal';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 // Directives
@@ -56,6 +57,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     HoopedCard,
     TextPost,
     PicturePost,
+    GamesModal,
 
     Profile,
     ParallaxHeader,
@@ -77,6 +79,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     CourtPage,
+    GamesModal,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

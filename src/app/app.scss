@@ -76,15 +76,6 @@ ion-navbar{
   //border: 1px solid black;
 }
 
-.oneBasket > p {
-  text-align: center;
-  //border: 1px solid blue;
-  margin-top: 9%;
-  font-size: 6vw;
-  color: color($colors, primary);
-  font-family: "bulls";
-}
-
 @font-face {
   font-family: "bulls";
   src: url("../assets/fonts/bulls.ttf") format("truetype");

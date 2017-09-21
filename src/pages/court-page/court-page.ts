@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
 
+
 /**
  * Generated class for the CourtPage page.
  *
@@ -25,7 +26,8 @@ export class CourtPage {
 
   private generateUIData(){
     this.windowData = {
-      "games": ["5", "4", "2", "4", "3"],
+      "baskets": 4,
+      "games": ["5", "4", "2"],
       "gtime": new Date(),
       "activity": "ACTIVE",
       "atime": new Date(),

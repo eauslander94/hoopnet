@@ -1,0 +1,41 @@
+
+<ion-list>
+  <ion-item-sliding (click)="incrementGamecount(5)">
+    <ion-item>5 on 5<p *ngIf="gamecount[5] !== 0">{{gamecount[5]}}</p></ion-item>
+    <ion-item-options side="right">
+      <button ion-button color="#ff0000" (click)="clearGamecount(5)">clear</button>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding (click)="incrementGamecount(4)">
+    <ion-item>4 on 4 <p *ngIf="gamecount[4] !== 0">{{gamecount[4]}}</p></ion-item>
+    <ion-item-options side="right">
+      <button ion-button color="#ff0000" (click)="clearGamecount(4)">clear</button>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding (click)="incrementGamecount(3)">
+    <ion-item>3 on 3 <p *ngIf="gamecount[3] !== 0">{{gamecount[3]}}</p></ion-item>
+    <ion-item-options side="right">
+      <button ion-button color="#ff0000" (click)="clearGamecount(3)">clear</button>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding (click)="incrementGamecount(2)">
+    <ion-item>2 on 2 <p *ngIf="gamecount[2] !== 0">{{gamecount[2]}}</p></ion-item>
+    <ion-item-options side="right">
+      <button ion-button color="#ff0000" (click)="clearGamecount(2)">clear</button>
+    </ion-item-options>
+  </ion-item-sliding>
+
+  <ion-item-sliding (click)="incrementGamecount(1)">
+    <ion-item>1 on 1 <p *ngIf="gamecount[1] !== 0">{{gamecount[1]}}</p></ion-item>
+    <ion-item-options side="right">
+      <button ion-button color="#ff0000" (click)="clearGamecount(1)">clear</button>
+    </ion-item-options>
+  </ion-item-sliding>
+
+</ion-list>
+
+
+<!-- <button id="gamesModalSubmit" ion-button full (tap)="dismiss()" class="">Submit</button> -->

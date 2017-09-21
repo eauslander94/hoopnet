@@ -101,13 +101,7 @@ ion-card{
   display: inline-block;
   float: right;
   //position: relative;
-}
-  #gameList ion-scroll{
-    height: 24vw;
-    white-space: nowrap;
-    overflow: hidden;
-    overflow-x: scroll;
-  }
+
   // game basket icons
   .oneBasket {
       height: 16vw;
@@ -130,4 +124,12 @@ ion-card{
     font-size: 4vw;
     margin-left: .5vw;
     margin-right: .3vw;
+  }
+
+}
+  #gameList ion-scroll{
+    height: 24vw;
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-x: scroll;
   }
