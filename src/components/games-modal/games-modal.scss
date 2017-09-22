@@ -1,35 +1,77 @@
 games-modal {
 
-  //background: white;
-  border: 1px solid blue;
+  // modal wide css
+  position: relative;
+  width: 84vw!important;
+  margin-left: 8vw;
 
+  // div which holds the tapable list
+  #gmOptions{
+    position: absolute;  bottom: 14vw;
+    width: 100%;
+    border-radius: 11px;
+    background: white;
+    box-shadow: 0px 2px 2px rgba(0,0,0,.4);
+  }
 
-  position: absolute;
-  overflow: hidden;
-  max-width: 86vw;
-  max-height:92vh;
-  border-radius: 15px;
-  width: 92vw;
-  height: 50vh;
-  bottom: 0!important;
-  left: 0;
-  right: 0;
-  margin: auto;
-  box-shadow: 0 16px 20px rgba(0,0,0,.4);
-  background-color: #fafafa;
+  // submit button
+  #gamesModalSubmit{
+    width: 100%;  height: 10vw;
+    border-radius: 11px;
+    background: white;
+    box-shadow: 0 2px 2px rgba(0,0,0,.4);
+    margin-top: 0;
+    position: absolute;  bottom: 2vw;
+    color: $primary;  font-size: 5vw;
+  }
 
+  // modal header
+  #modalHeader{
+    //border: 1px solid blue;
+    //height: 11.5vw;
+    height: 14vw;
+    text-align: center;
+  }
+
+  #modalErrorMessage{
+    margin-top: 1vw;
+    color: red;
+    font-family: quicksand-bold;
+    font-size: 3.5vw;
+  }
+
+  // header above the tappable list
+  #gameModalTitle{
+    text-align: center;
+    color: black;
+    font-size: 5vw;
+    margin: auto;
+    font-family: quicksand-regular;
+    width: 88%;
+    padding-top: 2vw;
+
+  }
+
+  // the tappable list
   ion-list{
-    padding-top: 20vw;
-  }
+    margin-top: 0!important;
+    margin-bottom: 2vw!important;
 
+    // The number of games
+    p{
+      color: $primary!important;
+      font-family: NBA_76ers!important;
+      display: inline; float: right;
+    }
 
-  ion-item-options button{
-    background-color: red!important;
-  }
+    // the no games item
+    #noGames{ color: grey!important; }
 
-p {
-  display: inline;
-  float: right;
-}
+    //the tappable items
+    ion-list ion-item{ color: black!important }
 
-}
+    // The clear button
+    ion-item-options button{ background-color: red!important }
+  }//ion-list paren
+
+}//games-modal paren

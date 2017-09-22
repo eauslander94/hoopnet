@@ -41,9 +41,12 @@ export class TheWindow {
     let gamesModal = this.modalCtrl.create(GamesModal,
       {"baskets": 2/*this.windowData.baskets*/});
 
-    // When the submit button is pressed, log the array of games to the console
+    // When the submit button is pressed, set the returned games array to windowdata
     gamesModal.onDidDismiss(data => {
-      console.log(data);
+      this.windowData.games = data;
+      //TO DO:   Reset living timesamp
+
+      // TO DO: Send new court data to the server
     });
     gamesModal.present();
   }
