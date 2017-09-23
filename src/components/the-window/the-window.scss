@@ -14,8 +14,8 @@ the-window {
 
   .livingTimestamp{
     color: green !important;
-    //font-family: Quicksand-bold;
-    font-size: 3.2vw;
+    //font-family: NBA_76ers;
+    font-size: 3vw;
     position: absolute;
     right: 1vw;
     bottom: 1vw;
@@ -73,11 +73,15 @@ ion-card{
   #activityWrapper{
     text-align: center;
     margin-top: 7vw;
-    p{
+    p:nth-child(1){
       font-family: bulls;
-      font-size: 11vw;
+      font-size: 9vw;
       width: 100%;  margin: auto;
       color: green;
+    }
+    p:nth-child(2){
+      font-family: Quicksand-bold;
+      font-size: 3.3vw;
     }
   }
 

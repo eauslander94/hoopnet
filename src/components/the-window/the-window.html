@@ -40,9 +40,10 @@
     (dbltap)="onDoubleTap('activity')"
     (press)="onPress('activity')"
   >
-    <p class="windowHeaders">Activity</p>
+    <p class="windowHeaders">Action</p>
     <div id="activityWrapper">
-      <p>{{windowData.activity}}</p>
+      <p [style.color]="getActionColor()">{{windowData.action}}</p>
+      <p [style.color]="getActionColor()">{{windowData.actionDescriptor}}</p>
     </div>
     <p class="livingTimestamp">{{windowData.atime.toLocaleTimeString()}}</p>
   </div>

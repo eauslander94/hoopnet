@@ -29,7 +29,8 @@ export class CourtPage {
       "baskets": 4,
       "games": ["5", "4", "2"],
       "gtime": new Date(),
-      "activity": "ACTIVE",
+      "action": "Active",
+      "actionDescriptor": "Continuous runs",
       "atime": new Date(),
       "pNow": []
     }
