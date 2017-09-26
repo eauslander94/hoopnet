@@ -13,7 +13,7 @@ the-window {
   }
 
   .livingTimestamp{
-    color: green !important;
+    //color: green !important;
     //font-family: NBA_76ers;
     font-size: 3vw;
     position: absolute;
@@ -52,11 +52,13 @@ ion-card{
   img {
     height:10vw; width: 10vw;
     margin: auto;
+    padding: .5vw;
+    border: 2px solid $primary;
   }
   p{
     //margin-top: 1vw;
     font-size: 3vw;
-    font-family: NBA_cavaliers;
+    font-family: quicksand-regular;
   }
 
 }
@@ -137,3 +139,13 @@ ion-card{
     overflow: hidden;
     overflow-x: scroll;
   }
+
+#noGameDiv{
+  height: 16vw;
+  margin-top: 6.5vw;
+  margin-left: 3vw;
+  p{
+    font-family: bulls;
+    color: grey; font-size: 9vw;
+  }
+}

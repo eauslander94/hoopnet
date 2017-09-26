@@ -26,7 +26,7 @@ export class GamesModal {
   //        games[] formatted and returned to window
   // post2: if baskets entered > court's baskets, prompt user to reenter info
   submit() {
-    this.games = new Array<number>();
+    this.games = [];
     let baskets: number = 0;
 
 /*  Convert gamecount[] to games[], count baskets  */
@@ -52,7 +52,7 @@ export class GamesModal {
 
   // pass back an empty array
   noGamesPressed(){
-    this.viewCtrl.dismiss();
+    this.viewCtrl.dismiss([]);
   }
 
   //Post: Modal is dismissed without data being passed to the window

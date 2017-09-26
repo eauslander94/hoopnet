@@ -1,8 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-
-
 /**
  * Generated class for the CourtPage page.
  *
@@ -17,6 +15,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 export class CourtPage {
 
   windowData: any;
+  court: any;
 
   constructor(public navCtrl: NavController, public navParams: NavParams) {
     // Generate the UI only data upon construction
@@ -25,15 +24,30 @@ export class CourtPage {
 
 
   private generateUIData(){
-    this.windowData = {
+
+    this.court = {
+      "name": "Tompkins Square Park",
+      "type": "indoor",
+      // a latLng location
+      "location": {},
       "baskets": 4,
-      "games": ["5", "4", "2"],
-      "gtime": new Date(),
-      "action": "Active",
-      "actionDescriptor": "Continuous runs",
-      "atime": new Date(),
-      "pNow": []
+      "windowData": {
+        "baskets": 4,
+        "games": ["5", "4", "2"],
+        "gLastValidated": new Date(),
+        "action": "Active",
+        "actionDescriptor": "Continuous runs",
+        "aLastValidated": new Date(),
+        "pNow": []
+      },
+      "hours": {},
+      "closures": {},
     }
+
+    this.windowData = this.court.windowData;
+
+    this.windowData.gLastValidated.setMinutes(this.windowData.gLastValidated.getMinutes() - 5);
+    this.windowData.aLastValidated.setMinutes(this.windowData.aLastValidated.getMinutes() - 5);
   }
 
 

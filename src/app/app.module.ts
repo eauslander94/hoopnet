@@ -15,6 +15,9 @@ import {Http} from '@angular/http'
 import {AuthHttp, AuthConfig} from 'angular2-jwt';
 //import {Type} from '@angular/core';
 
+// css animation
+import { AnimationService, AnimatesDirective } from 'css-animator';
+
 // pages
 import { HoopMapPage }           from '../pages/hoop-map-page/hoop-map-page';
 import { LoginPage }        from '../pages/login/login';
@@ -63,6 +66,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     ParallaxHeader,
     CourtPage,
     Dbltap,
+    AnimatesDirective,
   ],
   imports: [
     BrowserModule,
@@ -88,6 +92,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
   StatusBar,
   SplashScreen,
   HttpModule,
+  AnimationService,
     // auth0 providider
     { provide: AuthHttp,
       useFactory: (http) => {

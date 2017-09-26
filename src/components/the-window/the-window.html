@@ -37,20 +37,20 @@
 
   <!-- Box describing the activity or life of the court -->
   <div id="activityBox"
-    (dbltap)="onDoubleTap('activity')"
-    (press)="onPress('activity')"
+    (dbltap)="validate('action')"
+    (press)="actionPrompt()"
   >
     <p class="windowHeaders">Action</p>
     <div id="activityWrapper">
       <p [style.color]="getActionColor()">{{windowData.action}}</p>
       <p [style.color]="getActionColor()">{{windowData.actionDescriptor}}</p>
     </div>
-    <p class="livingTimestamp">{{windowData.atime.toLocaleTimeString()}}</p>
+    <p class="livingTimestamp">{{aLivingTimestamp}}</p>
   </div>
 
   <div id="gameList"
-    (dbltap)="onDoubleTap('games')"
-    (press)="onPress('games')"
+    (dbltap)="validate('games')"
+    (press)="presentGamesModal()"
   >
     <!-- The '' -->
     <p class="windowHeaders">Games</p>
@@ -60,10 +60,14 @@
         <div class="oneBasket" *ngFor="let game of windowData.games">
           <p>{{game}}</p><p>on</p><p>{{game}}</p>
         </div>
-
+        <div *ngIf="!windowData.games[0]" id="noGameDiv">
+          <p>
+            No games
+          </p>
+        </div>
     </ion-scroll>
 
     <!-- Living Timestamp -->
-    <p class="livingTimestamp">{{windowData.gtime.toLocaleTimeString()}}</p>
+    <p class="livingTimestamp" #livingTimestamp>{{gLivingTimestamp}}</p>
   </div>
 </ion-card>
