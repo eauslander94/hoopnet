@@ -19,15 +19,15 @@ ion-content {
     background-size: contain;
 }
 
-ion-navbar ion-title{
-  font-family: Quicksand-Bold;
-  color: black;
+.toolbar-background{
+  background-color: #030303;
 }
 
-ion-navbar{
-  background-color: black;
-  opacity: 0.7;
+.toolbar-title{
+  color: $primary;
+  font-family: Quicksand-bold;
 }
+
 
 #selectDiv{
   border-radius: 3px;
@@ -65,7 +65,7 @@ ion-navbar{
 // OneBasket Style
 .oneBasket {
   //background-image:  url('../assets/img/resizedBasket.jpg');
-  background-image: url('../assets/img/basket2.png');
+  background-image: url('../assets/img/basketBlueEmpty.png');
   background-size: 100%;
   background-repeat: no-repeat;
   height: 100%;

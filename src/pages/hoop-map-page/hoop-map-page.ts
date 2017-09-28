@@ -45,7 +45,8 @@ export class HoopMapPage {
   loadMap() {
     // get the location, upon success the callback pulls up the map
     this.geolocation.getCurrentPosition().then((position) => {
-      let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      //let latLng = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+      let latLng = new google.maps.LatLng(40.723697, -73.988818);
 
       let mapOptions = {
         center: latLng,
@@ -54,26 +55,69 @@ export class HoopMapPage {
         styles: [
 
           //hide points of attraction
-          { featureType: 'poi.attraction',
+          { featureType: 'poi',
           stylers: [{"visibility": 'off'}]  },
-          // Hide highways
-          { featureType: 'poi.business',
-          stylers: [{visibility: 'off'}]},
-          // hide poi.government
-          { featureType: 'poi.government',
-          stylers: [{"visibility": 'off'}]  },
-          //hide poi.medical
-          { featureType: 'poi.medical',
-          stylers: [{"visibility": 'off'}]  },
-            //hide poi.places of worshit
-          { featureType: 'poi.place_of_worship',
-          stylers: [{"visibility": 'off'}]  },
-            // Hide highways
-          { featureType: 'road.highway',
-          stylers: [{visibility: 'off'}]},
+          //   // Hide highways
+          // { featureType: 'road.highway',
+          // stylers: [{visibility: 'off'}]},
           // Hide highways
           { featureType: 'landscape.man_made',
-          stylers: [{visibility: 'off'}]}
+          stylers: [{visibility: 'off'}]},
+
+          // Set water to be our primary color;
+          {featureType: 'water',
+          stylers: [{color: '#387ef5'}]},
+          // styling natural landscapes
+          {featureType: 'landscape',
+          stylers: [{color: "#131313"}]},
+
+          // remove road icons
+          {'featureType': 'road',
+          elementType: 'label.icon',
+          'stylers': [{visibility: 'off'}]},
+          // simplify the roads
+          {'featureType': 'road',
+          elementType: 'geometry',
+          'stylers': [
+            {visibility: 'simplified'}
+          ]},
+          // color the roads
+          {featureType: 'road',
+          elementType: 'geometry',
+          stylers:  [{color: '#050505'}]},
+          // simlify transit
+          {'featureType': 'transit',
+          stylers: [{visibility: 'simplified'}]},
+          // hide transit lines
+          {'featureType': 'transit',
+          'elementType': 'geometry',
+          'stylers': [{visibility: 'off'}]},
+
+          // set all text to be simple and off white
+          {'elementType': 'labels.text',
+          stylers: [
+            {color: '#fffff0'},
+            {visibility: 'simplified'}
+          ]},
+
+
+            {'featureType': 'poi.park',
+            'elementType': 'labels.text',
+            stylers: [{visibility: 'simplified'}]},
+
+            // Sports complexes to look like parks
+            {'featureType': 'poi.sports_complex',
+            stylers: [
+              {visibility: 'simplified'},
+              {color: '#131313'}
+            ]},
+
+            {featureType: 'poi.sports_complex',
+            elementType: 'labels.text',
+            stylers:  [{color: '#fffff0'}]},
+
+
+
         ]
             /*
             {
@@ -144,7 +188,7 @@ export class HoopMapPage {
               elementType: 'geometry',
               stylers: [{color: '#17263c'}]
             },
-            {
+            // {
               featureType: 'water',
               elementType: 'labels.text.fill',
               stylers: [{color: '#515c6d'}]

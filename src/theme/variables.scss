@@ -29,14 +29,21 @@ $colors: (
   secondary:  #ff5722,
   danger:     #f53d3d,
   light:      #f4f4f4,
-  dark:       #222
+  dark:       #131313
 
   //navy:       #000059,
   //cement:     #AEB2BA
 );
 
-
 $primary: #387ef5;
+$offWhite : #fffff0;
+$blackshade1: #131313;
+
+$tabs-ios-tab-icon-color: $primary!important;
+$tabs-md-tab-icon-color: $primary!important;
+$tabs-ios-background: $blackshade1;
+$tabs-md-background: $blackshade1;
+
 
 $secondary_text: #757575;
 

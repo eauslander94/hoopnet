@@ -10,6 +10,7 @@ the-window {
     font-family: Quicksand-bold;
     color: black;
     font-size: 3vw;
+    color: $offWhite;
   }
 
   .livingTimestamp{
@@ -27,6 +28,7 @@ ion-card{
   height: 58vw;
   width: 95vw;
   position: relative;
+  background-color: #131313!important;
 }
 
 // The following pertains to the playing now list
@@ -49,6 +51,7 @@ ion-card{
   height: 16vw;
   width: 26vw;
   text-align: center;
+  background-color: #131313!important;
   img {
     height:10vw; width: 10vw;
     margin: auto;
@@ -113,17 +116,16 @@ ion-card{
       height: 16vw;
       width: 16vw;
       margin-left: 6vw;
-      opacity: 0.8;
+      //opacity: .8;
       margin-top: 5vw;
   }
   // text inside of game basket icons
   .oneBasket p{
     font-size: 5vw;
     margin-top: 2.5vw;
-    color: black;
     font-family: bulls;
-    opacity: 1.0!important;
     display: inline-block;
+    color: $offWhite;
   }
   // the 'on'
   .oneBasket p:nth-child(2){
