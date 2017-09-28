@@ -1,77 +1,161 @@
 games-modal {
 
-  // modal wide css
+
+  width: 95vw!important;
+  height: 58vw!important;
+  margin-left: 2.5vw;
+  margin-top: 54vw;
+//  border: 1px solid white;
+
+  background: #080808;
   position: relative;
-  width: 84vw!important;
-  margin-left: 8vw;
 
-  // div which holds the tapable list
-  #gmOptions{
-    position: absolute;  bottom: 14vw;
-    width: 100%;
-    border-radius: 11px;
-    background: white;
-    box-shadow: 0px 2px 2px rgba(0,0,0,.4);
-  }
-
-  // submit button
-  #gamesModalSubmit{
-    width: 100%;  height: 10vw;
-    border-radius: 11px;
-    background: white;
-    box-shadow: 0 2px 2px rgba(0,0,0,.4);
-    margin-top: 0;
-    position: absolute;  bottom: 2vw;
-    color: $primary;  font-size: 5vw;
-  }
-
-  // modal header
-  #modalHeader{
-    //border: 1px solid blue;
-    //height: 11.5vw;
-    height: 14vw;
+  #gmHeader{
+    font-family: Quicksand-regular;
+    color: $offWhite;
     text-align: center;
-  }
+    font-family: 4vw;
+    //border: 1px solid white;
+    height: 15vw;
+    margin-bottom: 0!important;
 
-  #modalErrorMessage{
-    margin-top: 1vw;
-    color: red;
-    font-family: quicksand-bold;
-    font-size: 3.5vw;
-  }
-
-  // header above the tappable list
-  #gameModalTitle{
-    text-align: center;
-    color: black;
-    font-size: 5vw;
-    margin: auto;
-    font-family: quicksand-regular;
-    width: 88%;
-    padding-top: 2vw;
-
-  }
-
-  // the tappable list
-  ion-list{
-    margin-top: 0!important;
-    margin-bottom: 2vw!important;
-
-    // The number of games
-    p{
-      color: $primary!important;
-      font-family: NBA_76ers!important;
-      display: inline; float: right;
+    p:nth-child(1){
+      //border: 1px solid white;
+      margin-top: 3vw;
+      margin-bottom: 0;
     }
+    // error message
+    p:nth-child(2){
+      font-family: quicksand-bold;
+      color: red;
+      //border: 1px solid red;
+      margin-top: 1vw;
+    }
+  }// gmHeader
 
-    // the no games item
-    #noGames{ color: grey!important; }
+  #buttonsDiv{
+    //border: 1px solid red;
+    height: 42vw;
+    width: 95vw;
+    position: absolute;
+    bottom: 0;
+    padding-top: 3px;
+    padding-left: 3px
+  }
 
-    //the tappable items
-    ion-list ion-item{ color: black!important }
+   .gmButton{
+     width: 31.6vw;
+     margin: -2px;
+     display: inline-block;
+     height: 14vw;
+    // margin-left: .5vw;
+     border: 2px solid #080808;
+     background: #131313;
+     //margin-left: 2px!important;
+     position: relative;
 
-    // The clear button
-    ion-item-options button{ background-color: red!important }
-  }//ion-list paren
+     // the div holding'5on5
+     #gmGame{
+      // border: 1px solid white;
+       width: 20vw;
+       position: absolute;
+       top: 2vw;
+       left: 5.8vw;
+       height: 9vw;
+       width: 20vw;
+       padding-left: 1vw;
+       // the game numbers
+       p:nth-child(odd){
+         color: red;
+         font-family: NBA_76ers;
+         font-size: 8vw;
+         margin-top: 0;
+         color: $offWhite;
+       }
+       // the on
+       p:nth-child(even){
+         color: $offWhite;
+         font-family: Quicksand-regular;
+         margin-left: 1vw; margin-right: 1vw;
+       }
+     }
+     p{ display: inline-block; }
+     #gameCount{
+       position: absolute;
+       right: 1vw;
+       bottom: 0;
+       margin-bottom: 0vw!important;
+       font-family: NBA_76ers;
+       color: $primary;
+     }
 
-}//games-modal paren
+   }
+
+   #noGames{
+     p{
+       position: absolute;
+       color: $offWhite;
+       font-family: quicksand-bold;
+      // border: 1px solid white;
+       font-size: 4vw;
+       width: 21vw;
+       left: 5.3vw;
+       padding: auto;
+     }
+   }
+
+   #noGames{
+     p{
+       position: absolute;
+       color: $offWhite;
+       font-family: quicksand-regular;
+      // border: 1px solid white;
+       font-size: 4vw;
+       width: 21vw;
+       left: 5.3vw;
+       padding: auto;
+     }
+   }
+
+   #gmClear{
+     text-align: center;
+     p{
+       color: red;
+       font-family: quicksand-regular;
+      // border: 1px solid white;
+       font-size: 4vw;
+       width: 21vw;
+       left: 5.3vw;
+       padding: auto;
+     }
+   }
+
+   #gmSubmit{
+     text-align: center;
+     p{
+       color: $primary;
+       font-family: quicksand-bold;
+      // border: 1px solid white;
+       font-size: 4vw;
+       width: 21vw;
+       left: 5.3vw;
+       padding: auto;
+     }
+   }
+
+   #gmCancel{
+     text-align: center;
+     p{
+       color: red;
+       font-family: quicksand-regular;
+      // border: 1px solid white;
+       font-size: 4vw;
+       width: 21vw;
+       left: 5.3vw;
+       padding: auto;
+     }
+   }
+
+
+
+}

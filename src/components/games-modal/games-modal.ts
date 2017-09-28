@@ -66,8 +66,8 @@ export class GamesModal {
   }
 
   // post: gamecount is cleared at the given index
-  private clearGamecount(index:number){
+  private clearGamecount(){
     // -1 because the increment event is fired when this button is clicked
-    this.gamecount[index] = -1;
+    this.gamecount = [0, 0, 0, 0, 0, 0]
   }
 }

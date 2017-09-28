@@ -45,7 +45,7 @@
       <p [style.color]="getActionColor()">{{windowData.action}}</p>
       <p [style.color]="getActionColor()">{{windowData.actionDescriptor}}</p>
     </div>
-    <p class="livingTimestamp">{{aLivingTimestamp}}</p>
+    <p class="livingTimestamp" #alivingTimestamp>{{aLivingTimestamp}}</p>
   </div>
 
   <div id="gameList"
@@ -68,6 +68,6 @@
     </ion-scroll>
 
     <!-- Living Timestamp -->
-    <p class="livingTimestamp" #livingTimestamp>{{gLivingTimestamp}}</p>
+    <p class="livingTimestamp" #glivingTimestamp>{{gLivingTimestamp}}</p>
   </div>
 </ion-card>

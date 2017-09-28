@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef } from '@angular/core';
 import { ModalController, ViewController, ActionSheetController } from 'ionic-angular';
 import { GamesModal } from "../games-modal/games-modal";
 import  moment  from 'moment';
@@ -20,7 +20,8 @@ export class TheWindow {
   aLivingTimestamp: any;
 
   // For animation
-  @ViewChild('livingTimestamp') livingTimestamp;
+  @ViewChild('alivingTimestamp') alivingTimestampRef: ElementRef;
+  @ViewChild('glivingTimestamp') glivingTimestampRef: ElementRef;
   @ViewChild('basket') basket;
   private animator: AnimationBuilder;
 
@@ -48,11 +49,6 @@ export class TheWindow {
     this.updateLivingTimestamps();
   }
 
-  ngAfterViewInit(){
-    console.log(this.livingTimestamp);
-  }
-
-
   // validate()
   // param: validated: String - games, action, or both
   // pre: validated is either "games", "action" or "both"
@@ -68,24 +64,22 @@ export class TheWindow {
         break;
       }
       case "games": {
+        this.flash(this.glivingTimestampRef);
         this.windowData.gLastValidated = timeNow;
-        this.gLivingTimestamp = moment(timeNow).fromNow();
+        this.gLivingTimestamp = moment(timeNow).fromNow();  // update the timestamp
         if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
-        this.fadeInRight("");
         break;
       }
       case "action":{
+        this.flash(this.alivingTimestampRef);
         this.windowData.aLastValidated = timeNow;
         this.aLivingTimestamp = moment(timeNow).fromNow();
         if(this.aLivingTimestamp === "a few seconds ago") this.aLivingTimestamp = "just now";
-        this.fadeInRight("");
         break;
       }
       default: break;
     }
   }
-
-
 
   // Post: both living timestamps have been replaced with their current
   //       'ago' values
@@ -97,8 +91,6 @@ export class TheWindow {
     if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
   }
 
-
-
   // presentGamesModal()
   // Pre: User is authenticated and at the court
   // Post: Model which collects information about games being currently played
@@ -108,17 +100,18 @@ export class TheWindow {
     let gamesModal = this.modalCtrl.create(GamesModal,
       {"baskets": this.windowData.baskets});
 
+
     // When the submit button is pressed, set the returned games array to windowdata
     gamesModal.onDidDismiss(data => {
-      this.windowData.games = data;
-      this.validate("games");
+      if(data){
+        this.windowData.games = data;
+        this.validate("games");
+      }
 
       // TO DO: Send new court data to the server
     });
     gamesModal.present();
   }
-
-
 
   // present actionPrompt()
   // pre: User is authenticated and at the court
@@ -153,8 +146,6 @@ export class TheWindow {
     actionPrompt.present();
   }
 
-
-
   //getActionColor()
   // post: color, green, yellow, red, is returned based on the value of action
   private getActionColor(){
@@ -165,8 +156,6 @@ export class TheWindow {
       default: return "black";
     }
   }
-
-
 
   // resetWindowData
   // post: action is set to empty and games array is emptied
@@ -182,12 +171,16 @@ export class TheWindow {
   // fadeInRight(object)
   // param: object - String - the object to be faded in
   // post:  object fades in from the right
-  private fadeInRight(object: String){
-    this.animator.setType('fadeOut').show(this.livingTimestamp.nativeElement);
+  private flash(ref: ElementRef){
+    this.animator.setType('flash').show(ref.nativeElement);
   }
 
   private wiggle(){
     this.animator.setType('shake').show(this.basket.nativeElement);
+  }
+
+  private fadeOut(ref: ElementRef){
+    this.animator.setType('fadeOut').show(ref.nativeElement);
   }
 
 
