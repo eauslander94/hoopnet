@@ -1,0 +1,136 @@
+
+
+courtside-check-in {
+
+    //margin-top: 54vw;
+    width: 100vw!important;
+    height: 100vh!important;
+    margin-left: 0vw;
+
+
+    #hackground{
+      height: 100vh;
+      width: 100vw;
+      position: relative;
+      z-index: -1;
+      opacity: 0.6;
+      background: #030303;
+    }
+
+    #content{
+      width: 95vw;
+      margin-left: 2.5vw;
+      height: 58vw;
+      position: absolute;
+      top: 54vw;
+      //order: 1px solid white;
+      background: #131313;
+    }
+
+    .cciHeader{
+      color: $offWhite;
+      font-family: Quicksand-bold;
+      text-align: center;
+      font-size: 4vw;
+    }
+
+    // //
+    // .goldR{
+    //   width: 95vw;
+    //   height: 59vw;
+    //   margin-left: 2.5vw;
+    //   background: #080808;
+    // }
+
+   #spinDiv{
+      margin-top: 16vw;
+      text-align: center;
+      height: 8vw;
+    }
+
+    #checkedIn{
+      text-align: center;
+      p{
+        color: $offWhite;
+        margin: 0;
+      }
+      p:nth-child(2){
+        font-family: Axis;
+        font-size: 6vw;
+        margin-bottom: 8vw;
+      }
+      p:nth-child(2n - 1){
+        margin-top: 8vw;
+        font-family: Quicksand-regular;
+        font-size: 4vw;
+      }
+      p:nth-child(4){
+        font-family: Quicksand-bold;
+        margin-top: 8vw;
+      }
+    }
+
+    #closebyCourts{
+      p:first-child{margin-bottom: 1vw;}
+      p:nth-child(2){
+        color: $offWhite;
+        font-family: Quicksand-regular;
+        text-align: center;
+        margin-top: 0;
+      }
+      ion-list div{
+        border-top: 2px solid black;
+        height: 13.66vw;
+        width: 100%;
+        //text-align: center;
+
+        p{
+          color: $offWhite;
+          font-family: Axis;
+          font-size: 4vw;
+          margin-left: 3vw;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          width: 95%;
+        }
+      }
+      ion-list div:last-child{border-bottom: 0px solid black;}
+
+    }
+
+    #noCourts{
+      p:first-child{margin-bottom: 1vw;}
+      p:nth-child(2){
+        font-family: Quicksand-regular;
+        font-size: 4vw;
+        color: $offWhite;
+        text-align: center;
+        margin-top: 0;
+      }
+      ion-list div{
+        position: relative;
+        height: 13vw;width: 100%;
+        border-top: 2px solid #010101;
+        p{display: inline-block;}
+        p:first-child{
+          font-family: Axis;
+          color: $offWhite;
+          margin-left: 3vw;
+          //border: 1px solid white;
+          width: 70vw;
+          white-space: nowrap;
+          overflow: hidden;
+          text-overflow: ellipsis;
+        }
+        p:last-child{
+          font-size: 3vw;
+          //border: 1px solid white;
+          //height: 4vw;
+
+          color: $primary;
+        }
+      }
+    }
+
+}

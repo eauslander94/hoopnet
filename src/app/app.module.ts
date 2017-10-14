@@ -36,6 +36,10 @@ import { HoopedCard  } from '../components/hooped-card/hooped-card';
 import { TextPost }    from '../components/text-post/text-post';
 import { PicturePost } from '../components/picture-post/picture-post';
 import { GamesModal }  from '../components/games-modal/games-modal';
+import { ActionModal } from '../components/action-modal/action-modal';
+import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
+import { Closures }    from '../components/closures/closures';
+import { HoursDisplay }from '../components/hours-display/hours-display';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 // Directives
@@ -61,6 +65,10 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     TextPost,
     PicturePost,
     GamesModal,
+    ActionModal,
+    CourtsideCheckIn,
+    Closures,
+    HoursDisplay,
 
     Profile,
     ParallaxHeader,
@@ -84,6 +92,10 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     EnterDetailedInfoPage,
     CourtPage,
     GamesModal,
+    ActionModal,
+    CourtsideCheckIn,
+    Closures,
+    HoursDisplay
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

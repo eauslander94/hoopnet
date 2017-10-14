@@ -1,0 +1,98 @@
+hours-display {
+
+  #hackground{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    z-index: -1;
+  }
+
+  #content{
+    width: 95vw;
+    height: 58vw;
+    margin-left: 3vw;
+    position: absolute;
+    top: 54vw;
+    background: $blackshade1;
+
+    #header{
+      color: $offWhite;
+      font-family: Quicksand-bold;
+      text-align: center;
+      font-size: 4vw;
+      //border: 1px solid white;
+      margin-top: 3vw;
+      margin-bottom: 0;
+    }
+
+    #mfDiff{
+      //border: 1px solid white;
+    }
+
+    #MFSame{}
+
+      .hourWrapper{
+       display: inline-block;
+       margin: auto;
+       //border: 1px solid white;
+       margin-top: 3vw;
+      }
+
+      .hourWrapper p{
+        display: inline-block;
+        color: $offWhite;
+        font-family: Quicksand-regular;
+        font-size: 4vw;
+      }
+
+      .hourWrapper p:nth-child(1){
+        margin-left: 10vw;
+        width: 30vw;
+        color: $primary;
+        font-family: Quicksand-bold;
+
+      }
+
+      .hourWrapper p:nth-child(2){
+        margin-left: 8vw;
+      }
+
+      // when m-f are not the same
+      .hw2{
+        //border: 1px solid red;
+        height: 9.5vw;
+        width: 100%;
+      }
+
+      .hw2 p{
+        display: inline-block;
+        color: $offWhite;
+        font-family: Quicksand-regular;
+        font-size: 4vw;
+      //  border: 1px solid white;
+      }
+
+      .hw2 p:nth-child(2n - 1){
+        color: $primary;
+        width: 10vw;
+        margin-left: 3vw;
+        font-family: Quicksand-bold;
+      }
+
+      .hw2 p:nth-child(2n){
+        width: 32vw;
+      }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+}

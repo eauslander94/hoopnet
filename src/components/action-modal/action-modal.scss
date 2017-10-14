@@ -1,0 +1,68 @@
+action-modal {
+  // margin-top: 54vw;
+  // height: 58vw!important;
+  // width: 95vw!important;
+  // margin-left: 2.5vw;
+  // background: $blackshade1;
+  // //border: 1px solid white;
+
+  #hackground{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    z-index: -1;
+  }
+
+  #content{
+    width: 95vw;
+    height: 58vw;
+    margin-left: 3vw;
+    position: absolute;
+    top: 54vw;
+    background: $blackshade1;
+  }
+
+  #content div{
+    height: 25%;
+    width: 100%;
+    //border: 1px solid blue;
+  }
+  // header div
+  #amHeader{
+    text-align: center;
+    // header text
+    height: 12vw!important;
+    p{
+      color: $offWhite;
+      font-family: Quicksand-bold;  font-size: 4vw;
+      margin-top: 2vw;
+    //  border: 1px solid green;
+    }
+  }
+
+  .amOptions{
+    border-top: 2px solid #080808;
+    p{display: inline-block}
+    p:first-child{
+      font-family: Axis;
+      color: white;
+      font-size: 5vw;
+     //border: 1px solid white;
+      width: 23vw;
+      height: 7vw;  margin-top: 3.75vw;
+      margin-left: 3.75vw;
+    }
+
+    p:last-child{
+
+      font-family: Quicksand-regular;
+      color: $offWhite;
+      margin-left: 3.75vw;
+    //  border-left: 2px solid black;
+      padding-left: 3.75vw;
+    }
+  }
+
+
+
+}

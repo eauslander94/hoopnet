@@ -1,0 +1,59 @@
+<div tappable id="hackground" (tap)="viewCtrl.dismiss()"></div>
+
+<div id="content">
+  <p id="header">
+    Hours
+  </p>
+
+  <div id="MFsame" *ngIf="MFsame">
+  <div class="hourWrapper">
+    <p>mon - fri</p>
+    <p>{{openTimes[0]}} - {{closeTimes[0]}}</p>
+  </div>
+
+    <div class="hourWrapper">
+      <p>sat</p>
+      <p>{{openTimes[5]}} - {{closeTimes[5]}}</p>
+    </div>
+
+    <div class="hourWrapper">
+      <p>sun</p>
+      <p>{{openTimes[6]}} - {{closeTimes[6]}}</p>
+    </div>
+  </div>
+
+
+  <div id="mfDiff" *ngIf="!MFsame">
+    <div class='hw2'>
+      <p>mon</p>
+      <p>{{openTimes[0]}} - {{closeTimes[0]}}</p>
+
+      <p>sat</p>
+      <p>{{openTimes[5]}} - {{closeTimes[5]}}</p>
+    </div>
+
+    <div class='hw2'>
+      <p>tue</p>
+      <p>{{openTimes[1]}} - {{closeTimes[1]}}</p>
+
+      <p>sun</p>
+      <p>{{openTimes[6]}} - {{closeTimes[6]}}</p>
+    </div>
+
+    <div class='hw2'>
+      <p>wed</p>
+      <p>{{openTimes[2]}} - {{closeTimes[2]}}</p>
+    </div>
+
+    <div class='hw2'>
+      <p>thu</p>
+      <p>{{openTimes[3]}} - {{closeTimes[3]}}</p>
+
+    </div>
+
+    <div class='hw2'>
+      <p>fri</p>
+      <p>{{openTimes[4]}} - {{closeTimes[4]}}</p>
+    </div>
+  </div>
+</div>

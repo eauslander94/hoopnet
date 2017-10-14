@@ -1,0 +1,24 @@
+<div tappable id="hackground" (tap)="viewCtrl.dismiss()"></div>
+
+<div id="content">
+  <div id="amHeader">
+    <p>Describe the court action<br />using one of the options below</p>
+  </div>
+
+  <div tappable class="amOptions"
+  (tap)="this.viewCtrl.dismiss({'action': 'active', 'actionDescriptor': 'continuous runs'})">
+    <p style="color: green;">Active</p><p>continuous runs</p>
+  </div>
+
+
+
+  <div tappable class="amOptions"
+  (tap)="this.viewCtrl.dismiss({'action': 'packed', 'actionDescriptor': 'long wait times'})">
+    <p style="color: red">packed</p><p>long wait times</p>
+  </div>
+
+  <div tappable class="amOptions"
+  (tap)="this.viewCtrl.dismiss({'action': 'empty', 'actionDescriptor': 'need more players'})">
+    <p style="color: #FFB300">empty</p><p>need more players</p>
+  </div>
+</div>

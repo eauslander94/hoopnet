@@ -29,14 +29,17 @@ export class CourtPage {
       "name": "Tompkins Square Park",
       "type": "indoor",
       // a latLng location
-      "location": {},
+      "location": {
+        lat: "",
+        lng: "",
+      },
       "baskets": 4,
       "windowData": {
         "baskets": 4,
         "games": ["5", "4", "2"],
         "gLastValidated": new Date(),
         "action": "Active",
-        "actionDescriptor": "Continuous runs",
+        "actionDescriptor": "continuous runs",
         "aLastValidated": new Date(),
         "pNow": []
       },

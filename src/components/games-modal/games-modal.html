@@ -1,110 +1,63 @@
+<div tappable id="hackground" (tap)="viewCtrl.dismiss()"></div>
 
-<div id="gmHeader">
-  <p>Tap the games that you see</p>
-  <p *ngIf="errorMessageShowing">This court only has {{courtBaskets}} baskets</p>
+<div id="content">
+
+  <div id="gmHeader">
+    <p>Tap the games that you see</p>
+    <p *ngIf="errorMessageShowing">This court only has {{courtBaskets}} baskets</p>
+  </div>
+  <div id="buttonsDiv">
+    <div tappable class="gmButton" (click)="incrementGamecount(5)">
+        <div id="gmGame">
+          <p>5</p><p>on</p><p>5</p>
+        </div>
+      <p id="gameCount" *ngIf="gamecount[5] !== 0">{{gamecount[5]}}</p>
+    </div>
+
+    <div tappable class="gmButton"(click)="incrementGamecount(4)">
+        <div id="gmGame">
+          <p>4</p><p>on</p><p>4</p>
+        </div>
+      <p id="gameCount" *ngIf="gamecount[4] !== 0">{{gamecount[4]}}</p>
+    </div>
+
+    <div tappable class="gmButton" (click)="incrementGamecount(3)">
+        <div id="gmGame">
+          <p>3</p><p>on</p><p>3</p>
+        </div>
+      <p id="gameCount" *ngIf="gamecount[3] !== 0">{{gamecount[3]}}</p>
+    </div>
+
+    <div tappable class="gmButton" (click)="incrementGamecount(2)">
+        <div id="gmGame">
+          <p>2</p><p>on</p><p>2</p>
+        </div>
+      <p id="gameCount" *ngIf="gamecount[2] !== 0">{{gamecount[2]}}</p>
+    </div>
+
+    <div tappable class="gmButton" (click)="incrementGamecount(1)">
+        <div id="gmGame">
+          <p>1</p><p>on</p><p>1</p>
+        </div>
+      <p id="gameCount" *ngIf="gamecount[1] !== 0">{{gamecount[1]}}</p>
+    </div>
+
+    <div tappable class="gmButton" id="noGames" (tap)="noGamesPressed()">
+      <p>no games</p>
+    </div>
+
+    <div tappable class="gmButton" id="gmClear" (tap)="clearGamecount()">
+      <p>reset</p>
+    </div>
+
+    <div tappable class="gmButton" id="gmSubmit" (click)="submit()">
+      <p>Submit</p>
+    </div>
+
+    <div tappable class="gmButton" id="gmCancel" (click)="closeModal()">
+      <p>cancel</p>
+    </div>
+
+
+  </div>
 </div>
-<div id="buttonsDiv">
-  <div class="gmButton" (click)="incrementGamecount(5)">
-      <div id="gmGame">
-        <p>5</p><p>on</p><p>5</p>
-      </div>
-    <p id="gameCount" *ngIf="gamecount[5] !== 0">{{gamecount[5]}}</p>
-  </div>
-
-  <div class="gmButton" (click)="incrementGamecount(4)">
-      <div id="gmGame">
-        <p>4</p><p>on</p><p>4</p>
-      </div>
-    <p id="gameCount" *ngIf="gamecount[4] !== 0">{{gamecount[4]}}</p>
-  </div>
-
-  <div class="gmButton" (click)="incrementGamecount(3)">
-      <div id="gmGame">
-        <p>3</p><p>on</p><p>3</p>
-      </div>
-    <p id="gameCount" *ngIf="gamecount[3] !== 0">{{gamecount[3]}}</p>
-  </div>
-
-  <div class="gmButton" (click)="incrementGamecount(2)">
-      <div id="gmGame">
-        <p>2</p><p>on</p><p>2</p>
-      </div>
-    <p id="gameCount" *ngIf="gamecount[2] !== 0">{{gamecount[2]}}</p>
-  </div>
-
-  <div class="gmButton" (click)="incrementGamecount(1)">
-      <div id="gmGame">
-        <p>1</p><p>on</p><p>1</p>
-      </div>
-    <p id="gameCount" *ngIf="gamecount[1] !== 0">{{gamecount[1]}}</p>
-  </div>
-
-  <div class="gmButton" id="noGames" (tap)="noGamesPressed()">
-    <p>no games</p>
-  </div>
-
-  <div class="gmButton" id="gmClear" (tap)="clearGamecount()">
-    <p>reset</p>
-  </div>
-
-  <div class="gmButton" id="gmSubmit" (click)="submit()">
-    <p>Submit</p>
-  </div>
-
-  <div class="gmButton" id="gmCancel" (click)="closeModal()">
-    <p>cancel</p>
-  </div>
-
-
-</div>
-
-
-<!-- <div id=gmOptions>
-<div id="modalHeader">
-  <p id="gameModalTitle">Tap the games that you see</p>
-  <p id="modalErrorMessage" *ngIf="errorMessageShowing">
-    This court only has {{courtBaskets}} baskets
-  </p>
-</div>
-
-  <ion-list>
-    <ion-item-sliding (click)="incrementGamecount(5)">
-      <ion-item>5 on 5<p *ngIf="gamecount[5] !== 0">{{gamecount[5]}}</p></ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="#ff0000" (click)="clearGamecount(5)">clear</button>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding (click)="incrementGamecount(4)">
-      <ion-item>4 on 4 <p *ngIf="gamecount[4] !== 0">{{gamecount[4]}}</p></ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="#ff0000" (click)="clearGamecount(4)">clear</button>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding (click)="incrementGamecount(3)">
-      <ion-item>3 on 3 <p *ngIf="gamecount[3] !== 0">{{gamecount[3]}}</p></ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="#ff0000" (click)="clearGamecount(3)">clear</button>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding (click)="incrementGamecount(2)">
-      <ion-item>2 on 2 <p *ngIf="gamecount[2] !== 0">{{gamecount[2]}}</p></ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="#ff0000" (click)="clearGamecount(2)">clear</button>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item-sliding (click)="incrementGamecount(1)">
-      <ion-item>1 on 1 <p *ngIf="gamecount[1] !== 0">{{gamecount[1]}}</p></ion-item>
-      <ion-item-options side="right">
-        <button ion-button color="#ff0000" (click)="clearGamecount(1)">clear</button>
-      </ion-item-options>
-    </ion-item-sliding>
-
-    <ion-item no-lines id="noGames" (tap)="noGamesPressed()">no games</ion-item>
-  </ion-list>
-</div>
-
-<button id="gamesModalSubmit" (tap)="submit()" class="">Submit</button> -->

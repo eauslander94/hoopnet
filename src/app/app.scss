@@ -24,9 +24,46 @@ ion-content {
 }
 
 .toolbar-title{
-  color: $primary;
-  font-family: Quicksand-bold;
+  color: $offWhite;
+  font-family: Axis;
 }
+
+#courtside{
+  background-image: url('../assets/img/whiteCourt.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  //border: 1px solid red;
+  height: 6vw;
+  width:8vw;
+  background-color: #030303
+}
+
+// OneBasket Style
+.oneBasket {
+  //background-image:  url('../assets/img/resizedBasket.jpg');
+  background-image: url('../assets/img/basketBlueEmpty.png');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  height: 100%;
+  width: 100%;
+  display: inline-block;
+  text-align: center;
+  font-family: NBA_76ers;
+  //border: 1px solid black;
+}
+
+//Action sheet styling
+.action-sheet-options, .action-sheet-group{
+  background: #131313!important;
+
+  button{
+    background: #131313!important;
+  }
+}
+
+
+
+
 
 
 #selectDiv{
@@ -62,19 +99,6 @@ ion-content {
   background-size: 100%;
 }
 
-// OneBasket Style
-.oneBasket {
-  //background-image:  url('../assets/img/resizedBasket.jpg');
-  background-image: url('../assets/img/basketBlueEmpty.png');
-  background-size: 100%;
-  background-repeat: no-repeat;
-  height: 100%;
-  width: 100%;
-  display: inline-block;
-  text-align: center;
-  font-family: NBA_76ers;
-  //border: 1px solid black;
-}
 
 @font-face {
   font-family: "bulls";
@@ -85,6 +109,18 @@ ion-content {
 @font-face {
   font-family: "NBA_76ers";
   src: url("../assets/fonts/NBA_76ers.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Axis";
+  src: url("../assets/fonts/Axis.otf") format("opentype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AxisLower";
+  src: url("../assets/fonts/AxisLower.otf") format("opentype");
   font-style: normal;
 }
 

@@ -29,6 +29,8 @@ export class Profile {
       // for now, string link to the image
       "avatar": '../assets/img/sampleAvatar.jpg',
       "backgroundImage": "https://i.amz.mshcdn.com/kJsKVWzrBmN0e7A4xwcbAyGm9DI=/fit-in/1200x9600/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F108414%2FGettyImages-638822.jpg",
+      // pointer to the court object the user is beside
+      "courtside": {},
     }
   }
 

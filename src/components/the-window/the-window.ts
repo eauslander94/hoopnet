@@ -1,6 +1,7 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { ModalController, ViewController, ActionSheetController } from 'ionic-angular';
-import { GamesModal } from "../games-modal/games-modal";
+import { ModalController, ViewController } from 'ionic-angular';
+import { GamesModal }  from "../games-modal/games-modal";
+import { ActionModal } from '../action-modal/action-modal';
 import  moment  from 'moment';
 import {Observable} from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
@@ -25,8 +26,7 @@ export class TheWindow {
   @ViewChild('basket') basket;
   private animator: AnimationBuilder;
 
-  constructor (public modalCtrl: ModalController, public actionSheetCtrl: ActionSheetController,
-    private animationService: AnimationService) {
+  constructor (public modalCtrl: ModalController, private animationService: AnimationService) {
 
     // Update the living timestamps every minute
     Observable.interval(1000 * 60).subscribe( x => {
@@ -95,6 +95,7 @@ export class TheWindow {
   // Pre: User is authenticated and at the court
   // Post: Model which collects information about games being currently played
   //    is presented
+  // Post: Data received is sent to server
   private presentGamesModal(){
     // Pass in the number of baskets at the court
     let gamesModal = this.modalCtrl.create(GamesModal,
@@ -113,38 +114,28 @@ export class TheWindow {
     gamesModal.present();
   }
 
-  // present actionPrompt()
-  // pre: User is authenticated and at the court
-  // post: action sheet is presented, collects data about current action,
-  //       and sends it to the server.
-  actionPrompt() {
+  // presentActionModal()
+  // Pre: User is authenticated and at the court
+  // Post: Modal which collects information about court action is presented
+  // Post: Data received is sent to server
+  private presentActionModal(){
 
-    let actionPrompt = this.actionSheetCtrl.create({
-      title: 'Describe the court\'s action',
-      buttons: [
-        {text: "Active", handler:()=> {
-          this.windowData.action = "Active"
-          this.windowData.actionDescriptor = "Continuous runs";
-          this.validate("action");
-          // TO DO: send this data to the server
-        }},
-        {text:'Packed', handler:()=> {
-          this.windowData.action = "Packed";
-          this.windowData.actionDescriptor = "Long wait times";
-          this.validate("action");
-          //TO DO: send this data to server
-        }},
-        {text: 'Empty', handler: () => {
-          this.windowData.action = "Empty"
-          this.windowData.actionDescriptor = "Need more players";
-          this.validate("action");
-          // TO DO: send this data to the server
-          }},
-        {text: 'Cancel', role:'cancel', handler:()=> {}}
-      ]
+    let actionModal = this.modalCtrl.create(ActionModal,
+      {showBackdrop: true, enableBackdropDismiss: true});
+
+    actionModal.onDidDismiss(data => {
+      if(data){
+        // TO DO: send this data to the server
+
+        this.windowData.action = data.action;
+        this.windowData.actionDescriptor = data.actionDescriptor;
+        this.validate("action");
+      }
     })
-    actionPrompt.present();
+
+    actionModal.present();
   }
+
 
   //getActionColor()
   // post: color, green, yellow, red, is returned based on the value of action

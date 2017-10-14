@@ -1,0 +1,130 @@
+closures {
+
+  height: 100vh;
+  width: 100vw;
+  background: #020202;
+  button{
+    ion-icon{
+      font-size: 8vw;
+    }
+  }
+
+  .toolbar-title{
+    font-family: Quicksand-bold;
+  }
+
+// The top tabs
+  #topTab{
+    width: 100vw;    height: 12vw;
+    margin-top: 12vw;
+    background: #080808;
+    // each tab
+    div{
+      display: inline-block;
+      width: 50%;
+      margin:-1px;
+      //border-right: 1px solid white;
+      text-align: center;
+    }
+    // put a border between the two
+    div:first-child{  border-right: 2px solid #020202;}
+    p{
+      color: $offWhite;
+      font-family: Quicksand-regular;
+      font-size: 4vw;
+    }
+  }
+  // The top tab that is currently selected
+  .active{
+    p{
+      font-family: Quicksand-bold!important;
+      color: $primary!important;
+    }
+  }
+
+  ion-list{ padding-top: 5vw;}
+
+  #closureWrapper{
+  //  border: 1px solid red;
+    margin-bottom: 3vw;
+  //  box-shadow: 1px 1px 1px 1px;
+    background: #080808;
+  }
+
+  #closure{
+    height: 20vw;
+    width: 100vw;
+    background: #080808;
+
+    // Holds the time, the baskets and the days
+    #closureHeader{
+      //border: 1px solid blue;
+      height: 7vw;
+      text-align: center;
+      border-bottom: 1px solid #131313;
+      p{
+        margin-top: 1vw;
+        //border: 1px solid white;
+        color: $offWhite;
+        display: inline-block;
+        font-family: Quicksand-regular;
+        font-size: 3.5vw;
+      }
+      #days{
+        display: inline-block;
+        width: 32%;
+        p{
+          margin-left: .5vw;
+          margin-right: .5vw;
+        }
+      }
+    }
+
+    // The baskets and the time
+    #closureHeader > p{width: 33%;}
+
+    #reasonFlag {
+      height: 13vw;
+      p{
+        color: $offWhite;
+        font-size: 6vw;
+        margin-left: 3vw;
+        display: inline-block;
+        //border: 1px solid white;
+        height: 8vw;
+        margin-top: 3vw;
+      }
+      div{
+        margin-top: 3vw;
+        height: 8vw;
+        width: 7vw;
+        float: right;
+        //border: 1px solid white;
+
+        ion-icon{
+          color: $primary;
+          font-size: 7vw;
+          //border: 1px solid white;
+          height: 8vw;
+          //border: 1px solid white;
+        }
+        .ion-icon{
+          color: $primary;
+          font-size: 7vw;
+          //border: 1px solid white;
+          height: 8vw;
+          //border: 1px solid white;
+        }
+      }
+    }
+  }
+
+#addClosure{
+  position: fixed;
+  bottom: 0;
+  background-color: #030303;
+  border: 2px solid #131313;
+  //font-family: Quicksand-bold;
+}
+
+}

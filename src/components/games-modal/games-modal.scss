@@ -1,17 +1,29 @@
 games-modal {
 
+  width: 100vw!important;
+  height: 100vh!important;
 
-  width: 95vw!important;
-  height: 58vw!important;
-  margin-left: 2.5vw;
-  margin-top: 54vw;
-//  border: 1px solid white;
-
-  background: #080808;
   position: relative;
 
+  #hackground{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    z-index: -1;
+  }
+
+  #content{
+    width: 95vw;
+    height: 58vw;
+    position: absolute;
+    top: 54vw;
+    margin-left:2.5vw;
+    background: #080808;
+  }
+
+
   #gmHeader{
-    font-family: Quicksand-regular;
+    font-family: Quicksand-bold;
     color: $offWhite;
     text-align: center;
     font-family: 4vw;
@@ -60,7 +72,7 @@ games-modal {
        width: 20vw;
        position: absolute;
        top: 2vw;
-       left: 5.8vw;
+       left: 5.7vw;
        height: 9vw;
        width: 20vw;
        padding-left: 1vw;
@@ -68,7 +80,7 @@ games-modal {
        p:nth-child(odd){
          color: red;
          font-family: NBA_76ers;
-         font-size: 8vw;
+         font-size: 7.5vw;
          margin-top: 0;
          color: $offWhite;
        }
@@ -107,7 +119,7 @@ games-modal {
    #noGames{
      p{
        position: absolute;
-       color: $offWhite;
+       color: red;
        font-family: quicksand-regular;
       // border: 1px solid white;
        font-size: 4vw;

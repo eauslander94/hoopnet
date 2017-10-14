@@ -1,35 +1,66 @@
-<ion-card>
+<div id="windowWrapper">
   <!-- Displaying those who are currently at the court -->
   <div id="playingNow">
     <p class="windowHeaders">Players</p>
-    <ion-scroll scrollX="true" class="item">
+    <ion-scroll scrollX="true">
 
 <!-- The Iverson Heads -->
-      <ion-item no-lines>
-          <ion-avatar>
-            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </ion-avatar>
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
           <p>Allen Iverson</p>
-        </ion-item>
+        </div>
 
-        <ion-item no-lines>
-          <ion-avatar>
-            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </ion-avatar>
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
           <p>Allen Iverson</p>
-        </ion-item>
-        <ion-item no-lines>
-          <ion-avatar>
-            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </ion-avatar>
+        </div>
+
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
           <p>Allen Iverson</p>
-        </ion-item>
-        <ion-item no-lines>
-          <ion-avatar>
-            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </ion-avatar>
+        </div>
+
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
           <p>Allen Iverson</p>
-        </ion-item>
+        </div>
+
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
+          <p>Allen Iverson</p>
+        </div>
+
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
+          <p>Allen Iverson</p>
+        </div>
+
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
+          <p>Allen Iverson</p>
+        </div>
+
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
+          <p>Allen Iverson</p>
+        </div>
+
 
 
     </ion-scroll>
@@ -38,7 +69,7 @@
   <!-- Box describing the activity or life of the court -->
   <div id="activityBox"
     (dbltap)="validate('action')"
-    (press)="actionPrompt()"
+    (press)="presentActionModal()"
   >
     <p class="windowHeaders">Action</p>
     <div id="activityWrapper">
@@ -70,4 +101,4 @@
     <!-- Living Timestamp -->
     <p class="livingTimestamp" #glivingTimestamp>{{gLivingTimestamp}}</p>
   </div>
-</ion-card>
+</div>

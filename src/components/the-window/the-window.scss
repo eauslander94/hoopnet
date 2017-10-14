@@ -3,14 +3,17 @@ the-window {
   width: 100vw;
   position: relative;
 
+
   // Classes used across the window
   .windowHeaders {
     margin-left: 1vw;
-    margin-top: 1vw;
+    margin-top: .5vw;
     font-family: Quicksand-bold;
     color: black;
     font-size: 3vw;
     color: $offWhite;
+    margin-bottom: 0;
+    //border: 1px solid red;
   }
 
   .livingTimestamp{
@@ -19,84 +22,95 @@ the-window {
     font-size: 3vw;
     position: absolute;
     right: 1vw;
-    bottom: 1vw;
+    bottom: -2vw;
+    color: grey;
   }
-
 }
 
-ion-card{
-  height: 58vw;
+#windowWrapper{
+  height:58vw;
   width: 95vw;
   position: relative;
-  background-color: #131313!important;
+  background-color: #101010;
+  margin-left: 2.5vw;
 }
 
 // The following pertains to the playing now list
 #playingNow{
   height: 22vw; width: 100%;
-  margin: auto;
+  border-bottom: 2px solid #010101;
+  padding-top: .1vw;
 }
 #playingNow ion-scroll{
-//  border: 1px solid green;
+  //border: 1px solid blue;
   height: 18vw;
   white-space: nowrap;
   overflow: hidden;
   overflow-x: scroll;
-  // for the bottom border
-  border-bottom: 1px solid grey;
-  width: 98%; margin: auto;
 }
-#playingNow ion-scroll ion-item{
+
+.playerBox{
   display: inline-block;
-  height: 16vw;
+  height: 17vw;
   width: 26vw;
   text-align: center;
-  background-color: #131313!important;
-  img {
-    height:10vw; width: 10vw;
-    margin: auto;
-    padding: .5vw;
-    border: 2px solid $primary;
+  position: relative;
+  .avatarWrapper{
+    height: 14vw;
+    padding-top: 2vw;
+    img {
+      border-radius: 25px;
+      height:11vw; width: 11vw;
+      margin: auto;
+      padding: .5vw;
+      border: 2px solid $primary;
+      margin-bottom: 0;
+    }
   }
   p{
-    //margin-top: 1vw;
+    margin-top: -1vw;
     font-size: 3vw;
     font-family: quicksand-regular;
+    color: grey;
   }
+}
 
+#playingNow ion-scroll ion-item:first-child{
+  img{
+    border: 2px solid green;
+  }
 }
 
 // The following all pertains to the activityBox
 #activityBox{
-  height: 33vw; width: 38%;
-  margin-top: 1vw; margin-bottom: 1vw;
-  border-right: 1px solid grey;
+  height: 36vw; width: 38%;
+  //margin-top: 1vw; margin-bottom: 1vw;
+  border-right: 2px solid #010101;
   //margin-top: 1vw;  margin-bottom: 1vw;
   display: inline-block;
   position: relative;
 
   #activityWrapper{
     text-align: center;
-    margin-top: 7vw;
+    margin-top: 5.5vw;
     p:nth-child(1){
-      font-family: bulls;
-      font-size: 9vw;
+      font-family: Axis;  font-size: 7vw;
       width: 100%;  margin: auto;
-      color: green;
     }
     p:nth-child(2){
+      margin-top: 0vw;
       font-family: Quicksand-bold;
-      font-size: 3.3vw;
+      font-size: 4vw;
     }
   }
 
   // To account for the extra margin created by the border
-  p:nth-child(1){
-    margin-top: 0;
-  }
-  p:nth-child(3){
-    bottom: 0;
-  }
+  // p:nth-child(1){
+  //   margin-top: 0;
+  // }
+  // p:nth-child(3){
+  //   bottom: 0;
+  // }
 }
 /////////////////////////////////////////////////
 //////////  End of Activity Box  ////////////////
@@ -105,7 +119,6 @@ ion-card{
 
 // The following all pertain to the game list
 #gameList{
-  //border: 2px solid black;
   height: 36vw; width: 62%;
   display: inline-block;
   float: right;
@@ -129,9 +142,10 @@ ion-card{
   }
   // the 'on'
   .oneBasket p:nth-child(2){
-    font-size: 4vw;
+    font-size: 3.5vw;
     margin-left: .5vw;
     margin-right: .3vw;
+    font-family: bulls
   }
 
 }
@@ -143,11 +157,13 @@ ion-card{
   }
 
 #noGameDiv{
-  height: 16vw;
+  height: 12vw;
   margin-top: 6.5vw;
-  margin-left: 3vw;
+  //border: 1px solid white;
+  //margin-left: 3vw;
+  text-align: center;
   p{
-    font-family: bulls;
-    color: grey; font-size: 9vw;
+    font-family: Axis;
+    color: grey; font-size: 8vw;
   }
 }

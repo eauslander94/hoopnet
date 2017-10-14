@@ -1,6 +1,6 @@
 // ionic imports
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, PopoverController, AlertController } from 'ionic-angular';
+import { NavController, PopoverController, AlertController, ModalController } from 'ionic-angular';
 // Map imports
 import { Geolocation } from '@ionic-native/geolocation';
 // communication with server
@@ -10,6 +10,9 @@ import { Response } from '@angular/http';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
 import { CourtPage }  from '../../pages/court-page/court-page';
+import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
+import { Closures } from '../../components/closures/closures';
+import { HoursDisplay } from '../../components/hours-display/hours-display';
 
 declare var google: any;
 
@@ -23,6 +26,7 @@ export class HoopMapPage {
   map: any;
   test: any;
   dummy: any;
+  court: any;
 
   allCourtsObservable: Observable<Response>;
 
@@ -31,7 +35,49 @@ export class HoopMapPage {
               public geolocation: Geolocation,
               public courtDataService: CourtDataService,
               public popoverCtrl: PopoverController,
-              private alertCtrl: AlertController) {}
+              private alertCtrl: AlertController,
+              private modalCtrl: ModalController) {
+
+    this.court = {
+      closures: [{
+        clStart: new Date(10),
+        clEnd: new Date(12),
+        reason: "3 on 3 Tournament",
+        baskets: 4,
+        // sunday(index 0) to saturday(index 6) -
+        // 1 in the index means closure is on that day
+        // 2 in the index means it repeats every week on that day
+        days: [1, 0, 0, 0, 0, 0, 2],
+        repeat: false
+      },
+        {clStart: new Date(16),
+        clEnd: new Date(18),
+        reason: "Mens Soccer Practice",
+        baskets: 4,
+        days: [2, 0, 0, 0, 0, 2, 0],
+        repeat: true
+      },
+      {clStart: new Date(16),
+      clEnd: new Date(18),
+      reason: "Mens Basketball Practice",
+      baskets: 4,
+      days: [1, 0, 0, 0, 0, 0, 1],
+      repeat: true
+    },
+    {clStart: new Date(16),
+    clEnd: new Date(18),
+    reason: "Girls Soccer Practice3",
+    baskets: 4,
+    days: [2, 0, 0, 0, 0, 0, 1],
+    repeat: true
+  }],
+
+  // monday(0) - sunday(6) based arrays, representing the time that the court
+  //  opens and closes
+  openTimes: ['6:00a', '6:00a', '6:00a', '6:00a', '6:00a', '8:00a', '8:00a'],
+  closeTimes: ['11:00p','7:00p','11:00p','11:00p','11:00p','10:30p','8:00p']
+    }
+  }
 
 
   // load the map when the page has loaded
@@ -116,113 +162,65 @@ export class HoopMapPage {
             elementType: 'labels.text',
             stylers:  [{color: '#fffff0'}]},
 
+            {featureType: 'administrative.neighborhood',
+            "elementType": "labels",
+            stylers: [{visibility: "none"}]},
 
+            // set all text to be simple and off white
+            {'elementType': 'labels.text',
+            stylers: [
+              {color: '#fffff0'},
+              {visibility: 'simplified'}
+            ]},
 
         ]
-            /*
-            {
-              featureType: 'administrative.locality',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
-            },
-            {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
-            {elementType: 'labels.text.fill', stylers: [{color: '#746855'}]},
-            {
-              featureType: 'poi',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
-            },
-            {
-              featureType: 'poi.park',
-              elementType: 'geometry',
-              stylers: [{color: '#263c3f'}]
-            },
-            {
-              featureType: 'poi.park',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#6b9a76'}]
-            },
-            {
-              featureType: 'road',
-              elementType: 'geometry',
-              stylers: [{color: '#38414e'}]
-            },
-            {
-              featureType: 'road',
-              elementType: 'geometry.stroke',
-              stylers: [{color: '#212a37'}]
-            },
-            {
-              featureType: 'road',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#9ca5b3'}]
-            },
-            {
-              featureType: 'road.highway',
-              elementType: 'geometry',
-              stylers: [{color: '#746855'}]
-            },
-            {
-              featureType: 'road.highway',
-              elementType: 'geometry.stroke',
-              stylers: [{color: '#1f2835'}]
-            },
-            {
-              featureType: 'road.highway',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#f3d19c'}]
-            },
-            {
-              featureType: 'transit',
-              elementType: 'geometry',
-              stylers: [{color: '#2f3948'}]
-            },
-            {
-              featureType: 'transit.station',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#d59563'}]
-            },
-            {
-              featureType: 'water',
-              elementType: 'geometry',
-              stylers: [{color: '#17263c'}]
-            },
-            // {
-              featureType: 'water',
-              elementType: 'labels.text.fill',
-              stylers: [{color: '#515c6d'}]
-            },
-            {
-              featureType: 'water',
-              elementType: 'labels.text.stroke',
-              stylers: [{color: '#17263c'}]
-            }
-          ]*/
+
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
       }, (err) => { console.log(err) });
-
-      // Once the map has loaded, call getCourts
-      // This behavior will be cleanly implemented come polishing time
-      /*google.maps.event.addListenerOnce(this.map, 'tilesloaded', function(){
-        this.getCourts();
-      });*/
- }
-
-
- // Post: 1) allCourtsObservable is set to the new observable returned bycourtDataService
- //       2)processResponse is called upon successful reception of res
-  getCourts(){
-    this.courtDataService.getAllCourts()
-      .subscribe(
-        // here we extract the array of courts and call populate map
-        res => { this.processResponse(res) },
-        error => {this.dummy += error},
-        () => {}
-      );
   }
 
+
+  // post: courtsideCheckIn modal is presented, starting courtside behavior
+  // pre: User is authenticated
+  presentCourtsideCheckIn(){
+    let cci = this.modalCtrl.create(CourtsideCheckIn, {showBackdrop: false});
+
+    // handle the response
+    cci.onDidDismiss(data =>{
+      // Move map if that is what data returned said to do
+      if(data.moveMap){
+        this.map.setCenter(new google.maps.LatLng(data.location.lat, data.location.lng))
+        this.map.setZoom(15);
+      }
+    })
+
+    cci.present();
+  }
+
+  // Post: 1) allCourtsObservable is set to the new observable returned bycourtDataService
+  //       2)processResponse is called upon successful reception of res
+   getCourts(){
+     this.courtDataService.getAllCourts()
+       .subscribe(
+         // here we extract the array of courts and call populate map
+         res => { this.processResponse(res) },
+         error => {this.dummy += error},
+         () => {}
+       );
+   }
+
+  // post: Closures component is presented
+  presentClosures(){
+    this.modalCtrl.create(Closures, {"closures": this.court.closures}).present();
+  }
+
+  // post: Hours display is presented
+  presentHours(){
+    this.modalCtrl.create
+      (HoursDisplay,{"ot": this.court.openTimes, "ct":this.court.closeTimes})
+      .present();
+  }
 
  // Param: a response object containing an array of courts
  // Post: Each court is added to the map

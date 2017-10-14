@@ -1,0 +1,148 @@
+import { Component } from '@angular/core';
+import { ViewController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import moment from 'moment';
+
+
+@Component({
+  selector: 'closures',
+  templateUrl: 'closures.html'
+})
+export class Closures {
+
+  closures: Array<any>;
+  dayOfWeek: number;
+
+  // Whether or not we are displaying today's closures or the regular closures
+  showing: String;
+
+  constructor(public viewCtrl: ViewController, private params: NavParams,
+    public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
+    this.closures = params.get('closures');
+
+    // format our dates into sexy timeStrings
+    for(let closure of this.closures){
+      closure.tss = moment(closure.clStart).format('h:mma');
+      closure.tss = closure.tss.substring(0, closure.tss.length - 1);
+      closure.tse = moment(closure.clEnd).format('h:mma');
+      closure.tse = closure.tse.substring(0, closure.tse.length - 1);
+    }
+
+    // Check up on this when you get internet
+    this.dayOfWeek = new Date().getDay();
+
+    this.showing = "today";
+  }
+
+  // post: Yesterday's single day closures have been removed from each closure
+  // post2: If all single day closures have transpired, delete the closure
+  public cleanClosures(){
+
+    // set index and yesterday
+    let index = 0;  let yesterday;
+    if(this.dayOfWeek == 0) yesterday = 6; else yesterday = this.dayOfWeek - 1;
+
+    // loop through closures
+    while(index < this.closures.length){
+      let closure = this.closures[index];
+
+      // take yesterday's 1s, set them to 0s
+      if(closure.days[yesterday] == 1)
+        closure.days[yesterday] = 0;
+
+      // Loop thru days looking for 1s or 2s - find one and don't kill the closure
+      let killClosure : boolean = true;
+      for(let dayValue of closure.days)
+        if (dayValue > 0){ killClosure = false; break; }
+
+      // only increment index when we do not kill a closure
+      if(killClosure) this.closures.splice(index, 1);  else index++;
+    }
+  }
+
+  // post: Flag actionsheet is presented
+  // param: the closure to be edited or deleted
+  public presentFlagActions(closure: any){
+    let flagActions = this.actionSheetCtrl.create({
+      // title: 'gfhgdgh',
+      cssClass: 'action-sheet',
+      buttons: [
+       {
+         text: 'Edit Closure',
+         handler: () => {
+           console.log('Destructive clicked');
+         }
+       },
+       {
+         text: 'Delete Closure',
+         handler: () => {
+           let transition = flagActions.dismiss();
+
+           transition.then(() => {
+             this.confirmDelete(closure);
+             //console.log(closure.reason);
+           })
+        return false;
+         }
+       },
+       {
+         text: 'Cancel',
+         role: 'cancel',
+         handler: () => {
+
+         }
+       }
+     ],
+    })
+
+    flagActions.present();
+  }
+
+  // post: Present confirm delete alert
+  // param: closure - the closure to be deleted
+  private confirmDelete(closure){
+    let confirmDelete = this.alertCtrl.create({
+      subTitle: 'Delete this closure?',
+      buttons: [
+        { text: 'Cancel', handler: ()=> {} },
+        { text: 'Delete', handler: ()=> {
+          // delete the closure
+          let index: number = 0;
+          while(index < this.closures.length){
+            if (closure === this.closures[index]){
+              this.closures.splice(index, 1);  break;
+            }
+            index++;
+          }
+        }}
+      ]
+    })
+
+    confirmDelete.present();
+  }
+
+
+  // Return our primary color for days on which the closure occurs
+  public getStyle(days:any, index: number){
+    if (days[index] > 0) return'#387ef5';
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

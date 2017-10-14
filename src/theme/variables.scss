@@ -38,6 +38,7 @@ $colors: (
 $primary: #387ef5;
 $offWhite : #fffff0;
 $blackshade1: #131313;
+$emptyYellow: #FFB300;
 
 $tabs-ios-tab-icon-color: $primary!important;
 $tabs-md-tab-icon-color: $primary!important;
@@ -65,20 +66,39 @@ $select-md-padding-top: 6%;
 // --------------------------------------------------
 // iOS only Sass variables can go here
 
-
-
+// Action sheet styling
+$action-sheet-ios-border-color: #030303;
+$action-sheet-ios-button-text-color: $primary;
+$action-sheet-ios-button-background-activated: #030303;
+//Alert Styling
+$alert-ios-background: #131313;
+$alert-ios-sub-title-text-color: $offWhite;
+$alert-ios-sub-title-font-size: 17px;
+$alert-ios-button-background-color-activated: #111111;
+$alert-ios-button-text-color: $primary;
+$alert-ios-button-border-color: #030303;
 
 // App Material Design Variables
 // --------------------------------------------------
 // Material Design only Sass variables can go here
-
-
-
+$action-sheet-md-border-color: #030303;
+$action-sheet-md-button-text-color: $primary;
+$action-sheet-md-button-background-activated: #111111;
+$action-sheet-md-background: #030303;
+//Alert Styling
 
 // App Windows Variables
 // --------------------------------------------------
 // Windows only Sass variables can go here
-
+$action-sheet-wp-border-color: #030303;
+$action-sheet-wp-button-text-color: $primary;
+$action-sheet-wp-button-background-activated: #030303;
+//Alert Styling
+$alert-wp-background: #131313;
+$alert-wp-sub-title-text-color: $offWhite;
+$alert-wp-button-background-color-activated: #111111;
+$alert-wp-button-text-color: $primary;
+$alert-wp-button-border-color: #030303;
 
 
 
