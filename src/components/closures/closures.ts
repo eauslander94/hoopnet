@@ -1,7 +1,10 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
+import { ViewController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
 import moment from 'moment';
+import { AddClosure } from '../../components/add-closure/add-closure';
 
+// Notes: This may end up becoming its own page.
+//   If any issure arise it is not much of an adjustment
 
 @Component({
   selector: 'closures',
@@ -16,7 +19,8 @@ export class Closures {
   showing: String;
 
   constructor(public viewCtrl: ViewController, private params: NavParams,
-    public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController) {
+    public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
+    public modalCtrl: ModalController) {
     this.closures = params.get('closures');
 
     // format our dates into sexy timeStrings
@@ -124,6 +128,22 @@ export class Closures {
   // Return our primary color for days on which the closure occurs
   public getStyle(days:any, index: number){
     if (days[index] > 0) return'#387ef5';
+  }
+
+  // post: AddClosure modal is presented
+  // post2: Data returned is sent to the server
+  // param: boolean edit - whether or not we are editing an existing closure
+  // closure - the closure to be edited, undef if edit is false
+  public presentAddClosure(closure, edit: boolean){
+    let addClosure = this.modalCtrl.create(AddClosure, {"courtBaskets": this.params.get('courtBaskets'),
+    'closure': closure, 'edit': edit});
+
+    addClosure.onDidDismiss(data => {
+      console.log("addClosureDismissed");
+    });
+
+    addClosure.present();
+
   }
 
 

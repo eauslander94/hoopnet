@@ -39,6 +39,7 @@ export class HoopMapPage {
               private modalCtrl: ModalController) {
 
     this.court = {
+      baskets: 4,
       closures: [{
         clStart: new Date(10),
         clEnd: new Date(12),
@@ -212,7 +213,9 @@ export class HoopMapPage {
 
   // post: Closures component is presented
   presentClosures(){
-    this.modalCtrl.create(Closures, {"closures": this.court.closures}).present();
+    this.modalCtrl.create(Closures,
+    {"closures": this.court.closures, "courtBaskets": this.court.baskets})
+    .present();
   }
 
   // post: Hours display is presented

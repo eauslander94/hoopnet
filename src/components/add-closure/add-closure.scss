@@ -1,0 +1,127 @@
+add-closure {
+  height: 100vh;
+  width: 100vw;
+  background: red!important;
+
+  ion-content{
+    background: #080808!important;
+    margin-top: 2vw;
+  }
+
+  // style the back button
+  button{
+    ion-icon{
+      font-size: 8vw;
+      color: $primary;
+    }
+  }
+  // navbar text
+  .toolbar-title{ font-family: Quicksand-bold;}
+
+  // height and width for many things used across the component
+  .item{
+    background-color: #080808!important;
+    height: 24vw;
+    width: 100vw;
+  }
+
+// Entering the start and end time
+  .time{
+
+    ion-label{
+      font-family: Quicksand-bold;
+      color: $offWhite;
+    }
+    ion-datetime{
+      color: $offWhite;
+    }
+  }
+
+  #reason{
+    height: 24vw;
+    ion-label{
+      //margin-top: -2vw;
+      font-family: Quicksand-bold;
+      //margin-bottom: 5vw;
+      //height: 5vw;
+    }
+    ion-input{
+      margin-top: 2vw;
+      color: $offWhite;
+      font-family: Quicksand-regular;
+    }
+  }
+
+ // days
+ #days{
+   height:20vw;
+   //border: 1px solid red;
+   p:first-child{
+     //border: 1px solid white;
+     color: $primary;
+     font-size: 13px;
+     font-family: Quicksand-bold;
+     margin-top: 11px;
+     margin-bottom: 0;
+     margin-left: 17px;
+   }
+
+   p:nth-child(n+2){
+      color: $offWhite;
+      display: inline-block;
+      width: 14.2vw;
+      text-align: center;
+      font-size: 5vw;
+      //border: 1px solid white;
+      margin-top: 3vw;
+   }
+ }
+
+ #baskets{
+   height: 20vw;
+   ion-label{
+     font-family: Quicksand-bold;
+   }
+   ion-input{
+     color: $offWhite;
+     font-family: Quicksand-regular;
+   }
+  }
+
+  #repeat{
+    p{display: inline-block;}
+    p:first-child{
+      font-family: Quicksand-bold;
+      color: $primary;
+      font-size: 4vw;
+    }
+    p:last-child{
+      float: right;
+      font-family: Quicksand-regular;
+      color: $offWhite;
+      font-size: 4vw;
+      margin-right: 5vw;
+    }
+  }
+
+  #submit{
+    position: fixed; bottom: 0;
+    background: #010101;
+    color: $primary;
+    font-family: Quicksand-regular;
+    font-size: 5vw;
+  }
+
+
+
+
+
+
+
+
+
+
+
+
+
+}

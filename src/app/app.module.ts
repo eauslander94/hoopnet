@@ -39,7 +39,9 @@ import { GamesModal }  from '../components/games-modal/games-modal';
 import { ActionModal } from '../components/action-modal/action-modal';
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { Closures }    from '../components/closures/closures';
+import { AddClosure }  from '../components/add-closure/add-closure';
 import { HoursDisplay }from '../components/hours-display/hours-display';
+
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 // Directives
@@ -68,6 +70,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     ActionModal,
     CourtsideCheckIn,
     Closures,
+    AddClosure,
     HoursDisplay,
 
     Profile,
@@ -95,6 +98,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     ActionModal,
     CourtsideCheckIn,
     Closures,
+    AddClosure,
     HoursDisplay
   ],
   providers: [
