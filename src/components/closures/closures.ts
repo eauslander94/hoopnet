@@ -18,18 +18,17 @@ export class Closures {
   // Whether or not we are displaying today's closures or the regular closures
   showing: String;
 
+  courtBaskets: number;
+
   constructor(public viewCtrl: ViewController, private params: NavParams,
     public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
     public modalCtrl: ModalController) {
     this.closures = params.get('closures');
 
+    this.courtBaskets = params.get('courtBaskets');
+
     // format our dates into sexy timeStrings
-    for(let closure of this.closures){
-      closure.tss = moment(closure.clStart).format('h:mma');
-      closure.tss = closure.tss.substring(0, closure.tss.length - 1);
-      closure.tse = moment(closure.clEnd).format('h:mma');
-      closure.tse = closure.tse.substring(0, closure.tse.length - 1);
-    }
+    for(let closure of this.closures)  this.formatTimestrings(closure);
 
     // Check up on this when you get internet
     this.dayOfWeek = new Date().getDay();
@@ -73,7 +72,8 @@ export class Closures {
        {
          text: 'Edit Closure',
          handler: () => {
-           console.log('Destructive clicked');
+           // Present the edit form with the given closure and true for edit
+           this.presentAddClosure(closure, true);
          }
        },
        {
@@ -110,19 +110,15 @@ export class Closures {
         { text: 'Cancel', handler: ()=> {} },
         { text: 'Delete', handler: ()=> {
           // delete the closure
-          let index: number = 0;
-          while(index < this.closures.length){
-            if (closure === this.closures[index]){
-              this.closures.splice(index, 1);  break;
-            }
-            index++;
-          }
+          this.deleteClosure(closure)
         }}
       ]
     })
 
     confirmDelete.present();
   }
+
+
 
 
   // Return our primary color for days on which the closure occurs
@@ -139,18 +135,44 @@ export class Closures {
     'closure': closure, 'edit': edit});
 
     addClosure.onDidDismiss(data => {
-      console.log("addClosureDismissed");
+      if(data.closure){
+        this.formatTimestrings(data.closure);
+        this.closures.push(data.closure);
+
+        // If we've got a new closure that has been edited, delete the old one
+        if(edit) this.deleteClosure(closure);
+
+        // Here, we will send data to the server, and use the returned observable
+        // To update the court with the new closure
+      }
     });
 
     addClosure.present();
 
   }
 
+  // Post: date object is converted to sexy timeString, which is added to closure
+  // Param: closure to be edited
+  // Pre: Closure has clStart and clEnd date objects
+  private formatTimestrings(closure){
+    closure.tss = moment(closure.clStart).format('h:mma');
+    closure.tss = closure.tss.substring(0, closure.tss.length - 1);
+    closure.tse = moment(closure.clEnd).format('h:mma');
+    closure.tse = closure.tse.substring(0, closure.tse.length - 1);
+  }
 
-
-
-
-
+  // Post: Removes the given closure from closures
+  // Pre: given closure is in closures
+  // Param: the closure to be deleted
+  private deleteClosure(closure){
+    let index: number = 0;
+    while(index < this.closures.length){
+      if (closure === this.closures[index]){
+        this.closures.splice(index, 1);  break;
+      }
+      index++;
+    }
+  }
 
 
 

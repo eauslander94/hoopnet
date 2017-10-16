@@ -5,7 +5,7 @@ add-closure {
 
   ion-content{
     background: #080808!important;
-    margin-top: 2vw;
+    //margin-top: 2vw;
   }
 
   // style the back button
@@ -25,32 +25,97 @@ add-closure {
     width: 100vw;
   }
 
+  ion-item{
+    border-bottom: 2px solid #131313!important;
+  }
+
+  //error message
+  #errorMessage{
+    text-align: center;
+    margin-bottom: 0;
+    height: 12vw;
+
+    p{color: red; font-family: Quicksand-bold; font-size: 4vw;}
+  }
+
 // Entering the start and end time
   .time{
-
     ion-label{
       font-family: Quicksand-bold;
       color: $offWhite;
+      font-size: 4vw;
     }
-    ion-datetime{
+    ion-datetime{  color: $primary;  }
+  }
+
+  // Repeats weekly div
+  #repeat{
+    p{display: inline-block;}
+    p:first-child{
+      font-family: Quicksand-bold;
       color: $offWhite;
+      font-size: 4vw;
+    }
+    p:last-child{
+      float: right;
+      font-family: Quicksand-bold;
+      color: $primary;
+      font-size: 4vw;
+      margin-right: 5vw;
     }
   }
 
+  // Reason div
   #reason{
     height: 24vw;
     ion-label{
-      //margin-top: -2vw;
+      font-size: 4vw;
+      color: $offWhite;
       font-family: Quicksand-bold;
       //margin-bottom: 5vw;
       //height: 5vw;
     }
     ion-input{
       margin-top: 2vw;
-      color: $offWhite;
+      color: $primary;
       font-family: Quicksand-regular;
     }
   }
+  //askets closed div
+  #baskets{
+    height: 20vw;
+    border-bottom: 2px solid #131313;
+    p:first-child{
+      //border: 1px solid white;
+      color: $offWhite;
+      font-size: 13px;
+      font-family: Quicksand-bold;
+      margin-top: 11px;
+      margin-bottom: 0;
+      margin-left: 17px;
+    }
+    p:nth-child(2){
+      color: $primary;
+      display: inline-block;
+      font-size: 5vw;
+      margin-left: 17px;
+      margin-right: 65vw;
+      width: 8vw;
+    }
+    div{
+      display: inline-block;
+      font-size: 5vw;
+
+      //border: 1px solid white;
+      width: 8vw;
+      text-align: center;
+
+    }
+    ion-icon{
+      color: $primary;
+      font-weight: bold;
+    }
+   }
 
  // days
  #days{
@@ -58,7 +123,7 @@ add-closure {
    //border: 1px solid red;
    p:first-child{
      //border: 1px solid white;
-     color: $primary;
+     color: $offWhite;
      font-size: 13px;
      font-family: Quicksand-bold;
      margin-top: 11px;
@@ -77,32 +142,6 @@ add-closure {
    }
  }
 
- #baskets{
-   height: 20vw;
-   ion-label{
-     font-family: Quicksand-bold;
-   }
-   ion-input{
-     color: $offWhite;
-     font-family: Quicksand-regular;
-   }
-  }
-
-  #repeat{
-    p{display: inline-block;}
-    p:first-child{
-      font-family: Quicksand-bold;
-      color: $primary;
-      font-size: 4vw;
-    }
-    p:last-child{
-      float: right;
-      font-family: Quicksand-regular;
-      color: $offWhite;
-      font-size: 4vw;
-      margin-right: 5vw;
-    }
-  }
 
   #submit{
     position: fixed; bottom: 0;
