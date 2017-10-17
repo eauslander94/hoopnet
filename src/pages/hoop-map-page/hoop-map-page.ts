@@ -11,8 +11,7 @@ import { CourtDataService } from '../../services/courtDataService.service';
 import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
 import { CourtPage }  from '../../pages/court-page/court-page';
 import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
-import { Closures } from '../../components/closures/closures';
-import { HoursDisplay } from '../../components/hours-display/hours-display';
+import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
 declare var google: any;
 
@@ -44,14 +43,13 @@ export class HoopMapPage {
   // load the map when the page has loaded
   ionViewDidLoad(){
     this.loadMap();
-    this.getCourts();
-    //this.addCourtMarker(this.court);
   }
 
 
-  // load the map around the user's current location
+  // post: Map is loaded, addCourtMarker is called when the map has finished loading
   loadMap() {
 
+      // center around Tompkins Sq Park
       let latLng = new google.maps.LatLng(40.723697, -73.988818);
 
       let mapOptions = {
@@ -59,14 +57,26 @@ export class HoopMapPage {
         zoom: 12,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         styles: this.getStyles()
-
       }
       this.map = new google.maps.Map(this.mapElement.nativeElement, mapOptions);
 
+      // Once we have loaded the map, add the test court marker
       google.maps.event.addListenerOnce(this.map, 'tilesloaded', () => {
-        console.log('map loaded');
         this.addCourtMarker(this.court);
       })
+  }
+
+  // method markerClicked()
+  // Param: court - the court object corresponding to the clicked marker
+  // Post: Alert is presented
+  markerClicked(court){
+    let courtDisplay = this.modalCtrl.create(CourtMapPopup, {'court': court, })
+
+    courtDisplay.onDidDismiss(data =>{
+
+    })
+
+    courtDisplay.present();
   }
 
 
@@ -87,28 +97,16 @@ export class HoopMapPage {
     cci.present();
   }
 
-  // post: Closures component is presented
-  presentClosures(){
-    this.modalCtrl.create(Closures,
-    {"closures": this.court.closures, "courtBaskets": this.court.baskets})
-    .present();
-  }
-
-  // post: Hours display is presented
-  presentHours(){
-    this.modalCtrl.create
-      (HoursDisplay,{"ot": this.court.openTimes, "ct":this.court.closeTimes})
-      .present();
-  }
-
 
 // Param: court - a court object as defined in the model
 // post: a marker corresponding to that court is added to the map
  addCourtMarker(court){
+
+   let latLng = new google.maps.LatLng(court.location.lat, court.location.lng);
    let marker = new google.maps.Marker({
     map: this.map,
     animation: google.maps.Animation.DROP,
-    position: {lat: court.location.lat, lng: court.location.long},
+    position: latLng,
     // Each marker has a court object attached to it.
     // This is the object that will be passed into other parts of the app.
     court: court
@@ -116,30 +114,6 @@ export class HoopMapPage {
   google.maps.event.addListener(marker, 'click', (court) => {
     this.markerClicked(marker.court);
   })
- }
-
- // method markerClicked()
- // Param: court - the court object corresponding to the clicked marker
- // Post: Alert is presented
- markerClicked(court){
-   let alert = this.alertCtrl.create({
-     title: court.name,
-     subTitle: court.totalBaskets + " baskets",
-     buttons: [
-       { text: 'Cancel',
-       handler: data => {}
-      },
-       { text: 'View Court',
-       handler: () => {
-         // dismiss the alert before navigating
-         alert.dismiss().then(() => { this.navCtrl.push(CourtPage, {
-           court: court
-         }) });
-         return false;
-       }
-     }]
-   });
-   alert.present();
  }
 
 
@@ -183,7 +157,7 @@ private generateCourt(){
   return {
 
     name: "Tompkins Square Park",
-    type: "Outdoor",
+    type: "outdoor",
     baskets: 4,
 
     // a latLng location
@@ -251,73 +225,94 @@ private getStyles(){
   return [
 
     //hide points of attraction
-    { featureType: 'poi',
-    stylers: [{"visibility": 'off'}]  },
+    {
+      featureType: 'poi',
+      stylers: [{"visibility": 'off'}]
+    },
     // Hide manmade landscapes
-    { featureType: 'landscape.man_made',
-    stylers: [{visibility: 'off'}]},
-
+    {
+      featureType: 'landscape.man_made',
+      stylers: [{visibility: 'off'}]
+    },
     // Set water to be our primary color;
-    {featureType: 'water',
-    stylers: [{color: '#387ef5'}]},
+    {
+      featureType: 'water',
+      stylers: [{color: '#387ef5'}]
+    },
     // styling natural landscapes
-    {featureType: 'landscape',
-    stylers: [{color: "#131313"}]},
-
-
-    // simplify the roads
-    {'featureType': 'road',
-    elementType: 'geometry',
-    'stylers': [
-      {visibility: 'simplified'}
-    ]},
-    // color the roads
-    {featureType: 'road',
-    elementType: 'geometry',
-    stylers:  [{color: '#050505'}]},
+    {
+      featureType: 'landscape',
+      stylers: [{color: "#131313"}]
+    },
     // simlify transit
-    {'featureType': 'transit',
-    stylers: [{visibility: 'simplified'}]},
+    {
+      featureType: 'transit',
+      stylers: [{visibility: 'simplified'}]
+    },
     // hide transit lines
-    {'featureType': 'transit',
-    'elementType': 'geometry',
-    'stylers': [{visibility: 'off'}]},
+    {
+      featureType: 'transit',
+      elementType: 'geometry',
+      stylers: [{visibility: 'off'}]
+    },
+
     // remove road icons
-    {'featureType': 'road',
-    elementType: 'label.icon',
-    'stylers': [{visibility: 'off'}]},
+    {
+      featureType: 'road',
+      elementType: 'label.icon',
+      stylers: [{visibility: 'off'}]
+    },
+    // simplify the roads
+    {
+      featureType: 'road',
+      elementType: 'geometry',
+      stylers: [
+        {visibility: 'simplified'},
+        {color: '#030303'}
+      ]
+    },
 
     // set all text to be simple and off white
-    {'elementType': 'labels.text',
-    stylers: [
-      {color: '#fffff0'},
-      {visibility: 'simplified'}
-    ]},
-
-
-    {'featureType': 'poi.park',
-    'elementType': 'labels.text',
-    stylers: [{visibility: 'simplified'}]},
+    {
+      elementType: 'labels.text',
+      stylers: [
+        {color: '#fffff0'},
+        {visibility: 'simplified'}
+      ]
+    },
+    {
+      featureType: 'poi.park',
+      elementType: 'labels.text',
+      stylers: [{visibility: 'simplified'}]
+    },
     // Sports complexes to look like parks
-    {'featureType': 'poi.sports_complex',
-    stylers: [
-      {visibility: 'simplified'},
-      {color: '#131313'}
-    ]},
-    {featureType: 'poi.sports_complex',
-    elementType: 'labels.text',
-    stylers:  [{color: '#fffff0'}]},
+    {
+      featureType: 'poi.sports_complex',
+      stylers: [
+        {visibility: 'simplified'},
+        {color: '#131313'}
+      ]
+    },
 
-    {featureType: 'administrative.neighborhood',
-    "elementType": "labels",
-    stylers: [{visibility: "none"}]},
+    {
+      featureType: 'poi.sports_complex',
+      elementType: 'labels.text',
+      stylers:  [{color: '#fffff0'}]},
 
     // set all text to be simple and off white
-    {'elementType': 'labels.text',
-    stylers: [
-      {color: '#fffff0'},
-      {visibility: 'simplified'}
-    ]},
+    {
+      elementType: 'labels.text',
+      stylers: [
+        {color: '#fffff0'},
+        {visibility: 'simplified'}
+      ]
+    },
+    {
+      featureType: 'administrative.neighborhood',
+      elementType: "labels.text",
+      stylers: [{visibility: "off"}]
+    },
+
   ]
 }
 

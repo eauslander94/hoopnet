@@ -11,8 +11,8 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 // For auth0 authintication
 //import {App, Platform} from 'ionic-angular';
 //import {provide} from 'angular-provide';
-import {Http} from '@angular/http'
-import {AuthHttp, AuthConfig} from 'angular2-jwt';
+import { Http } from '@angular/http'
+import { AuthHttp, AuthConfig } from 'angular2-jwt';
 //import {Type} from '@angular/core';
 
 // css animation
@@ -28,6 +28,7 @@ import { CourtPage }  from '../pages/court-page/court-page';
 import { Profile } from '../pages/profile/profile';
 // components
 import { TheWindow } from '../components/the-window/the-window';
+import { WindowModal } from '../components/window-modal/window-modal';
 import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
 import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
 import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
@@ -41,7 +42,7 @@ import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-che
 import { Closures }    from '../components/closures/closures';
 import { AddClosure }  from '../components/add-closure/add-closure';
 import { HoursDisplay }from '../components/hours-display/hours-display';
-
+import { CourtMapPopup } from '../components/court-map-popup/court-map-popup';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 // Directives
@@ -59,6 +60,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     TheWindow,
+    WindowModal,
     DetailedGameInfoComponent,
     EnterBasketInfoComponent,
     MapSearchPopoverComponent,
@@ -72,6 +74,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     Closures,
     AddClosure,
     HoursDisplay,
+    CourtMapPopup,
 
     Profile,
     ParallaxHeader,
@@ -94,12 +97,14 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     EnterBasicInfoPage,
     EnterDetailedInfoPage,
     CourtPage,
+    WindowModal,
     GamesModal,
     ActionModal,
     CourtsideCheckIn,
     Closures,
     AddClosure,
-    HoursDisplay
+    HoursDisplay,
+    CourtMapPopup,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
