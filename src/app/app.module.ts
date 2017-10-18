@@ -19,36 +19,29 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { AnimationService, AnimatesDirective } from 'css-animator';
 
 // pages
-import { HoopMapPage }           from '../pages/hoop-map-page/hoop-map-page';
-import { LoginPage }        from '../pages/login/login';
-import { TabsPage }           from '../pages/tabs/tabs';
-import { EnterBasicInfoPage }     from '../pages/enter-basic-info/enter-basic-info';
-import { EnterDetailedInfoPage }  from '../pages/enter-detailed-info/enter-detailed-info';
-import { CourtPage }  from '../pages/court-page/court-page';
-import { Profile } from '../pages/profile/profile';
+import { HoopMapPage }   from '../pages/hoop-map-page/hoop-map-page';
+import { LoginPage }     from '../pages/login/login';
+import { TabsPage }      from '../pages/tabs/tabs';
+import { CourtPage }     from '../pages/court-page/court-page';
+import { Profile }       from '../pages/profile/profile';
+import { FriendsPage }   from '../pages/friends-page/friends-page';
 // components
-import { TheWindow } from '../components/the-window/the-window';
-import { WindowModal } from '../components/window-modal/window-modal';
-import { DetailedGameInfoComponent } from '../components/detailed-game-info/detailed-game-info';
-import { EnterBasketInfoComponent }     from '../components/enter-basket-info/enter-basket-info';
-import { MapSearchPopoverComponent }    from '../components/map-search-popover/map-search-popover';
-import { CourtReport } from '../components/court-report/court-report';
-import { HoopedCard  } from '../components/hooped-card/hooped-card';
-import { TextPost }    from '../components/text-post/text-post';
-import { PicturePost } from '../components/picture-post/picture-post';
-import { GamesModal }  from '../components/games-modal/games-modal';
-import { ActionModal } from '../components/action-modal/action-modal';
+import { TheWindow }     from '../components/the-window/the-window';
+import { WindowModal }   from '../components/window-modal/window-modal';
+import { GamesModal }    from '../components/games-modal/games-modal';
+import { ActionModal }   from '../components/action-modal/action-modal';
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
-import { Closures }    from '../components/closures/closures';
-import { AddClosure }  from '../components/add-closure/add-closure';
-import { HoursDisplay }from '../components/hours-display/hours-display';
+import { Closures }      from '../components/closures/closures';
+import { AddClosure }    from '../components/add-closure/add-closure';
+import { HoursDisplay }  from '../components/hours-display/hours-display';
 import { CourtMapPopup } from '../components/court-map-popup/court-map-popup';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 // Directives
-import { Dbltap } from '../components/dbltap/dbltap';
+import { Dbltap }        from '../components/dbltap/dbltap';
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
-
+// Providers
+import { Data }          from '../providers/data';
 
 
 @NgModule({
@@ -57,17 +50,10 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     HoopMapPage,
     LoginPage,
     TabsPage,
-    EnterBasicInfoPage,
-    EnterDetailedInfoPage,
+    FriendsPage,
+
     TheWindow,
     WindowModal,
-    DetailedGameInfoComponent,
-    EnterBasketInfoComponent,
-    MapSearchPopoverComponent,
-    CourtReport,
-    HoopedCard,
-    TextPost,
-    PicturePost,
     GamesModal,
     ActionModal,
     CourtsideCheckIn,
@@ -93,9 +79,9 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     HoopMapPage,
     TabsPage,
     LoginPage,
+    FriendsPage,
+
     Profile,
-    EnterBasicInfoPage,
-    EnterDetailedInfoPage,
     CourtPage,
     WindowModal,
     GamesModal,
@@ -114,6 +100,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
   SplashScreen,
   HttpModule,
   AnimationService,
+  Data,
     // auth0 providider
     { provide: AuthHttp,
       useFactory: (http) => {

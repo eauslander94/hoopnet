@@ -1,12 +1,10 @@
-import { NgModule } from '@angular/core';
+import { NgModule }        from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
-import { Profile } from './profile';
-import { HoopedCard } from '../hooped-card/hooped-card';
+import { Profile }         from './profile';
 
 @NgModule({
   declarations: [
     Profile,
-    HoopedCard,
   ],
   imports: [
     IonicPageModule.forChild(Profile),

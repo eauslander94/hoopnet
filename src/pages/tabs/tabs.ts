@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 import { HoopMapPage } from '../hoop-map-page/hoop-map-page';
 import { CourtPage } from '../court-page/court-page';
 //import { LoginPage } from '../login/login';

@@ -36,8 +36,9 @@ closures {
   }
   // The top tab that is currently selected
   .active{
+    //height: 100%;
+  //  border-bottom: 2px solid $primary;
     p{
-      font-family: Quicksand-bold!important;
       color: $primary!important;
     }
   }

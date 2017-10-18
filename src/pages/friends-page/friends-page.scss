@@ -1,0 +1,44 @@
+page-friends-page {
+
+  ion-content{
+    background-color: #131313!important;
+  }
+  // Tabs at the top of the page
+  #amigoTabs{
+    width: 100vw;
+    height: 12vw;
+    border-bottom: 1px solid #020202;
+    div{
+      display: inline-block;
+      height: 100%; width: 33vw;
+      //margin-left: -2px;
+      margin-right: -2px;
+      text-align: center;
+      p{
+        color: $offWhite;
+        font-family: Quicksand-regular;
+        font-size: 4vw;
+      }
+    }
+    div:nth-child(n + 1){ border-left: 1px solid #020202}
+    // The top tab that is currently selected
+    .active{
+      height: 103%;
+      border-bottom: 2px solid $primary;
+      p{
+        //font-family: Quicksand-bold!important;
+        color: $primary!important;
+      }
+    }
+  }// amigoTabs paren
+
+  ion-list{
+    ion-item{
+      background-color: #131313!important;
+      p{color: $offWhite!important}
+    }
+  }
+
+
+
+}

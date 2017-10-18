@@ -8,8 +8,6 @@ import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 // court report imports
 import { CourtDataService } from '../../services/courtDataService.service';
-import { MapSearchPopoverComponent } from '../../components/map-search-popover/map-search-popover';
-import { CourtPage }  from '../../pages/court-page/court-page';
 import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
 import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
@@ -144,12 +142,6 @@ export class HoopMapPage {
        this.addCourtMarker(court);
    }
 
- presentPopover(myEvent){
-   let popover = this.popoverCtrl.create(MapSearchPopoverComponent);
-   popover.present({
-     ev: myEvent
-   });
- }
 
 
 
