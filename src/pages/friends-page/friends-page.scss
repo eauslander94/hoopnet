@@ -7,7 +7,7 @@ page-friends-page {
   #amigoTabs{
     width: 100vw;
     height: 12vw;
-    border-bottom: 1px solid #020202;
+    border-bottom: 1px solid #030303;
     div{
       display: inline-block;
       height: 100%; width: 33vw;
@@ -18,9 +18,11 @@ page-friends-page {
         color: $offWhite;
         font-family: Quicksand-regular;
         font-size: 4vw;
+        display: inline-block;
       }
+      ion-badge{margin-left: 1vw; color: #131313; background-color: $offWhite}
     }
-    div:nth-child(n + 1){ border-left: 1px solid #020202}
+    div:nth-child(n + 1){ border-left: 1px solid #030303}
     // The top tab that is currently selected
     .active{
       height: 103%;
@@ -29,14 +31,49 @@ page-friends-page {
         //font-family: Quicksand-bold!important;
         color: $primary!important;
       }
+      ion-badge{background-color: $primary}
     }
   }// amigoTabs paren
 
-  ion-list{
-    ion-item{
-      background-color: #131313!important;
-      p{color: $offWhite!important}
+  // nickName specific style
+  .nickName{
+    margin-right: 1vw;
+    font-style: italic;
+  }
+
+  // Basic style for the display of a single user
+  .userDisplay{
+    height: 16vw;  width: 100vw;
+    border-bottom: 1px solid #030303;
+
+    img{
+      display: inline-block;
+      height: 12vw;
+      width: 12vw;
+      border-radius: 30px;
+      padding: .5vw;
+      border: 2px solid $primary;
+      margin-top: 2vw;  margin-left: 2vw;
     }
+    p{
+      display: inline-block;
+      font-family:Quicksand-regular;
+      color: grey;
+    }
+    // first name
+    p:nth-child(2){
+      margin-right: 1vw;
+    }
+  }
+
+
+  #amigoDisplay{
+    border-top: 1px solid #030303;
+    height: 60vh;
+    width: 100vw;
+    //border: 2px solid red;
+    white-space: nowrap;
+    overflow: hidden;
   }
 
 

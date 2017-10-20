@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Data }  from '../../providers/data';
+import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { Profile }     from '../profile/profile';
 import 'rxjs/add/operator/debounceTime';
 
 @IonicPage()
@@ -12,44 +12,148 @@ import 'rxjs/add/operator/debounceTime';
 export class FriendsPage {
 
   // Friends and requests recieved from profile page
-  friends: Array<any>
+  friends: Array<any>;
   friendRequests: Array<any>;
+  // So that when we filter friends we do not lose values that were filtered out
+  friendsShowing: Array<any>;
 
-  items: any;
-  searchTerm: string = '';
-  searchControl: FormControl;
+  // the results from querying our server for friends to add
+  addResults: Array<any>;
+
+  // the search queries for adding friends
+  friendSearchTerm: string = '';
+  addSearchTerm: string = '';
+  // Form Controls
+  friendSearchControl: FormControl;
+  addSearchControl: FormControl;
 
   // Which tab is currently showing
   showing: string;
 
+  //whether or not we are viewing the profile of the user currently logged in
+  myProfile: boolean;
+
   constructor(public navCtrl: NavController,
               public params: NavParams,
-              public dataService: Data)
+              public actionSheetCtrl: ActionSheetController)
   {
-    this.friends = params.get('freinds');
+    this.friends = params.get('friends');
+    this.friendsShowing = this.friends;
     this.friendRequests = params.get('friendRequests');
+
+    this.myProfile = params.get('myProfile');
+    // Post server hookup:
+    // get users associated with friend request pointers when we hit the requests tab
+    // For now, just set it to friends for some dummy data
+    this.friendRequests = this.friends;
+    //this.addResults = this.friends;
+
     this.showing = 'friends';
 
-    this.searchControl = new FormControl;
+    this.friendSearchControl = new FormControl;
+    this.addSearchControl = new FormControl
   }
 
   ionViewDidLoad(){
-    this.setFilteredItems();
-
     // wait 700ms before triggering a search so that we don't search on every keystroke
-    this.searchControl.valueChanges.debounceTime(10).subscribe(search => {
-      this.setFilteredItems();
+    this.friendSearchControl.valueChanges.debounceTime(10).subscribe(search => {
+      this.friendsShowing = this.filterFriends(this.friendSearchTerm);
+    });
+
+    // This observable controls the moment at which we ask the server for friends to add
+    this.addSearchControl.valueChanges.debounceTime(700).subscribe(search =>{
+      this.addSearch();
     });
   }
 
-  // Post:  Our items is replaced by items filtered by our search term
-  setFilteredItems(){
-    this.items = this.dataService.filterItems(this.searchTerm)
+
+  // Post:  friendsShowing becomes a filtered version of friends
+  // Param: string to filter by
+  // Returns: filtered version of items
+  private filterFriends(searchTerm: string){
+
+    return this.friends.filter((profile) => {
+      // Return true if item matches the searchterm(both lowercased)
+      let name = profile.fName + " " + profile.nName + " " + profile.lName;
+      return name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
+    })
+  }
+
+
+  // Post:  DB is queried for users whose names match the searchterm.
+  public addSearch(){
+    // Below is only temporary
+    this.addResults = this.filterFriends(this.addSearchTerm);
+  }
+
+  // Post:  profile page is pulled up with the clicked friend's profile
+  // Param: user - the user whose page we will pull up
+  public navToProfile(user: any){
+    this.navCtrl.push(Profile, {'user': user});
+  }
+
+  // Post:  Action sheet displaying add friend options is presented
+  // Param: user - the user to be potentially added
+  public presentAddSheet(user: any){
+    let action = this.actionSheetCtrl.create({
+      title: 'Request ' + user.fName + " " + user.lName + "?",
+      buttons: [
+        { text: 'add friend',
+          handler: () => {
+            console.log(user.nName + ' added');
+          }
+        },
+        // Nav to user's profile
+        { text: 'view profile',
+        handler: () =>{
+          this.navToProfile(user);
+        }
+      },
+      { text: 'cancel', role: 'cancel' }
+      ]
+    })
+
+    action.present();
+  }
+
+  // Post:  Action sheet displaying friend request options is presented
+  // Param: user - the user to be potentially added
+  public presentRequestSheet(user: any){
+    let action = this.actionSheetCtrl.create({
+      title: 'Confirm ' + user.fName + " " + user.lName + " as a friend?",
+      buttons: [
+        { text: 'confirm friend',
+          handler: () => {
+            console.log(user.nName + ' added');
+          }
+        },
+        // Nav to user's profile
+        { text: 'view profile',
+        handler: () =>{
+          this.navToProfile(user);
+        }
+      },
+      { text: 'cancel', role: 'cancel' }
+      ]
+    })
+
+    action.present();
   }
 
   // Post:  showing is switched to the given parameter
   // Param: string switchTo - the string which we will switch showing to
   // Pre:   switchTo is either 'friends' 'add' or 'requests'
-  public tabSwitch(switchTo: string){  this.showing = switchTo;  }
+  public tabSwitch(switchTo: string){
+    this.showing = switchTo;
+  }
+
+
+
+
+
+
+
+
+
 
 }

@@ -8,7 +8,7 @@
 </ion-header>
 
 <ion-content>
-  <div id="amigoTabs">
+  <div id="amigoTabs" *ngIf='myProfile'>
     <div [ngClass]="{'active': showing === 'friends'}" (tap)="tabSwitch('friends')">
       <p>Friends</p>
     </div>
@@ -18,22 +18,63 @@
     </div>
 
     <div [ngClass]="{'active': showing === 'requests'}" (tap)="tabSwitch('requests')">
-      <p>Requests</p>
+      <p>Requests</p><ion-badge>{{friendRequests.length}}</ion-badge>
     </div>
   </div>
 
+<!-- Friends list & searchbar -->
+<div *ngIf="showing === 'friends'">
   <ion-searchbar
-    [(ngModel)]="searchTerm"
-    [formControl]='searchControl'
+    [(ngModel)]="friendSearchTerm"
+    [formControl]='friendSearchControl'
     [showCancelButton]="shouldShowCancel"
   >
   </ion-searchbar>
 
+  <ion-list id="amigoDisplay">
+    <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)='navToProfile(profile)'>
+      <img src={{profile.avatar}}/>
+      <p>{{profile.fName}}</p><p class="nickName" *ngIf="profile.nName !== '' ">{{profile.nName}}</p><p>{{profile.lName}}</p>
+    </div>
+  </ion-list>
+</div>
+
+<!-- Friend Request Dislay -->
+<div *ngIf="showing === 'requests'">
+  <ion-list id="friendRequests">
+
+    <div *ngFor="let request of friendRequests" class='userDisplay' tappable (tap)="presentRequestSheet(request)">
+      <img src={{request.avatar}}/>
+      <p>{{request.fName}}</p><p class="nickName" *ngIf="request.nName !== '' ">{{request.nName}}</p><p>{{request.lName}}</p>
+    </div>
+
+  </ion-list>
+</div>
+
+<!-- Add friends Display -->
+<div *ngIf="showing === 'add'">
+  <ion-searchbar
+    [(ngModel)]='addSearchTerm'
+    [formControl]=addSearchControl
+    [showCancelButton]='shouldShowCancel'
+  >
+  </ion-searchbar>
   <ion-list>
-    <ion-item *ngFor="let item of items">
-      <p>
-        {{item.name}}
-      </p>
-    </ion-item>
-   </ion-list>
+    <div *ngFor='let user of addResults' class='userDisplay' tappable (tap)="presentAddSheet(user)">
+      <img src={{user.avatar}}/>
+      <p>{{user.fName}}</p><p class="nickName" *ngIf="user.nName !== '' ">{{user.nName}}</p><p>{{user.lName}}</p>
+    </div>
+  </ion-list>
+</div>
+
+
+
+
+
+
+
+
+
+
+
 </ion-content>

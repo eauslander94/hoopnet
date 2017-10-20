@@ -24,9 +24,13 @@ export class Data {
     ]
   }
 
-  filterItems(searchTerm){
+  // Post:  items is filtered by the searchTerm 
+  // Param: string to filter by
+  // Returns: filtered version of items
+  filterItems(searchTerm: string){
 
     return this.items.filter((item) => {
+      // Return true if item matches the searchterm(both lowercased)
       return item.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1
     })
   }
