@@ -30,18 +30,18 @@ import { TheWindow }     from '../components/the-window/the-window';
 import { WindowModal }   from '../components/window-modal/window-modal';
 import { GamesModal }    from '../components/games-modal/games-modal';
 import { ActionModal }   from '../components/action-modal/action-modal';
-import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { Closures }      from '../components/closures/closures';
 import { AddClosure }    from '../components/add-closure/add-closure';
 import { HoursDisplay }  from '../components/hours-display/hours-display';
 import { CourtMapPopup } from '../components/court-map-popup/court-map-popup';
+import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
+import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 // Directives
-import { Dbltap }        from '../components/dbltap/dbltap';
+import { Dbltap }         from '../components/dbltap/dbltap';
 import { ParallaxHeader } from '../components/parallax-header/parallax-header';
-// Providers
-import { Data }          from '../providers/data';
+
 
 
 @NgModule({
@@ -61,6 +61,7 @@ import { Data }          from '../providers/data';
     AddClosure,
     HoursDisplay,
     CourtMapPopup,
+    HomeCourtDisplay,
 
     Profile,
     ParallaxHeader,
@@ -91,6 +92,7 @@ import { Data }          from '../providers/data';
     AddClosure,
     HoursDisplay,
     CourtMapPopup,
+    HomeCourtDisplay,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -100,7 +102,6 @@ import { Data }          from '../providers/data';
   SplashScreen,
   HttpModule,
   AnimationService,
-  Data,
     // auth0 providider
     { provide: AuthHttp,
       useFactory: (http) => {

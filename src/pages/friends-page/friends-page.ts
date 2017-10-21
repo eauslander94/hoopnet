@@ -79,16 +79,20 @@ export class FriendsPage {
     })
   }
 
-
   // Post:  DB is queried for users whose names match the searchterm.
   public addSearch(){
+    // If searchterm is blank don't query the db
+    if(this.addSearchTerm === '')
+      this.addResults = [];
     // Below is only temporary
-    this.addResults = this.filterFriends(this.addSearchTerm);
+    else
+      this.addResults = this.filterFriends(this.addSearchTerm);
   }
 
   // Post:  profile page is pulled up with the clicked friend's profile
   // Param: user - the user whose page we will pull up
   public navToProfile(user: any){
+    this.navCtrl.popToRoot();
     this.navCtrl.push(Profile, {'user': user});
   }
 
@@ -96,11 +100,13 @@ export class FriendsPage {
   // Param: user - the user to be potentially added
   public presentAddSheet(user: any){
     let action = this.actionSheetCtrl.create({
-      title: 'Request ' + user.fName + " " + user.lName + "?",
+      title: 'Add ' + user.fName + " " + user.lName + "?",
       buttons: [
-        { text: 'add friend',
+        { text: 'send friend request',
           handler: () => {
             console.log(user.nName + ' added');
+            // TO DO: put request - pointer to 'current user' put into list of
+            // 'param user's friend requests
           }
         },
         // Nav to user's profile
@@ -120,11 +126,13 @@ export class FriendsPage {
   // Param: user - the user to be potentially added
   public presentRequestSheet(user: any){
     let action = this.actionSheetCtrl.create({
-      title: 'Confirm ' + user.fName + " " + user.lName + " as a friend?",
+      title: 'Confirm ' + user.fName + " " + user.lName + "?",
       buttons: [
-        { text: 'confirm friend',
+        { text: 'add friend',
           handler: () => {
             console.log(user.nName + ' added');
+            // TO DO: Add friends put
+            // Takes pointers to 2 users, adds each to the list of the other's friends
           }
         },
         // Nav to user's profile
