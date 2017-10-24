@@ -9,14 +9,19 @@ import { HoopMapPage } from '../../pages/hoop-map-page/hoop-map-page';
 export class HomeCourtDisplay {
 
   courts: Array<any>
+
+  // Whether or not the current user is looking at their profile
+  myProfile: boolean;
   @ViewChild(Slides) slides: Slides;
 
   constructor(public viewCtrl: ViewController,
               public params: NavParams,
               public alertCtrl: AlertController,
-              private navCtrl: NavController) {
+              private navCtrl: NavController)
+  {
     // TO DO: get courts from the court pointers we are passed in
     this.courts = this.generateCourts();
+    if(params.get('myProfile')) this.myProfile = true;
   }
 
   //

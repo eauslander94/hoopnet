@@ -1,0 +1,36 @@
+page-enter-profile-info {
+
+  ion-content{
+    background: #131313!important;
+    position: relative;
+  }
+  // Message up top
+  p:nth-child(1){
+    font-family: Quicksand-bold;
+    color: $offWhite;
+    font-size: 4vw;
+    text-align: center;
+  }
+  // The inputs for getting names
+  ion-item{
+    background-color: #131313!important;
+    ion-input{
+      color: $offWhite;
+      font-family: Quicksand-regular;
+    }
+  }
+
+  button{
+    font-family: Quicksand-bold;
+    background-color: #020202!important;
+    position: absolute!important;  bottom: 1vw;
+  }
+
+  #errorMessage{
+    font-family: QUicksand-bold;
+    color: red;
+    text-align: center;
+    font-size: 4vw;
+  }
+
+}

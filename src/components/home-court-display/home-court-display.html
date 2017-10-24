@@ -10,8 +10,12 @@
   </ion-slides>
   <div id='bottomButtons'>
     <div tappable (click)='slideBack()'><ion-icon name='arrow-back'></ion-icon></div>
-    <div tappable (click)='presentDeleteConfirmation()'><ion-icon name='trash'></ion-icon></div>
-    <div tappable (tap)='addHomeCourtPressed()'><ion-icon name ='add'></ion-icon></div>
+    <div tappable (click)='presentDeleteConfirmation()' *ngIf='myProfile'>
+      <ion-icon name='trash'></ion-icon>
+    </div>
+    <div tappable (tap)='addHomeCourtPressed()' *ngIf='myProfile'>
+      <ion-icon name ='add'></ion-icon>
+    </div>
     <div tappable (click)='slideForward()'><ion-icon name='arrow-forward'></ion-icon></div>
   </div>
 

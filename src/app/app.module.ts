@@ -2,6 +2,7 @@ import { NgModule, ErrorHandler } from '@angular/core';
 import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
+import { PhotoLibrary } from '@ionic-native/photo-library';
 import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
@@ -19,28 +20,29 @@ import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { AnimationService, AnimatesDirective } from 'css-animator';
 
 // pages
-import { HoopMapPage }   from '../pages/hoop-map-page/hoop-map-page';
-import { LoginPage }     from '../pages/login/login';
-import { TabsPage }      from '../pages/tabs/tabs';
-import { CourtPage }     from '../pages/court-page/court-page';
-import { Profile }       from '../pages/profile/profile';
-import { FriendsPage }   from '../pages/friends-page/friends-page';
+import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
+import { LoginPage }        from '../pages/login/login';
+import { TabsPage }         from '../pages/tabs/tabs';
+import { CourtPage }        from '../pages/court-page/court-page';
+import { Profile }          from '../pages/profile/profile';
+import { FriendsPage }      from '../pages/friends-page/friends-page';
+import { EnterProfileInfo } from '../pages/enter-profile-info/enter-profile-info';
 // components
-import { TheWindow }     from '../components/the-window/the-window';
-import { WindowModal }   from '../components/window-modal/window-modal';
-import { GamesModal }    from '../components/games-modal/games-modal';
-import { ActionModal }   from '../components/action-modal/action-modal';
-import { Closures }      from '../components/closures/closures';
-import { AddClosure }    from '../components/add-closure/add-closure';
-import { HoursDisplay }  from '../components/hours-display/hours-display';
-import { CourtMapPopup } from '../components/court-map-popup/court-map-popup';
+import { TheWindow }        from '../components/the-window/the-window';
+import { WindowModal }      from '../components/window-modal/window-modal';
+import { GamesModal }       from '../components/games-modal/games-modal';
+import { ActionModal }      from '../components/action-modal/action-modal';
+import { Closures }         from '../components/closures/closures';
+import { AddClosure }       from '../components/add-closure/add-closure';
+import { HoursDisplay }     from '../components/hours-display/hours-display';
+import { CourtMapPopup }    from '../components/court-map-popup/court-map-popup';
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
 // services
 import { CourtDataService } from '../services/courtDataService.service.ts';
 // Directives
-import { Dbltap }         from '../components/dbltap/dbltap';
-import { ParallaxHeader } from '../components/parallax-header/parallax-header';
+import { Dbltap }           from '../components/dbltap/dbltap';
+import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
 
 
 
@@ -51,6 +53,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     LoginPage,
     TabsPage,
     FriendsPage,
+    EnterProfileInfo,
 
     TheWindow,
     WindowModal,
@@ -81,6 +84,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
     TabsPage,
     LoginPage,
     FriendsPage,
+    EnterProfileInfo,
 
     Profile,
     CourtPage,
@@ -98,6 +102,7 @@ import { ParallaxHeader } from '../components/parallax-header/parallax-header';
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   CourtDataService,
   Geolocation,
+  PhotoLibrary,
   StatusBar,
   SplashScreen,
   HttpModule,

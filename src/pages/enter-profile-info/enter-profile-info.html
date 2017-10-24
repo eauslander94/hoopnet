@@ -1,0 +1,38 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>blacktop</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <p *ngIf='!edit'>
+    Please enter the following profile information
+  </p>
+  <p *ngIf='edit'>
+    Please edit the following information
+  </p>
+  <!-- Get First Name -->
+  <ion-item>
+    <ion-label color="primary" floating>First Name</ion-label>
+    <ion-input [(ngModel)]='user.fName' [attr.maxLength]="20"></ion-input>
+  </ion-item>
+
+  <!-- Get Last Name -->
+  <ion-item>
+    <ion-label color="primary" floating>Last Name</ion-label>
+    <ion-input [(ngModel)]='user.lName' [attr.maxLength]="30"></ion-input>
+  </ion-item>
+
+ <!-- Get Nick Name -->
+  <ion-item>
+    <ion-label color="primary" floating>Nickname</ion-label>
+    <ion-input [(ngModel)]='user.nName' [attr.maxLength]="30"></ion-input>
+  </ion-item>
+
+  <p id='errorMessage' *ngIf='errorMessage'>Please enter both first and last name</p>
+  <button ion-button full round (tap)='submit()'>Submit</button>
+</ion-content>

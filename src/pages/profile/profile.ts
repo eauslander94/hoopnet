@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Tabs, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Tabs, Events,
+         AlertController } from 'ionic-angular';
 import { FriendsPage }     from '../friends-page/friends-page';
+import { EnterProfileInfo } from '../enter-profile-info/enter-profile-info';
 import { HomeCourtDisplay } from '../../components/home-court-display/home-court-display';
 
 @IonicPage()
@@ -18,7 +20,8 @@ export class Profile {
               public params: NavParams,
               public modalCtrl: ModalController,
               private tabs: Tabs,
-              public events: Events)
+              public events: Events,
+              private alertCtrl: AlertController)
   {
     // If we've got a user in the nav params, display that user. else generate user
     if(params.get('user')){
@@ -41,11 +44,16 @@ export class Profile {
     });
   }
 
+  navToEnterProfileInfo(){
+    this.navCtrl.push(EnterProfileInfo, {'edit': true, 'user': this.user});
+  }
+
   // Post:  HomeCourtDisplay is presented
   presentHomeCourts(){
     let homeCourtDisplay = this.modalCtrl.create(HomeCourtDisplay,
-      {homecourts: this.user.homecourts}
-    )
+      { homecourts: this.user.homecourts,
+        myProfile: this.myProfile
+      })
     homeCourtDisplay.onDidDismiss((data) => {
       if(data.toMap){
         // Navigate to first tab
@@ -54,6 +62,25 @@ export class Profile {
       }
     });
     homeCourtDisplay.present();
+  }
+
+  // Post:  Action sheet displaying add friend options is presented
+  public presentAddSheet(){
+    let alert = this.alertCtrl.create({
+      subTitle: 'Add ' + this.user.fName + " " + this.user.lName + "?",
+      buttons: [
+        { text: 'send friend request',
+          handler: () => {
+            console.log(this.user.nName + ' added');
+            // TO DO: put request - pointer to 'current user' put into list of
+            // 'param user's friend requests
+          }
+        },
+        { text: 'cancel', role: 'cancel' },
+      ]
+    })
+
+    alert.present();
   }
 
   private generateUser(){
