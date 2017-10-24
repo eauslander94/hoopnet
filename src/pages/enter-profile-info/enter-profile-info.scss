@@ -6,9 +6,9 @@ page-enter-profile-info {
   }
   // Message up top
   p:nth-child(1){
-    font-family: Quicksand-bold;
+    font-family: Quicksand-regular;
     color: $offWhite;
-    font-size: 4vw;
+    font-size: 4.3vw;
     text-align: center;
   }
   // The inputs for getting names
@@ -27,7 +27,7 @@ page-enter-profile-info {
   }
 
   #errorMessage{
-    font-family: QUicksand-bold;
+    font-family: Quicksand-bold;
     color: red;
     text-align: center;
     font-size: 4vw;

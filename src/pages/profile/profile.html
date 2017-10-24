@@ -5,31 +5,34 @@
 </ion-header>
 
 
-<ion-content fullscreen parallax-header>
-    <!-- Parallax Header -->
-    <div class="profile-parallax">
+<ion-content>
 
-        <img src='https://i.amz.mshcdn.com/kJsKVWzrBmN0e7A4xwcbAyGm9DI=/fit-in/1200x9600/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F108414%2FGettyImages-638822.jpg'/>
+    <div id='profileWrapper' ion-fixed>
+
+        <img src={{user.backgroundImage}}/>
         <!-- User Avatar -->
         <ion-item no-lines>
           <ion-avatar>
-            <img src='../assets/img/sampleAvatar.jpg'/>
+            <img src={{user.avatar}}/>
           </ion-avatar>
         </ion-item>
 
         <!-- User Name -->
-        <p>
-          Eli "Steve Bash" Auslander
-        </p>
+        <div id='userName'>
+          <p>{{user.fName}}</p>
+          <p *ngIf='user.nName && user.nName != ""' id='nickname'>'{{user.nName}}'</p>
+          <p>{{user.lName}}</p>
+        </div>
 
         <!-- User Info -->
         <div id="userInfo">
           <div (tap)="navToFriends()">
-            <p>67</p>
+            <p>{{user.friends.length}}</p>
             <p>Friends</p>
           </div>
           <div tappable (tap)='presentHomeCourts()'>
-            <p>Tompkins Square Park</p>
+            <p *ngIf='user.homecourts[0]'>{{user.homecourts[0].name}}</p>
+            <p *ngIf='!user.homecourts[0]'>-</p>
             <p>Homecourt</p>
           </div>
           <div *ngIf='myProfile' tappable (tap)='navToEnterProfileInfo()'>
@@ -42,8 +45,6 @@
           </div>
         </div>
 
-    </div><!-- profile parralax div -->
-
-
+    </div>
 
 </ion-content>

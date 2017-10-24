@@ -1,27 +1,30 @@
 page-profile {
-
-
+  height: 100vh;
+  width: 100vw;
+  position: fixed;
    // Parallax header style
-   .profile-parallax {
+   #profileWrapper {
       // background-image: url('../assets/img/IversonStepOver.jpg');
       height: 100vh;
-      position: relative;
+      //position: relative;
+      width: 100vw;
     }
 
-    .profile-parallax > img {
+    #profileWrapper > img {
       opacity: 0.7;
       position: absolute;
       z-index: -1;
+      height: 100%;
+      width: 100%;
     }
 
-    .profile-parallax ion-item{
+    #profileWrapper ion-item{
       position: static;
       background-color: rgba(0, 0, 0, 0);
-      border: 2px solid red;
     }
 
 
-    .profile-parallax ion-avatar img {
+    #profileWrapper ion-avatar img {
     //  border: 1px solid blue;
       text-align: center;
       margin: 0 auto;
@@ -32,22 +35,39 @@ page-profile {
     }
 
     // All text on the page
-    .profile-parallax p {
+    #profileWrapper p {
       text-align: center;
       font-family: Quicksand-Regular;
       color: white;
       font-weight: bold;
     }
     // Just the Name header
-    .profile-parallax > p {
+    #profileWrapper > p {
         font-size: 6vw;
         //border: 2px solid blue;
         font-family: FV_Almelo;
     }
 
-    .profile-parallax ion-avatar {
+    #profileWrapper ion-avatar {
       margin-top: 6vh;
       //border: 2px solid blue;
+    }
+
+    #userName{
+      width: 95vw;
+      margin-left: 2.5vw;
+      text-align: center;
+      p{
+        display: inline-block;
+        font-size: 5vw;
+        font-family: Axis;
+        color: #020202;
+        margin-left:.8vw;
+        margin-right: .8vw;
+      }
+      #nickname{
+        font-style: italic;
+      }
     }
 
     #userInfo{
@@ -74,12 +94,6 @@ page-profile {
       font-size: 3.0vw;
       //border: 1px solid green;
       margin-top: 1vh
-    }
-
-    #profileScroll {
-      position: absolute;
-      top: 100vh;
-      width: 100vw;
     }
 
  }//page-profile paren

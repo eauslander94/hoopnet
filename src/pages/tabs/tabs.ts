@@ -13,8 +13,7 @@ export class TabsPage {
   // this tells the tabs component which Pages
   // should be each tab's root Page
   tab1Root: any = HoopMapPage;
-  tab2Root: any = CourtPage;
-  tab3Root: any = Profile;
+  tab2Root: any = Profile;
 
   constructor() {
 

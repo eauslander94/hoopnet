@@ -89,14 +89,14 @@ export class Profile {
       nName: "White Iverson",
       lName: "Auslander",
       // An array of pointers to court objects
-      homecourts: [],
+      homecourts: [{name: 'Tompkins Square Park'}],
       // An array of pointers to user objects
       friends: [],
       // Array of pointers to user objects
       friendRequests: [{}, {}],
       // for now, string link to the image
       avatar: '../assets/img/sampleAvatar.jpg',
-      backgroundImage: "https://i.amz.mshcdn.com/kJsKVWzrBmN0e7A4xwcbAyGm9DI=/fit-in/1200x9600/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F108414%2FGettyImages-638822.jpg",
+      backgroundImage: "https://cdn.thinglink.me/api/image/893579611068170241/1240/10/scaletowidth",
       // pointer to the court object the user is beside
       courtside: {},
     }
@@ -112,7 +112,7 @@ export class Profile {
       friendRequests: [{}, {}],
       // for now, string link to the image
       avatar: 'http://cdn.hoopshype.com/i/2f/d5/2b/allen-iverson.png',
-      backgroundImage: "",
+      backgroundImage: "https://i.amz.mshcdn.com/kJsKVWzrBmN0e7A4xwcbAyGm9DI=/fit-in/1200x9600/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F108414%2FGettyImages-638822.jpg",
       // pointer to the court object the user is beside
       courtside: {},
     }
@@ -128,8 +128,8 @@ export class Profile {
       // Array of pointers to user objects
       friendRequests: [{}, {}],
       // for now, string link to the image
-      avatar: 'https://www.google.com.ni/url?sa=i&rct=j&q=&esrc=s&source=images&cd=&ved=0ahUKEwiy7_3s7f_WAhXFZiYKHTsGDN0QjBwIBA&url=http%3A%2F%2Ftsnimages.tsn.ca%2FImageProvider%2FPlayerHeadshot%3FseoId%3Dstephen-curry%26width%3D620%26height%3D620&psig=AOvVaw317CsKu1mGmdz4f_hT96oz&ust=1508611466842162',
-      backgroundImage: "",
+      avatar: 'http://hickokbelt.com/files/3014/5624/0606/CurryStephen-headshot-sm.jpg',
+      backgroundImage: "https://i.pinimg.com/736x/fa/ac/96/faac96d6c158461bff12d6a8e24c5503--nba-now-stephen-curry-quotes.jpg",
       // pointer to the court object the user is beside
       courtside: {},
     }
