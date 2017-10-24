@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ModalController, Tabs, Events } from 'ionic-angular';
 import { FriendsPage }     from '../friends-page/friends-page';
+import { HomeCourtDisplay } from '../../components/home-court-display/home-court-display';
 
 @IonicPage()
 @Component({
@@ -13,7 +14,11 @@ export class Profile {
   // Whether or not we are displaying the profile of the user currently logged in
   myProfile: boolean;
 
-  constructor(public navCtrl: NavController, public params: NavParams)
+  constructor(public navCtrl: NavController,
+              public params: NavParams,
+              public modalCtrl: ModalController,
+              private tabs: Tabs,
+              public events: Events)
   {
     // If we've got a user in the nav params, display that user. else generate user
     if(params.get('user')){
@@ -34,6 +39,21 @@ export class Profile {
       'friendRequests': this.user.friendRequests,
       'myProfile': this.myProfile,
     });
+  }
+
+  // Post:  HomeCourtDisplay is presented
+  presentHomeCourts(){
+    let homeCourtDisplay = this.modalCtrl.create(HomeCourtDisplay,
+      {homecourts: this.user.homecourts}
+    )
+    homeCourtDisplay.onDidDismiss((data) => {
+      if(data.toMap){
+        // Navigate to first tab
+        this.navCtrl.parent.select(0);
+        this.events.publish('homeCourtMessage');
+      }
+    });
+    homeCourtDisplay.present();
   }
 
   private generateUser(){

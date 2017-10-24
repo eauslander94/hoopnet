@@ -1,3 +1,82 @@
 home-court-display {
 
+
+  #hackground{
+    height: 100vh;
+    width: 100vw;
+    position: relative;
+    z-index: -1;
+    opacity: .1;
+    background: #131313;
+  }
+
+  #content{
+    width: 100vw;
+    height: 90vw;
+    position: absolute;
+    top: 39vw;
+    //border: 1px solid #050505;
+    background: rgba(19, 19, 19, 0.5);
+    ion-slides{
+      opacity:1!important;
+      height: 80vw;
+    }
+    ion-slide{
+      #homeCourtName{
+        text-align: center!important;
+        font-family: beba-regular;
+        color: $offWhite;
+        font-size: 7vw;
+        height: 8vw;  width: 100%;
+        padding-left: 2vw;
+        padding-right: 2vw;
+        margin-top: -4vw;
+        margin-bottom: 2vw;
+        // Ellipsis overflow when the name is too long to fit on one line
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+      the-window{
+        // Fix bug - baskets were centered
+        text-align: initial;
+      }
+      // Fixing display bugs
+      #activityWrapper{
+        text-align: center!important;
+        p:nth-child(1){
+          text-align: center;
+        }
+      }
+    }
+
+    #bottomButtons{
+      width: 100%;
+      height: 10vw;
+      position: absolute; bottom: 0;
+      div{
+        height: 100%;
+        display: inline-block;
+        margin-top: 0;
+        width: 12vw;
+        text-align:center;
+      }
+
+      ion-icon{
+        font-size: 8vw;
+        color: $offWhite;
+        opacity: 0.9;
+        // Give them a quantified width, center them within their element
+        width: 5vw; text-align: center;
+      }
+      div:last-child{
+        float: right;
+      }
+      div:nth-child(2){margin-left: 16.5vw;}
+      div:nth-child(3){margin-left: 16.5vw;
+        ion-icon {font-weight: bold;}
+      }
+    }
+  }// content paren
+
 }

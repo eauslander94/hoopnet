@@ -1,6 +1,7 @@
 // ionic imports
 import { Component, ViewChild, ElementRef } from '@angular/core';
-import { NavController, PopoverController, AlertController, ModalController } from 'ionic-angular';
+import { NavController, PopoverController, AlertController, ModalController, Events,
+        ToastController } from 'ionic-angular';
 // Map imports
 import { Geolocation } from '@ionic-native/geolocation';
 // communication with server
@@ -25,6 +26,9 @@ export class HoopMapPage {
   dummy: any;
   court: any;
 
+  // To be used for determining if a marker was clicked or pressed
+  fingerOnScreen: boolean;
+
   allCourtsObservable: Observable<Response>;
 
 
@@ -33,9 +37,15 @@ export class HoopMapPage {
               public courtDataService: CourtDataService,
               public popoverCtrl: PopoverController,
               private alertCtrl: AlertController,
-              private modalCtrl: ModalController)
+              private modalCtrl: ModalController,
+              public events: Events,
+              private toastCtrl: ToastController)
   {
     this.court = this.generateCourt();
+
+    events.subscribe('homeCourtMessage', () => {
+      this.addHomeCourtsMessage();
+    })
   }
 
   // load the map when the page has loaded
@@ -63,6 +73,7 @@ export class HoopMapPage {
         this.addCourtMarker(this.court);
       })
   }
+
 
   // method markerClicked()
   // Param: court - the court object corresponding to the clicked marker
@@ -98,7 +109,7 @@ export class HoopMapPage {
 
 // Param: court - a court object as defined in the model
 // post: a marker corresponding to that court is added to the map
- addCourtMarker(court){
+ addCourtMarker(court: any){
 
    let latLng = new google.maps.LatLng(court.location.lat, court.location.lng);
    let marker = new google.maps.Marker({
@@ -109,10 +120,67 @@ export class HoopMapPage {
     // This is the object that will be passed into other parts of the app.
     court: court
   })
-  google.maps.event.addListener(marker, 'click', (court) => {
-    this.markerClicked(marker.court);
+
+  google.maps.event.addListener(marker, 'mousedown', () => {
+    this.fingerOnScreen = true;
+    this.clickOrPress(court);
+  })
+  google.maps.event.addListener(marker, 'mouseup', () => {
+    this.fingerOnScreen = false;
   })
  }
+
+ // Determines whether the marker was clicked or pressed
+ // Post1:  Marker clicked called on a click
+ // Post2:  Marker Pressed called on a presse
+ // Param:  the court to be passed to the callback functions
+ private async clickOrPress(court: any){
+   await this.delay(150);
+   if(!this.fingerOnScreen)
+     this.markerClicked(court);
+   await this.delay(350)
+   if(this.fingerOnScreen){
+     this.fingerOnScreen = false;
+     this.confirmAddCourt(court);
+   }
+ }
+
+ // Post:  from an async function, execution is delayed for the given time
+ // Param: number ms - the time to wait for
+ private delay(ms: number) {
+   return new Promise<void>(function(resolve) {
+       setTimeout(resolve, ms);
+   });
+}
+
+// Post:  Confirm add courts alert is presented
+// Param: the court to be potentially added
+public confirmAddCourt(court: any){
+  let alert = this.alertCtrl.create({
+    subTitle: 'Add ' + court.name + ' to your Home Courts?',
+    buttons: [
+      { text: 'Cancel',
+        role: 'cancel'
+      },
+      { text: 'Add',
+        handler: () => {
+          console.log('added ' + court.name);
+          // TO DO: Server logic for adding this court to current user
+        }
+      }
+    ]
+  }).present();
+}
+
+// Post: Add HomeCourts message is presented
+public addHomeCourtsMessage(){
+  this.toastCtrl.create({
+    message: 'Press and hold a court marker to add it to your Home Courts.',
+    position: 'top',
+    showCloseButton: true,
+    closeButtonText: 'Got it'
+  }).present();
+}
 
 
  // post: map is centered around a given address

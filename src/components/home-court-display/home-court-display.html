@@ -1,4 +1,18 @@
-<!-- Generated template for the HomeCourtDisplay component -->
-<div>
-  {{text}}
+<div tappable id="hackground" (tap)="viewCtrl.dismiss({})"></div>
+
+<div id="content">
+
+  <ion-slides pager='true'>
+    <ion-slide *ngFor='let court of courts' class='swiper-no-swiping'>
+      <p id='homeCourtName'>{{court.name}}</p>
+      <the-window [windowData]='court.windowData'></the-window>
+    </ion-slide>
+  </ion-slides>
+  <div id='bottomButtons'>
+    <div tappable (click)='slideBack()'><ion-icon name='arrow-back'></ion-icon></div>
+    <div tappable (click)='presentDeleteConfirmation()'><ion-icon name='trash'></ion-icon></div>
+    <div tappable (tap)='addHomeCourtPressed()'><ion-icon name ='add'></ion-icon></div>
+    <div tappable (click)='slideForward()'><ion-icon name='arrow-forward'></ion-icon></div>
+  </div>
+
 </div>
