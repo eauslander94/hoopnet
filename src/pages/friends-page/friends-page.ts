@@ -85,8 +85,14 @@ export class FriendsPage {
 
     // This observable controls the moment at which we ask the server for friends to add
     this.addSearchControl.valueChanges.debounceTime(700).subscribe(search =>{
-      if (search === '') return;
-      this.courtDataService.getUsersByName(this.addSearchTerm);
+      if (search === '') {
+        this.addResults = [];
+        return;
+      }
+      this.courtDataService.getUsersByName(this.addSearchTerm).subscribe(
+        res => { this.addResults = res.json() },
+        err => { console.log('error getUsersByName() on friends page ' + err) }
+      );
     });
   }
 
@@ -131,7 +137,7 @@ export class FriendsPage {
           handler: () => {
             console.log(user.nName + ' added');
             // TO DO: put request - pointer to 'current user' put into list of
-            // 'param user's friend requests
+            this.courtDataService.requestFriend(user);
           }
         },
         // Nav to user's profile

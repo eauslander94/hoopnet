@@ -111,7 +111,7 @@ export class Profile {
   private generateUser(){
     return {
       fName: "Eli",
-      nName: "White Iverson",
+      nName: "White-Iverson",
       lName: "Auslander",
       _id: '59f7b8e5cf12061d37c159a5',
       // An array of pointers to court objects

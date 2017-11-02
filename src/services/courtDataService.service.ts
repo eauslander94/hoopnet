@@ -46,11 +46,12 @@ export class CourtDataService{
     // Returns: Observable emitting array of users whose names match the searchterm
     // isAuthenticated: yes
     // isCourtside:     no
-    getUsersByName(searchterm: string){
+    public getUsersByName(searchterm: string){
       console.log(searchterm);
       let params = new URLSearchParams();
       params.set('searchterm', searchterm);
-      this.http.get(this.route + '/getUsersByName', new RequestOptions({search: params}));
+      // , new RequestOptions({search: params})
+      return this.http.get(this.route + '/getUsersByName', new RequestOptions({search: params}));
     }
 
 
@@ -96,6 +97,19 @@ export class CourtDataService{
       if(id1 === 'currentUser') params.user1 = this.currentUser;
       else if(id2 === 'currentUser') params.user2 = this.currentUser;
       return this.http.put(this.route + '/addFriend', params);
+    }
+
+
+    // Post:  current user is added to friendRequest list of requested user
+    // Param: requestedUser - user whose friend request currentUser will be added to
+    // isAuthenticated: yes
+    // isCourtside:     no
+    requestFriend(requestedUser){
+      let params = {
+        'requestedUser': requestedUser._id,
+        'currentUser': this.currentUser
+      };
+      this.http.put(this.route + '/requestFriend', params).subscribe();
     }
 
 
