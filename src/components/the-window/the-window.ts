@@ -5,6 +5,8 @@ import { ActionModal } from '../action-modal/action-modal';
 import  moment  from 'moment';
 import {Observable} from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
+import { CourtDataService } from '../../services/courtDataService.service';
+
 
 @Component({
   selector: 'the-window',
@@ -26,7 +28,9 @@ export class TheWindow {
   @ViewChild('basket') basket;
   private animator: AnimationBuilder;
 
-  constructor (public modalCtrl: ModalController, private animationService: AnimationService) {
+  constructor (public modalCtrl: ModalController,
+               private animationService: AnimationService,
+               private courtDataService: CourtDataService) {
 
     // Update the living timestamps every minute
     Observable.interval(1000 * 60).subscribe( x => {
@@ -61,6 +65,7 @@ export class TheWindow {
         this.windowData.gLastValidated = timeNow;
         this.windowData.aLastValidated = timeNow;
         this.updateLivingTimestamps();
+        this.courtDataService.putWindowData(this.windowData);
         break;
       }
       case "games": {
@@ -68,6 +73,7 @@ export class TheWindow {
         this.windowData.gLastValidated = timeNow;
         this.gLivingTimestamp = moment(timeNow).fromNow();  // update the timestamp
         if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
+        this.courtDataService.putWindowData(this.windowData);
         break;
       }
       case "action":{
@@ -75,6 +81,7 @@ export class TheWindow {
         this.windowData.aLastValidated = timeNow;
         this.aLivingTimestamp = moment(timeNow).fromNow();
         if(this.aLivingTimestamp === "a few seconds ago") this.aLivingTimestamp = "just now";
+        this.courtDataService.putWindowData(this.windowData);
         break;
       }
       default: break;
@@ -107,9 +114,11 @@ export class TheWindow {
       if(data){
         this.windowData.games = data;
         this.validate("games");
+        // TO DO: Send new court data to the server
+        //this.courtDataService.putWindowData(this.windowData);
       }
 
-      // TO DO: Send new court data to the server
+
     });
     gamesModal.present();
   }
@@ -130,6 +139,7 @@ export class TheWindow {
         this.windowData.action = data.action;
         this.windowData.actionDescriptor = data.actionDescriptor;
         this.validate("action");
+        //this.courtDataService.putWindowData(this.windowData);
       }
     })
 

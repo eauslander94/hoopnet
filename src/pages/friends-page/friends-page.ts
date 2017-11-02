@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
 import { Profile }     from '../profile/profile';
+import { CourtDataService } from '../../services/courtDataService.service';
 import 'rxjs/add/operator/debounceTime';
 
 @IonicPage()
@@ -11,9 +12,12 @@ import 'rxjs/add/operator/debounceTime';
 })
 export class FriendsPage {
 
+
   // Friends and requests recieved from profile page
   friends: Array<any>;
   friendRequests: Array<any>;
+  gotFriendRequests: boolean = false;
+
   // So that when we filter friends we do not lose values that were filtered out
   friendsShowing: Array<any>;
 
@@ -35,24 +39,43 @@ export class FriendsPage {
 
   constructor(public navCtrl: NavController,
               public params: NavParams,
-              public actionSheetCtrl: ActionSheetController)
+              public actionSheetCtrl: ActionSheetController,
+              public courtDataService: CourtDataService)
   {
-    this.friends = params.get('friends');
-    this.friendsShowing = this.friends;
     this.friendRequests = params.get('friendRequests');
-
+    // Whether or not we are viewing the current user's profile
     this.myProfile = params.get('myProfile');
-    // Post server hookup:
-    // get users associated with friend request pointers when we hit the requests tab
-    // For now, just set it to friends for some dummy data
-    this.friendRequests = this.friends;
-    //this.addResults = this.friends;
 
+    // Call the server, set friends and friends showing
+    this.courtDataService.getUsers(params.get('friends')).subscribe(
+      res => {
+        this.friends = res.json();
+        this.friendsShowing = res.json();
+      },
+      err => { console.log ('error retrieving users in friends page ' + err) },
+      () => {}
+    )
+
+    //this.addResults = this.friends;
     this.showing = 'friends';
 
     this.friendSearchControl = new FormControl;
     this.addSearchControl = new FormControl
   }
+
+  // Post 1: this.showing becomes requests
+  // Post 2: Gets friend requests from server upon first click of the tab
+  public requestTabTapped(){
+    this.showing = 'requests';
+    if (this.gotFriendRequests)  return;
+    this.gotFriendRequests = true;
+    this.courtDataService.getUsers(this.params.get('friendRequests')).subscribe(
+      res => { this.friendRequests = res.json(); console.log('got friend requests')},
+      err => { console.log('error retrievein friend requests in friends page ' + err)},
+      () => {}
+    )
+  }
+
 
   ionViewDidLoad(){
     // wait 700ms before triggering a search so that we don't search on every keystroke
@@ -62,9 +85,11 @@ export class FriendsPage {
 
     // This observable controls the moment at which we ask the server for friends to add
     this.addSearchControl.valueChanges.debounceTime(700).subscribe(search =>{
-      this.addSearch();
+      if (search === '') return;
+      this.courtDataService.getUsersByName(this.addSearchTerm);
     });
   }
+
 
 
   // Post:  friendsShowing becomes a filtered version of friends
@@ -98,7 +123,7 @@ export class FriendsPage {
 
   // Post:  Action sheet displaying add friend options is presented
   // Param: user - the user to be potentially added
-  public presentAddSheet(user: any){
+  public sendRequestSheet(user: any){
     let action = this.actionSheetCtrl.create({
       title: 'Add ' + user.fName + " " + user.lName + "?",
       buttons: [
@@ -122,17 +147,21 @@ export class FriendsPage {
     action.present();
   }
 
+  // Confirming a friend request
   // Post:  Action sheet displaying friend request options is presented
   // Param: user - the user to be potentially added
-  public presentRequestSheet(user: any){
+  public confirmRequestSheet(user: any){
     let action = this.actionSheetCtrl.create({
       title: 'Confirm ' + user.fName + " " + user.lName + "?",
       buttons: [
         { text: 'add friend',
           handler: () => {
-            console.log(user.nName + ' added');
-            // TO DO: Add friends put
-            // Takes pointers to 2 users, adds each to the list of the other's friends
+
+            this.courtDataService.addFriend('currentUser', user._id).subscribe();
+            // Below is a 'cheat' to save a server call.  If prolems arise,
+            // we can ask server for the actual users from the db.
+            this.friends.push(user);
+            this.friendRequests.splice(this.friendRequests.indexOf(user));
           }
         },
         // Nav to user's profile
@@ -154,8 +183,6 @@ export class FriendsPage {
   public tabSwitch(switchTo: string){
     this.showing = switchTo;
   }
-
-
 
 
 

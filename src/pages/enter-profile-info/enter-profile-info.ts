@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Events, Tabs } from 'ionic-angular';
+import { CourtDataService } from '../../services/courtDataService.service';
 import { PhotoLibrary } from '@ionic-native/photo-library';
 
 
@@ -23,7 +24,8 @@ export class EnterProfileInfo {
               private photoLibrary: PhotoLibrary,
               public alertCtrl: AlertController,
               public events: Events,
-              private tabs: Tabs)
+              private tabs: Tabs,
+              private courtDataService: CourtDataService)
   {
     if(params.get('edit')){
       this.user = params.get('user');
@@ -37,6 +39,7 @@ export class EnterProfileInfo {
       this.errorMessage = true;
       return;
     }
+    this.courtDataService.putUser(this.user);
 
     // TO DO: Send profile Info to server
     // Loading wheel  here, before presenting alert

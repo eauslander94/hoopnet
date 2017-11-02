@@ -4,6 +4,7 @@ import { IonicPage, NavController, NavParams, ModalController, Tabs, Events,
 import { FriendsPage }     from '../friends-page/friends-page';
 import { EnterProfileInfo } from '../enter-profile-info/enter-profile-info';
 import { HomeCourtDisplay } from '../../components/home-court-display/home-court-display';
+import { CourtDataService } from '../../services/courtDataService.service';
 
 @IonicPage()
 @Component({
@@ -13,6 +14,9 @@ import { HomeCourtDisplay } from '../../components/home-court-display/home-court
 export class Profile {
 
   user: any;
+  // The id of our current user.  Eventually we will store this in local storage.
+  user_id: string;
+
   // Whether or not we are displaying the profile of the user currently logged in
   myProfile: boolean;
 
@@ -21,7 +25,8 @@ export class Profile {
               public modalCtrl: ModalController,
               private tabs: Tabs,
               public events: Events,
-              private alertCtrl: AlertController)
+              private alertCtrl: AlertController,
+              public courtDataService: CourtDataService)
   {
     // If we've got a user in the nav params, display that user. else generate user
     if(params.get('user')){
@@ -29,10 +34,30 @@ export class Profile {
       this.myProfile = false;
     }
     else {
-      this.generateUser();
+      this.user = this.generateUser();
       this.myProfile = true;
     }
+
+    this.user_id = '59f0e28dc4f3db7741253df8';
+    // To test
+    this.putUser();
   }
+
+
+  getUsers(user_ids: Array<String>){
+    this.courtDataService.getUsers(user_ids).subscribe(
+      res => {
+        console.log(res.json()[0].nName);
+      },
+      err => {console.log(err)},
+      () =>  {}
+    )
+  }
+
+
+    putUser(){
+      this.courtDataService.putUser(this.generateUser());
+    }
 
 
   // Post: Friends page is pushed onto navstack
@@ -84,22 +109,23 @@ export class Profile {
   }
 
   private generateUser(){
-    this.user = {
+    return {
       fName: "Eli",
       nName: "White Iverson",
       lName: "Auslander",
+      _id: '59f7b8e5cf12061d37c159a5',
       // An array of pointers to court objects
-      homecourts: [{name: 'Tompkins Square Park'}],
+      homecourts: ['59f77e89da1d9f295b577f09'],
       // An array of pointers to user objects
-      friends: [],
+      friends: ['59f7b7f44929d51be74ffd09'],
       // Array of pointers to user objects
-      friendRequests: [{}, {}],
+      friendRequests: ['59f77e89da1d9f295b577f0f'],
       // for now, string link to the image
-      avatar: '../assets/img/sampleAvatar.jpg',
-      backgroundImage: "https://cdn.thinglink.me/api/image/893579611068170241/1240/10/scaletowidth",
+      avatar: {},
+      backgroundImage: {},
       // pointer to the court object the user is beside
       courtside: {},
-    }
+    }/*
     let user2 = {
       fName: "Allen",
       nName: "The Answer",
@@ -134,9 +160,9 @@ export class Profile {
       courtside: {},
     }
 
-    this.user.friends.push(user2);
-    this.user.friends.push(user3);
-
+    //this.user.friends.push(user2);
+    //this.user.friends.push(user3);
+    */
   }
 
 
