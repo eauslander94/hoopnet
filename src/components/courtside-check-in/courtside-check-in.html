@@ -37,7 +37,7 @@
     <p *ngIf="courts[0]">Here are a few courts that are close by</p>
     <p *ngIf="!courts[0]">We are based solely in NYC at the moment. Soon we will be coming to a court near you</p>
     <ion-list>
-      <div *ngFor="let courts of courts" (tap)="moveMapDismiss(court.location)">
+      <div *ngFor="let court of courts" (tap)="moveMapDismiss(court.location)">
         <p>{{court.name}}</p>
         <p>view on map</p>
       </div>

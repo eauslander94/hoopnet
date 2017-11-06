@@ -32,7 +32,10 @@ export class CourtMapPopup {
   // Post: Closures component is presented
   presentClosures(){
     this.modalCtrl.create(Closures,
-    {"closures": this.court.closures, "courtBaskets": this.court.baskets})
+      {"closures": this.court.closures,
+       "courtBaskets": this.court.baskets,
+       "court_id": this.court._id }
+    )
     .present();
   }
 

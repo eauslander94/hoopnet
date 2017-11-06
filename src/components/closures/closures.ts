@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
+import { CourtDataService } from '../../services/courtDataService.service';
 import moment from 'moment';
 import { AddClosure } from '../../components/add-closure/add-closure';
 
@@ -20,9 +21,13 @@ export class Closures {
 
   courtBaskets: number;
 
-  constructor(public viewCtrl: ViewController, private params: NavParams,
-    public actionSheetCtrl: ActionSheetController, public alertCtrl: AlertController,
-    public modalCtrl: ModalController) {
+  constructor(public viewCtrl: ViewController,
+              private params: NavParams,
+              public actionSheetCtrl: ActionSheetController,
+              public alertCtrl: AlertController,
+              public modalCtrl: ModalController,
+              public courtDataService: CourtDataService)
+  {
     this.closures = params.get('closures');
 
     this.courtBaskets = params.get('courtBaskets');
@@ -110,7 +115,16 @@ export class Closures {
         { text: 'Cancel', handler: ()=> {} },
         { text: 'Delete', handler: ()=> {
           // delete the closure
-          this.deleteClosure(closure)
+          //this.deleteClosure(closure)
+          this.courtDataService.deleteClosure(closure._id, this.params.get('court_id'))
+          .subscribe(
+            res => {
+              this.closures = res.json().closures
+              for(let closure of this.closures)
+                this.formatTimestrings(closure)
+            },
+            err => {console.log('err, deleteClosure ' + err)}
+          );
         }}
       ]
     })
@@ -130,25 +144,46 @@ export class Closures {
   // post2: Data returned is sent to the server
   // param: boolean edit - whether or not we are editing an existing closure
   // closure - the closure to be edited, undef if edit is false
+  // Edit - boolean, whether or not we are editing an existing closure
   public presentAddClosure(closure, edit: boolean){
     let addClosure = this.modalCtrl.create(AddClosure, {"courtBaskets": this.params.get('courtBaskets'),
     'closure': closure, 'edit': edit});
 
+    // Save the old reason as an identifier for put server requests when editing
+    let oldReason = '';
+    if(edit) oldReason = closure.reason;
+
     addClosure.onDidDismiss(data => {
       if(data.closure){
         this.formatTimestrings(data.closure);
-        this.closures.push(data.closure);
 
-        // If we've got a new closure that has been edited, delete the old one
-        if(edit) this.deleteClosure(closure);
-
-        // Here, we will send data to the server, and use the returned observable
-        // To update the court with the new closure
+        if(edit) {
+          this.courtDataService.putClosure(data.closure, this.params.get('court_id'))
+          .subscribe(
+            res => {
+              this.closures = res.json().closures
+              for(let closure of this.closures)
+                this.formatTimestrings(closure)
+            },
+            err => {console.log('err, putclosure ' + err)}
+          );
+        }
+        else{
+          this.closures.push(data.closure);
+          this.courtDataService.postClosure(data.closure, this.params.get('court_id'))
+          .subscribe(
+            res => {
+              this.closures = res.json().closures
+              for(let closure of this.closures)
+                this.formatTimestrings(closure)
+            },
+            err => {console.log('err, postClosure() ' + err)}
+          );
+        }
       }
     });
 
     addClosure.present();
-
   }
 
   // Post: date object is converted to sexy timeString, which is added to closure

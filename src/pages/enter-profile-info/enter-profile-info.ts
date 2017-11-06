@@ -35,13 +35,14 @@ export class EnterProfileInfo {
   }
 
   submit(){
+
     if(this.user.fName === '' || this.user.lName === ''){
       this.errorMessage = true;
       return;
     }
-    this.courtDataService.putUser(this.user);
 
-    // TO DO: Send profile Info to server
+    this.courtDataService.putUser(this.user);
+    
     // Loading wheel  here, before presenting alert
     let alert = this.alertCtrl.create({
       subTitle: 'Got Your Info! Now we encourage you to find your homecourt on our map',

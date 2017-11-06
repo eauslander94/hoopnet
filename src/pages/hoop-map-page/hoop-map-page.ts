@@ -113,7 +113,9 @@ export class HoopMapPage {
     cci.onDidDismiss(data =>{
       // Move map if that is what data returned said to do
       if(data.moveMap){
-        this.map.setCenter(new google.maps.LatLng(data.location.lat, data.location.lng))
+        this.map.setCenter(new google.maps.LatLng
+          (data.location.coordinates[1], data.location.coordinates[0])
+        )
         this.map.setZoom(15);
       }
     })
@@ -127,7 +129,10 @@ export class HoopMapPage {
 // Post2 - Event listners are added to each marker to detect for clicks or presses
  addCourtMarker(court: any){
 
-   let latLng = new google.maps.LatLng(court.location.lat, court.location.lng);
+   console.log(court.location.coordinates[1] + ' '  + court.location.coordinates[0])
+
+   let latLng = new google.maps.LatLng
+     (court.location.coordinates[1], court.location.coordinates[0]);
    let marker = new google.maps.Marker({
     map: this.map,
     animation: google.maps.Animation.DROP,
@@ -182,6 +187,7 @@ public confirmAddCourt(court: any){
         handler: () => {
           console.log('added ' + court.name);
           // TO DO: Server logic for adding this court to current user
+          this.courtDataService.putHomecourt(court._id);
         }
       }
     ]
@@ -219,8 +225,8 @@ private generateCourt(){
 
     // a latLng location
     location: {
-      lat: 40.726429,
-      lng: -73.981784,
+      type: 'Point',
+      coordinates: [-73.981784, 40.726429,]
     },
 
     // monday(0) - sunday(6) based arrays, representing the time that the court

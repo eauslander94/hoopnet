@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ActionSheetController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
 import { Profile }     from '../profile/profile';
 import { CourtDataService } from '../../services/courtDataService.service';
 import 'rxjs/add/operator/debounceTime';
@@ -40,7 +40,8 @@ export class FriendsPage {
   constructor(public navCtrl: NavController,
               public params: NavParams,
               public actionSheetCtrl: ActionSheetController,
-              public courtDataService: CourtDataService)
+              public courtDataService: CourtDataService,
+              public alertCtrl: AlertController)
   {
     this.friendRequests = params.get('friendRequests');
     // Whether or not we are viewing the current user's profile
@@ -124,20 +125,31 @@ export class FriendsPage {
   // Param: user - the user whose page we will pull up
   public navToProfile(user: any){
     this.navCtrl.popToRoot();
+    console.log(user);
     this.navCtrl.push(Profile, {'user': user});
   }
 
+
   // Post:  Action sheet displaying add friend options is presented
   // Param: user - the user to be potentially added
-  public sendRequestSheet(user: any){
+  public friendSheet(user: any){
     let action = this.actionSheetCtrl.create({
-      title: 'Add ' + user.fName + " " + user.lName + "?",
+      title: user.fName + " " + user.lName,
       buttons: [
-        { text: 'send friend request',
+        { text: 'Remove Friend',
           handler: () => {
-            console.log(user.nName + ' added');
-            // TO DO: put request - pointer to 'current user' put into list of
-            this.courtDataService.requestFriend(user);
+            console.log(user.nName + ' removed');
+            this.courtDataService.removeFriend(user).subscribe(
+              res => {
+                // Below is a 'cheat' to save a server call.  If prolems arise,
+                // we can ask server for the actual users from the db using the returned pointers
+                this.friends.splice(this.friends.indexOf(user));
+                this.friendsShowing = this.friends;
+              },
+              err => {
+                console.log('error removing friend on friends page ' + err);
+              }
+            );
           }
         },
         // Nav to user's profile
@@ -151,6 +163,67 @@ export class FriendsPage {
     })
 
     action.present();
+  }
+
+
+  // Post:  Action sheet displaying add friend options is presented
+  // Param: user - the user to be potentially added
+  public sendRequestSheet(user: any){
+    let action = this.actionSheetCtrl.create({
+      title: 'Add ' + user.fName + " " + user.lName + "?",
+      buttons: [
+        { text: 'send friend request',
+          handler: () => {
+            // Check if user is already a friend of current user
+            let yourFriend = false;
+            for(let friend of this.friends)
+              if(friend._id === user._id) { yourFriend = true;  break };
+
+            if(yourFriend) {
+              action.dismiss().then(() => {
+                this.alreadyFriendsAlert(user);
+              })
+              return false;
+            }
+            // Check if this person has already requested you
+            let requestedYou = false;
+            for(let profile of this.friendRequests)
+              if (profile._id === user._id) { requestedYou = true; break };
+
+            if(requestedYou){
+              action.dismiss().then(() => {
+                this.requestedYouAlert(user);
+              })
+              return false;
+            }
+            // If all checks our, send the friend request
+            this.courtDataService.requestFriend(user);
+          }
+        },
+        // Nav to user's profile
+        { text: 'view profile',
+        handler: () =>{
+          this.navToProfile(user);
+        }
+      },
+      { text: 'cancel', role: 'cancel' }
+      ]
+    })
+    action.present();
+  }
+
+
+  alreadyFriendsAlert(user: any) {
+    let alert = this.alertCtrl.create({
+      subTitle: user.fName + ' ' + user.lName + ' is already your friend',
+      buttons: ['Dismiss']
+    }).present();
+  }
+  requestedYouAlert(user: any) {
+    let alert = this.alertCtrl.create({
+      subTitle: user.fName + ' ' + user.lName + ' has already requested you',
+      buttons: ['Dismiss']
+    }).present();
   }
 
   // Confirming a friend request

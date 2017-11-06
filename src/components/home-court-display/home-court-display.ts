@@ -20,7 +20,7 @@ export class HomeCourtDisplay {
               private navCtrl: NavController)
   {
     // TO DO: get courts from the court pointers we are passed in
-    this.courts = this.generateCourts();
+    this.courts = params.get('homecourts');
     if(params.get('myProfile')) this.myProfile = true;
   }
 

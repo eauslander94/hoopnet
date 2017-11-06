@@ -31,8 +31,8 @@
             <p>Friends</p>
           </div>
           <div tappable (tap)='presentHomeCourts()'>
-            <p *ngIf='user.homecourts[0]'>{{user.homecourts[0].name}}</p>
-            <p *ngIf='!user.homecourts[0]'>-</p>
+            <p *ngIf='homecourtObjects[0]'>{{homecourtObjects[0].name}}</p>
+            <p *ngIf='!homecourtObjects[0]'>-</p>
             <p>Homecourt</p>
           </div>
           <div *ngIf='myProfile' tappable (tap)='navToEnterProfileInfo()'>

@@ -20,6 +20,9 @@ export class Profile {
   // Whether or not we are displaying the profile of the user currently logged in
   myProfile: boolean;
 
+  homecourtObjects: Array<any> = [];
+  gotHomeCourts: boolean = false;
+
   constructor(public navCtrl: NavController,
               public params: NavParams,
               public modalCtrl: ModalController,
@@ -35,12 +38,26 @@ export class Profile {
     }
     else {
       this.user = this.generateUser();
+      //this.putUser();
+      this.getCurrentUser();
       this.myProfile = true;
     }
 
     this.user_id = '59f0e28dc4f3db7741253df8';
-    // To test
-    this.putUser();
+  }
+
+
+  // get homecourts upon loading the view
+  ionViewDidLoad(){
+    this.getHomecourts();
+  }
+
+
+  getCurrentUser(){
+    this.courtDataService.getCurrentUser().subscribe(
+      res => { this.user = res.json()[0]; console.log(this.user.fName)},
+      err => { console.log('error getCurrentUser() on profile page\n' + err)}
+    )
   }
 
 
@@ -51,6 +68,16 @@ export class Profile {
       },
       err => {console.log(err)},
       () =>  {}
+    )
+  }
+
+  // Post: this.homecourtObjects is populated with court objects from db
+  // Pre:  This.user has been loaded
+  getHomecourts(){
+    if (this.user.homecourts.length === 0) return;
+    this.courtDataService.getCourtsById(this.user.homecourts).subscribe(
+      res => { this.homecourtObjects = res.json(); console.log(res.json()) },
+      err => { console.log('error: getCourtsById on profile page ' + err) }
     )
   }
 
@@ -75,8 +102,9 @@ export class Profile {
 
   // Post:  HomeCourtDisplay is presented
   presentHomeCourts(){
+    if (!this.homecourtObjects[0]) return;
     let homeCourtDisplay = this.modalCtrl.create(HomeCourtDisplay,
-      { homecourts: this.user.homecourts,
+      { homecourts: this.homecourtObjects,
         myProfile: this.myProfile
       })
     homeCourtDisplay.onDidDismiss((data) => {
@@ -89,6 +117,7 @@ export class Profile {
     homeCourtDisplay.present();
   }
 
+
   // Post:  Action sheet displaying add friend options is presented
   public presentAddSheet(){
     let alert = this.alertCtrl.create({
@@ -96,9 +125,9 @@ export class Profile {
       buttons: [
         { text: 'send friend request',
           handler: () => {
+            // TODO: check to see if this.user is one of currentUser's friends
+            this.courtDataService.requestFriend(this.user._id);
             console.log(this.user.nName + ' added');
-            // TO DO: put request - pointer to 'current user' put into list of
-            // 'param user's friend requests
           }
         },
         { text: 'cancel', role: 'cancel' },

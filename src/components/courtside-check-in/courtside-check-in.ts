@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController} from 'ionic-angular';
 import { TheWindow } from '../components/the-window/the-window';
+import { CourtDataService } from '../../services/courtDataService.service';
 // geolocation
 import { Geolocation } from '@ionic-native/geolocation';
 @Component({
@@ -15,17 +16,22 @@ export class CourtsideCheckIn {
   courts: any;
 
   // user's current location
-  location: any;
+  location: Array<number>;
 
-  constructor(public viewCtrl: ViewController, private geolocation: Geolocation) {
+  constructor(public viewCtrl: ViewController,
+              private geolocation: Geolocation,
+              public courtDataService: CourtDataService) {
     this.state = "search";
     this.buildData();
 
     // Get the user's location
-    this.location = {};
+    this.location = [];
     this.geolocation.getCurrentPosition().then((position) => {
-      this.location.lat = position.coords.latitude;
-      this.location.long = position.coords.longitude;
+      this.location = [position.coords.longitude,  position.coords.latitude];
+      // Get courts with location being my cribbb
+      // this.getCourts([-73.988945, 40.723570]);
+      // Tompkins
+      this.getCourts([-73.981784, 40.726429])
     })
     // During polishing, add an error screen to the html here with appropriate error message
     .catch((error) => {
@@ -33,6 +39,39 @@ export class CourtsideCheckIn {
     })
   }
 
+
+  public getCourts(location: Array<number>){
+    this.courtDataService.courtside(location).subscribe(
+      res => { this.gotCourts(res.json().courts, res.json().responseCode) },
+      err => { console.log('err getCourtsByLocation in courtsideCheckIn\n' + err) }
+    );
+  }
+
+  public gotCourts(courts: Array<any>, responseCode: number){
+    console.log(courts);
+    console.log(responseCode);
+    switch(responseCode){
+      case 1:
+        this.court = courts[0];
+        this.courtDataService.courtsidePut(courts[0]._id).subscribe(
+          res => {console.log(res.json().court.windowData.pNow[0])}
+        );
+        this.state = 'checkedIn';
+        break;
+      case 2:
+        this.courts = courts;
+        this.state = 'closebyCourts';
+        break;
+      case 3:
+        this.courts = courts.slice(0, 3);
+        this.state = 'noCourts';
+        break;
+      default:
+        this.courts = [];
+        this.state = 'noCourts';
+        break;
+    }
+  }
 
 
   // param: court: any - the court which was courtChosen
@@ -62,8 +101,8 @@ private buildData(){
     "type": "indoor",
     // a latLng location
     "location": {
-      lat: 40.726429,
-      lng: -73.981784,
+      type: 'Point',
+      coordinates: [-73.981784, 40.726429,]
     },
     "baskets": 4,
     "windowData": {
@@ -81,10 +120,10 @@ private buildData(){
 
   let court2 = {
     name: "Tompkins Square Park Skatepark",
-    location: {
-      lat: 40.726429,
-      lng: -73.981784
-    }
+    "location": {
+      type: 'Point',
+      coordinates: [-73.981784, 40.726429,]
+    },
   }
       this.courts = [this.court, court2, this.court];
 }

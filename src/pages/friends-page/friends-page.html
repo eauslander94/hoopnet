@@ -32,7 +32,7 @@
   </ion-searchbar>
 
   <ion-list id="amigoDisplay">
-    <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)='navToProfile(profile)'>
+    <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)='friendSheet(profile)'>
       <img src={{profile.avatar}}/>
       <p>{{profile.fName}}</p><p class="nickName" *ngIf="profile.nName !== '' ">{{profile.nName}}</p><p>{{profile.lName}}</p>
     </div>
