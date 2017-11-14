@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { ViewController} from 'ionic-angular';
-import { TheWindow } from '../components/the-window/the-window';
 import { CourtDataService } from '../../services/courtDataService.service';
 // geolocation
 import { Geolocation } from '@ionic-native/geolocation';
@@ -75,7 +74,7 @@ export class CourtsideCheckIn {
 
 
   // post: modal is dismiss and the location of the court to move to is sent to the map
-  private moveMapDismiss(location){
+  public moveMapDismiss(location){
     this.viewCtrl.dismiss({moveMap: "true", location: location})
   }
 

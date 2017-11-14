@@ -39,7 +39,7 @@ import { CourtMapPopup }    from '../components/court-map-popup/court-map-popup'
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
 // services
-import { CourtDataService } from '../services/courtDataService.service.ts';
+import { CourtDataService } from '../services/courtDataService.service';
 // Directives
 import { Dbltap }           from '../components/dbltap/dbltap';
 import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
