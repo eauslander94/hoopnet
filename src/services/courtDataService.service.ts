@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { Http, Response, RequestOptions, URLSearchParams, Headers } from '@angular/http';
+import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import { Observable } from 'rxjs/Observable';
 
 import 'rxjs/add/operator/map';
@@ -206,9 +206,7 @@ export class CourtDataService{
     //        game     - the game which will become the current game
     // postcondition: the game corresponding to basket on court is put into the db.
     putOneGame(court, basketNo: Number, game){
-
       let putData = {"court": court, "basketNo": basketNo, "game": game};
-
       this.http.put('http://localhost:3000/putOneGame', putData,
         { headers: new Headers({'Content-Type': 'application/json'}) } )
           .subscribe();
@@ -224,16 +222,20 @@ export class CourtDataService{
       )
     }
 
-    // Post: closure provided updates the version of it currently in db
-    // Param: closure - The closure to be updated
-    // Param: identifier - string identifier so we know whic closure to update
+
+    // Post:    closure provided updates the version of it currently in db
+    // Param:   closure - The closure to be updated
+    // Param:   identifier - string identifier so we know whic closure to update
+    // Returns: observable emitting updated court
     public putClosure(closure: any, identifier: string){
       return this.http.put(this.route + '/putClosure',
         {'closure': closure, 'court_id': identifier})
     }
 
-    // Post: Closure whose id is provided is removed from the db
-    // Param: _id of the closure to be deleted
+
+    // Post:    Closure whose id is provided is removed from the db
+    // Param:   _id of the closure to be deleted, and court to which it belongs
+    // Returns: observable emitting updated court
     public deleteClosure(closure_id: string, court_id: string){
       let params = new URLSearchParams;
       params.set('closure_id', closure_id);

@@ -74,20 +74,6 @@ export class CourtsideCheckIn {
   }
 
 
-  // param: court: any - the court which was courtChosen
-  // post: 1) this.court becomes the court passed in
-  //       2) data sent to court - this user has checked in
-  //       3) state = checkedIn
-  private checkedIn(court){
-    this.court = court;
-
-    // TO DO: send this user to the court's list of players
-
-    // TO DO: set user.courtside to be the court passed in
-
-    this.state = "checkedIn";
-  }
-
   // post: modal is dismiss and the location of the court to move to is sent to the map
   private moveMapDismiss(location){
     this.viewCtrl.dismiss({moveMap: "true", location: location})

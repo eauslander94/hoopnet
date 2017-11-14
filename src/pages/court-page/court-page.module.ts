@@ -1,13 +1,13 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 import { CourtPage } from './court-page';
-import { TheWindow } from './the-window/the-window';
+//import { TheWindow } from './the-window/the-window';
 
 
 @NgModule({
   declarations: [
     CourtPage,
-    TheWindow,
+    // TheWindow,
   ],
   imports: [
     IonicPageModule.forChild(CourtPage),
