@@ -2,7 +2,16 @@
     <ion-title>Login</ion-title>
   </ion-navbar>
   <ion-content padding>
-    dummy: {{dummy}}
-    dummy2: {{dummy2}}
-    <button ion-button full (click)="lockLogin()">login</button>
+    <!-- If we're not authenticated show the log in button -->
+    <div *ngIf="!auth.isAuthenticated()">
+      <button ion-button block color="primary" (click)="auth.login()">Log In</button>
+    </div>
+
+    <!-- If we are authenticated show the jwt -->
+    <div *ngIf='auth.isAuthenticated()'>
+      <p>
+        {{testJWT}}
+      </p>
+    </div>
+
   </ion-content>

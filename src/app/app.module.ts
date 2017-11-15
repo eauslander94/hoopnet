@@ -40,6 +40,7 @@ import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-che
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
 // services
 import { CourtDataService } from '../services/courtDataService.service';
+import { AuthService }      from '../services/auth.service';
 // Directives
 import { Dbltap }           from '../components/dbltap/dbltap';
 import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
@@ -101,6 +102,7 @@ import { ParallaxHeader }   from '../components/parallax-header/parallax-header'
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   CourtDataService,
+  AuthService,
   Geolocation,
   PhotoLibrary,
   StatusBar,
