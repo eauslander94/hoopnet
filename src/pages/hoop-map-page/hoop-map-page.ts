@@ -129,8 +129,6 @@ export class HoopMapPage {
 // Post2 - Event listners are added to each marker to detect for clicks or presses
  addCourtMarker(court: any){
 
-   console.log(court.location.coordinates[1] + ' '  + court.location.coordinates[0])
-
    let latLng = new google.maps.LatLng
      (court.location.coordinates[1], court.location.coordinates[0]);
    let marker = new google.maps.Marker({

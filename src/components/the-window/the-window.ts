@@ -6,7 +6,8 @@ import  moment  from 'moment';
 import {Observable} from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
 import { CourtDataService } from '../../services/courtDataService.service';
-
+import { SocketIOClient } from 'socket.io-client';
+import * as io from "socket.io-client";
 
 @Component({
   selector: 'the-window',
@@ -22,6 +23,15 @@ export class TheWindow {
   gLivingTimestamp: any;
   aLivingTimestamp: any;
 
+  // For connecting to the server socket
+  socketURL: String = 'http://localhost:3000/'
+  socket: any;
+
+  // Controls the behavioral loop for entering window data
+  scoutcounter:number = 0;
+  // Holds data which is used to update the window
+  nwd:any;
+
   // For animation
   @ViewChild('alivingTimestamp') alivingTimestampRef: ElementRef;
   @ViewChild('glivingTimestamp') glivingTimestampRef: ElementRef;
@@ -30,63 +40,93 @@ export class TheWindow {
 
   constructor (public modalCtrl: ModalController,
                private animationService: AnimationService,
-               private courtDataService: CourtDataService) {
+               private courtDataService: CourtDataService)
+  {
 
     // Update the living timestamps every minute
     Observable.interval(1000 * 60).subscribe( x => {
       this.updateLivingTimestamps();
     })
 
-    // The morning reset:
-    // Check every 59 minutes if the time is between 5:00am and 6:00am
-    Observable.interval(1000 * 3540).subscribe( x => {
-      // reset window if the hour is 5
-      if (new Date().getHours() === 5)  this.resetWindowData();
-    })
-
+    // For animation
     this.animator = animationService.builder();
   }
 
   // When windowData has been initialized, update the living timestamps
   // Post: aLivingTimestamp and gLiving timestamp updated
   ngOnInit(){
+
+    // Update the timestamps
+    this.updateLivingTimestamps();
+
+    // Set nwd to window data, it will be updated as we go along
+    this.resetNWD();
+
+    // Let the window come to life! UI update on any change from the server
+    this.socket = io(this.socketURL);
+    this.socket.on("windowUpdate" + this.windowData.court_id, (data)=> {
+      this.updateUI(data);
+    })
+  }
+
+
+  // Post1: new WindowData replaces current window data
+  // Post2: living timestamps updated based on new lastValidated values
+  // Post3: Update animations fired, if their correspong data were updated
+  // Param: new windowData to update the old
+  private updateUI(newWindowData: any){
+
+    // If we have a new action, animate action and its timestamp
+    if(newWindowData.action !== this.windowData.action){
+      //animate action, here
+      this.flash(this.alivingTimestampRef)
+    }
+    // Just new timestamp, animate just that
+    else if(newWindowData.aLastValidated !== this.windowData.aLastValidated)
+      this.flash(this.alivingTimestampRef)
+
+    // Check if we have a new games array, if so animate and its timestamp
+    let newGames = false;
+    for(let game in this.windowData.games){
+      if(newWindowData.games[game] !== this.windowData.games[game]){
+        newGames = true
+      }
+    }
+    if(newGames){
+      //animate games, here
+      this.flash(this.glivingTimestampRef)
+    }
+    // Just new timestamp, animate just that
+    else if(newWindowData.gLastValidated !== this.windowData.gLastValidated)
+      this.flash(this.glivingTimestampRef)
+
+    this.windowData = newWindowData;
+    this.resetNWD();
     this.updateLivingTimestamps();
   }
 
+
   // validate()
-  // param: validated: String - games, action, or both
-  // pre: validated is either "games", "action" or "both"
-  // post: last validated and living timestamp reset for the supplied param
+  // param: validated: String - games or action
+  // pre: validated is either "games" or "action"
+  // post: nwd updated with current time for last validated, data sent to server
   private validate(validated: String){
 
-    let timeNow:Date = new Date();
     switch(validated){
-      case "both": {
-        this.windowData.gLastValidated = timeNow;
-        this.windowData.aLastValidated = timeNow;
-        this.updateLivingTimestamps();
-        this.courtDataService.putWindowData(this.windowData);
-        break;
-      }
       case "games": {
-        this.flash(this.glivingTimestampRef);
-        this.windowData.gLastValidated = timeNow;
-        this.gLivingTimestamp = moment(timeNow).fromNow();  // update the timestamp
-        if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
-        this.courtDataService.putWindowData(this.windowData);
+        this.nwd.gLastValidated = new Date();
+        this.courtDataService.putWindowData(this.nwd);
         break;
       }
       case "action":{
-        this.flash(this.alivingTimestampRef);
-        this.windowData.aLastValidated = timeNow;
-        this.aLivingTimestamp = moment(timeNow).fromNow();
-        if(this.aLivingTimestamp === "a few seconds ago") this.aLivingTimestamp = "just now";
-        this.courtDataService.putWindowData(this.windowData);
+        this.nwd.aLastValidated = new Date();
+        this.courtDataService.putWindowData(this.nwd);
         break;
       }
       default: break;
     }
   }
+
 
   // Post: both living timestamps have been replaced with their current
   //       'ago' values
@@ -98,35 +138,51 @@ export class TheWindow {
     if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
   }
 
+
   // presentGamesModal()
   // Pre: User is authenticated and at the court
   // Post: Model which collects information about games being currently played
   //    is presented
-  // Post: Data received is sent to server
+  // PostSubmit 1: ActionModal is presented if its data hasn't already been collected
+  // PostSubmit 2: nwd is sent to server
+  // Post Cancel: nwd is sent to server if we are coming from games modal. else nada
   private presentGamesModal(){
     // Pass in the number of baskets at the court
     let gamesModal = this.modalCtrl.create(GamesModal,
       {"baskets": this.windowData.baskets});
 
-
-    // When the submit button is pressed, set the returned games array to windowdata
+    // Dismiss logic
     gamesModal.onDidDismiss(data => {
       if(data){
-        this.windowData.games = data;
-        this.validate("games");
-        // TO DO: Send new court data to the server
-        //this.courtDataService.putWindowData(this.windowData);
+        this.nwd.games = data.map(String);  // update nwd with new games array
+        this.nwd.gLastValidated = new Date();
+        this.scoutcounter++;                          // increment scoutcounter
+        console.log("scoutcounter: " + this.scoutcounter);
+        // Where we are in enter window data behavioral loop
+        if(this.scoutcounter === 1)       // just games entered
+          this.presentActionModal()
+        else if(this.scoutcounter === 2){ // both games and action entered
+          this.courtDataService.putWindowData(this.nwd);  // send data to server
+          this.scoutcounter = 0;                          // reset scoutcounter
+        }
       }
 
-
+      // On cancel, when we already have one set of data entered
+      else if (this.scoutcounter === 1){
+        this.courtDataService.putWindowData(this.nwd);  // send data to server
+        this.scoutcounter = 0;                          // reset scoutcounter
+      }
     });
     gamesModal.present();
   }
 
+
   // presentActionModal()
   // Pre: User is authenticated and at the court
   // Post: Modal which collects information about court action is presented
-  // Post: Data received is sent to server
+  // PostSubmit 1: Games modal is presented if it's data hasn't already been collected
+  // PostSubmit 2: nwd is sent to server
+  // Post Cancel: nwd is sent to server if we are coming from actionModal. else nada
   private presentActionModal(){
 
     let actionModal = this.modalCtrl.create(ActionModal,
@@ -134,12 +190,29 @@ export class TheWindow {
 
     actionModal.onDidDismiss(data => {
       if(data){
-        // TO DO: send this data to the server
 
-        this.windowData.action = data.action;
-        this.windowData.actionDescriptor = data.actionDescriptor;
-        this.validate("action");
-        //this.courtDataService.putWindowData(this.windowData);
+        // increment scoutcounter
+        this.scoutcounter++;
+
+        // update nwd with new action data
+        this.nwd.action = data.action;
+        this.nwd.actionDescriptor = data.actionDescriptor;
+        this.nwd.aLastValidated = new Date();
+
+        // Where we are in enter window data behavioral loop
+        if(this.scoutcounter === 1)       // just action entered
+          this.presentGamesModal()
+        else if(this.scoutcounter === 2){ // both games and action entered
+          this.courtDataService.putWindowData(this.nwd);  // send data to server
+          this.scoutcounter = 0;                          // reset scoutcounter
+        }
+
+      }
+
+      // On cancel, when we already have one set of data entered
+      else if (this.scoutcounter === 1){
+        this.courtDataService.putWindowData(this.nwd);  // send data to server
+        this.scoutcounter = 0;                          // reset scoutcounter
       }
     })
 
@@ -147,7 +220,6 @@ export class TheWindow {
   }
 
 
-  //getActionColor()
   // post: color, green, yellow, red, is returned based on the value of action
   private getActionColor(){
     switch(this.windowData.action.toLowerCase()){
@@ -158,15 +230,32 @@ export class TheWindow {
     }
   }
 
+
   // resetWindowData
   // post: action is set to empty and games array is emptied
   private resetWindowData(){
     this.windowData.games = [];
     this.windowData.action = "Empty";
     this.windowData.actionDescriptor = "Need more players";
-    this.validate("both");
+    this.validate("games");
+    this.validate("action");
   }
 
+
+  // Post: nwd data is replaced with current windowData
+  private resetNWD(){
+    let wd = this.windowData;
+    this.nwd = {
+      court_id: wd.court_id,
+      baskets: wd.baskets,
+      games: wd.games,
+      gLastValidated: wd.gLastValidated,
+      action: wd.action,
+      actionDescriptor: wd.actionDescriptor,
+      aLastValidated: wd.aLastValidated,
+      pNow: wd.pNow,
+    };
+  }
 
 
   // fadeInRight(object)
@@ -176,9 +265,11 @@ export class TheWindow {
     this.animator.setType('flash').show(ref.nativeElement);
   }
 
+
   private wiggle(){
     this.animator.setType('shake').show(this.basket.nativeElement);
   }
+
 
   private fadeOut(ref: ElementRef){
     this.animator.setType('fadeOut').show(ref.nativeElement);
