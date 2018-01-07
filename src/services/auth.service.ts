@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import Auth0Cordova from '@auth0/cordova';
 import Auth0 from 'auth0-js';
 
+// configuration options
 const auth0Config = {
   // needed for auth0
   clientID: 'pu0puMWvKB1XANUkPh0sygZwdGGR_oE1',
@@ -14,9 +15,10 @@ const auth0Config = {
   clientId: 'pu0puMWvKB1XANUkPh0sygZwdGGR_oE1',
   domain: 'eauslander94-dev.auth0.com',
   callbackURL: location.href,
-  // Below is from config.json
-  packageIdentifier: '3b5f7470'
+  // Below is from config.xml
+  packageIdentifier: 'com.eauslander94.courtlife'
 };
+
 
 @Injectable()
 export class AuthService {
@@ -32,7 +34,8 @@ export class AuthService {
     this.idToken = this.getStorageVariable('id_token');
   }
 
-  private getStorageVariable(name) {
+  //
+  public getStorageVariable(name) {
     return JSON.parse(window.localStorage.getItem(name));
   }
 
@@ -59,7 +62,8 @@ export class AuthService {
     const client = new Auth0Cordova(auth0Config);
 
     const options = {
-      scope: 'openid profile offline_access'
+      scope: 'openid profile offline_access',
+      audience: 'https://courtlife.server.com'
     };
 
     client.authorize(options, (err, authResult) => {
@@ -82,6 +86,8 @@ export class AuthService {
 
         profile.user_metadata = profile.user_metadata || {};
         this.setStorageVariable('profile', profile);
+
+        console.log(profile);
         this.zone.run(() => {
           this.user = profile;
         });

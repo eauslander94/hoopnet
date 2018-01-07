@@ -10,8 +10,15 @@
     <!-- If we are authenticated show the jwt -->
     <div *ngIf='auth.isAuthenticated()'>
       <p>
-        {{testJWT}}
+        logged in
+      </p>
+      <button ion-button block color="primary" (click)="auth.logout()">Log out</button>
+
+      <p>
+        access_token: {{auth.getStorageVariable("access_token")}}
+      </p>
+      <p>
+        id_token: {{auth.getStorageVariable("id_token")}}
       </p>
     </div>
-
   </ion-content>

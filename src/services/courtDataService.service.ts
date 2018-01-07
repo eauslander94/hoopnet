@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
-import { Observable } from 'rxjs/Observable';
+import { Observable }  from 'rxjs/Observable';
+import { empty } from "rxjs/observable/empty";
+import { AuthService } from '../services/auth.service'
+import { ToastController } from 'ionic-angular';
 
 import 'rxjs/add/operator/map';
 
@@ -15,11 +18,21 @@ export class CourtDataService{
 
     currentUser: string = '59f7b8e5cf12061d37c159a5';
 
-    route: string;
+    // For local connections using ionic serve
+    // route: string = 'http://localhost:3000';
 
-    constructor (private http: Http) {
-      this.route = 'http://localhost:3000';
-    }
+    // For connecting from android emulator
+    //route: string = 'http://10.0.2.2:3000'
+
+    // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
+     route: string = 'http://192.168.0.12:3000'
+
+    // For connecting using goBox's public ip address
+    //route: string = 'http://0.0.0.0:3000'
+
+    constructor (private http: Http,
+                 private auth: AuthService,
+                 public toastCtrl: ToastController) {}
 
 
     //  returns: Observable which emits a response containing an array of All courts in the db
@@ -32,7 +45,7 @@ export class CourtDataService{
 
     // returns: Observable emitting an array of court objects
     // Param: Array of id pointers to court objects that will be fetched
-    // isAuthenticated: yes
+    // isAuthenticated: no
     // isCourtside:     no
     getCourtsById(court_ids: Array<String>){
       let params = new URLSearchParams();
@@ -62,13 +75,19 @@ export class CourtDataService{
 
     // Returns: observable emitting array of user objects associated with the paramater ids
     // Param:   Array of user ids requested
+    // isAuthenticated: yes
+    // isCourtside:     no
     getUsers(user_ids: Array<String>){
-      let params = new  URLSearchParams();
-      // Stringify the array and send it as a parameter
-      params.set('user_ids', JSON.stringify(user_ids));
-      return this.http.get(this.route + '/getUsers',
-        new RequestOptions({search: params})
-      );
+      if(!this.auth.isAuthenticated()){  // if we're not authenticated
+        // display the message, return an empty observable
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return empty();
+      }
+      // Set the headers, make the request, return the observable
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      headers.set('user_ids', JSON.stringify(user_ids))
+      return this.http.get(this.route + '/getUsers', {headers:headers});
     }
 
 
@@ -81,7 +100,9 @@ export class CourtDataService{
       let params = new URLSearchParams();
       params.set('searchterm', searchterm);
       // , new RequestOptions({search: params})
-      return this.http.get(this.route + '/getUsersByName', new RequestOptions({search: params}));
+      return this.http.get(this.route + '/getUsersByName',
+        new RequestOptions({search: params}),
+      );
     }
 
 
@@ -96,10 +117,19 @@ export class CourtDataService{
     // Param: windowData: any - the data to be sent to the server
     // isAuthenticated:  yes
     // isCourtside:      yes
-    putWindowData(windowData: any){
-      let data = {'windowData': windowData};
+     putWindowData(windowData: any){
 
-      this.http.put(this.route + '/putWindowData', data)
+       if(!this.auth.isAuthenticated()){  // if we're not authenticated
+         // display the message, return an empty observable
+         this.toastMessage("You must be logged in to perform this action", 3000);
+         return empty();
+       }
+       // Set the headers, make the request
+       let headers = new Headers();
+       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+       //headers.set('windowData', JSON.stringify(windowData));
+       let data = {'windowData': windowData};
+       this.http.put(this.route + '/putWindowData', data, {headers: headers})
       .subscribe();
     }
 
@@ -200,26 +230,19 @@ export class CourtDataService{
     }
 
 
-    // function putOneGame()
-    // param: court    - The court to be updated
-    //        basketNo - the basket to be updated
-    //        game     - the game which will become the current game
-    // postcondition: the game corresponding to basket on court is put into the db.
-    putOneGame(court, basketNo: Number, game){
-      let putData = {"court": court, "basketNo": basketNo, "game": game};
-      this.http.put('http://localhost:3000/putOneGame', putData,
-        { headers: new Headers({'Content-Type': 'application/json'}) } )
-          .subscribe();
-    }
-
 
     // Post: new closure is added to closures of provided court
     // Param: the closure to be added and the court to wich it will be added
     public postClosure(closure: any, court_id: string){
-
-      return this.http.post(this.route + '/postClosure',
-        {'closure': closure, 'court_id': court_id}
-      )
+      if(!this.auth.isAuthenticated()){  // if we're not authenticated
+        // display the message, return an empty observable
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return empty();
+      }
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      let body = {'closure': closure, 'court_id': court_id};
+      return this.http.post(this.route + '/postClosure', body, {headers: headers})
     }
 
 
@@ -228,8 +251,15 @@ export class CourtDataService{
     // Param:   identifier - string identifier so we know whic closure to update
     // Returns: observable emitting updated court
     public putClosure(closure: any, identifier: string){
-      return this.http.put(this.route + '/putClosure',
-        {'closure': closure, 'court_id': identifier})
+      if(!this.auth.isAuthenticated()){  // if we're not authenticated
+        // display the message, return an empty observable
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return empty();
+      }
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      let body = {'closure': closure, 'court_id': identifier}
+      return this.http.put(this.route + '/putClosure', body, {headers: headers})
     }
 
 
@@ -237,12 +267,17 @@ export class CourtDataService{
     // Param:   _id of the closure to be deleted, and court to which it belongs
     // Returns: observable emitting updated court
     public deleteClosure(closure_id: string, court_id: string){
-      let params = new URLSearchParams;
-      params.set('closure_id', closure_id);
-      params.set('court_id', court_id);
-      return this.http.delete(this.route + '/deleteClosure',
-        new RequestOptions({search: params})
-      )
+
+      if(!this.auth.isAuthenticated()){  // if we're not authenticated
+        // display the message, return an empty observable
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return empty();
+      }
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      headers.set('closure_id', closure_id);
+      headers.set('court_id', court_id);
+      return this.http.delete(this.route + '/deleteClosure', {headers: headers})
     }
 
 
@@ -260,6 +295,15 @@ export class CourtDataService{
 
     }
 
+
+    // Post: Presents toast message with provided message and duration(ms)
+    public toastMessage(message: string, duration: number){
+      this.toastCtrl.create({
+        message: message,
+        duration: duration,
+        position: 'top',
+      }).present();
+    }
 
 
 }

@@ -12,6 +12,10 @@ import { AuthService } from '../../services/auth.service';
 
 export class LoginPage {
 
-  constructor(public auth: AuthService) {}
-  
+  location: any
+
+  constructor(public auth: AuthService) {
+    this.location = window.location;
+    console.log("elimyguy");
+  }
 }

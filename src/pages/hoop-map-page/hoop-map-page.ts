@@ -211,6 +211,15 @@ public addHomeCourtsMessage(){
  }
 
 
+public testAuth(){
+  console.log('testingAuth');
+  // Log the nickname of the user returnes
+  this.courtDataService.getUsers(['59f77e89da1d9f295b577f0f']).subscribe(
+    res => {
+      console.log(res.json()[0].nName);
+    }
+  )
+}
 
 
 
