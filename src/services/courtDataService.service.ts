@@ -31,7 +31,7 @@ export class CourtDataService{
     //route: string = 'http://0.0.0.0:3000'
 
     constructor (private http: Http,
-                 private auth: AuthService,
+                 public auth: AuthService,
                  public toastCtrl: ToastController) {}
 
 
@@ -48,8 +48,10 @@ export class CourtDataService{
     // isAuthenticated: no
     // isCourtside:     no
     getCourtsById(court_ids: Array<String>){
+
       let params = new URLSearchParams();
       params.set('court_ids', JSON.stringify(court_ids));
+
       return this.http.get(this.route + '/getCourtsById',
         new RequestOptions({search: params})
       );
@@ -65,10 +67,19 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     public courtside(location: Array<number>){
-      let params = new URLSearchParams();
-      params.set('location', JSON.stringify(location));
+
+      if(!this.auth.isAuthenticated()){  // if we're not authenticated
+        // display the message, return an empty observable
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      headers.set('location', JSON.stringify(location))
+
       return this.http.get(this.route + '/courtside',
-        new RequestOptions({search: params})
+        {headers: headers}
       )
     }
 
@@ -78,15 +89,17 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     getUsers(user_ids: Array<String>){
-      if(!this.auth.isAuthenticated()){  // if we're not authenticated
-        // display the message, return an empty observable
+
+      if(!this.auth.isAuthenticated()){
         this.toastMessage("You must be logged in to perform this action", 3000);
-        return empty();
+        return
       }
+
       // Set the headers, make the request, return the observable
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       headers.set('user_ids', JSON.stringify(user_ids))
+
       return this.http.get(this.route + '/getUsers', {headers:headers});
     }
 
@@ -97,16 +110,17 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     getUsersByAuth_id(auth_id: string){
-      if(!this.auth.isAuthenticated()){  // if we're not authenticated
-        // display the message, return an empty observable
+
+      if(!this.auth.isAuthenticated()){
         this.toastMessage("You must be logged in to perform this action", 3000);
-        //return empty();
         return;
       }
+
       // Set the headers, make the request, return the observable
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       headers.set('auth_id', auth_id);
+
       return this.http.get(this.route + '/getUsersByAuth_id', {headers: headers});
     }
 
@@ -117,11 +131,18 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     public getUsersByName(searchterm: string){
-      let params = new URLSearchParams();
-      params.set('searchterm', searchterm);
-      // , new RequestOptions({search: params})
+
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      headers.set('searchterm', searchterm);
+
       return this.http.get(this.route + '/getUsersByName',
-        new RequestOptions({search: params}),
+        {headers: headers}
       );
     }
 
@@ -139,18 +160,21 @@ export class CourtDataService{
     // isCourtside:      yes
      putWindowData(windowData: any){
 
-       if(!this.auth.isAuthenticated()){  // if we're not authenticated
-         // display the message, return an empty observable
+       if(!this.auth.isAuthenticated()){
          this.toastMessage("You must be logged in to perform this action", 3000);
-         return empty();
+         return;
        }
+
        // Set the headers, make the request
        let headers = new Headers();
        headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
        //headers.set('windowData', JSON.stringify(windowData));
        let data = {'windowData': windowData};
-       this.http.put(this.route + '/putWindowData', data, {headers: headers})
-      .subscribe();
+
+       return this.http.put(this.route + '/putWindowData',
+         data,
+         {headers: headers}
+       ).subscribe();
     }
 
 
@@ -160,8 +184,17 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     courtsidePut(court_id: string){
+
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+      let headers = new Headers()
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       return this.http.put(this.route + '/courtsidePut',
-        {court_id: court_id, user_id: this.currentUser})
+        {court_id: court_id, user_id: this.currentUser},
+        {headers: headers}
+      )
     }
 
     // Post: Current User is added to windowData's currently playing of provided court
@@ -171,11 +204,17 @@ export class CourtDataService{
     // isCourtside:     no
     public courtsideDelete(court_id: string){
 
-      let params = new URLSearchParams()
-      params.set('court_id', court_id);
-      params.set('user_id', this.currentUser);
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      headers.set('court_id', court_id);
+      headers.set('user_id', this.currentUser);
+
       return this.http.delete(this.route + '/courtsideDelete',
-        new RequestOptions({search: params})).subscribe(
+        {headers: headers}).subscribe(
           res => {
             console.log(res.json().court.windowData.pNow.length + '\n' + res.json().user.courtside)
           }
@@ -188,7 +227,13 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     putUser(user: any){
-      this.http.put(this.route + '/putUser', {'user': user})
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+      let headers = new Headers()
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      this.http.put(this.route + '/putUser', {'user': user}, {headers: headers})
       .subscribe();
     }
 
@@ -196,8 +241,19 @@ export class CourtDataService{
     // Post: provided court_id is added to current user's homecourts array
     // Param: id of court to be added
     putHomecourt(court_id: string){
+
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+
+      let headers = new Headers()
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+
       this.http.put(this.route + '/putHomecourt',
-        {'user_id': this.currentUser, 'court_id': court_id}).subscribe();
+        {'user_id': this.currentUser, 'court_id': court_id},
+        {headers: headers}
+      ).subscribe();
     }
 
 
@@ -206,7 +262,19 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     newUser(user: any){
-      this.http.post(this.route + '/newUser', {'user': user}).subscribe();
+
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+
+      let headers = new Headers()
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+
+      this.http.post(this.route + '/newUser',
+        {'user': user},
+        {headers: headers}
+      ).subscribe();
     }
 
 
@@ -219,10 +287,18 @@ export class CourtDataService{
     // isCourtside:     no
     addFriend(id1: string, id2: string){
 
-      let params = { 'user1': id1, 'user2': id2 };
-      if(id1 === 'currentUser') params.user1 = this.currentUser;
-      else if(id2 === 'currentUser') params.user2 = this.currentUser;
-      return this.http.put(this.route + '/addFriend', params);
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+
+      let body = { 'user1': id1, 'user2': id2 };
+      if(id1 === 'currentUser') body.user1 = this.currentUser;
+      else if(id2 === 'currentUser') body.user2 = this.currentUser;
+      let headers = new Headers()
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+
+      return this.http.put(this.route + '/addFriend', body, {headers: headers});
     }
 
 
@@ -231,22 +307,44 @@ export class CourtDataService{
     // isAuthenticated: yes
     // isCourtside:     no
     public requestFriend(requestedUser){
-      let params = {
+
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+
+      let body = {
         'requestedUser': requestedUser._id,
         'currentUser': this.currentUser
       };
-      this.http.put(this.route + '/requestFriend', params).subscribe();
+      let headers = new Headers()
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+
+      this.http.put(this.route + '/requestFriend', body,
+        {headers: headers}
+      ).subscribe();
     }
 
     // Post: both users removed from friends[] of the other
-    // Param: The users who will no longer be friends. Sad, I know
+    // Param: The users who will no longer be friends
     // Returns: observable emitting an array of the uppdated users - user1 in position 0
     public removeFriend(user1){
-      let params = {
+
+      if(!this.auth.isAuthenticated()){
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        return;
+      }
+
+      let body = {
         'user1': user1._id,
         'user2': this.currentUser
       };
-      return this.http.put(this.route + '/removeFriend', params);
+      let headers = new Headers()
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+
+      return this.http.put(this.route + '/removeFriend', body,
+        {headers: headers}
+      );
     }
 
 
@@ -254,11 +352,10 @@ export class CourtDataService{
     // Post: new closure is added to closures of provided court
     // Param: the closure to be added and the court to wich it will be added
     public postClosure(closure: any, court_id: string){
-      if(!this.auth.isAuthenticated()){  // if we're not authenticated
-        // display the message, return an empty observable
-        this.toastMessage("You must be logged in to perform this action", 3000);
-        return empty();
-      }
+
+      if(!this.auth.isAuthenticated())
+        return;
+
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       let body = {'closure': closure, 'court_id': court_id};
@@ -271,11 +368,9 @@ export class CourtDataService{
     // Param:   identifier - string identifier so we know whic closure to update
     // Returns: observable emitting updated court
     public putClosure(closure: any, identifier: string){
-      if(!this.auth.isAuthenticated()){  // if we're not authenticated
-        // display the message, return an empty observable
-        this.toastMessage("You must be logged in to perform this action", 3000);
-        return empty();
-      }
+      if(!this.auth.isAuthenticated())
+        return;
+
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       let body = {'closure': closure, 'court_id': identifier}
@@ -291,7 +386,7 @@ export class CourtDataService{
       if(!this.auth.isAuthenticated()){  // if we're not authenticated
         // display the message, return an empty observable
         this.toastMessage("You must be logged in to perform this action", 3000);
-        return empty();
+        return;
       }
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));

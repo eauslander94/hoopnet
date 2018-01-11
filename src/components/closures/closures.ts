@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { AuthService }      from '../../services/auth.service'
 import moment from 'moment';
 import { AddClosure } from '../../components/add-closure/add-closure';
 
@@ -26,7 +27,8 @@ export class Closures {
               public actionSheetCtrl: ActionSheetController,
               public alertCtrl: AlertController,
               public modalCtrl: ModalController,
-              public courtDataService: CourtDataService)
+              public courtDataService: CourtDataService,
+              public auth: AuthService)
   {
     this.closures = params.get('closures');
 
@@ -146,6 +148,12 @@ export class Closures {
   // closure - the closure to be edited, undef if edit is false
   // Edit - boolean, whether or not we are editing an existing closure
   public presentAddClosure(closure, edit: boolean){
+
+    if(!this.auth.isAuthenticated()){
+      this.courtDataService.toastMessage("You must be logged in to perform this action", 3000);
+      return;
+    }
+
     let addClosure = this.modalCtrl.create(AddClosure, {"courtBaskets": this.params.get('courtBaskets'),
     'closure': closure, 'edit': edit});
 

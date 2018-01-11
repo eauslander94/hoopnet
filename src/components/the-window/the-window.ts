@@ -3,9 +3,10 @@ import { ModalController, ViewController } from 'ionic-angular';
 import { GamesModal }  from "../games-modal/games-modal";
 import { ActionModal } from '../action-modal/action-modal';
 import  moment  from 'moment';
-import {Observable} from 'rxjs/Rx';
+import { Observable} from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { AuthService }      from '../../services/auth.service';
 import { SocketIOClient } from 'socket.io-client';
 import * as io from "socket.io-client";
 
@@ -147,6 +148,13 @@ export class TheWindow {
   // PostSubmit 2: nwd is sent to server
   // Post Cancel: nwd is sent to server if we are coming from games modal. else nada
   private presentGamesModal(){
+
+    // ensure we're authenticated
+    if(!this.courtDataService.auth.isAuthenticated()){
+      this.courtDataService.toastMessage("You must be logged in to perform this action", 3000);
+      return;
+    }
+
     // Pass in the number of baskets at the court
     let gamesModal = this.modalCtrl.create(GamesModal,
       {"baskets": this.windowData.baskets});
@@ -184,6 +192,12 @@ export class TheWindow {
   // PostSubmit 2: nwd is sent to server
   // Post Cancel: nwd is sent to server if we are coming from actionModal. else nada
   private presentActionModal(){
+
+    // make sure we're authenticated
+    if(!this.courtDataService.auth.isAuthenticated()){
+      this.courtDataService.toastMessage("You must be logged in to perform this action", 3000);
+      return;
+    }
 
     let actionModal = this.modalCtrl.create(ActionModal,
       {showBackdrop: true, enableBackdropDismiss: true});

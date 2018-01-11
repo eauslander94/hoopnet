@@ -61,7 +61,6 @@ export class Profile {
            }
          )
      }
-
     }
 
     // On login event, get user's profile or prompt to enter profle info
@@ -191,7 +190,7 @@ export class Profile {
       courtside: "",
     }
   }
-  
+
 
   // Generates a test user
   private generateUser(){
