@@ -25,7 +25,7 @@ export class CourtDataService{
     //route: string = 'http://10.0.2.2:3000'
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-     route: string = 'http://192.168.0.12:3000'
+     route: string = 'http://192.168.0.7:3000'
 
     // For connecting using goBox's public ip address
     //route: string = 'http://0.0.0.0:3000'
@@ -88,6 +88,26 @@ export class CourtDataService{
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       headers.set('user_ids', JSON.stringify(user_ids))
       return this.http.get(this.route + '/getUsers', {headers:headers});
+    }
+
+
+    // Returns: Observable emitting user object if user is currently in our db
+    // Returns Observable emitting {} if user is not (and therefore just signed up)
+    // Param: string representing unique identifier provided by auth0
+    // isAuthenticated: yes
+    // isCourtside:     no
+    getUsersByAuth_id(auth_id: string){
+      if(!this.auth.isAuthenticated()){  // if we're not authenticated
+        // display the message, return an empty observable
+        this.toastMessage("You must be logged in to perform this action", 3000);
+        //return empty();
+        return;
+      }
+      // Set the headers, make the request, return the observable
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      headers.set('auth_id', auth_id);
+      return this.http.get(this.route + '/getUsersByAuth_id', {headers: headers});
     }
 
 
@@ -275,8 +295,8 @@ export class CourtDataService{
       }
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
-      headers.set('closure_id', closure_id);
-      headers.set('court_id', court_id);
+      headers.set('closure_id', closure_id);  // pass in closure id
+      headers.set('court_id', court_id);      // pass in court id
       return this.http.delete(this.route + '/deleteClosure', {headers: headers})
     }
 

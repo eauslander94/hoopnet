@@ -5,6 +5,9 @@
     <!-- If we're not authenticated show the log in button -->
     <div *ngIf="!auth.isAuthenticated()">
       <button ion-button block color="primary" (click)="auth.login()">Log In</button>
+      <p>
+        decoded token: {{id_token}}
+      </p>
     </div>
 
     <!-- If we are authenticated show the jwt -->
@@ -13,9 +16,9 @@
         logged in
       </p>
       <button ion-button block color="primary" (click)="auth.logout()">Log out</button>
-
+      <button ion-button block color="primary" (click)="decodeToken()">Decode Token</button>
       <p>
-        access_token: {{auth.getStorageVariable("access_token")}}
+        decoded token: {{id_token}}
       </p>
       <p>
         id_token: {{auth.getStorageVariable("id_token")}}

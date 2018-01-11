@@ -1,10 +1,11 @@
-// src/services/auth.service.ts
-
+import { Events } from 'ionic-angular';
 import { Injectable, NgZone } from '@angular/core';
 import { Observable, Subscription } from 'rxjs';
 
 import Auth0Cordova from '@auth0/cordova';
 import Auth0 from 'auth0-js';
+
+import { CourtDataService } from '../services/courtDataService.service'
 
 // configuration options
 const auth0Config = {
@@ -29,7 +30,9 @@ export class AuthService {
 
   testJWT: string;
 
-  constructor(public zone: NgZone) {
+  constructor(public zone: NgZone,
+              public events: Events,
+            /*public courtDataService: CourtDataService*/) {
     this.user = this.getStorageVariable('profile');
     this.idToken = this.getStorageVariable('id_token');
   }
@@ -71,7 +74,6 @@ export class AuthService {
         throw err;
       }
 
-      console.log('authorized');
       this.testJWT = authResult.idToken;
       this.setIdToken(authResult.idToken);
       this.setAccessToken(authResult.accessToken);
@@ -92,6 +94,9 @@ export class AuthService {
           this.user = profile;
         });
       });
+
+      // Tell other pages we have logged in
+      this.events.publish('loggedIn');
     });
   }
 
@@ -104,6 +109,8 @@ export class AuthService {
     this.idToken = null;
     this.accessToken = null;
     this.user = null;
+
+    //this.courtDataService.currentUser = '';
   }
 
 }

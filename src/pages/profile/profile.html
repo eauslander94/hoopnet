@@ -1,14 +1,19 @@
 <ion-header no-border>
   <ion-navbar>
-    <ion-title>blacktop</ion-title>
+    <ion-title>courtsight</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="auth.logout()">
+        <ion-icon name="settings"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
 
 <ion-content>
 
-    <div id='profileWrapper' ion-fixed>
-
+    <!-- You can't see a profile page unless you are authenticated -->
+    <div id='profileWrapper' ion-fixed  *ngIf="auth.isAuthenticated()">
         <img src="https://cdn.thinglink.me/api/image/893579611068170241/1240/10/scaletowidth"/>
         <!-- User Avatar -->
         <ion-item no-lines>
@@ -45,6 +50,10 @@
           </div>
         </div>
 
+    </div>
+
+    <div *ngIf='!auth.isAuthenticated()' id="login">
+      <button ion-button block color="primary" (click)="auth.login()">Log In</button>
     </div>
 
 </ion-content>
