@@ -24,7 +24,7 @@
     <p class = "cciHeader">We found multiple courts at your location</p>
     <p>Please select the court at which you are playing</p>
     <ion-list>
-      <div tappable *ngFor = "let court of courts" (tap)='checkedIn(court)'>
+      <div tappable *ngFor = "let court of courts" (tap)='checkIn(court)'>
         <p>{{court.name}}</p>
       </div>
     </ion-list>

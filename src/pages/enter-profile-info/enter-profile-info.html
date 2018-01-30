@@ -2,17 +2,17 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>blacktop</ion-title>
+    <ion-title>{{dummy}}</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content>
-  <p *ngIf='!edit'>
+  <p *ngIf='!edit' id="enterHeader">
     Enter profile info
   </p>
-  <p *ngIf='edit'>
+  <p *ngIf='edit' id="enterHeader">
     Edit profile info
   </p>
   <!-- Get First Name -->
@@ -33,6 +33,18 @@
     <ion-input [(ngModel)]='user.lName' [attr.maxLength]="30"></ion-input>
   </ion-item>
 
+  <ion-item class='imagePicker'tappable (tap)="getAvatar()">
+    <ion-label color="primary">Avatar</ion-label>
+    <ion-icon item-end name="camera" [style.color]="cameraColor(avatarChange)"></ion-icon>
+  </ion-item>
+
+  <ion-item class='imagePicker'tappable (tap)="getBackground()">
+    <ion-label color="primary">Background</ion-label>
+    <ion-icon item-end name="camera" [style.color]="cameraColor(backgroundChange)"></ion-icon>
+  </ion-item>
+
+
+
   <p id='errorMessage' *ngIf='errorMessage'>Please enter both first and last name</p>
-  <button ion-button full round (tap)='submit()'>Submit</button>
+  <button ion-button full (tap)='submit()'>Submit</button>
 </ion-content>

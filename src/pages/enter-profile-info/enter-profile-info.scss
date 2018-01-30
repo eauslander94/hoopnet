@@ -5,7 +5,7 @@ page-enter-profile-info {
     position: relative;
   }
   // Message up top
-  p:nth-child(1){
+  #enterHeader{
     font-family: Quicksand-regular;
     color: $offWhite;
     font-size: 4.3vw;
@@ -26,11 +26,17 @@ page-enter-profile-info {
     position: absolute!important;  bottom: 1vw;
   }
 
+  .imagePicker{
+    //border: 1px solid red!important;
+    height: 20vw!important;
+  }
+
+
+}
+
   #errorMessage{
     font-family: Quicksand-bold;
     color: red;
     text-align: center;
     font-size: 4vw;
   }
-
-}

@@ -1,11 +1,12 @@
 import { Component } from '@angular/core';
-import { ViewController} from 'ionic-angular';
+import { ViewController } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { CheckOutProvider }  from '../../providers/check-out/check-out'
 // geolocation
 import { Geolocation } from '@ionic-native/geolocation';
 @Component({
   selector: 'courtside-check-in',
-  templateUrl: 'courtside-check-in.html'
+  templateUrl: 'courtside-check-in.html',
 })
 export class CourtsideCheckIn {
 
@@ -19,9 +20,11 @@ export class CourtsideCheckIn {
 
   constructor(public viewCtrl: ViewController,
               private geolocation: Geolocation,
-              public courtDataService: CourtDataService) {
+              public courtDataService: CourtDataService,
+              public checkOutProvider: CheckOutProvider) {
     this.state = "search";
-    this.buildData();
+
+    // this.buildData();
 
     // Get the user's location
     this.location = [];
@@ -30,12 +33,13 @@ export class CourtsideCheckIn {
       // Get courts with location being my cribbb
       // this.getCourts([-73.988945, 40.723570]);
       // Tompkins
-      this.getCourts([-73.981784, 40.726429])
+      this.getCourts(this.location)
     })
     // During polishing, add an error screen to the html here with appropriate error message
     .catch((error) => {
       console.log(error);
     })
+
   }
 
 
@@ -51,11 +55,7 @@ export class CourtsideCheckIn {
     console.log(responseCode);
     switch(responseCode){
       case 1:
-        this.court = courts[0];
-        this.courtDataService.courtsidePut(courts[0]._id).subscribe(
-          res => {console.log(res.json().court.windowData.pNow[0])}
-        );
-        this.state = 'checkedIn';
+        this.checkIn(courts[0]);
         break;
       case 2:
         this.courts = courts;
@@ -70,6 +70,15 @@ export class CourtsideCheckIn {
         this.state = 'noCourts';
         break;
     }
+  }
+
+  // Performs check-in responsibilities for the provided court
+  public checkIn(court: any){
+    this.court = court;
+    this.courtDataService.courtsidePut(court._id).subscribe()  // data to server
+    this.state = 'checkedIn';
+    // Begin watching
+    this.checkOutProvider.checkedIn(court);
   }
 
 

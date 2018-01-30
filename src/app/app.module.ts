@@ -7,6 +7,10 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background-fetch';
+import { BackgroundGeolocation, BackgroundGeolocationConfig,
+  BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
+
 
 // TO DO: clean up once auth is working
 // For auth0 authintication
@@ -44,6 +48,7 @@ import { AuthService }      from '../services/auth.service';
 // Directives
 import { Dbltap }           from '../components/dbltap/dbltap';
 import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
+import { CheckOutProvider } from '../providers/check-out/check-out';
 
 
 
@@ -109,6 +114,8 @@ import { ParallaxHeader }   from '../components/parallax-header/parallax-header'
   SplashScreen,
   HttpModule,
   AnimationService,
+  BackgroundFetch,
+  BackgroundGeolocation,
     // auth0 providider
     { provide: AuthHttp,
       useFactory: (http) => {
@@ -116,6 +123,7 @@ import { ParallaxHeader }   from '../components/parallax-header/parallax-header'
       },
       deps: [Http]
     },
+    CheckOutProvider,
 ]
 })
 export class AppModule {}

@@ -85,7 +85,15 @@ export class Profile {
           err => {console.log("error getUsersByAuth_id on profile page")}
         )
   })
+
+  // When we have new profile info, set user to the user passed in
+  events.subscribe('profileInfoEntered', (user) => {
+    this.user = user;
+  })
+  
   }
+
+
 
   // Post: this.homecourtObjects is populated with court objects from db
   // Pre:  This.user has been loaded
@@ -96,6 +104,7 @@ export class Profile {
       err => { console.log('error: getCourtsById on profile page ' + err) }
     )
   }
+
 
   getCurrentUser(){
     this.courtDataService.getCurrentUser().subscribe(

@@ -25,10 +25,13 @@ export class CourtDataService{
     //route: string = 'http://10.0.2.2:3000'
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-     route: string = 'http://192.168.0.7:3000'
+     //route: string = 'http://192.168.0.7:3000'
 
     // For connecting using goBox's public ip address
     //route: string = 'http://0.0.0.0:3000'
+
+    // for connecting to our RESTful API hosted on AWS Lambda
+    route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
 
     constructor (private http: Http,
                  public auth: AuthService,
@@ -197,7 +200,8 @@ export class CourtDataService{
       )
     }
 
-    // Post: Current User is added to windowData's currently playing of provided court
+    // Post: Current User is removed from windowData's currently playing of provided court
+    // Post2: provided court removed from current user's courtside field
     // Param: Court to add current user to
     // res: {court: court, user: user}
     // isAuthenticated: yes
@@ -375,6 +379,11 @@ export class CourtDataService{
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       let body = {'closure': closure, 'court_id': identifier}
       return this.http.put(this.route + '/putClosure', body, {headers: headers})
+    }
+
+    // sends a string message to the server
+    public serverLog(message: string){
+      this.http.put(this.route + '/serverLog', {'message': message}).subscribe();
     }
 
 

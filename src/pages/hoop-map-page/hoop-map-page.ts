@@ -107,6 +107,15 @@ export class HoopMapPage {
   // post: courtsideCheckIn modal is presented, starting courtside behavior
   // pre: User is authenticated
   presentCourtsideCheckIn(){
+
+    // authentication check
+    if(!this.courtDataService.auth.isAuthenticated()){
+      // display the message, return
+      this.courtDataService.toastMessage(
+        "You must be logged in to check in to a court", 3000);
+      return;
+    }
+
     let cci = this.modalCtrl.create(CourtsideCheckIn, {showBackdrop: false});
 
     // handle the response
