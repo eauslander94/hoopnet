@@ -3,6 +3,8 @@ import { ViewController, NavParams, ModalController } from 'ionic-angular';
 import { Closures } from '../../components/closures/closures';
 import { HoursDisplay } from '../../components/hours-display/hours-display';
 import { WindowModal }  from '../../components/window-modal/window-modal';
+import * as Realtime from 'realtime-messaging';
+
 
 @Component({
   selector: 'court-map-popup',
@@ -13,7 +15,7 @@ export class CourtMapPopup {
   court: any;
 
   // Whether or not the court is currently open
-  openNow: boolean;
+  openNow: boolean = true;
 
   constructor(public viewCtrl: ViewController,
               public params: NavParams,
@@ -21,11 +23,27 @@ export class CourtMapPopup {
   {
     this.court = params.get('court');
     this.openNow = true;
+
   }
 
-  // Post: Window Modal is presented
+  // Post: Window Modal is presented, connect to realtime.co webhook
   presentWindowModal(){
-    let windowModal = this.modalCtrl.create(WindowModal, {'windowData': this.court.windowData})
+
+    // connect to realtime webhook upon presenting window, pass it in
+    const realtime = Realtime.createClient();
+    realtime.setClusterUrl('https://ortc-developers.realtime.co/server/ssl/2.1/');
+    realtime.connect('pLJ1wW', 'testToken')
+
+    let windowModal = this.modalCtrl.create(WindowModal,
+      { 'windowData': this.court.windowData,
+        'realtime': realtime }
+    )
+
+    // Disconnect when dismissing theWindow
+    windowModal.onDidDismiss( () => {
+      realtime.disconnect();
+    })
+    
     windowModal.present();
   }
 

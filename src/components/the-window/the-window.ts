@@ -7,6 +7,8 @@ import { Observable} from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
+import * as Realtime from 'realtime-messaging';
+
 import { SocketIOClient } from 'socket.io-client';
 import * as io from "socket.io-client";
 
@@ -25,13 +27,15 @@ export class TheWindow {
   aLivingTimestamp: any;
 
   // For connecting to the server socket
-  socketURL: String = 'http://localhost:3000/'
+  socketURL: string;
   socket: any;
 
   // Controls the behavioral loop for entering window data
   scoutcounter:number = 0;
   // Holds data which is used to update the window
   nwd:any;
+
+  realtime: Realtime.Client;
 
   // For animation
   @ViewChild('alivingTimestamp') alivingTimestampRef: ElementRef;
@@ -51,6 +55,10 @@ export class TheWindow {
 
     // For animation
     this.animator = animationService.builder();
+
+    // Get the route on which we listen for window updates
+    this.socketURL = courtDataService.route;
+
   }
 
   // When windowData has been initialized, update the living timestamps
@@ -63,19 +71,28 @@ export class TheWindow {
     // Set nwd to window data, it will be updated as we go along
     this.resetNWD();
 
-    // Let the window come to life! UI update on any change from the server
-    this.socket = io(this.socketURL);
-    this.socket.on("windowUpdate" + this.windowData.court_id, (data)=> {
-      this.updateUI(data);
-    })
+    // If we've got realtime capabilities coming in, set up connection to webhook
+    if(this.windowData.realtime){
+
+      this.realtime = this.windowData.realtime;
+      // if connected, subscribe to realtime channel corresponding to this window
+      this.realtime.onConnected = () => {
+        this.realtime.subscribe("windowUpdate" + this.windowData.court_id, false, this.onUpdate.bind(this));
+      }
+    }
   }
+
+    // Let the window come to life! UI update on any change from the server
+    onUpdate(client: Realtime.Client, channel: string, message: string) {
+      this.updateUI(JSON.parse(message));
+    }
 
 
   // Post1: new WindowData replaces current window data
   // Post2: living timestamps updated based on new lastValidated values
   // Post3: Update animations fired, if their correspong data were updated
   // Param: new windowData to update the old
-  private updateUI(newWindowData: any){
+  public updateUI(newWindowData: any){
 
     // If we have a new action, animate action and its timestamp
     if(newWindowData.action !== this.windowData.action){

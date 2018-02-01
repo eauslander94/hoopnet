@@ -70,7 +70,8 @@ export class AuthService {
     };
 
     client.authorize(options, (err, authResult) => {
-      if(err) {
+      if (err) {
+        alert(JSON.stringify(err));
         throw err;
       }
 

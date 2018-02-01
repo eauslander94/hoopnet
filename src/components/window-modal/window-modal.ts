@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams } from 'ionic-angular'; 
+import { ViewController, NavParams } from 'ionic-angular';
+import * as Realtime from 'realtime-messaging';
 
 @Component({
   selector: 'window-modal',
-  templateUrl: 'window-modal.html'
+  templateUrl: 'window-modal.html',
 })
 export class WindowModal {
 
@@ -13,6 +14,9 @@ export class WindowModal {
               private params: NavParams)
   {
     this.windowData = params.get('windowData');
+    // pass in the realtime client
+    this.windowData.realtime = params.get('realtime');
   }
+
 
 }

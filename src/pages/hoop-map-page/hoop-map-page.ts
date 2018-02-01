@@ -12,11 +12,12 @@ import { CourtDataService } from '../../services/courtDataService.service';
 import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
 import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
+
 declare var google: any;
 
 @Component({
   selector: 'page-hoop-map',
-  templateUrl: 'hoop-map-page.html'
+  templateUrl: 'hoop-map-page.html',
 })
 export class HoopMapPage {
 
@@ -46,6 +47,7 @@ export class HoopMapPage {
     events.subscribe('homeCourtMessage', () => {
       this.addHomeCourtsMessage();
     })
+
   }
 
   // load the map when the page has loaded

@@ -10,6 +10,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background-fetch';
 import { BackgroundGeolocation, BackgroundGeolocationConfig,
   BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
+import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 
 // TO DO: clean up once auth is working
@@ -49,6 +50,7 @@ import { AuthService }      from '../services/auth.service';
 import { Dbltap }           from '../components/dbltap/dbltap';
 import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
 import { CheckOutProvider } from '../providers/check-out/check-out';
+
 
 
 
@@ -116,6 +118,7 @@ import { CheckOutProvider } from '../providers/check-out/check-out';
   AnimationService,
   BackgroundFetch,
   BackgroundGeolocation,
+  ScreenOrientation,
     // auth0 providider
     { provide: AuthHttp,
       useFactory: (http) => {
