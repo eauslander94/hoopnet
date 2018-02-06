@@ -301,6 +301,12 @@ private generateCourt(){
   }//court paren
 }//
 
+
+public tester(){
+
+  this.courtDataService.checkIn("5a78817d5b0b83251d7c2eb7").subscribe();
+}
+
 //post: Styles array is returned to be used in creation of the map
 private getStyles(){
   return [

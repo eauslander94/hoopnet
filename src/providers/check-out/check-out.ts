@@ -153,7 +153,7 @@ export class CheckOutProvider {
     this.courtDataService.serverLog('check out at ' +
     new Date().getHours() + ';' + new Date().getMinutes())
 
-    this.courtDataService.courtsideDelete(this.court._id);
+    this.courtDataService.checkOut(this.court._id);
     this.backgroundGeolocation.stop();
     this.backgroundFetch.stop();
   }

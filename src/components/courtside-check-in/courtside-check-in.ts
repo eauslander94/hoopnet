@@ -75,7 +75,7 @@ export class CourtsideCheckIn {
   // Performs check-in responsibilities for the provided court
   public checkIn(court: any){
     this.court = court;
-    this.courtDataService.courtsidePut(court._id).subscribe()  // data to server
+    this.courtDataService.checkIn(court._id).subscribe()  // data to server
     this.state = 'checkedIn';
     // Begin watching
     this.checkOutProvider.checkedIn(court);

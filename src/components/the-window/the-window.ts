@@ -284,7 +284,7 @@ export class TheWindow {
       action: wd.action,
       actionDescriptor: wd.actionDescriptor,
       aLastValidated: wd.aLastValidated,
-      pNow: wd.pNow,
+      players: wd.players,
     };
   }
 

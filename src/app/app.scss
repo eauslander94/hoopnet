@@ -16,16 +16,21 @@
 // automatically applied to the <body> element in the app.
 
 ion-content {
-    background-size: contain;
+  background-size: contain;
 }
 
 .toolbar-background{
-  background-color: #030303;
+  background-color: $blackshade1;
+}
+
+ion-navbar{
+  // text-align: center;
 }
 
 .toolbar-title{
   color: $offWhite;
   font-family: Axis;
+  text-align: center;
 }
 
 #courtside{
