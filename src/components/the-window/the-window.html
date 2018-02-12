@@ -1,17 +1,36 @@
 <div id="windowWrapper">
   <!-- Displaying those who are currently at the court -->
   <div id="playingNow">
-    <p class="windowHeaders">Players</p>
-    <ion-scroll scrollX="true">
+    <!-- <p class="windowHeaders">Players</p> -->
+    <ion-scroll scrollX="true" *ngIf='gotPlayers && !scoutPrompt'>
 
 <!-- The Iverson Heads -->
 <!-- DO NOT allow users to access the profile of other users unless they are authenticated -->
 <!-- No navigation to a profile page without authentication -->
-        <div class="playerBox" (tap)="courtDataService.realtime()">
+        <div class="playerBox" *ngFor='let player of playerData'>
+          <div class="avatarWrapper">
+           <img src='file:///storage/emulated/0/Android/data/com.eauslander94.Courtlife/cache/.Pic.jpg?1517250445920'/>
+          </div>
+          <p [class.courtside]="player.isCourtside">{{player.fName}} {{player.lName}}</p>
+          <p id='playerDate' *ngIf="player.isCourtside">hooping since {{player.hoopString}}</p>
+          <p id="playerDate" *ngIf="!player.isCourtside">hooped {{player.hoopString}}</p>
+        </div>
+
+        <!-- <div class="playerBox">
           <div class="avatarWrapper">
            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
           </div>
           <p>Allen Iverson</p>
+          <p id='playerDate'>hooped 3 hrs ago</p>
+        </div>
+
+        <div class="playerBox">
+          <div class="avatarWrapper">
+           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
+          </div>
+          <p>Allen Iverson</p>
+          <p id='playerDate'>hooped 2 days ago</p>
+
         </div>
 
         <div class="playerBox">
@@ -47,30 +66,26 @@
            <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
           </div>
           <p>Allen Iverson</p>
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-        </div>
+        </div> -->
 
 
     </ion-scroll>
+    <div *ngIf='!gotPlayers && !scoutPrompt' id='playersLoading'>
+      <ion-spinner></ion-spinner>
+      <p>loading players</p>
+    </div>
+    <div *ngIf='scoutPrompt' id='scoutPrompt'>
+      <p>Please ensure that the following reflects the current activity at your court</p>
+      <p>Press and hold to update. Double tap to validate.</p>
+    </div>
+
   </div>
 
   <!-- Box describing the activity or life of the court -->
   <div id="activityBox"
     (dbltap)="validate('action')"
     (press)="presentActionModal()"
+    [class.validated]="validated.includes('a')"
   >
     <p class="windowHeaders">Action</p>
     <div id="activityWrapper">
@@ -83,6 +98,7 @@
   <div id="gameList"
     (dbltap)="validate('games')"
     (press)="presentGamesModal()"
+    [class.validated]="validated.includes('g')"
   >
     <!-- The '' -->
     <p class="windowHeaders">Games</p>

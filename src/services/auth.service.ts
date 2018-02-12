@@ -6,6 +6,7 @@ import Auth0Cordova from '@auth0/cordova';
 import Auth0 from 'auth0-js';
 
 import { CourtDataService } from '../services/courtDataService.service'
+import { CheckOutProvider } from '../providers/check-out/check-out'
 
 // configuration options
 const auth0Config = {
@@ -31,8 +32,8 @@ export class AuthService {
   testJWT: string;
 
   constructor(public zone: NgZone,
-              public events: Events,
-            /*public courtDataService: CourtDataService*/) {
+              public events: Events)
+  {
     this.user = this.getStorageVariable('profile');
     this.idToken = this.getStorageVariable('id_token');
   }
@@ -102,16 +103,16 @@ export class AuthService {
   }
 
   public logout() {
+    alert('logging out');
     window.localStorage.removeItem('profile');
     window.localStorage.removeItem('access_token');
     window.localStorage.removeItem('id_token');
     window.localStorage.removeItem('expires_at');
+    window.localStorage.removeItem('currentUser');
 
     this.idToken = null;
     this.accessToken = null;
     this.user = null;
-
-    //this.courtDataService.currentUser = '';
   }
 
 }

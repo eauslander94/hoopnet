@@ -16,6 +16,16 @@ export class WindowModal {
     this.windowData = params.get('windowData');
     // pass in the realtime client
     this.windowData.realtime = params.get('realtime');
+    // Prompt user to enter info
+    if(params.get('scoutPrompt'))
+      this.windowData.scoutPrompt = params.get('scoutPrompt')
+  }
+
+  
+  public hackground(){
+    // Unless scoutPrompt, dismiss
+    if(!this.params.get('scoutPrompt'))
+      this.viewCtrl.dismiss({});
   }
 
 

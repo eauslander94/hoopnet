@@ -16,7 +16,7 @@ export class CourtDataService{
     dummy: any;
     counter: number = 0;
 
-    currentUser: string = '59f7b8e5cf12061d37c159a5';
+    currentUser: string;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
     route: string = 'http://192.168.0.7:3000'
@@ -33,7 +33,8 @@ export class CourtDataService{
 
     constructor (private http: Http,
                  public auth: AuthService,
-                 public toastCtrl: ToastController) {}
+                 public toastCtrl: ToastController)
+    {}
 
 
     //  returns: Observable which emits a response containing an array of All courts in the db
@@ -104,6 +105,18 @@ export class CourtDataService{
       return this.http.get(this.route + '/getUsers', {headers:headers});
     }
 
+    // Returns: observable emitting array of user objects associated with the paramater ids
+    // Param:   Array of user ids requested
+    // isAuthenticated: yes
+    // isCourtside:     no
+    windowGetUsers(user_ids: Array<String>){
+
+      let headers = new Headers();
+      headers.set('user_ids', JSON.stringify(user_ids))
+
+      return this.http.get(this.route + '/windowGetUsers', {headers: headers})
+    }
+
 
     // Returns: Observable emitting user object if user is currently in our db
     // Returns Observable emitting {} if user is not (and therefore just signed up)
@@ -151,7 +164,7 @@ export class CourtDataService{
     // Returns: observable emitting array with a single object -
     //   the profile data of the user currently logged in
     getCurrentUser(){
-      return this.getUsers([this.currentUser]);
+      return this.getUsers([JSON.parse(window.localStorage.getItem('currentUser'))._id]);
     }
 
 
@@ -193,17 +206,17 @@ export class CourtDataService{
       let headers = new Headers()
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       return this.http.put(this.route + '/checkIn',
-        {court_id: court_id, user_id: this.currentUser},
+        {court_id: court_id, user_id: JSON.parse(window.localStorage.getItem('currentUser'))._id},
         {headers: headers}
       )
     }
 
-    // Post: Current User is removed from windowData's currently playing of provided court
+    // Post: User's chheckOut time is saved to db
     // Post2: provided court removed from current user's courtside field
     // Param: Court to add current user to
     // res: {court: court, user: user}
     // isAuthenticated: yes
-    // isCourtside:     no
+    // isCourtside:     yes
     public checkOut(court_id: string){
 
       if(!this.auth.isAuthenticated()){
@@ -213,14 +226,10 @@ export class CourtDataService{
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       headers.set('court_id', court_id);
-      headers.set('user_id', this.currentUser);
+      headers.set('user_id', JSON.parse(window.localStorage.getItem('currentUser'))._id);
 
-      return this.http.delete(this.route + '/courtsideDelete',
-        {headers: headers}).subscribe(
-          res => {
-            console.log(res.json().court.windowData.pNow.length + '\n' + res.json().user.courtside)
-          }
-        );
+      return this.http.delete(this.route + '/checkOut',
+        {headers: headers}).subscribe();
     }
 
 
@@ -253,7 +262,7 @@ export class CourtDataService{
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
 
       this.http.put(this.route + '/putHomecourt',
-        {'user_id': this.currentUser, 'court_id': court_id},
+        {'user_id': JSON.parse(window.localStorage.getItem('currentUser'))._id, 'court_id': court_id},
         {headers: headers}
       ).subscribe();
     }
@@ -295,8 +304,8 @@ export class CourtDataService{
       }
 
       let body = { 'user1': id1, 'user2': id2 };
-      if(id1 === 'currentUser') body.user1 = this.currentUser;
-      else if(id2 === 'currentUser') body.user2 = this.currentUser;
+      if(id1 === 'currentUser') body.user1 = JSON.parse(window.localStorage.getItem('currentUser'))._id;
+      else if(id2 === 'currentUser') body.user2 = JSON.parse(window.localStorage.getItem('currentUser'))._id;
       let headers = new Headers()
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
 
@@ -317,7 +326,7 @@ export class CourtDataService{
 
       let body = {
         'requestedUser': requestedUser._id,
-        'currentUser': this.currentUser
+        'currentUser': JSON.parse(window.localStorage.getItem('currentUser'))._id
       };
       let headers = new Headers()
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
@@ -339,7 +348,7 @@ export class CourtDataService{
 
       let body = {
         'user1': user1._id,
-        'user2': this.currentUser
+        'user2': JSON.parse(window.localStorage.getItem('currentUser'))._id
       };
       let headers = new Headers()
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));

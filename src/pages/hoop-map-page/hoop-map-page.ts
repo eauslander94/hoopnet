@@ -12,6 +12,9 @@ import { CourtDataService } from '../../services/courtDataService.service';
 import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
 import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
+import { CheckOutProvider } from '../../providers/check-out/check-out'
+import { WindowModal }  from '../../components/window-modal/window-modal';
+import * as Realtime from 'realtime-messaging';
 
 declare var google: any;
 
@@ -40,7 +43,8 @@ export class HoopMapPage {
               private alertCtrl: AlertController,
               private modalCtrl: ModalController,
               public events: Events,
-              private toastCtrl: ToastController)
+              private toastCtrl: ToastController,
+              private checkOutProvider: CheckOutProvider)
   {
     this.court = this.generateCourt();
 
@@ -118,6 +122,13 @@ export class HoopMapPage {
       return;
     }
 
+    // If we are checked in, check us out
+    let checkInData = JSON.parse(window.localStorage.getItem('checkInData'))
+    if(checkInData && checkInData.checkedIn){
+      this.checkOutProvider.checkOut(checkInData);
+      return;
+    }
+
     let cci = this.modalCtrl.create(CourtsideCheckIn, {showBackdrop: false});
 
     // handle the response
@@ -129,9 +140,37 @@ export class HoopMapPage {
         )
         this.map.setZoom(15);
       }
+      // pull up the window, prompt user to scout the court
+      else if(data.scoutPrompt){
+        this.presentWindowModal(data.court)
+      }
+
     })
 
     cci.present();
+  }
+
+  // Post: Window Modal is presented, connect to realtime.co webhook
+  // Param: Court which we will connect to
+  presentWindowModal(court: any){
+
+    // connect to realtime webhook upon presenting window, pass it in
+    const realtime = Realtime.createClient();
+    realtime.setClusterUrl('https://ortc-developers.realtime.co/server/ssl/2.1/');
+    realtime.connect('pLJ1wW', 'testToken')
+
+    let windowModal = this.modalCtrl.create(WindowModal,
+      { 'windowData': court.windowData,
+        'realtime': realtime,
+        'scoutPrompt': true }
+    )
+
+    // Disconnect when dismissing theWindow
+    windowModal.onDidDismiss( () => {
+      realtime.disconnect();
+    })
+
+    windowModal.present();
   }
 
 

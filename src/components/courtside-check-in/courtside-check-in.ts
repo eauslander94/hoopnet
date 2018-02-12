@@ -28,17 +28,23 @@ export class CourtsideCheckIn {
 
     // Get the user's location
     this.location = [];
-    this.geolocation.getCurrentPosition().then((position) => {
-      this.location = [position.coords.longitude,  position.coords.latitude];
-      // Get courts with location being my cribbb
-      // this.getCourts([-73.988945, 40.723570]);
-      // Tompkins
-      this.getCourts(this.location)
-    })
-    // During polishing, add an error screen to the html here with appropriate error message
-    .catch((error) => {
-      console.log(error);
-    })
+
+    // this.geolocation.getCurrentPosition().then((position) => {
+    //   this.location = [position.coords.longitude,  position.coords.latitude];
+    //   alert(this.location);
+    //   // Get courts with location being my cribbb
+    //   // this.getCourts([-73.988945, 40.723570]);
+    //   // Tompkins
+    //   this.getCourts(this.location)
+    // })
+    // // During polishing, add an error screen to the html here with appropriate error message
+    // .catch((error) => {
+    //   alert(error.message);
+    // })
+
+    // workaround for geolocation not working wit live reload
+    // location is currently tompkins
+    this.getCourts([ -73.980688, 40.72685 ])
 
   }
 
@@ -77,9 +83,32 @@ export class CourtsideCheckIn {
     this.court = court;
     this.courtDataService.checkIn(court._id).subscribe()  // data to server
     this.state = 'checkedIn';
+
+    // Save, in localStorage, data about the court we've checked in to
+    let checkInData = {
+      checkedIn: true,
+      _id: court._id,
+      name: court.name
+    }
+    window.localStorage.setItem('checkInData', JSON.stringify(checkInData));
     // Begin watching
     this.checkOutProvider.checkedIn(court);
+    this.scoutPrompt(court);
   }
+
+  // Wa
+  private async scoutPrompt(court){
+    await this.delay(1200);
+    this.viewCtrl.dismiss({scoutPrompt: "true", court: court})
+  }
+
+// Post:  from an async function, execution is delayed for the given time
+// Param: number ms - the time to wait for
+private delay(ms: number) {
+  return new Promise<void>(function(resolve) {
+      setTimeout(resolve, ms);
+  });
+}
 
 
   // post: modal is dismiss and the location of the court to move to is sent to the map

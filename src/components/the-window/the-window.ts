@@ -1,9 +1,9 @@
 import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { ModalController, ViewController } from 'ionic-angular';
+import { ModalController, ViewController, AlertController } from 'ionic-angular';
 import { GamesModal }  from "../games-modal/games-modal";
 import { ActionModal } from '../action-modal/action-modal';
 import  moment  from 'moment';
-import { Observable} from 'rxjs/Rx';
+import { Observable } from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
@@ -37,6 +37,16 @@ export class TheWindow {
 
   realtime: Realtime.Client;
 
+  // whether or not we've retreived player data from db
+  gotPlayers: boolean = false;
+  // user data for players in the window
+  playerData: Array<any>;
+
+  // wheter or not we are prompting users to scout the court
+  scoutPrompt: boolean = false;
+  // which, between players and games, has been validated.
+  validated: string = '';
+
   // For animation
   @ViewChild('alivingTimestamp') alivingTimestampRef: ElementRef;
   @ViewChild('glivingTimestamp') glivingTimestampRef: ElementRef;
@@ -44,6 +54,8 @@ export class TheWindow {
   private animator: AnimationBuilder;
 
   constructor (public modalCtrl: ModalController,
+               public viewCtrl: ViewController,
+               public alertCtrl: AlertController,
                private animationService: AnimationService,
                private courtDataService: CourtDataService)
   {
@@ -58,7 +70,8 @@ export class TheWindow {
 
     // Get the route on which we listen for window updates
     this.socketURL = courtDataService.route;
-
+    // set got players flag to false
+    this.gotPlayers = false;
   }
 
   // When windowData has been initialized, update the living timestamps
@@ -80,6 +93,21 @@ export class TheWindow {
         this.realtime.subscribe("windowUpdate" + this.windowData.court_id, false, this.onUpdate.bind(this));
       }
     }
+
+    // get actual player data from list of pointers provided
+    this.courtDataService.windowGetUsers(this.windowData.players).subscribe(
+      res => {
+        this.gotPlayers = true;
+        this.sortPlayers(res.json());
+      },
+      err => {
+        console.log(err + 'err getPlayers in theWindow')
+      }
+    )
+
+    // If we are to prompt user to scout the court
+    if(this.windowData.scoutPrompt)
+      this.scoutPrompt = true;
   }
 
     // Let the window come to life! UI update on any change from the server
@@ -134,15 +162,64 @@ export class TheWindow {
       case "games": {
         this.nwd.gLastValidated = new Date();
         this.courtDataService.putWindowData(this.nwd);
+
+        // Keeping track of what has been validated during scoutPrompt
+        if(this.scoutPrompt){
+          this.validated += 'g';
+          if(this.validated.includes('a')){
+            this.validated = '';
+            // Dismiss windowModal, thank the user
+            this.viewCtrl.dismiss().then(() => {
+              this.scoutedAlert()
+            })
+          }
+        }
+
         break;
       }
       case "action":{
         this.nwd.aLastValidated = new Date();
         this.courtDataService.putWindowData(this.nwd);
+
+        // Keeping track of what has been validated during scoutPrompt
+        if(this.scoutPrompt){
+          this.validated += 'a';
+          if(this.validated.includes('g')){
+            this.validated = '';
+            this.viewCtrl.dismiss().then(() => {
+              this.scoutedAlert()
+            })
+          }
+        }
+
         break;
       }
       default: break;
     }
+  }
+
+  // Post: Alert is presented wich thaks players for scouting the court
+  public scoutedAlert(){
+    let alert = this.alertCtrl.create({
+    title: 'You\'ve successfully scouted the court',
+    message: 'Your fellow ballers thank you',
+    buttons: [
+      {
+        text: 'Dismiss',
+        role: 'cancel',
+        handler: () => {
+          console.log('Cancel clicked');
+        }
+      },
+      {
+        text: 'Invite Friends?',
+        handler: () => {
+          console.log('Buy clicked');
+        }
+      }
+    ]
+  });
+  alert.present();
   }
 
 
@@ -182,7 +259,17 @@ export class TheWindow {
         this.nwd.games = data.map(String);  // update nwd with new games array
         this.nwd.gLastValidated = new Date();
         this.scoutcounter++;                          // increment scoutcounter
-        console.log("scoutcounter: " + this.scoutcounter);
+        // Keeping track of what has been validated during scoutPrompt
+        if(this.scoutPrompt){
+          this.validated += 'g';
+          if(this.validated.includes('a')){
+            this.validated = '';
+            this.viewCtrl.dismiss().then(() => {
+              this.scoutedAlert()
+            })
+            return;
+          }
+        }
         // Where we are in enter window data behavioral loop
         if(this.scoutcounter === 1)       // just games entered
           this.presentActionModal()
@@ -230,6 +317,17 @@ export class TheWindow {
         this.nwd.actionDescriptor = data.actionDescriptor;
         this.nwd.aLastValidated = new Date();
 
+        // Keeping track of what has been validated during scoutPrompt
+        if(this.scoutPrompt){
+          this.validated += 'a';
+          if(this.validated.includes('g')){
+            this.validated = '';
+            this.viewCtrl.dismiss().then(() => {
+              this.scoutedAlert()
+            })
+            return;
+          }
+        }
         // Where we are in enter window data behavioral loop
         if(this.scoutcounter === 1)       // just action entered
           this.presentGamesModal()
@@ -248,6 +346,63 @@ export class TheWindow {
     })
 
     actionModal.present();
+  }
+
+  // post: playerDaya is sorted by criteria described below
+  // param: Array of user objects to be sorted
+  // Time complexity: O(n^2). Players is capped at 50. We're good.
+  public sortPlayers(players: Array<any>){
+
+    // get the current user, if present. We will access their friends
+    let gotCurrentUser: boolean = false;
+    let currentUser;
+    if(window.localStorage.getItem('currentUser')){
+      currentUser = JSON.parse(window.localStorage.getItem('currentUser'))
+      gotCurrentUser = true;
+    }
+
+    // this loop gets the hoopString for each player and calculates her priority
+    for(let player of players){
+      // priotity used for sorting
+      player.priority = 0;
+
+      // if current user is friends with the player
+      if(gotCurrentUser && currentUser.friends.indexOf(player._id) > -1)
+        player.priority ++;
+
+      // loop trough player's checkIns, Get the correct hoopString
+      for(let checkIn of player.checkIns){
+        // get the checkIn object of this court
+        if(checkIn.court_id == this.windowData.court_id){
+          // if currently playing at this court
+          if(player.courtside === checkIn.court_id){
+            player.priority += 2;
+            // format date string
+            player.hoopTime = new Date(checkIn.in);
+            player.hoopString = moment(checkIn.in).format('h:mma');
+            player.hoopString = player.hoopString.substring(0, player.hoopString.length - 1);
+            player.isCourtside = true;
+          }
+          else{
+            player.hoopTime = new Date(checkIn.out);
+            player.hoopString = moment(checkIn.out).fromNow();  // else hoopString is when tey left
+          }
+        }
+      }
+    }
+    // finally, sort the list by our comparison method.  Below is priority breakdown
+    // Priority = 3 - friend of currentUser & courtside
+    // Priority = 2 - courtside
+    // Priority = 1 - friend of currentUser
+    // Priority = 0 - no priority
+    this.playerData = players.sort( (a, b) => {
+      if(a.priority > b.priority) return -1;
+      else if(a.priority < b.priority) return 1;
+      // if priority is equal, sort by hoopTime
+      if(a.hoopTime.getTime() < b.hoopTime.getTime()) return 1;
+      else if(a.hoopTime.getTime() > b.hoopTime.getTime()) return - 1;
+      return 0;
+    });
   }
 
 

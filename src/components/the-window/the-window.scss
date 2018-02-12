@@ -31,7 +31,7 @@ the-window {
   height:58vw;
   width: 95vw;
   position: relative;
-  background-color: #101010;
+  background-color: $offWhite;
   margin-left: 2.5vw;
 }
 
@@ -40,30 +40,34 @@ the-window {
   height: 22vw; width: 100%;
   border-bottom: 2px solid #010101;
   padding-top: .1vw;
+  //border: 1px solid red;
 }
 #playingNow ion-scroll{
   //border: 1px solid blue;
-  height: 18vw;
+  height: 22vw;
+  //border: 1px solid blue;
   white-space: nowrap;
   overflow: hidden;
   overflow-x: scroll;
 }
 
 .playerBox{
+  //border: 1px solid green;
   display: inline-block;
-  height: 17vw;
-  width: 26vw;
+  height: 22vw;
+  width: 35vw;
   text-align: center;
   position: relative;
   .avatarWrapper{
     height: 14vw;
-    padding-top: 2vw;
+    padding-top: 1vw;
+    //border: 1px solid green;
     img {
       border-radius: 25px;
-      height:11vw; width: 11vw;
+      height:12vw; width: 12vw;
       margin: auto;
-      padding: .5vw;
-      border: 2px solid $primary;
+      //padding: .5vw;
+      //border: 2px solid $primary;
       margin-bottom: 0;
     }
   }
@@ -72,12 +76,64 @@ the-window {
     font-size: 3vw;
     font-family: quicksand-regular;
     color: grey;
+    //border: 1px solid red;
+    margin: 0;
+  }
+
+  .courtside{
+    color: green!important;
+    font-family: Quicksand-bold;
+  }
+
+  #playerDate{
+    color: #000000;
+    font-size: 2.2vw;
+    font-family: Quicksand-regular;
   }
 }
 
 #playingNow ion-scroll ion-item:first-child{
   img{
     border: 2px solid green;
+  }
+}
+
+#playersLoading{
+  padding-top: 2vw;
+  text-align: center;
+  p{
+    font-family: Quicksand-regular;
+    font-color: grey;
+  }
+}
+
+#scoutPrompt{
+  text-align: center;
+  p{
+    font-family: Quicksand-regular;
+  }
+  p:first-child{
+    margin: 3vw;
+    font-size: 4vw;
+    font-family: Quicksand-bold;
+    //border: 1px solid red;
+    margin-bottom: 2vw;
+  }
+  p:nth-child(2){
+    //font-family: beba-regular;
+    margin: 0;
+    font-size: 3vw;
+    //border: 1px solid black;
+  }
+}
+
+// Applies to acitvityBox & gameList once they have been validated during scoutprompt
+.validated{
+  ion-scroll{
+    opacity: .3;
+  }
+  #activityWrapper{
+    opacity: .3;
   }
 }
 

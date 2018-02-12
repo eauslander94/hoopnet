@@ -5,6 +5,7 @@ import { FriendsPage }     from '../friends-page/friends-page';
 import { EnterProfileInfo } from '../enter-profile-info/enter-profile-info';
 import { HomeCourtDisplay } from '../../components/home-court-display/home-court-display';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { CheckOutProvider } from '../../providers/check-out/check-out';
 import { AuthService } from '../../services/auth.service';
 import { JwtHelper } from 'angular2-jwt'
 
@@ -32,7 +33,8 @@ export class Profile {
               public events: Events,
               private alertCtrl: AlertController,
               public courtDataService: CourtDataService,
-              public auth: AuthService)
+              public auth: AuthService,
+              public checkOutProvider: CheckOutProvider)
   {
     // User in params - someone else's profile. otherwise go get current user
     if(params.get('user')){
@@ -44,6 +46,7 @@ export class Profile {
       // Get a blank user object ready to be filled
       this.user = this.generateUserTemplate();
 
+      // If we're already logged in, get the current user
       if(auth.isAuthenticated()){
        // use the authID in our id_token to retreive the current user
        courtDataService.getUsersByAuth_id(new JwtHelper().decodeToken
@@ -53,7 +56,8 @@ export class Profile {
              // populate with data retreived
              this.user = data.json();
              this.user_id = this.user._id;
-             this.courtDataService.currentUser = this.user._id;
+             // save data of user currently logged in
+             window.localStorage.setItem('currentUser', JSON.stringify(this.user));
              this.getHomecourts();
            },
            err => {
@@ -75,7 +79,8 @@ export class Profile {
             if(data.json().fName){
               this.user = data.json();
               this.user_id = this.user._id;
-              this.courtDataService.currentUser = this.user._id;
+
+              window.localStorage.setItem('currentUser', JSON.stringify(this.user));
               this.getHomecourts();
             }
             // If not, promt to enter profile info
@@ -89,8 +94,11 @@ export class Profile {
   // When we have new profile info, set user to the user passed in
   events.subscribe('profileInfoEntered', (user) => {
     this.user = user;
+    window.localStorage.setItem('currentUser', JSON.stringify(user));
+
+    alert('profile info entered event');
   })
-  
+
   }
 
 
@@ -176,6 +184,20 @@ export class Profile {
     })
 
     alert.present();
+  }
+
+  // post: auth service's logout method is called
+  // Post: checks out of given court if we are currently checked in
+  public logout(){
+
+    // if we are currently checked in to a court, check out
+    if(JSON.parse(window.localStorage.getItem('checkInData')
+    && JSON.parse(window.localStorage.getItem('checkInData')).checkedIn))
+      this.checkOutProvider.checkOut(
+        JSON.parse(window.localStorage.getItem('checkInData'))
+      )
+
+    this.auth.logout()
   }
 
   // Generates blank user object as a placeholder while we retreive user data

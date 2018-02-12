@@ -191,6 +191,7 @@ export class EnterProfileInfo {
       backgroundImage: '',
       // pointer to the court object the user is beside
       courtside: '',
+      checkIns: [{}]
     }
   }
 

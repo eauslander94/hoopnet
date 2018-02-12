@@ -48,115 +48,130 @@ export class CheckOutProvider {
 
   // Begin Incremental watch
   public checkedIn(court: any){
-
-    this.courtDataService.serverLog('checkedIn ' + new Date().getHours() + ';' + new Date().getMinutes())
-
-    // get the platform
-    this.platform.ready().then(() => {
-
-      // ANDROID
-      if (this.platform.is('android')){
-        // this.courtDataService.serverLog('android')
-
-        // configure the backgroundGeo
-        const config: BackgroundGeolocationConfig = {
-          desiredAccuracy: 10,
-          stationaryRadius: 30,
-          distanceFilter: 30,
-          debug: true,
-          stopOnTerminate: false,
-          // every 15 minutes get location
-          locationProvider: 0,
-          interval: 900000
-        }
-
-        this.backgroundGeolocation.configure(config)
-
-          // when a location comes in
-          .subscribe((location: BackgroundGeolocationResponse) => {
-
-            // log our location event
-            this.courtDataService.serverLog('Location Event at ' +
-            new Date().getHours() + ';' + new Date().getMinutes() + '\n' +
-            location.longitude + ', ' + location.latitude)
-
-            // get the distance between user and court
-            let distance = this.distance(location.longitude, location.latitude,
-              this.court.location.coordinates[0], this.court.location.coordinates[1])
-
-              // log distance and time
-              this.courtDataService.serverLog('distance between user and court at ' +
-              new Date().getHours() + ';' + new Date().getMinutes() + '\n' + distance)
-
-            // If user is more than 100m (just over a city block) from court, checkout
-            if(distance > 100)
-              this.checkOut();
-
-            // If user checked in 3 hours ago and we're still checking their location
-            // Blanket check for users that live close to the court
-            if(new Date().getTime() - JSON.parse(
-            window.localStorage.getItem('checkInTime')).getTime() > 10800000 )
-              this.checkOut()
-          })
-        // start watching
-        this.backgroundGeolocation.start();
-      }
-
-
-      // iOS
-      else if(this.platform.is('ios')){
-
-        this.courtDataService.serverLog('iOS')
-
-        const backgroundFetchConfig: BackgroundFetchConfig = {
-          stopOnTerminate: false, // app continues to fetch when user closes the app
-        };
-
-        this.backgroundFetch.configure(backgroundFetchConfig)
-          // every 30 minutes, get user's location
-          .then(() => {
-            this.geolocation.getCurrentPosition().then((position) => {
-
-              // Log our location event
-              this.courtDataService.serverLog('Location Event at ' +
-              new Date().getHours() + ';' + new Date().getMinutes() + '\n' +
-              position.coords.longitude + ', ' + position.coords.latitude)
-
-              // get distance between user and court
-              let distance = this.distance(
-                position.coords.longitude, position.coords.latitude,
-                this.court.location.coordinates[0], this.court.location.coordinates[1])
-
-                // log distance and time
-                this.courtDataService.serverLog('distance between user and court at ' +
-                new Date().getHours() + ';' + new Date().getMinutes() + '\n' + distance)
-
-                // If user is more than 100m (just over a city block) from court, checkout
-                if(distance > 100)
-                  this.checkOut();
-
-                // If user checked in 3 hours ago and we're still checking their location
-                // Blanket check for users that may not have been checked out
-                if(new Date().getTime() - JSON.parse(
-                window.localStorage.getItem('checkInTime')).getTime() > 10800000 )
-                  this.checkOut();
-            })
-          })
-          .catch(e => console.log('Error initializing background fetch', e))
-      }
-    })
+    //
+    // // get the platform
+    // this.platform.ready().then(() => {
+    //
+    //   // ANDROID
+    //   if (this.platform.is('android')){
+    //     // this.courtDataService.serverLog('android')
+    //
+    //     // configure the backgroundGeo
+    //     const config: BackgroundGeolocationConfig = {
+    //       desiredAccuracy: 10,
+    //       stationaryRadius: 30,
+    //       distanceFilter: 30,
+    //       debug: true,
+    //       stopOnTerminate: false,
+    //       // every 15 minutes get location
+    //       locationProvider: 0,
+    //       interval: 900000
+    //     }
+    //
+    //     this.backgroundGeolocation.configure(config)
+    //
+    //       // when a location comes in
+    //       .subscribe((location: BackgroundGeolocationResponse) => {
+    //
+    //         // log our location event
+    //         this.courtDataService.serverLog('Location Event at ' +
+    //         new Date().getHours() + ';' + new Date().getMinutes() + '\n' +
+    //         location.longitude + ', ' + location.latitude)
+    //
+    //         // get the distance between user and court
+    //         let distance = this.distance(location.longitude, location.latitude,
+    //           this.court.location.coordinates[0], this.court.location.coordinates[1])
+    //
+    //           // log distance and time
+    //           this.courtDataService.serverLog('distance between user and court at ' +
+    //           new Date().getHours() + ';' + new Date().getMinutes() + '\n' + distance)
+    //
+    //         // If user is more than 100m (just over a city block) from court, checkout
+    //         if(distance > 100)
+    //           this.checkOut();
+    //
+    //         // If user checked in 3 hours ago and we're still checking their location
+    //         // Blanket check for users that live close to the court
+    //         if(new Date().getTime() - JSON.parse(
+    //         window.localStorage.getItem('checkInTime')).getTime() > 10800000 )
+    //           this.checkOut()
+    //       })
+    //     // start watching
+    //     this.backgroundGeolocation.start();
+    //   }
+    //
+    //
+    //   // iOS
+    //   else if(this.platform.is('ios')){
+    //
+    //     this.courtDataService.serverLog('iOS')
+    //
+    //     const backgroundFetchConfig: BackgroundFetchConfig = {
+    //       stopOnTerminate: false, // app continues to fetch when user closes the app
+    //     };
+    //
+    //     this.backgroundFetch.configure(backgroundFetchConfig)
+    //       // every 30 minutes, get user's location
+    //       .then(() => {
+    //         this.geolocation.getCurrentPosition().then((position) => {
+    //
+    //           // Log our location event
+    //           this.courtDataService.serverLog('Location Event at ' +
+    //           new Date().getHours() + ';' + new Date().getMinutes() + '\n' +
+    //           position.coords.longitude + ', ' + position.coords.latitude)
+    //
+    //           // get distance between user and court
+    //           let distance = this.distance(
+    //             position.coords.longitude, position.coords.latitude,
+    //             this.court.location.coordinates[0], this.court.location.coordinates[1])
+    //
+    //             // log distance and time
+    //             this.courtDataService.serverLog('distance between user and court at ' +
+    //             new Date().getHours() + ';' + new Date().getMinutes() + '\n' + distance)
+    //
+    //             // If user is more than 100m (just over a city block) from court, checkout
+    //             if(distance > 100)
+    //               this.checkOut();
+    //
+    //             // If user checked in 3 hours ago and we're still checking their location
+    //             // Blanket check for users that may not have been checked out
+    //             if(new Date().getTime() - JSON.parse(
+    //             window.localStorage.getItem('checkInTime')).getTime() > 10800000 )
+    //               this.checkOut();
+    //         })
+    //       })
+    //       .catch(e => console.log('Error initializing background fetch', e))
+    //   }
+    // })
   }
 
+  // Post: User is checked out of current court, ceckInData adjusted in localStorage,
+  // Post: No longer watch of user's location
+  // Param (optional): Data about the court we are checked in to
+  public checkOut(checkInData?: any){
 
-  public checkOut(){
-
-    this.courtDataService.serverLog('check out at ' +
-    new Date().getHours() + ';' + new Date().getMinutes())
-
-    this.courtDataService.checkOut(this.court._id);
+    // If no ceckInData is provided, generate it here
+    if(!checkInData){
+      checkInData = {
+        checkedIn: true,
+        _id: this.court._id,
+        name: this.court.name
+      }
+    }
+    // Check Out Behavior
+    this.courtDataService.checkOut(checkInData._id);
     this.backgroundGeolocation.stop();
     this.backgroundFetch.stop();
+
+    // checkInData informs entire app tat we are no longer checked in
+    window.localStorage.setItem('checkInData', JSON.stringify({
+      checkedIn: false,
+      _id: '',
+      name: ''
+    }));
   }
+
+
 
   // returns distance in metwer between locations provided by lat lng
   public distance(lon1, lat1, lon2, lat2) {
