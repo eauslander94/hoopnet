@@ -9,11 +9,11 @@
 <!-- No navigation to a profile page without authentication -->
         <div class="playerBox" *ngFor='let player of playerData'>
           <div class="avatarWrapper">
-           <img src='file:///storage/emulated/0/Android/data/com.eauslander94.Courtlife/cache/.Pic.jpg?1517250445920'/>
+           <img src={{player.avatar}} >
           </div>
           <p [class.courtside]="player.isCourtside">{{player.fName}} {{player.lName}}</p>
-          <p id='playerDate' *ngIf="player.isCourtside">hooping since {{player.hoopString}}</p>
-          <p id="playerDate" *ngIf="!player.isCourtside">hooped {{player.hoopString}}</p>
+          <p id='playerDate' *ngIf="player.isCourtside">since {{player.hoopString}}</p>
+          <p id="playerDate" *ngIf="!player.isCourtside">{{player.hoopString}}</p>
         </div>
 
         <!-- <div class="playerBox">

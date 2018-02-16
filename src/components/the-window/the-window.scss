@@ -10,8 +10,8 @@ the-window {
     margin-top: .5vw;
     font-family: Quicksand-bold;
     color: black;
-    font-size: 3vw;
-    color: $offWhite;
+    font-size:3.0vw;
+    color: $text;
     margin-bottom: 0;
     //border: 1px solid red;
   }
@@ -31,8 +31,10 @@ the-window {
   height:58vw;
   width: 95vw;
   position: relative;
-  background-color: $offWhite;
+  background-color: $background;
   margin-left: 2.5vw;
+  border-radius: 1vw;
+  box-shadow: 1px 1px 1px
 }
 
 // The following pertains to the playing now list
@@ -81,7 +83,7 @@ the-window {
   }
 
   .courtside{
-    color: green!important;
+    //color: $primary;
     font-family: Quicksand-bold;
   }
 
@@ -182,26 +184,25 @@ the-window {
 
   // game basket icons
   .oneBasket {
-      height: 16vw;
-      width: 16vw;
+      height: 18vw;
+      width: 18vw;
       margin-left: 6vw;
-      //opacity: .8;
       margin-top: 5vw;
   }
   // text inside of game basket icons
   .oneBasket p{
-    font-size: 5vw;
-    margin-top: 2.5vw;
-    font-family: bulls;
+    font-size: 6vw;
+    margin-top: 2.8vw;
+    font-family: NBA_76ers;
     display: inline-block;
-    color: $offWhite;
+    color: $primary;
   }
   // the 'on'
   .oneBasket p:nth-child(2){
-    font-size: 3.5vw;
+    font-size: 2.5vw;
     margin-left: .5vw;
-    margin-right: .3vw;
-    font-family: bulls
+    margin-right: .5vw;
+    font-family: Quicksand-regular;
   }
 
 }

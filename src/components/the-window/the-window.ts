@@ -158,6 +158,19 @@ export class TheWindow {
   // post: nwd updated with current time for last validated, data sent to server
   private validate(validated: String){
 
+    // ensure we're autenticated
+    if(!this.courtDataService.auth.isAuthenticated()){
+      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
+      return;
+    }
+
+    // ensure we're checkedIn
+    if(!window.localStorage.getItem('checkInData')
+    || !JSON.parse(window.localStorage.getItem('checkInData')).checkedIn ){
+         this.courtDataService.toastMessage("You must be checked in to a court to contribute", 3000);
+         return;
+    }
+
     switch(validated){
       case "games": {
         this.nwd.gLastValidated = new Date();
@@ -243,10 +256,17 @@ export class TheWindow {
   // Post Cancel: nwd is sent to server if we are coming from games modal. else nada
   private presentGamesModal(){
 
-    // ensure we're authenticated
+    // ensure we're autenticated
     if(!this.courtDataService.auth.isAuthenticated()){
-      this.courtDataService.toastMessage("You must be logged in to perform this action", 3000);
+      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
       return;
+    }
+
+    // ensure we're checkedIn
+    if(!window.localStorage.getItem('checkInData')
+    || !JSON.parse(window.localStorage.getItem('checkInData')).checkedIn ){
+         this.courtDataService.toastMessage("You must be checked in to a court to contribute", 3000);
+         return;
     }
 
     // Pass in the number of baskets at the court
@@ -289,6 +309,7 @@ export class TheWindow {
   }
 
 
+
   // presentActionModal()
   // Pre: User is authenticated and at the court
   // Post: Modal which collects information about court action is presented
@@ -297,11 +318,19 @@ export class TheWindow {
   // Post Cancel: nwd is sent to server if we are coming from actionModal. else nada
   private presentActionModal(){
 
-    // make sure we're authenticated
+    // ensure we're autenticated
     if(!this.courtDataService.auth.isAuthenticated()){
-      this.courtDataService.toastMessage("You must be logged in to perform this action", 3000);
+      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
       return;
     }
+
+    // ensure we're checkedIn
+    if(!window.localStorage.getItem('checkInData')
+    || !JSON.parse(window.localStorage.getItem('checkInData')).checkedIn ){
+         this.courtDataService.toastMessage("You must be checked in to a court to contribute", 3000);
+         return;
+    }
+
 
     let actionModal = this.modalCtrl.create(ActionModal,
       {showBackdrop: true, enableBackdropDismiss: true});
@@ -460,31 +489,6 @@ export class TheWindow {
   private fadeOut(ref: ElementRef){
     this.animator.setType('fadeOut').show(ref.nativeElement);
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 

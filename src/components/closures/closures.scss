@@ -2,7 +2,7 @@ closures {
 
   height: 100vh;
   width: 100vw;
-  background: #020202;
+  background: $background;
   button{
     ion-icon{
       font-size: 8vw;
@@ -16,8 +16,8 @@ closures {
 // The top tabs
   #topTab{
     width: 100vw;    height: 12vw;
-    margin-top: 12vw;
-    background: #080808;
+    margin-top: 18vw;
+    background: $background;
     // each tab
     div{
       display: inline-block;
@@ -27,9 +27,9 @@ closures {
       text-align: center;
     }
     // put a border between the two
-    div:first-child{  border-right: 2px solid #020202;}
+    div:first-child{  border-right: 1px solid $borderColor;}
     p{
-      color: $offWhite;
+      color: $text;
       font-family: Quicksand-regular;
       font-size: 4vw;
     }
@@ -40,6 +40,7 @@ closures {
   //  border-bottom: 2px solid $primary;
     p{
       color: $primary!important;
+      font-family: Quicksand-bold!important;
     }
   }
 
@@ -49,24 +50,26 @@ closures {
   //  border: 1px solid red;
     margin-bottom: 3vw;
   //  box-shadow: 1px 1px 1px 1px;
-    background: #080808;
+    background: $background;
   }
 
   #closure{
     height: 20vw;
     width: 100vw;
-    background: #080808;
+    background: $background;
+    border-bottom: 1px solid $text;
+    border-top: 1px solid $text;
 
     // Holds the time, the baskets and the days
     #closureHeader{
       //border: 1px solid blue;
       height: 7vw;
       text-align: center;
-      border-bottom: 1px solid #131313;
+      border-bottom: 1px solid $borderColor;
       p{
         margin-top: 1vw;
         //border: 1px solid white;
-        color: $offWhite;
+        color: $text;
         display: inline-block;
         font-family: Quicksand-regular;
         font-size: 3.5vw;
@@ -87,7 +90,7 @@ closures {
     #reasonFlag {
       height: 13vw;
       p{
-        color: $offWhite;
+        color: $text;
         font-size: 6vw;
         margin-left: 3vw;
         display: inline-block;
@@ -123,9 +126,11 @@ closures {
 #addClosure{
   position: fixed;
   bottom: 0;
-  background-color: #030303;
-  border: 2px solid #131313;
-  //font-family: Quicksand-bold;
+  background-color: $offWhite;
+  height: 13vw;
+  //border: 2px solid $borderColor;
+  color: $text;
+  font-family: Quicksand-bold;
 }
 
 }

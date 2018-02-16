@@ -1,28 +1,29 @@
 page-enter-profile-info {
 
   ion-content{
-    background: #131313!important;
+    background: $background!important;
     position: relative;
   }
   // Message up top
   #enterHeader{
     font-family: Quicksand-regular;
-    color: $offWhite;
+    color: $text;
     font-size: 4.3vw;
     text-align: center;
   }
   // The inputs for getting names
   ion-item{
-    background-color: #131313!important;
+    background-color: $background!important;
     ion-input{
-      color: $offWhite;
+      color: $text;
       font-family: Quicksand-regular;
     }
   }
 
   button{
     font-family: Quicksand-bold;
-    background-color: #020202!important;
+    background-color: $offWhite!important;
+    color: $primary!important;
     position: absolute!important;  bottom: 1vw;
   }
 
@@ -30,6 +31,8 @@ page-enter-profile-info {
     //border: 1px solid red!important;
     height: 20vw!important;
   }
+
+   ion-input { border-bottom: 0px solid red !important; }
 
 
 }

@@ -20,7 +20,7 @@ ion-content {
 }
 
 .toolbar-background{
-  background-color: $blackshade1;
+  background-color: $background;
 }
 
 ion-navbar{
@@ -28,25 +28,25 @@ ion-navbar{
 }
 
 .toolbar-title{
-  color: $offWhite;
+  color: $primary;
   font-family: Axis;
   text-align: center;
 }
 
 #courtside{
-  background-image: url('../assets/img/whiteCourt.png');
+  background-image: url('../assets/img/ballBlack.png');
   background-size: 100%;
   background-repeat: no-repeat;
   //border: 1px solid red;
-  height: 6vw;
-  width:8vw;
-  background-color: #030303
+  height: 12vw;
+  width:12vw;
+  background-color: $background;
 }
 
 // OneBasket Style
 .oneBasket {
   //background-image:  url('../assets/img/resizedBasket.jpg');
-  background-image: url('../assets/img/basketBlueEmpty.png');
+  background-image: url('../assets/img/basket2.png');
   background-size: 100%;
   background-repeat: no-repeat;
   height: 100%;
@@ -228,6 +228,7 @@ ion-navbar{
       position: absolute;  bottom: 2vw;  right: 0;
     }
   }
+
 
 
 }

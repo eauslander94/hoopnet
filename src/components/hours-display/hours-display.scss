@@ -13,11 +13,11 @@ hours-display {
     margin-left: 3vw;
     position: absolute;
     top: 54vw;
-    background: $blackshade1;
+    background: $background;
 
     #header{
-      color: $offWhite;
-      font-family: Quicksand-bold;
+      color: $text;
+      font-family: axis;
       text-align: center;
       font-size: 4vw;
       //border: 1px solid white;
@@ -40,7 +40,7 @@ hours-display {
 
       .hourWrapper p{
         display: inline-block;
-        color: $offWhite;
+        color: $text;
         font-family: Quicksand-regular;
         font-size: 4vw;
       }
@@ -66,7 +66,7 @@ hours-display {
 
       .hw2 p{
         display: inline-block;
-        color: $offWhite;
+        color: $text;
         font-family: Quicksand-regular;
         font-size: 4vw;
       //  border: 1px solid white;

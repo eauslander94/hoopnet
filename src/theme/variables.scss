@@ -25,7 +25,7 @@ $font-path: "../assets/fonts";
 // The "primary" color is the only required color in the map.
 
 $colors: (
-  primary:    #387ef5,
+  primary:    #33ccff,
   secondary:  #ff5722,
   danger:     #f53d3d,
   light:      #f4f4f4,
@@ -35,15 +35,21 @@ $colors: (
   //cement:     #AEB2BA
 );
 
-$primary: #387ef5;
+$primary: #33ccff;
 $offWhite : #fffff0;
 $blackshade1: #131313;
+
+$background: white;
+$text: #131313;
+$borderColor: #d3d3d3;
+
 $emptyYellow: #FFB300;
+
 
 $tabs-ios-tab-icon-color: $primary!important;
 $tabs-md-tab-icon-color: $primary!important;
-$tabs-ios-background: $blackshade1;
-$tabs-md-background: $blackshade1;
+$tabs-ios-background: $background;
+$tabs-md-background: $background;
 
 
 $secondary_text: #757575;

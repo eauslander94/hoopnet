@@ -19,10 +19,10 @@ export class CourtDataService{
     currentUser: string;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-    route: string = 'http://192.168.0.7:3000'
+    // route: string = 'http://192.168.0.7:3000'
 
-    // for connecting to our RESTful API hosted on AWS Lambda
-     //route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
+     // for connecting to our RESTful API hosted on AWS Lambda
+     route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
 
 
      // For local connections using ionic serve

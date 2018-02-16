@@ -18,13 +18,13 @@ games-modal {
     position: absolute;
     top: 54vw;
     margin-left:2.5vw;
-    background: #080808;
+    background: $background;
   }
 
 
   #gmHeader{
     font-family: Quicksand-bold;
-    color: $offWhite;
+    color: $text;
     text-align: center;
     font-family: 4vw;
     //border: 1px solid white;
@@ -61,8 +61,8 @@ games-modal {
      display: inline-block;
      height: 14vw;
     // margin-left: .5vw;
-     border: 2px solid #080808;
-     background: #131313;
+     border-top: 1px solid #d3d3d3;
+     background: $background;
      //margin-left: 2px!important;
      position: relative;
 
@@ -82,11 +82,11 @@ games-modal {
          font-family: NBA_76ers;
          font-size: 7.5vw;
          margin-top: 0;
-         color: $offWhite;
+         color: $text;
        }
        // the on
        p:nth-child(even){
-         color: $offWhite;
+         color: $text;
          font-family: Quicksand-regular;
          margin-left: 1vw; margin-right: 1vw;
        }

@@ -19,7 +19,7 @@ action-modal {
     margin-left: 3vw;
     position: absolute;
     top: 54vw;
-    background: $blackshade1;
+    background: $background;
   }
 
   #content div{
@@ -33,7 +33,7 @@ action-modal {
     // header text
     height: 12vw!important;
     p{
-      color: $offWhite;
+      color: $text;
       font-family: Quicksand-bold;  font-size: 4vw;
       margin-top: 2vw;
     //  border: 1px solid green;
@@ -41,7 +41,7 @@ action-modal {
   }
 
   .amOptions{
-    border-top: 2px solid #080808;
+    border-top: 1px solid #d3d3d3;
     p{display: inline-block}
     p:first-child{
       font-family: Axis;
@@ -56,7 +56,7 @@ action-modal {
     p:last-child{
 
       font-family: Quicksand-regular;
-      color: $offWhite;
+      color: $text;
       margin-left: 3.75vw;
     //  border-left: 2px solid black;
       padding-left: 3.75vw;

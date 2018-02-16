@@ -17,16 +17,16 @@ court-map-popup {
     position: absolute;
     top: 54vw;
     //border: 1px solid #050505;
-    background: #131313;
+    background: white;
   }
 
   #courtName {
-    border: 1px solid #131313;
+    border: 1px solid $background;
     border-radius: 16px 16px 0 0;
     text-align: center;
     height: 13vw;
     p{
-      color: $offWhite;
+      color: $text;
       font-family: beba-regular;
       font-size: 6vw;
       margin-top: 4vw;
@@ -46,7 +46,7 @@ court-map-popup {
     }
     p{
       font-family: Quicksand-regular;
-      color: $offWhite;
+      color: $text;
       margin: 0;
     }
     p:nth-child(1){
@@ -66,7 +66,7 @@ court-map-popup {
     margin-top: 3vw;
     //position: absolute; bottom: 0vw;
     //margin-left: 3px!important;
-    border-top: 1px solid #050505;
+    border-top: 1px solid $borderColor;
     div{
       display: inline-block;
       height: 100%;
@@ -84,7 +84,7 @@ court-map-popup {
       width: 30.4vw;
       //border-left: 1px solid #050505; border-right: 1px solid #050505;
       div{
-        background-image: url('../assets/icon/telescopeBlue.png');
+        background-image: url('../assets/icon/telescopeB.png');
         color: $primary;
         background-size: 100%;
         background-repeat: no-repeat;

@@ -185,10 +185,20 @@ export class HoopMapPage {
     map: this.map,
     animation: google.maps.Animation.DROP,
     position: latLng,
+    icon: {
+      url: 'assets/img/hoopPin33ccff2.png',  // pathing automatically relative to www
+      scaledSize: new google.maps.Size(30, 48),
+      // The anchor - halfway on x axis, all te way down on y axis
+      anchor: new google.maps.Point(15, 48),
+      origin: new google.maps.Point(0, 0),
+    },
+    //icon: '/home/eauslander94/Development/hoopnet/www/assets/img/hoopPin.png',
+    //iconUrl: '../../www/assets/img/hoopPin.png',
     // Each marker has a court object attached to it.
     // This is the object that will be passed into other parts of the app.
     court: court
   })
+  //marker.setIcon('../../www/assets/img/hoopPin.png');
 
   google.maps.event.addListener(marker, 'mousedown', () => {
     this.fingerOnScreen = true;
@@ -361,15 +371,15 @@ private getStyles(){
       stylers: [{visibility: 'off'}]
     },
     // Set water to be our primary color;
-    {
-      featureType: 'water',
-      stylers: [{color: '#387ef5'}]
-    },
-    // styling natural landscapes
-    {
-      featureType: 'landscape',
-      stylers: [{color: "#131313"}]
-    },
+    // {
+    //   featureType: 'water',
+    //   stylers: [{color: '#e2f8ff'}]
+    // },
+    // // styling natural landscapes
+    // {
+    //   featureType: 'landscape',
+    //   stylers: [{color: "#fffff0"}]
+    // },
     // simlify transit
     {
       featureType: 'transit',
@@ -394,42 +404,54 @@ private getStyles(){
       elementType: 'geometry',
       stylers: [
         {visibility: 'simplified'},
-        {color: '#030303'}
+        {color: '#ffffff'}
       ]
     },
 
-    // set all text to be simple and off white
+    // set all text to be simple
     {
       elementType: 'labels.text',
       stylers: [
-        {color: '#fffff0'},
         {visibility: 'simplified'}
       ]
     },
     {
       featureType: 'poi.park',
-      elementType: 'labels.text',
+      //elementType: 'labels.text',
       stylers: [{visibility: 'simplified'}]
     },
+    // remove park icons
+    {
+      featureType: 'poi.park',
+      elementType: 'label.icon',
+      stylers: [{visibility: 'off'}]
+    },
+    {
+      featureType: 'poi.park',
+      elementType: 'geometry.fill',
+      stylers: [{visibility: 'on'}]
+    },
+
     // Sports complexes to look like parks
     {
       featureType: 'poi.sports_complex',
       stylers: [
         {visibility: 'simplified'},
-        {color: '#131313'}
+        //{color: '#131313'}
       ]
     },
 
-    {
-      featureType: 'poi.sports_complex',
-      elementType: 'labels.text',
-      stylers:  [{color: '#fffff0'}]},
+    // {
+    //   featureType: 'poi.sports_complex',
+    //   elementType: 'labels.text',
+    //   //stylers:  [{color: '#fffff0'}]
+    // },
 
-    // set all text to be simple and off white
+    // set all text to be simple and black
     {
       elementType: 'labels.text',
       stylers: [
-        {color: '#fffff0'},
+        {color: '#131313'},
         {visibility: 'simplified'}
       ]
     },

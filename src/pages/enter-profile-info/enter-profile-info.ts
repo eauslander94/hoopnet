@@ -167,7 +167,7 @@ export class EnterProfileInfo {
   }
 
   private cameraColor(edit: boolean){
-    if(edit) return '#387ef5'
+    if(edit) return '#33ccff'
     return 'grey';
   }
 
