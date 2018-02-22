@@ -101,7 +101,7 @@ export class FriendsPage {
 
   // Post:  friendsShowing becomes a filtered version of friends
   // Param: string to filter by
-  // Returns: filtered version of items
+  // Returns: filtered version of this.friends
   private filterFriends(searchTerm: string){
 
     return this.friends.filter((profile) => {

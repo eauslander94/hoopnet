@@ -32,6 +32,7 @@ import { CourtPage }        from '../pages/court-page/court-page';
 import { Profile }          from '../pages/profile/profile';
 import { FriendsPage }      from '../pages/friends-page/friends-page';
 import { EnterProfileInfo } from '../pages/enter-profile-info/enter-profile-info';
+import { InviteFriendsPage} from'../pages/invite-friends/invite-friends';
 // components
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
@@ -62,6 +63,7 @@ import { CheckOutProvider } from '../providers/check-out/check-out';
     TabsPage,
     FriendsPage,
     EnterProfileInfo,
+    InviteFriendsPage,
 
     TheWindow,
     WindowModal,
@@ -105,6 +107,7 @@ import { CheckOutProvider } from '../providers/check-out/check-out';
     HoursDisplay,
     CourtMapPopup,
     HomeCourtDisplay,
+    InviteFriendsPage,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},

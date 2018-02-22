@@ -9,11 +9,16 @@ import { Observable } from 'rxjs/Observable';
 import { Response } from '@angular/http';
 // court report imports
 import { CourtDataService } from '../../services/courtDataService.service';
+import { AuthService } from '../../services/auth.service'
 import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
 import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
 import { CheckOutProvider } from '../../providers/check-out/check-out'
 import { WindowModal }  from '../../components/window-modal/window-modal';
+import { InviteFriendsPage } from '../invite-friends/invite-friends';
+
+import { JwtHelper } from 'angular2-jwt'
+
 import * as Realtime from 'realtime-messaging';
 
 declare var google: any;
@@ -30,6 +35,8 @@ export class HoopMapPage {
   dummy: any;
   court: any;
 
+  ortc: any;
+
   // To be used for determining if a marker was clicked or pressed
   fingerOnScreen: boolean;
 
@@ -44,7 +51,8 @@ export class HoopMapPage {
               private modalCtrl: ModalController,
               public events: Events,
               private toastCtrl: ToastController,
-              private checkOutProvider: CheckOutProvider)
+              private checkOutProvider: CheckOutProvider,
+              private auth: AuthService)
   {
     this.court = this.generateCourt();
 
@@ -52,11 +60,35 @@ export class HoopMapPage {
       this.addHomeCourtsMessage();
     })
 
+    // Subscriing to push notifications. First check for current User, if not wait
+    if(window.localStorage.getItem('currentUser'))
+      this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
+    else events.subscribe('gotCurrentUser', () => {
+      this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
+    })
+
+        this.dummy = "eli"
+
   }
 
-  // load the map when the page has loaded
+  // testing our first push notification
+  public pushTest(){
+
+    this.navCtrl.push(InviteFriendsPage);
+  }
+
+  // load the map when the page has loaded, liste for push-noti events
   ionViewDidLoad(){
     this.loadMap();
+
+    // listen for push notification events
+    document.addEventListener("push-notification", function(notification:any){
+
+      // Receiver side tere is no need to parse the payload object. Use it as below
+      if(notification.payload.messageType === 'hoopingNow'){
+        this.presentHoopingNowAlert(notification.payload);
+      }
+    }.bind(this))// must bind this to function that responds to push-noti events
   }
 
 
@@ -166,11 +198,67 @@ export class HoopMapPage {
     )
 
     // Disconnect when dismissing theWindow
-    windowModal.onDidDismiss( () => {
+    windowModal.onDidDismiss( (data) => {
       realtime.disconnect();
+      if(data)
+        if(data.invite)
+          this.scoutedAlert(court)
     })
 
     windowModal.present();
+  }
+
+  // Post: Alert is presented wich thaks players for scouting the court
+  public scoutedAlert(court: any){
+    let alert = this.alertCtrl.create({
+    title: 'You\'ve successfully scouted the court',
+    message: 'Your fellow ballers thank you',
+    buttons: [
+        {
+          text: 'Dismiss',
+          role: 'cancel',
+          handler: () => {}
+        },
+        {
+          text: 'Invite Friends?',
+          handler: () => {
+            // dismiss the alert, then bring up invite friends page
+            alert.dismiss().then(() => {
+              this.navCtrl.push(InviteFriendsPage,
+              {courtName: court.name, location: court.location})
+            })
+          // return false;
+          }
+        }
+      ]
+    });
+  alert.present();
+  }
+
+
+  // Post: alert created that notifies current user tat their friend is currently hooping.
+  presentHoopingNowAlert(payload: any){
+
+    let alert = this.alertCtrl.create({
+      title: 'Let\'s get buckets',
+      message: payload.message,
+      buttons: [{
+        text: 'Dismiss',
+        role: 'cancel',
+        handler: () => {}
+      },
+      {
+        text: 'View Court',
+        handler: () => {
+          // dismiss the alert, then bring up invite friends page
+          alert.dismiss().then(() => {
+            this.moveMap(payload.location);
+          })
+          return false;
+        }
+      }]
+    })
+    alert.present()
   }
 
 
@@ -185,15 +273,13 @@ export class HoopMapPage {
     map: this.map,
     animation: google.maps.Animation.DROP,
     position: latLng,
-    icon: {
-      url: 'assets/img/hoopPin33ccff2.png',  // pathing automatically relative to www
-      scaledSize: new google.maps.Size(30, 48),
-      // The anchor - halfway on x axis, all te way down on y axis
-      anchor: new google.maps.Point(15, 48),
-      origin: new google.maps.Point(0, 0),
-    },
-    //icon: '/home/eauslander94/Development/hoopnet/www/assets/img/hoopPin.png',
-    //iconUrl: '../../www/assets/img/hoopPin.png',
+    // icon: {
+    //   url: 'assets/img/hoopMarkerBlue.png',  // pathing automatically relative to www
+    //   scaledSize: new google.maps.Size(40, 40),
+    //   // The anchor - halfway on x axis, all te way down on y axis
+    //   anchor: new google.maps.Point(20, 40),
+    //   origin: new google.maps.Point(0, 0),
+    // },
     // Each marker has a court object attached to it.
     // This is the object that will be passed into other parts of the app.
     court: court
@@ -263,11 +349,14 @@ public addHomeCourtsMessage(){
 }
 
 
- // post: map is centered around a given address
- // paren: the addredd to be centered around
- // pre: address has a valid lat and lng fields
- moveMap(address){
-   this.map.setCenter(new google.maps.LatLng(address.lat, address.lng))
+ // post: map is centered given location, zooms into court
+ // paren: location object in the standard we use across the app
+ moveMap(location){
+   this.map.setCenter(new google.maps.LatLng(location.coordinates[1],
+   location.coordinates[0]))
+   this.map.setZoom(15).then(() => {
+     alert("hello")
+   })
  }
 
 
@@ -281,7 +370,24 @@ public testAuth(){
   )
 }
 
+// Post: Connects to recieve push notifications provided channel
+// Param: Channel to listen on
+public pushConnect(channel: string){
 
+  let ortc = window['plugins'].OrtcPushPlugin;
+  // estalish connection
+  ortc.connect({
+    'appkey':'pLJ1wW',
+    'token':'appToken',
+    'metadata':'androidMetadata',
+    'projectId':'979214254876',
+    'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
+  }).then(() => {
+    window['plugins'].OrtcPushPlugin.subscribe({
+      'channel': channel
+    })
+  });
+}
 
 private generateCourt(){
   return {

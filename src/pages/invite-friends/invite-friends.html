@@ -1,0 +1,47 @@
+<!--
+  Generated template for the InviteFriendsPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>send blast</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+
+<div>
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    [formControl]='formControl'
+    [showCancelButton]="shouldShowCancel"
+  >
+  </ion-searchbar>
+  <div id="selectAll" (tap)="selectAll()">
+    <p *ngIf='!allSelected'>select all<p>
+    <p *ngIf='allSelected'>unselect all<p>
+  </div>
+</div>
+
+<!-- Show spinner while fetching friends -->
+<div *ngIf='!gotFriends' id="gettingFriends">
+  <p>Loading Friends</p>
+  <ion-spinner></ion-spinner>
+</div>
+
+  <ion-list id="amigoDisplay">
+    <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)="select(profile._id)">
+      <img src={{profile.avatar}}/>
+      <p>{{profile.fName}}</p><p class="nickName" *ngIf="profile.nName !== '' ">{{profile.nName}} </p><p>{{profile.lName}}</p>
+      <ion-icon name="checkmark-circle" [style.color]='isSelected(profile._id)'></ion-icon>
+    </div>
+  </ion-list>
+
+  <button ion-button full id="send" (tap)=send()>send</button>
+
+</ion-content>

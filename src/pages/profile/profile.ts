@@ -58,6 +58,8 @@ export class Profile {
              this.user_id = this.user._id;
              // save data of user currently logged in
              window.localStorage.setItem('currentUser', JSON.stringify(this.user));
+             // let app know that we have the current user
+             this.events.publish('gotCurrentUser')
              this.getHomecourts();
            },
            err => {
@@ -81,6 +83,8 @@ export class Profile {
               this.user_id = this.user._id;
 
               window.localStorage.setItem('currentUser', JSON.stringify(this.user));
+              // let app know that we have the current user
+              this.events.publish('gotCurrentUser')
               this.getHomecourts();
             }
             // If not, promt to enter profile info
@@ -95,6 +99,8 @@ export class Profile {
   events.subscribe('profileInfoEntered', (user) => {
     this.user = user;
     window.localStorage.setItem('currentUser', JSON.stringify(user));
+    // let app know that we have the current user
+    this.events.publish('gotCurrentUser')
 
     alert('profile info entered event');
   })

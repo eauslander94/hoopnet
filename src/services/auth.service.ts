@@ -104,6 +104,13 @@ export class AuthService {
 
   public logout() {
     alert('logging out');
+    // disconnect from realtime push plugin
+    alert(this.getStorageVariable('currentUser')._id)
+    window['plugins'].OrtcPushPlugin.unsubscribe
+    ({'channel': this.getStorageVariable('currentUser')._id }).then(() => {
+      alert('unsubscribing')
+    });
+
     window.localStorage.removeItem('profile');
     window.localStorage.removeItem('access_token');
     window.localStorage.removeItem('id_token');

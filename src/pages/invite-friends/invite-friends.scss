@@ -1,0 +1,83 @@
+page-invite-friends {
+
+  #gettingFriends{
+    text-align: center;
+    font-family: Quicksand-regular;
+    font-size: 3vw;
+
+  }
+
+  ion-searchbar{
+    width: 78vw;
+    display: inline-block;
+  }
+
+  #selectAll{
+    display: inline-block;
+    float: right;
+    border: 1px solid $primary;
+    background-color: $primary;
+    font-family: Quicksand-bold;
+    font-size: 3vw;
+    color: white;
+    width: 20vw;
+    height: 10vw;
+    text-align: center;
+    border-radius: 10px;
+    border-top-right-radius: 13px;
+    margin-top: 3vw!important;
+    margin: 1vw;
+    margin-left: 0;
+    box-shadow: 1px 1px 3px grey;
+  }
+
+  #amigoDisplay{
+    margin-top: 3vw;
+    border-top: 1px solid $borderColor;
+    height: 80vh;
+    width: 100vw;
+    white-space: nowrap;
+    overflow: hidden;
+  }
+
+  // Basic style for the display of a single user
+  .userDisplay{
+    height: 16vw;  width: 100vw;
+    border-bottom: 1px solid $borderColor;
+
+    img{
+      display: inline-block;
+      height: 12vw;
+      width: 12vw;
+      border-radius: 30px;
+      //padding: .5vw;
+      //border: 2px solid $primary;
+      margin-top: 2vw;  margin-left: 2vw;
+    }
+    p{
+      display: inline-block;
+      font-family:Quicksand-regular;
+      color: grey;
+    }
+    // first name
+    p:nth-child(2){
+      margin-right: 1vw;
+    }
+    ion-icon{
+      float: right;
+      margin-top: 6vw;
+      margin-right: 3vw;
+      display: inline-block;
+      font-size: 8vw;
+      color: $primary;
+    }
+  }
+
+  #send{
+    font-family: Quicksand-bold;
+    position: absolute;
+    bottom: 0;
+  }
+
+
+}

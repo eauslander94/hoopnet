@@ -9,10 +9,48 @@ window-modal {
     opacity: .5
   }
 
+  .toolbar-title{
+    //color: black !important;
+  }
+
+  #windowTitle{
+    position: absolute;
+    top: 47.5vw;
+    height: 6vw;
+    width: 36vw;
+    margin-left: 2.5vw;
+    text-align: center;
+    background: white;
+    border-top-right-radius: 5vw;
+    border-top-left-radius:5vw;
+    font-family: axis;
+    p{ margin: .5vw;}
+  }
+
   the-window{
     //border: 1px solid red;
     position: absolute;
     top: 54vw;
+  }
+
+  #bottomLine{
+    background: white;
+    position: absolute;
+    bottom: 0;
+    height: 13vw;
+    width: 100vw;
+    div{
+      text-align: center;
+      display: inline-block;
+      width: 32%;
+
+      height: 100%;
+      ion-icon{
+        color: black;
+        margin-top: 3vw;
+        font-size: 8vw;
+      }
+    }
   }
 
 }

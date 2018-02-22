@@ -181,10 +181,7 @@ export class TheWindow {
           this.validated += 'g';
           if(this.validated.includes('a')){
             this.validated = '';
-            // Dismiss windowModal, thank the user
-            this.viewCtrl.dismiss().then(() => {
-              this.scoutedAlert()
-            })
+            this.viewCtrl.dismiss({invite: true});
           }
         }
 
@@ -199,9 +196,7 @@ export class TheWindow {
           this.validated += 'a';
           if(this.validated.includes('g')){
             this.validated = '';
-            this.viewCtrl.dismiss().then(() => {
-              this.scoutedAlert()
-            })
+            this.viewCtrl.dismiss({invite: true});
           }
         }
 
@@ -209,30 +204,6 @@ export class TheWindow {
       }
       default: break;
     }
-  }
-
-  // Post: Alert is presented wich thaks players for scouting the court
-  public scoutedAlert(){
-    let alert = this.alertCtrl.create({
-    title: 'You\'ve successfully scouted the court',
-    message: 'Your fellow ballers thank you',
-    buttons: [
-      {
-        text: 'Dismiss',
-        role: 'cancel',
-        handler: () => {
-          console.log('Cancel clicked');
-        }
-      },
-      {
-        text: 'Invite Friends?',
-        handler: () => {
-          console.log('Buy clicked');
-        }
-      }
-    ]
-  });
-  alert.present();
   }
 
 
@@ -284,10 +255,7 @@ export class TheWindow {
           this.validated += 'g';
           if(this.validated.includes('a')){
             this.validated = '';
-            this.viewCtrl.dismiss().then(() => {
-              this.scoutedAlert()
-            })
-            return;
+            this.viewCtrl.dismiss({invite: true});
           }
         }
         // Where we are in enter window data behavioral loop
@@ -351,9 +319,7 @@ export class TheWindow {
           this.validated += 'a';
           if(this.validated.includes('g')){
             this.validated = '';
-            this.viewCtrl.dismiss().then(() => {
-              this.scoutedAlert()
-            })
+            this.viewCtrl.dismiss({invite: true});
             return;
           }
         }
