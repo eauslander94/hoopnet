@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
-import { CheckOutProvider }  from '../../providers/check-out/check-out'
+import { QuickCourtsideProvider } from '../../providers/quick-courtside/quick-courtside';
 // geolocation
 import { Geolocation } from '@ionic-native/geolocation';
 @Component({
@@ -21,10 +21,49 @@ export class CourtsideCheckIn {
   constructor(public viewCtrl: ViewController,
               private geolocation: Geolocation,
               public courtDataService: CourtDataService,
-              public checkOutProvider: CheckOutProvider) {
+              public quick: QuickCourtsideProvider) {
     this.state = "search";
+    alert('verifying');
 
-    // this.buildData();
+    // If we've got a court in local storage
+    if(window.localStorage.getItem('courtside')){
+
+      let courtside = JSON.parse(window.localStorage.getItem('courtside'))
+      // check to see that we've cecked in 15 minutes ago
+      if(new Date().getTime() - new Date(courtside.timestamp).getTime() < 900000)
+        this.verified(courtside.court)
+
+      // else call quickCourtside with that court
+      else if(this.quick.isCourtside(courtside.court.location.coordinates))
+        this.verified(courtside.court)
+    }
+    // quick checking fails, query our db for a court near the user
+    else {
+
+      // Get the user's location
+      this.location = [];
+
+      // this.geolocation.getCurrentPosition().then((position) => {
+      //   this.location = [position.coords.longitude,  position.coords.latitude];
+      //   alert(this.location);
+      //   // Get courts with location being my cribbb
+      //   // this.getCourts([-73.988945, 40.723570]);
+      //   // Tompkins
+      //   this.getCourts(this.location)
+      // })
+      // // During polishing, add an error screen to the html here with appropriate error message
+      // .catch((error) => {
+      //   alert(error.message);
+      // })
+
+      // workaround for geolocation not working wit live reload
+      // location is currently tompkins
+      this.getCourts([ -73.980688, 40.726429 ])
+    }
+
+
+
+
 
     // Get the user's location
     this.location = [];
@@ -44,7 +83,7 @@ export class CourtsideCheckIn {
 
     // workaround for geolocation not working wit live reload
     // location is currently tompkins
-    this.getCourts([ -73.980688, 40.72685 ])
+    this.getCourts([ -73.980688, 40.726429 ])
 
   }
 
@@ -61,7 +100,7 @@ export class CourtsideCheckIn {
     console.log(responseCode);
     switch(responseCode){
       case 1:
-        this.checkIn(courts[0]);
+        this.verified(courts[0]);
         break;
       case 2:
         this.courts = courts;
@@ -79,20 +118,18 @@ export class CourtsideCheckIn {
   }
 
   // Performs check-in responsibilities for the provided court
-  public checkIn(court: any){
-    this.court = court;
-    this.courtDataService.checkIn(court._id).subscribe()  // data to server
-    this.state = 'checkedIn';
+  public verified(court: any){
 
-    // Save, in localStorage, data about the court we've checked in to
-    let checkInData = {
-      checkedIn: true,
-      _id: court._id,
-      name: court.name
+    this.court = court;
+    this.state = 'checkedIn';
+    // Save court and the current time into local storage
+    let courtside = {
+      court: court,
+      timestamp: new Date()
     }
-    window.localStorage.setItem('checkInData', JSON.stringify(checkInData));
-    // Begin watching
-    this.checkOutProvider.checkedIn(court);
+
+    window.localStorage.setItem('courtside', JSON.stringify(courtside));
+    this.courtDataService.checkIn(court._id).subscribe()  // data to server
     this.scoutPrompt(court);
   }
 

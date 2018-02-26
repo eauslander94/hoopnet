@@ -6,7 +6,6 @@ import Auth0Cordova from '@auth0/cordova';
 import Auth0 from 'auth0-js';
 
 import { CourtDataService } from '../services/courtDataService.service'
-import { CheckOutProvider } from '../providers/check-out/check-out'
 
 // configuration options
 const auth0Config = {

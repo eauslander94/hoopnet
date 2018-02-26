@@ -8,12 +8,16 @@ import * as Realtime from 'realtime-messaging';
 })
 export class WindowModal {
 
+  court: any;
   windowData: any;
 
   constructor(public viewCtrl: ViewController,
               private params: NavParams)
   {
-    this.windowData = params.get('windowData');
+    this.court = params.get('court');
+    this.windowData = this.court.windowData;
+    this.windowData.coordinates = this.court.location.coordinates;
+
     // pass in the realtime client
     this.windowData.realtime = params.get('realtime');
     // Prompt user to enter info
@@ -21,7 +25,7 @@ export class WindowModal {
       this.windowData.scoutPrompt = params.get('scoutPrompt')
   }
 
-  
+
   public hackground(){
     // Unless scoutPrompt, dismiss
     if(!this.params.get('scoutPrompt'))

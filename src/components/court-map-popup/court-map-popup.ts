@@ -35,7 +35,7 @@ export class CourtMapPopup {
     realtime.connect('pLJ1wW', 'testToken')
 
     let windowModal = this.modalCtrl.create(WindowModal,
-      { 'windowData': this.court.windowData,
+      { 'court': this.court,
         'realtime': realtime }
     )
 
@@ -43,7 +43,7 @@ export class CourtMapPopup {
     windowModal.onDidDismiss( () => {
       realtime.disconnect();
     })
-    
+
     windowModal.present();
   }
 

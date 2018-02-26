@@ -1,3 +1,4 @@
+
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Tabs, Events,
          AlertController } from 'ionic-angular';
@@ -5,7 +6,6 @@ import { FriendsPage }     from '../friends-page/friends-page';
 import { EnterProfileInfo } from '../enter-profile-info/enter-profile-info';
 import { HomeCourtDisplay } from '../../components/home-court-display/home-court-display';
 import { CourtDataService } from '../../services/courtDataService.service';
-import { CheckOutProvider } from '../../providers/check-out/check-out';
 import { AuthService } from '../../services/auth.service';
 import { JwtHelper } from 'angular2-jwt'
 
@@ -33,8 +33,7 @@ export class Profile {
               public events: Events,
               private alertCtrl: AlertController,
               public courtDataService: CourtDataService,
-              public auth: AuthService,
-              public checkOutProvider: CheckOutProvider)
+              public auth: AuthService)
   {
     // User in params - someone else's profile. otherwise go get current user
     if(params.get('user')){
@@ -195,13 +194,6 @@ export class Profile {
   // post: auth service's logout method is called
   // Post: checks out of given court if we are currently checked in
   public logout(){
-
-    // if we are currently checked in to a court, check out
-    if(JSON.parse(window.localStorage.getItem('checkInData')
-    && JSON.parse(window.localStorage.getItem('checkInData')).checkedIn))
-      this.checkOutProvider.checkOut(
-        JSON.parse(window.localStorage.getItem('checkInData'))
-      )
 
     this.auth.logout()
   }

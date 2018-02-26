@@ -7,6 +7,8 @@ import { Observable } from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
+import { QuickCourtsideProvider } from '../../providers/quick-courtside/quick-courtside';
+
 import * as Realtime from 'realtime-messaging';
 
 import { SocketIOClient } from 'socket.io-client';
@@ -46,6 +48,8 @@ export class TheWindow {
   scoutPrompt: boolean = false;
   // which, between players and games, has been validated.
   validated: string = '';
+  // coordinates of the court
+  coordinates: Array<number>;
 
   // For animation
   @ViewChild('alivingTimestamp') alivingTimestampRef: ElementRef;
@@ -57,7 +61,8 @@ export class TheWindow {
                public viewCtrl: ViewController,
                public alertCtrl: AlertController,
                private animationService: AnimationService,
-               private courtDataService: CourtDataService)
+               private courtDataService: CourtDataService,
+               private quick: QuickCourtsideProvider,)
   {
 
     // Update the living timestamps every minute
@@ -92,6 +97,8 @@ export class TheWindow {
       this.realtime.onConnected = () => {
         this.realtime.subscribe("windowUpdate" + this.windowData.court_id, false, this.onUpdate.bind(this));
       }
+      // set the court's coordinates
+      this.coordinates = this.windowData.coordinates;
     }
 
     // get actual player data from list of pointers provided
@@ -164,12 +171,9 @@ export class TheWindow {
       return;
     }
 
-    // ensure we're checkedIn
-    if(!window.localStorage.getItem('checkInData')
-    || !JSON.parse(window.localStorage.getItem('checkInData')).checkedIn ){
-         this.courtDataService.toastMessage("You must be checked in to a court to contribute", 3000);
-         return;
-    }
+    // Verify that the user is currently at this court
+    if(!this.quick.isCourtside(this.coordinates))
+      this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
 
     switch(validated){
       case "games": {
@@ -233,12 +237,9 @@ export class TheWindow {
       return;
     }
 
-    // ensure we're checkedIn
-    if(!window.localStorage.getItem('checkInData')
-    || !JSON.parse(window.localStorage.getItem('checkInData')).checkedIn ){
-         this.courtDataService.toastMessage("You must be checked in to a court to contribute", 3000);
-         return;
-    }
+    // verify that the user is at this court
+    if(!this.quick.isCourtside(this.coordinates))
+      this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
 
     // Pass in the number of baskets at the court
     let gamesModal = this.modalCtrl.create(GamesModal,
@@ -292,12 +293,9 @@ export class TheWindow {
       return;
     }
 
-    // ensure we're checkedIn
-    if(!window.localStorage.getItem('checkInData')
-    || !JSON.parse(window.localStorage.getItem('checkInData')).checkedIn ){
-         this.courtDataService.toastMessage("You must be checked in to a court to contribute", 3000);
-         return;
-    }
+    // Verify that the user is currently at this court
+    if(!this.quick.isCourtside(this.coordinates))
+      this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
 
 
     let actionModal = this.modalCtrl.create(ActionModal,
@@ -365,29 +363,18 @@ export class TheWindow {
       if(gotCurrentUser && currentUser.friends.indexOf(player._id) > -1)
         player.priority ++;
 
-      // loop trough player's checkIns, Get the correct hoopString
+      // loop trough player's checkIns, Get the correct time at which player was at this court
       for(let checkIn of player.checkIns){
-        // get the checkIn object of this court
+        // get the player's checkIn object of this court
         if(checkIn.court_id == this.windowData.court_id){
-          // if currently playing at this court
-          if(player.courtside === checkIn.court_id){
-            player.priority += 2;
-            // format date string
-            player.hoopTime = new Date(checkIn.in);
-            player.hoopString = moment(checkIn.in).format('h:mma');
-            player.hoopString = player.hoopString.substring(0, player.hoopString.length - 1);
-            player.isCourtside = true;
-          }
-          else{
-            player.hoopTime = new Date(checkIn.out);
-            player.hoopString = moment(checkIn.out).fromNow();  // else hoopString is when tey left
-          }
+          // set hoopTime & hoopString so that window can display the player's time
+          player.hoopTime = new Date(checkIn.in);
+          player.hoopString = moment(player.hoopTime).fromNow();
         }
       }
     }
-    // finally, sort the list by our comparison method.  Below is priority breakdown
-    // Priority = 3 - friend of currentUser & courtside
-    // Priority = 2 - courtside
+
+    // finally, based on time and friendship.
     // Priority = 1 - friend of currentUser
     // Priority = 0 - no priority
     this.playerData = players.sort( (a, b) => {

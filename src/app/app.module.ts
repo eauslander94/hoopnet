@@ -50,7 +50,7 @@ import { AuthService }      from '../services/auth.service';
 // Directives
 import { Dbltap }           from '../components/dbltap/dbltap';
 import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
-import { CheckOutProvider } from '../providers/check-out/check-out';
+import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-courtside';
 
 
 
@@ -129,7 +129,7 @@ import { CheckOutProvider } from '../providers/check-out/check-out';
       },
       deps: [Http]
     },
-    CheckOutProvider,
+    QuickCourtsideProvider,
 ]
 })
 export class AppModule {}

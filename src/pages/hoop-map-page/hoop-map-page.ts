@@ -13,7 +13,6 @@ import { AuthService } from '../../services/auth.service'
 import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
 import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
-import { CheckOutProvider } from '../../providers/check-out/check-out'
 import { WindowModal }  from '../../components/window-modal/window-modal';
 import { InviteFriendsPage } from '../invite-friends/invite-friends';
 
@@ -51,7 +50,6 @@ export class HoopMapPage {
               private modalCtrl: ModalController,
               public events: Events,
               private toastCtrl: ToastController,
-              private checkOutProvider: CheckOutProvider,
               private auth: AuthService)
   {
     this.court = this.generateCourt();
@@ -61,14 +59,13 @@ export class HoopMapPage {
     })
 
     // Subscriing to push notifications. First check for current User, if not wait
-    if(window.localStorage.getItem('currentUser'))
-      this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
-    else events.subscribe('gotCurrentUser', () => {
-      this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
-    })
+    // if(window.localStorage.getItem('currentUser'))
+    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
+    // else events.subscribe('gotCurrentUser', () => {
+    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
+    // })
 
         this.dummy = "eli"
-
   }
 
   // testing our first push notification
@@ -154,12 +151,6 @@ export class HoopMapPage {
       return;
     }
 
-    // If we are checked in, check us out
-    let checkInData = JSON.parse(window.localStorage.getItem('checkInData'))
-    if(checkInData && checkInData.checkedIn){
-      this.checkOutProvider.checkOut(checkInData);
-      return;
-    }
 
     let cci = this.modalCtrl.create(CourtsideCheckIn, {showBackdrop: false});
 
@@ -192,7 +183,7 @@ export class HoopMapPage {
     realtime.connect('pLJ1wW', 'testToken')
 
     let windowModal = this.modalCtrl.create(WindowModal,
-      { 'windowData': court.windowData,
+      { 'court': court,
         'realtime': realtime,
         'scoutPrompt': true }
     )

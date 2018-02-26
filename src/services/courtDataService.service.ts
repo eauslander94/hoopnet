@@ -19,10 +19,10 @@ export class CourtDataService{
     currentUser: string;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-    // route: string = 'http://192.168.0.7:3000'
+     route: string = 'http://192.168.0.7:3000'
 
      // for connecting to our RESTful API hosted on AWS Lambda
-     route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
+     //route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
 
 
      // For local connections using ionic serve
@@ -209,27 +209,6 @@ export class CourtDataService{
         {court_id: court_id, user_id: JSON.parse(window.localStorage.getItem('currentUser'))._id},
         {headers: headers}
       )
-    }
-
-    // Post: User's chheckOut time is saved to db
-    // Post2: provided court removed from current user's courtside field
-    // Param: Court to add current user to
-    // res: {court: court, user: user}
-    // isAuthenticated: yes
-    // isCourtside:     yes
-    public checkOut(court_id: string){
-
-      if(!this.auth.isAuthenticated()){
-        this.toastMessage("You must be logged in to perform this action", 3000);
-        return;
-      }
-      let headers = new Headers();
-      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
-      headers.set('court_id', court_id);
-      headers.set('user_id', JSON.parse(window.localStorage.getItem('currentUser'))._id);
-
-      return this.http.delete(this.route + '/checkOut',
-        {headers: headers}).subscribe();
     }
 
 
@@ -440,6 +419,7 @@ export class CourtDataService{
         message: message,
         duration: duration,
         position: 'top',
+        showCloseButton: true,
       }).present();
     }
 
