@@ -23,68 +23,17 @@ export class CourtsideCheckIn {
               public courtDataService: CourtDataService,
               public quick: QuickCourtsideProvider) {
     this.state = "search";
-    alert('verifying');
 
-    // If we've got a court in local storage
-    if(window.localStorage.getItem('courtside')){
-
-      let courtside = JSON.parse(window.localStorage.getItem('courtside'))
-      // check to see that we've cecked in 15 minutes ago
-      if(new Date().getTime() - new Date(courtside.timestamp).getTime() < 900000)
-        this.verified(courtside.court)
-
-      // else call quickCourtside with that court
-      else if(this.quick.isCourtside(courtside.court.location.coordinates))
-        this.verified(courtside.court)
-    }
-    // quick checking fails, query our db for a court near the user
-    else {
-
-      // Get the user's location
-      this.location = [];
-
-      // this.geolocation.getCurrentPosition().then((position) => {
-      //   this.location = [position.coords.longitude,  position.coords.latitude];
-      //   alert(this.location);
-      //   // Get courts with location being my cribbb
-      //   // this.getCourts([-73.988945, 40.723570]);
-      //   // Tompkins
-      //   this.getCourts(this.location)
-      // })
-      // // During polishing, add an error screen to the html here with appropriate error message
-      // .catch((error) => {
-      //   alert(error.message);
-      // })
-
-      // workaround for geolocation not working wit live reload
-      // location is currently tompkins
-      this.getCourts([ -73.980688, 40.726429 ])
-    }
-
-
-
-
-
-    // Get the user's location
-    this.location = [];
-
-    // this.geolocation.getCurrentPosition().then((position) => {
-    //   this.location = [position.coords.longitude,  position.coords.latitude];
-    //   alert(this.location);
-    //   // Get courts with location being my cribbb
-    //   // this.getCourts([-73.988945, 40.723570]);
-    //   // Tompkins
-    //   this.getCourts(this.location)
-    // })
-    // // During polishing, add an error screen to the html here with appropriate error message
-    // .catch((error) => {
-    //   alert(error.message);
-    // })
+    this.geolocation.getCurrentPosition().then((position) => {
+      alert('got user location');
+      this.getCourts([position.coords.longitude, position.coords.latitude])
+    }).catch((error) => {
+      alert('Error retrieving your current location');
+    })
 
     // workaround for geolocation not working wit live reload
     // location is currently tompkins
-    this.getCourts([ -73.980688, 40.726429 ])
-
+    // this.getCourts([ -73.980688, 40.726429 ])
   }
 
 
@@ -122,13 +71,15 @@ export class CourtsideCheckIn {
 
     this.court = court;
     this.state = 'checkedIn';
+
     // Save court and the current time into local storage
     let courtside = {
-      court: court,
+      coordinates: court.location.coordinates,
       timestamp: new Date()
     }
-
+    alert('court located at ' + courtside.coordinates  + ' put into local storage');
     window.localStorage.setItem('courtside', JSON.stringify(courtside));
+
     this.courtDataService.checkIn(court._id).subscribe()  // data to server
     this.scoutPrompt(court);
   }

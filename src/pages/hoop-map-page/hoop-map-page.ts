@@ -58,6 +58,7 @@ export class HoopMapPage {
       this.addHomeCourtsMessage();
     })
 
+
     // Subscriing to push notifications. First check for current User, if not wait
     // if(window.localStorage.getItem('currentUser'))
     //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
@@ -125,20 +126,6 @@ export class HoopMapPage {
    }
 
 
-  // method markerClicked()
-  // Param: court - the court object corresponding to the clicked marker
-  // Post: Alert is presented
-  markerClicked(court){
-    let courtDisplay = this.modalCtrl.create(CourtMapPopup, {'court': court, })
-
-    courtDisplay.onDidDismiss(data =>{
-
-    })
-
-    courtDisplay.present();
-  }
-
-
   // post: courtsideCheckIn modal is presented, starting courtside behavior
   // pre: User is authenticated
   presentCourtsideCheckIn(){
@@ -165,7 +152,7 @@ export class HoopMapPage {
       }
       // pull up the window, prompt user to scout the court
       else if(data.scoutPrompt){
-        this.presentWindowModal(data.court)
+        this.presentWindowModal(data.court, true)
       }
 
     })
@@ -175,7 +162,7 @@ export class HoopMapPage {
 
   // Post: Window Modal is presented, connect to realtime.co webhook
   // Param: Court which we will connect to
-  presentWindowModal(court: any){
+  presentWindowModal(court: any, scoutPrompt: boolean){
 
     // connect to realtime webhook upon presenting window, pass it in
     const realtime = Realtime.createClient();
@@ -185,11 +172,13 @@ export class HoopMapPage {
     let windowModal = this.modalCtrl.create(WindowModal,
       { 'court': court,
         'realtime': realtime,
-        'scoutPrompt': true }
+        'scoutPrompt': scoutPrompt }
     )
 
     // Disconnect when dismissing theWindow
     windowModal.onDidDismiss( (data) => {
+      // refresh our courts
+      this.getCourts();
       realtime.disconnect();
       if(data)
         if(data.invite)
@@ -293,7 +282,7 @@ export class HoopMapPage {
  private async clickOrPress(court: any){
    await this.delay(150);
    if(!this.fingerOnScreen)
-     this.markerClicked(court);
+     this.presentWindowModal(court, false);
    await this.delay(350)
    if(this.fingerOnScreen){
      this.fingerOnScreen = false;

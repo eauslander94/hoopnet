@@ -15,7 +15,7 @@ export class WindowModal {
               private params: NavParams)
   {
     this.court = params.get('court');
-    this.windowData = this.court.windowData;
+    this.windowData = params.get('court').windowData;
     this.windowData.coordinates = this.court.location.coordinates;
 
     // pass in the realtime client

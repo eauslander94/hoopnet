@@ -8,6 +8,8 @@ import { AnimationService, AnimationBuilder } from 'css-animator';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
 import { QuickCourtsideProvider } from '../../providers/quick-courtside/quick-courtside';
+import { Geolocation } from '@ionic-native/geolocation';
+
 
 import * as Realtime from 'realtime-messaging';
 
@@ -62,7 +64,8 @@ export class TheWindow {
                public alertCtrl: AlertController,
                private animationService: AnimationService,
                private courtDataService: CourtDataService,
-               private quick: QuickCourtsideProvider,)
+               private quick: QuickCourtsideProvider,
+               private geolocation: Geolocation)
   {
 
     // Update the living timestamps every minute
@@ -128,6 +131,7 @@ export class TheWindow {
   // Post3: Update animations fired, if their correspong data were updated
   // Param: new windowData to update the old
   public updateUI(newWindowData: any){
+    //alert(newWindowData.action + " " + newWindowData.games[0]);
 
     // If we have a new action, animate action and its timestamp
     if(newWindowData.action !== this.windowData.action){
@@ -153,6 +157,7 @@ export class TheWindow {
     else if(newWindowData.gLastValidated !== this.windowData.gLastValidated)
       this.flash(this.glivingTimestampRef)
 
+    // alert(moment(newWindowData.aLastValidated).fromNow())
     this.windowData = newWindowData;
     this.resetNWD();
     this.updateLivingTimestamps();
@@ -164,16 +169,6 @@ export class TheWindow {
   // pre: validated is either "games" or "action"
   // post: nwd updated with current time for last validated, data sent to server
   private validate(validated: String){
-
-    // ensure we're autenticated
-    if(!this.courtDataService.auth.isAuthenticated()){
-      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
-      return;
-    }
-
-    // Verify that the user is currently at this court
-    if(!this.quick.isCourtside(this.coordinates))
-      this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
 
     switch(validated){
       case "games": {
@@ -188,7 +183,6 @@ export class TheWindow {
             this.viewCtrl.dismiss({invite: true});
           }
         }
-
         break;
       }
       case "action":{
@@ -214,32 +208,24 @@ export class TheWindow {
   // Post: both living timestamps have been replaced with their current
   //       'ago' values
   private updateLivingTimestamps(){
+    //alert(this.aLivingTimestamp)
     this.aLivingTimestamp = moment(this.windowData.aLastValidated).fromNow();
     this.gLivingTimestamp = moment(this.windowData.gLastValidated).fromNow();
     // enter "just now" for a few seconds ago
     if(this.aLivingTimestamp === "a few seconds ago") this.aLivingTimestamp = "just now";
     if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
+    // alert(this.aLivingTimestamp);
   }
 
 
   // presentGamesModal()
-  // Pre: User is authenticated and at the court
+  // Pre: User is authenticated and at the court. This is handled by verifyCourtside()
   // Post: Model which collects information about games being currently played
   //    is presented
   // PostSubmit 1: ActionModal is presented if its data hasn't already been collected
   // PostSubmit 2: nwd is sent to server
   // Post Cancel: nwd is sent to server if we are coming from games modal. else nada
   private presentGamesModal(){
-
-    // ensure we're autenticated
-    if(!this.courtDataService.auth.isAuthenticated()){
-      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
-      return;
-    }
-
-    // verify that the user is at this court
-    if(!this.quick.isCourtside(this.coordinates))
-      this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
 
     // Pass in the number of baskets at the court
     let gamesModal = this.modalCtrl.create(GamesModal,
@@ -286,17 +272,6 @@ export class TheWindow {
   // PostSubmit 2: nwd is sent to server
   // Post Cancel: nwd is sent to server if we are coming from actionModal. else nada
   private presentActionModal(){
-
-    // ensure we're autenticated
-    if(!this.courtDataService.auth.isAuthenticated()){
-      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
-      return;
-    }
-
-    // Verify that the user is currently at this court
-    if(!this.quick.isCourtside(this.coordinates))
-      this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
-
 
     let actionModal = this.modalCtrl.create(ActionModal,
       {showBackdrop: true, enableBackdropDismiss: true});
@@ -443,7 +418,44 @@ export class TheWindow {
     this.animator.setType('fadeOut').show(ref.nativeElement);
   }
 
+  // ensures that the user is authenticated and at the court
+  // param: a string referencing the method to be called once user as been verified
+  public verifyCourtside(callbackString: string){
 
+    // ensure we're autenticated
+    if(!this.courtDataService.auth.isAuthenticated()){
+      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
+      return;
+    }
+    // ensure we are courtside, first check based on time
+    if(!this.quick.timeCheck(this.coordinates)){
+      // Verify versus user's current location
+      this.geolocation.getCurrentPosition().then((position) => {
+        if(!this.quick.isCourtside(this.coordinates, [position.coords.longitude, position.coords.latitude]))
+          this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
+        else{
+          // call the corresponding metod
+          switch(callbackString){
+            case "validateGames":  this.validate('games');     break;
+            case 'validateAction': this.validate('action');    break;
+            case 'gamesModal':     this.presentGamesModal();   break;
+            case 'actionModal':    this.presentActionModal();  break;
+            default: break;
+        }
+        }
+      }).catch((err) => {alert('Error retrieving your current location')})
+    }
+    else{
+      // call the corresponding metod
+      switch(callbackString){
+        case "validateGames":  this.validate('games');     break;
+        case 'validateAction': this.validate('action');    break;
+        case 'gamesModal':     this.presentGamesModal();   break;
+        case 'actionModal':    this.presentActionModal();  break;
+        default: break;
+    }
+}
+}
 
 
 

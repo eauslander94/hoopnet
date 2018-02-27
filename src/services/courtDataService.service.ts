@@ -409,7 +409,6 @@ export class CourtDataService{
       params.set('long', court.location.long)
       return this.http.get('http://localhost:3000/refresh',
                             new RequestOptions({search: params}));
-
     }
 
 
@@ -420,6 +419,7 @@ export class CourtDataService{
         duration: duration,
         position: 'top',
         showCloseButton: true,
+        dismissOnPageChange: false
       }).present();
     }
 

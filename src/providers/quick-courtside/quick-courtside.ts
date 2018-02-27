@@ -6,38 +6,56 @@ import { Geolocation } from '@ionic-native/geolocation';
 @Injectable()
 export class QuickCourtsideProvider {
 
-  constructor(public geo: Geolocation) {
-    console.log('Hello QuickCourtsideProvider Provider');
-  }
+  constructor(public geo: Geolocation) {}
 
 
-  // Verifies that the user is 50 m from the provided court
-  // Returns: true if user is currently at court in local storage, false otherwise
-  // Param: te coords of the court the user is to be verified against.
-  public isCourtside(coordinates: Array<number>){
-
-    // verify based on user's current location
-    //this.geo.getCurrentPosition().then((position) => {
-
-     // for testing without getting user's current location
-      let position = {
-        coords: {
-          longitude: -73.980688,
-          latitude: 40.726429,
-        }
-      }
+  // Verifies user's location against provided court
+  // Returns: true if user is currently at provided court, false otherwise
+  // Param: the coords of the court the user is to be verified against.
+  // Pre: Coordinates are in the [lng, lat] fromat we use trouhout the app
+  // Post: If user at given court, court's location and a timestamp into local storage
+  public isCourtside(courtCoords: Array<number>, userCoords: Array<number>){
 
       // If distance between user and court in local storage is less than 50m, return true
-      if(this.distance(position.coords.longitude, position.coords.latitude,
-      coordinates[0], coordinates[1]) < 50)
+      if(this.distance(courtCoords[0], courtCoords[1], userCoords[0], userCoords[1]) < 50){
+        // Save court coordinates and the current time into local storage
+        let courtside = {
+          coordinates: courtCoords,
+          timestamp: new Date()
+        }
+        window.localStorage.setItem('courtside', JSON.stringify(courtside))
         return true;
-
+      }
       return false;
-    //}).catch((error) => {
-    //   alert(error.message);
-    // })
+
+
+      // for testing without getting user's current location
+       // let position = {
+       //   coords: {
+       //     longitude: -83.980688,
+       //     latitude: 50.726429,
+       //   }
+       // }
   }
 
+  // performs time based verification based on court in local storage, if present
+  // Ensures that user as been at provided court witin 30 minutes
+  // Risk: User can scout provided court from anywhere within the timeframe. We take risks out here
+  public timeCheck(location: Array<number>){
+
+    if(JSON.parse(window.localStorage.getItem('courtside')) ){
+      let courtside = JSON.parse(window.localStorage.getItem('courtside'));
+
+      if(new Date().getTime() - new Date(courtside.timestamp).getTime() < 1800000
+       // ensure courts ave te same location
+       && this.distance(location[0], location[1],
+       courtside.coordinates[0],
+       courtside.coordinates[1]) < 10){
+         return true;
+      }
+    }
+    return false;
+  }
 
   // returns distance in metwer between locations provided by lat lng
   private distance(lon1, lat1, lon2, lat2) {
