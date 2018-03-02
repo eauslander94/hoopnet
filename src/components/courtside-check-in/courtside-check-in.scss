@@ -24,11 +24,12 @@ courtside-check-in {
       position: absolute;
       top: 54vw;
       //order: 1px solid white;
-      background: #131313;
+      border-radius: 1vw;
+      background: $background;
     }
 
     .cciHeader{
-      color: $offWhite;
+      color: $text;
       font-family: Quicksand-bold;
       text-align: center;
       font-size: 4vw;
@@ -46,12 +47,13 @@ courtside-check-in {
       margin-top: 16vw;
       text-align: center;
       height: 8vw;
+
     }
 
     #checkedIn{
       text-align: center;
       p{
-        color: $offWhite;
+        color: black;
         margin: 0;
       }
       p:nth-child(2){
@@ -73,7 +75,7 @@ courtside-check-in {
     #closebyCourts{
       p:first-child{margin-bottom: 1vw;}
       p:nth-child(2){
-        color: $offWhite;
+        color: $text;
         font-family: Quicksand-regular;
         text-align: center;
         margin-top: 0;
@@ -85,7 +87,7 @@ courtside-check-in {
         //text-align: center;
 
         p{
-          color: $offWhite;
+          color: $text;
           font-family: Axis;
           font-size: 4vw;
           margin-left: 3vw;
@@ -104,7 +106,7 @@ courtside-check-in {
       p:nth-child(2){
         font-family: Quicksand-regular;
         font-size: 4vw;
-        color: $offWhite;
+        color: $text;
         text-align: center;
         margin-top: 0;
       }
@@ -115,7 +117,7 @@ courtside-check-in {
         p{display: inline-block;}
         p:first-child{
           font-family: Axis;
-          color: $offWhite;
+          color: $text;
           margin-left: 3vw;
           //border: 1px solid white;
           width: 70vw;
@@ -128,7 +130,7 @@ courtside-check-in {
           //border: 1px solid white;
           //height: 4vw;
 
-          color: $primary;
+          color: $text;
         }
       }
     }

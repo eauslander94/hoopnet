@@ -1,5 +1,5 @@
 
-import { Component } from '@angular/core';
+import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, ModalController, Tabs, Events,
          AlertController } from 'ionic-angular';
 import { FriendsPage }     from '../friends-page/friends-page';
@@ -33,7 +33,9 @@ export class Profile {
               public events: Events,
               private alertCtrl: AlertController,
               public courtDataService: CourtDataService,
-              public auth: AuthService)
+              public auth: AuthService,
+              private cdr: ChangeDetectorRef,
+              public zone: NgZone)
   {
     // User in params - someone else's profile. otherwise go get current user
     if(params.get('user')){
@@ -52,11 +54,7 @@ export class Profile {
          (this.auth.getStorageVariable('id_token')).sub)
          .subscribe(
            data => {
-             // populate with data retreived
-             this.user = data.json();
-             this.user_id = this.user._id;
-             // save data of user currently logged in
-             window.localStorage.setItem('currentUser', JSON.stringify(this.user));
+             this.saveUser(data.json())
              // let app know that we have the current user
              this.events.publish('gotCurrentUser')
              this.getHomecourts();
@@ -73,15 +71,14 @@ export class Profile {
       let jwtHelper = new JwtHelper();
       let sub = jwtHelper.decodeToken(this.auth.getStorageVariable('id_token')).sub;
 
+      alert('loggedIn, fetching user profile data')
       courtDataService.getUsersByAuth_id(sub)
         .subscribe(
           data => {
             // If we've got an existing user, populate with user data returned
             if(data.json().fName){
-              this.user = data.json();
-              this.user_id = this.user._id;
-
-              window.localStorage.setItem('currentUser', JSON.stringify(this.user));
+              alert('got data and a first name! now we save')
+              this.saveUser(data.json())
               // let app know that we have the current user
               this.events.publish('gotCurrentUser')
               this.getHomecourts();
@@ -96,16 +93,13 @@ export class Profile {
 
   // When we have new profile info, set user to the user passed in
   events.subscribe('profileInfoEntered', (user) => {
-    this.user = user;
-    window.localStorage.setItem('currentUser', JSON.stringify(user));
+    alert(user.fName + ' received on profile page');
+    this.saveUser(user);
     // let app know that we have the current user
     this.events.publish('gotCurrentUser')
-
-    alert('profile info entered event');
   })
 
   }
-
 
 
   // Post: this.homecourtObjects is populated with court objects from db
@@ -137,6 +131,21 @@ export class Profile {
     )
   }
 
+  // saves user to this.user, saves clone of user without images to local storage
+  public saveUser(user: any){
+    // zone.run triggers cange detection
+    this.zone.run(() => {
+      this.user = user;
+      this.user_id = user._id;
+      // clone user, remove lare image data, save to local storage
+      let curr = JSON.parse(JSON.stringify(user))
+      curr.avatar = {};
+      curr.backgroundImage = {};
+      window.localStorage.setItem('currentUser', JSON.stringify(curr));
+    })
+
+    // this.cdr.detectChanges();
+  }
 
   // Post: Friends page is pushed onto navstack
   navToFriends(){
@@ -219,65 +228,4 @@ export class Profile {
       courtside: "",
     }
   }
-
-
-  // Generates a test user
-  private generateUser(){
-    return {
-      fName: "Eli",
-      nName: "White-Iverson",
-      lName: "Auslander",
-      _id: '59f7b8e5cf12061d37c159a5',
-      // An array of pointers to court objects
-      homecourts: ['59f77e89da1d9f295b577f09'],
-      // An array of pointers to user objects
-      friends: ['59f7b7f44929d51be74ffd09'],
-      // Array of pointers to user objects
-      friendRequests: ['59f77e89da1d9f295b577f0f'],
-      // for now, string link to the image
-      avatar: {},
-      backgroundImage: {},
-      // pointer to the court object the user is beside
-      courtside: {},
-    }/*
-    let user2 = {
-      fName: "Allen",
-      nName: "The Answer",
-      lName: "Iverson",
-      // An array of pointers to court objects
-      homecourts: [],
-      // An array of pointers to user objects
-      friends: [],
-      // Array of pointers to user objects
-      friendRequests: [{}, {}],
-      // for now, string link to the image
-      avatar: 'http://cdn.hoopshype.com/i/2f/d5/2b/allen-iverson.png',
-      backgroundImage: "https://i.amz.mshcdn.com/kJsKVWzrBmN0e7A4xwcbAyGm9DI=/fit-in/1200x9600/https%3A%2F%2Fblueprint-api-production.s3.amazonaws.com%2Fuploads%2Fcard%2Fimage%2F108414%2FGettyImages-638822.jpg",
-      // pointer to the court object the user is beside
-      courtside: {},
-    }
-
-    let user3 = {
-      fName: "Stephen",
-      nName: "",
-      lName: "Curry",
-      // An array of pointers to court objects
-      homecourts: [],
-      // An array of pointers to user objects
-      friends: [],
-      // Array of pointers to user objects
-      friendRequests: [{}, {}],
-      // for now, string link to the image
-      avatar: 'http://hickokbelt.com/files/3014/5624/0606/CurryStephen-headshot-sm.jpg',
-      backgroundImage: "https://i.pinimg.com/736x/fa/ac/96/faac96d6c158461bff12d6a8e24c5503--nba-now-stephen-curry-quotes.jpg",
-      // pointer to the court object the user is beside
-      courtside: {},
-    }
-
-    //this.user.friends.push(user2);
-    //this.user.friends.push(user3);
-    */
   }
-
-
-}

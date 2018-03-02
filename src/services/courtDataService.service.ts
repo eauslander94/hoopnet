@@ -3,7 +3,7 @@ import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 import { Observable }  from 'rxjs/Observable';
 import { empty } from "rxjs/observable/empty";
 import { AuthService } from '../services/auth.service'
-import { ToastController } from 'ionic-angular';
+import { ToastController, Toast } from 'ionic-angular';
 
 import 'rxjs/add/operator/map';
 
@@ -17,6 +17,8 @@ export class CourtDataService{
     counter: number = 0;
 
     currentUser: string;
+
+    toast: Toast;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
      route: string = 'http://192.168.0.7:3000'
@@ -414,13 +416,21 @@ export class CourtDataService{
 
     // Post: Presents toast message with provided message and duration(ms)
     public toastMessage(message: string, duration: number){
-      this.toastCtrl.create({
+
+      // try to dismiss the toast if  it is currently up
+      try{
+        this.toast.dismiss()
+      } catch(e){}
+
+      this.toast = this.toastCtrl.create({
         message: message,
         duration: duration,
         position: 'top',
         showCloseButton: true,
         dismissOnPageChange: false
-      }).present();
+      })
+
+      this.toast.present();
     }
 
 

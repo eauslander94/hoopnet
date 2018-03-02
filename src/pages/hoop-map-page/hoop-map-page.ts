@@ -125,6 +125,19 @@ export class HoopMapPage {
        );
    }
 
+   // Post1:  Courts are requested from the server
+   // Post2:  A marker is added to the map for every court returned
+    getCourtsById(_ids: Array<string>){
+      this.courtDataService.getCourtsById(_ids).subscribe(
+        res => {
+          for (let court of res.json()){
+            this.addCourtMarker(court);
+         }
+        },
+        error => {alert(error)},
+        );
+    }
+
 
   // post: courtsideCheckIn modal is presented, starting courtside behavior
   // pre: User is authenticated
@@ -177,9 +190,11 @@ export class HoopMapPage {
 
     // Disconnect when dismissing theWindow
     windowModal.onDidDismiss( (data) => {
-      // refresh our courts
-      this.getCourts();
+      // if told to, refresh te court that was just changed
+      if(data.reload)
+        this.getCourtsById([data._id]);
       realtime.disconnect();
+
       if(data)
         if(data.invite)
           this.scoutedAlert(court)
@@ -207,7 +222,7 @@ export class HoopMapPage {
               this.navCtrl.push(InviteFriendsPage,
               {courtName: court.name, location: court.location})
             })
-          // return false;
+            return false;
           }
         }
       ]

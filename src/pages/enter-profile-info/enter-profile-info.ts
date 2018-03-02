@@ -63,6 +63,7 @@ export class EnterProfileInfo {
     if(this.edit) this.courtDataService.putUser(this.user);
     else this.courtDataService.newUser(this.user);
     // Tell profile page we have new profile info
+    alert(this.user.fName + ' profile info entered')
     this.events.publish('profileInfoEntered', this.user)
 
     // no homecourt? prompt user to enter one
@@ -103,15 +104,18 @@ export class EnterProfileInfo {
 
     let cameraOptions: CameraOptions = {
       sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: this.camera.DestinationType.FILE_URI,
+      destinationType: 0,
       encodingType: this.camera.EncodingType.JPEG,
       allowEdit: true,
-      quality: 100,
+      quality: 50,
       correctOrientation: true
     }
     this.camera.getPicture(cameraOptions).then(
-      (file_uri) => {
-        this.user.backgroundImage = file_uri;
+      (data_url) => {
+        this.user.backgroundImage = {
+          data: data_url,
+          contentType: 'image/jpeg'
+        }
         this.backgroundChange = true;
       },
       (err) => {console.log(err)}
@@ -123,10 +127,9 @@ export class EnterProfileInfo {
   public getAvatar(){
 
     let cameraOptions: CameraOptions = {
-      destinationType: this.camera.DestinationType.FILE_URI,
-      encodingType: this.camera.EncodingType.JPEG,
+      destinationType: 0,
       allowEdit: true,
-      quality: 100,
+      quality: 50,
       targetWidth: 1000,
       targetHeight: 1000,
       correctOrientation: true
@@ -138,8 +141,11 @@ export class EnterProfileInfo {
         { text: 'take picture',
           handler: () => {
             this.camera.getPicture(cameraOptions).then(
-              (file_uri) => {
-                this.user.avatar = file_uri;
+              (data_url) => {
+                this.user.avatar = {
+                  data: data_url,
+                  contentType: 'image/jpeg'
+                }
                 this.avatarChange = true;
               },
               (err) => {console.log(err)}
@@ -151,8 +157,11 @@ export class EnterProfileInfo {
           handler: () => {
             cameraOptions.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
             this.camera.getPicture(cameraOptions).then(
-              (file_uri) => {
-                this.user.avatar = file_uri;
+              (data_url) => {
+                this.user.avatar = {
+                  data: data_url,
+                  contentType: 'image/jpeg'
+                }
                 this.avatarChange = true;
               },
               (err) => {console.log(err)}
@@ -187,8 +196,8 @@ export class EnterProfileInfo {
       // Array of pointers to user objects
       friendRequests: [],
       // for now, string link to the image
-      avatar: '',
-      backgroundImage: '',
+      avatar: {},
+      backgroundImage: {},
       // pointer to the court object the user is beside
       courtside: '',
       checkIns: [{}]

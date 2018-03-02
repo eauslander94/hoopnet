@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
 import { HoopMapPage } from '../hoop-map-page/hoop-map-page';
 import { CourtPage } from '../court-page/court-page';
-import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 // So that we can test the profile page
 import { Profile }   from '../profile/profile';
@@ -15,8 +14,5 @@ export class TabsPage {
   tab1Root: any = HoopMapPage;
   tab2Root: any = Profile;
 
-  constructor(private screenOrientation: ScreenOrientation) {
-    // lock the screen orientation
-    this.screenOrientation.lock('portrait');
-  }
+  constructor() {}
 }

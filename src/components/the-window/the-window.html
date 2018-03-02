@@ -9,64 +9,12 @@
 <!-- No navigation to a profile page without authentication -->
         <div class="playerBox" *ngFor='let player of playerData'>
           <div class="avatarWrapper">
-           <img src={{player.avatar}} >
+           <img src="data:{{player.avatar.contentType}};base64,{{player.avatar.data}}" >
           </div>
           <p [class.courtside]="player.isCourtside">{{player.fName}} {{player.lName}}</p>
           <p id='playerDate' *ngIf="player.isCourtside">since {{player.hoopString}}</p>
           <p id="playerDate" *ngIf="!player.isCourtside">{{player.hoopString}}</p>
         </div>
-
-        <!-- <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-          <p id='playerDate'>hooped 3 hrs ago</p>
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-          <p id='playerDate'>hooped 2 days ago</p>
-
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-        </div>
-
-        <div class="playerBox">
-          <div class="avatarWrapper">
-           <img src="http://kowloon.cementhorizon.com/archives/Iverson21019.jpg"/>
-          </div>
-          <p>Allen Iverson</p>
-        </div> -->
 
 
     </ion-scroll>

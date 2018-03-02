@@ -17,11 +17,11 @@
 
     <!-- You can't see a profile page unless you are authenticated -->
     <div id='profileWrapper' ion-fixed  *ngIf="auth.isAuthenticated()">
-        <img src={{user.backgroundImage}}/>
+        <img src="data:{{user.backgroundImage.contentType}};base64,{{user.backgroundImage.data}}"/>
         <!-- User Avatar -->
         <ion-item no-lines>
           <ion-avatar>
-            <img src={{user.avatar}}/>
+            <img src="data:{{user.avatar.contentType}};base64,{{user.avatar.data}}"/>
           </ion-avatar>
         </ion-item>
 

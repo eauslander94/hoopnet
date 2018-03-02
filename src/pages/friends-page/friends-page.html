@@ -33,7 +33,7 @@
 
   <ion-list id="amigoDisplay">
     <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)='friendSheet(profile)'>
-      <img src={{profile.avatar}}/>
+      <img src="data:{{profile.avatar.contentType}};base64,{{profile.avatar.data}}"/>
       <p>{{profile.fName}}</p><p class="nickName" *ngIf="profile.nName !== '' ">{{profile.nName}}</p><p>{{profile.lName}}</p>
     </div>
   </ion-list>
@@ -49,7 +49,7 @@
   </ion-searchbar>
   <ion-list>
     <div *ngFor='let user of addResults' class='userDisplay' tappable (tap)="sendRequestSheet(user)">
-      <img src={{user.avatar}}/>
+      <img src="data:{{user.avatar.contentType}};base64,{{user.avatar.data}}"/>
       <p>{{user.fName}}</p><p class="nickName" *ngIf="user.nName !== '' ">{{user.nName}}</p><p>{{user.lName}}</p>
     </div>
   </ion-list>
@@ -61,7 +61,7 @@
   <ion-list id="friendRequests">
 
     <div *ngFor="let request of friendRequests" class='userDisplay' tappable (tap)="confirmRequestSheet(request)">
-      <img src={{request.avatar}}/>
+      <img src="data:{{request.avatar.contentType}};base64,{{request.avatar.data}}"/>
       <p>{{request.fName}}</p><p class="nickName" *ngIf="request.nName !== '' ">{{request.nName}}</p><p>{{request.lName}}</p>
     </div>
 

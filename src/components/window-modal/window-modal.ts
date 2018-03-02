@@ -29,7 +29,10 @@ export class WindowModal {
   public hackground(){
     // Unless scoutPrompt, dismiss
     if(!this.params.get('scoutPrompt'))
-      this.viewCtrl.dismiss({});
+      // Tell map to reload if window changes have occurred
+      if(this.windowData.dataChanged)
+        this.viewCtrl.dismiss({'reload': true, '_id': this.court._id});
+      else this.viewCtrl.dismiss({})
   }
 
 

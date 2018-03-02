@@ -36,7 +36,7 @@
 
   <ion-list id="amigoDisplay">
     <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)="select(profile._id)">
-      <img src={{profile.avatar}}/>
+      <img src="data:{{profile.avatar.contentType}};base64,{{profile.avatar.data}}"/>
       <p>{{profile.fName}}</p><p class="nickName" *ngIf="profile.nName !== '' ">{{profile.nName}} </p><p>{{profile.lName}}</p>
       <ion-icon name="checkmark-circle" [style.color]='isSelected(profile._id)'></ion-icon>
     </div>

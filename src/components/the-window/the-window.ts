@@ -1,5 +1,5 @@
-import { Component, Input, ViewChild, ElementRef } from '@angular/core';
-import { ModalController, ViewController, AlertController } from 'ionic-angular';
+import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { ModalController, ViewController, AlertController, Events } from 'ionic-angular';
 import { GamesModal }  from "../games-modal/games-modal";
 import { ActionModal } from '../action-modal/action-modal';
 import  moment  from 'moment';
@@ -53,6 +53,8 @@ export class TheWindow {
   // coordinates of the court
   coordinates: Array<number>;
 
+  animating: boolean = false;
+
   // For animation
   @ViewChild('alivingTimestamp') alivingTimestampRef: ElementRef;
   @ViewChild('glivingTimestamp') glivingTimestampRef: ElementRef;
@@ -65,7 +67,9 @@ export class TheWindow {
                private animationService: AnimationService,
                private courtDataService: CourtDataService,
                private quick: QuickCourtsideProvider,
-               private geolocation: Geolocation)
+               private geolocation: Geolocation,
+               private events: Events,
+               private cdr: ChangeDetectorRef)
   {
 
     // Update the living timestamps every minute
@@ -122,6 +126,8 @@ export class TheWindow {
 
     // Let the window come to life! UI update on any change from the server
     onUpdate(client: Realtime.Client, channel: string, message: string) {
+      this.windowData.dataChanged = true;
+      //alert(JSON.parse(message).aLastValidated)
       this.updateUI(JSON.parse(message));
     }
 
@@ -141,7 +147,6 @@ export class TheWindow {
     // Just new timestamp, animate just that
     else if(newWindowData.aLastValidated !== this.windowData.aLastValidated)
       this.flash(this.alivingTimestampRef)
-
     // Check if we have a new games array, if so animate and its timestamp
     let newGames = false;
     for(let game in this.windowData.games){
@@ -158,7 +163,9 @@ export class TheWindow {
       this.flash(this.glivingTimestampRef)
 
     // alert(moment(newWindowData.aLastValidated).fromNow())
-    this.windowData = newWindowData;
+    this.windowData = JSON.parse(JSON.stringify(newWindowData));
+    // alert("data from message: " + new Date(newWindowData.aLastValidated).getMinutes());
+    // alert("now our window: " + new Date(this.windowData.aLastValidated).getMinutes());
     this.resetNWD();
     this.updateLivingTimestamps();
   }
@@ -209,12 +216,16 @@ export class TheWindow {
   //       'ago' values
   private updateLivingTimestamps(){
     //alert(this.aLivingTimestamp)
+    // alert("bro" + new Date(this.windowData.aLastValidated).getMinutes());
+
     this.aLivingTimestamp = moment(this.windowData.aLastValidated).fromNow();
     this.gLivingTimestamp = moment(this.windowData.gLastValidated).fromNow();
     // enter "just now" for a few seconds ago
     if(this.aLivingTimestamp === "a few seconds ago") this.aLivingTimestamp = "just now";
     if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
-    // alert(this.aLivingTimestamp);
+
+    if (!this.cdr['destroyed'])
+  this.cdr.detectChanges();
   }
 
 
@@ -335,8 +346,9 @@ export class TheWindow {
       player.priority = 0;
 
       // if current user is friends with the player
-      if(gotCurrentUser && currentUser.friends.indexOf(player._id) > -1)
-        player.priority ++;
+      if(gotCurrentUser)
+        if(currentUser.friends.indexOf(player._id) > -1)
+          player.priority ++;
 
       // loop trough player's checkIns, Get the correct time at which player was at this court
       for(let checkIn of player.checkIns){
@@ -360,6 +372,9 @@ export class TheWindow {
       else if(a.hoopTime.getTime() > b.hoopTime.getTime()) return - 1;
       return 0;
     });
+    // tell angular that we ave canges
+    if (!this.cdr['destroyed'])
+      this.cdr.detectChanges();
   }
 
 
@@ -387,7 +402,7 @@ export class TheWindow {
 
   // Post: nwd data is replaced with current windowData
   private resetNWD(){
-    let wd = this.windowData;
+    let wd = JSON.parse(JSON.stringify(this.windowData));
     this.nwd = {
       court_id: wd.court_id,
       baskets: wd.baskets,
@@ -405,7 +420,28 @@ export class TheWindow {
   // param: object - String - the object to be faded in
   // post:  object fades in from the right
   private flash(ref: ElementRef){
-    this.animator.setType('flash').show(ref.nativeElement);
+
+    // if animating, wait for animation finised event, return
+    if(this.animating){
+      //alert('currently animating');
+      this.events.subscribe('animationFinished', () => {
+        //alert('we waited');
+        this.animating = true;
+        this.animator.setType('flash').show(ref.nativeElement).then(() => {
+          this.animating = false;
+          this.events.publish('animationFinished');
+          this.events.unsubscribe('animationFinished');
+        });
+      });
+    }
+    else {
+    // otherwise flash then notify app we're done flasing
+    this.animating = true;
+    this.animator.setType('flash').show(ref.nativeElement).then(() => {
+      this.animating = false;
+      this.events.publish('animationFinished');
+    });
+  }
   }
 
 

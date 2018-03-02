@@ -24,16 +24,17 @@ export class CourtsideCheckIn {
               public quick: QuickCourtsideProvider) {
     this.state = "search";
 
-    this.geolocation.getCurrentPosition().then((position) => {
-      alert('got user location');
-      this.getCourts([position.coords.longitude, position.coords.latitude])
-    }).catch((error) => {
-      alert('Error retrieving your current location');
-    })
+    // this.geolocation.getCurrentPosition().then((position) => {
+    //   alert('got user location');
+    //   this.getCourts([position.coords.longitude, position.coords.latitude])
+    // }).catch((error) => {
+    //   alert('Error retrieving your current location');
+    //   this.viewCtrl.dismiss({});
+    // })
 
     // workaround for geolocation not working wit live reload
     // location is currently tompkins
-    // this.getCourts([ -73.980688, 40.726429 ])
+    this.getCourts([ -73.980688, 40.726429 ])
   }
 
 
@@ -77,7 +78,6 @@ export class CourtsideCheckIn {
       coordinates: court.location.coordinates,
       timestamp: new Date()
     }
-    alert('court located at ' + courtside.coordinates  + ' put into local storage');
     window.localStorage.setItem('courtside', JSON.stringify(courtside));
 
     this.courtDataService.checkIn(court._id).subscribe()  // data to server
