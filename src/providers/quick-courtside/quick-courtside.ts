@@ -29,7 +29,7 @@ export class QuickCourtsideProvider {
       return false;
 
 
-      // for testing without getting user's current location
+       // for testing without getting user's current location
        // let position = {
        //   coords: {
        //     longitude: -83.980688,

@@ -350,7 +350,7 @@ public addHomeCourtsMessage(){
    this.map.setCenter(new google.maps.LatLng(location.coordinates[1],
    location.coordinates[0]))
    this.map.setZoom(15).then(() => {
-     alert("hello")
+     // alert("hello")
    })
  }
 

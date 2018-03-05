@@ -71,13 +71,13 @@ export class Profile {
       let jwtHelper = new JwtHelper();
       let sub = jwtHelper.decodeToken(this.auth.getStorageVariable('id_token')).sub;
 
-      alert('loggedIn, fetching user profile data')
+      // alert('loggedIn, fetching user profile data')
       courtDataService.getUsersByAuth_id(sub)
         .subscribe(
           data => {
             // If we've got an existing user, populate with user data returned
             if(data.json().fName){
-              alert('got data and a first name! now we save')
+              // alert('got data and a first name! now we save')
               this.saveUser(data.json())
               // let app know that we have the current user
               this.events.publish('gotCurrentUser')
@@ -93,7 +93,7 @@ export class Profile {
 
   // When we have new profile info, set user to the user passed in
   events.subscribe('profileInfoEntered', (user) => {
-    alert(user.fName + ' received on profile page');
+    // alert(user.fName + ' received on profile page');
     this.saveUser(user);
     // let app know that we have the current user
     this.events.publish('gotCurrentUser')
