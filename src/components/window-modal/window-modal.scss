@@ -9,48 +9,122 @@ window-modal {
     opacity: .5
   }
 
-  .toolbar-title{
-    color: black !important;
+  // div holdin te window ad other court content
+  .courtContent {
+    padding-top: 5vw;
+    background-color: white;
+    height: 50vh!important;
   }
 
-  #windowTitle{
-    position: absolute;
-    top: 47.5vw;
-    height: 6vw;
-    width: 36vw;
-    margin-left: 2.5vw;
+  // Wrapper for the entire modal
+  #courtModal{
+    height: 50vh;
+    margin-top: 50vh;
+  }
+
+
+  // title div of te court
+  #courtName{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 0;
+    height: 16vw;
+
+    //border: 1px solid green;
     text-align: center;
-    background: white;
-    border-top-right-radius: 4vw;
-    border-top-left-radius:4vw;
-    font-family: axis;
-    p{ margin: .5vw;}
-  }
-
-  the-window{
-    //border: 1px solid red;
-    position: absolute;
-    top: 54vw;
-  }
-
-  #bottomLine{
-    background: white;
-    position: absolute;
-    bottom: 0;
-    height: 13vw;
-    width: 100vw;
-    div{
-      text-align: center;
-      display: inline-block;
-      width: 32%;
-
-      height: 100%;
-      ion-icon{
-        color: black;
-        margin-top: 3vw;
-        font-size: 8vw;
-      }
+    p{
+      position: fixed;
+      width: 100%;
+      font-family: Axis;
+      font-size: 5vw;
+      color: $text;
     }
   }
+
+  // The header to which the parallax effect will be applied
+  .courtHeader{
+    position: -webkit-sticky;
+    position: sticky;
+    top: 16vw;;
+
+    height: 38vw;
+    #lineOne{
+      div{
+        margin-top: 2vw;
+        display: inline-block;
+        text-align: center;
+        width: 49%;
+      }
+      p{
+        font-family: Quicksand-regular;
+        color: $text;
+        margin: 0;
+      }
+      p:nth-child(1){
+        font-weight: bold;
+        font-size: 4vw;
+      }
+      p:nth-child(2){
+        font-size: 4vw;
+      }
+  }
+
+
+  }
+
+
+
+
+
+
+
+
+
+
+
+  //
+  // .toolbar-title{
+  //   color: black !important;
+  // }
+  //
+  // #windowTitle{
+  //   position: absolute;
+  //   top: 47.5vw;
+  //   height: 6vw;
+  //   width: 36vw;
+  //   margin-left: 2.5vw;
+  //   text-align: center;
+  //   background: white;
+  //   border-top-right-radius: 4vw;
+  //   border-top-left-radius:4vw;
+  //   font-family: axis;
+  //   p{ margin: .5vw;}
+  // }
+  //
+  // the-window{
+  //   //border: 1px solid red;
+  //   position: absolute;
+  //   top: 54vw;
+  // }
+  //
+  // #bottomLine{
+  //   background: white;
+  //   position: absolute;
+  //   bottom: 0;
+  //   height: 13vw;
+  //   width: 100vw;
+  //   div{
+  //     text-align: center;
+  //     display: inline-block;
+  //     width: 32%;
+  //
+  //     height: 100%;
+  //     ion-icon{
+  //       color: black;
+  //       margin-top: 3vw;
+  //       font-size: 8vw;
+  //     }
+  //   }
+  // }
 
 }

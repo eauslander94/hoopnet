@@ -8,6 +8,9 @@ import { Directive, ElementRef, Renderer } from '@angular/core';
     '(window:resize)': 'onWindowResize($event)'
   }
 })
+
+
+
 export class ParallaxHeader {
 
     header: any;
@@ -23,16 +26,18 @@ export class ParallaxHeader {
 
         // set references and some initial styling
         let content = this.element.nativeElement.getElementsByClassName('scroll-content')[0];
-        this.header = content.getElementsByClassName('profile-parallax')[0];
-      //  let mainContent = content.getElementsByClassName('main-content')[0];
+        this.header = content.getElementsByClassName('courtHeader')[0];
+        let mainContent = content.getElementsByClassName('courtContent')[0];
 
         this.headerHeight = this.header.clientHeight;
 
         // Use renderer so that we can alter styles regardless of platform/environment
         this.renderer.setElementStyle(this.header, 'webkitTransformOrigin', 'center bottom');
         this.renderer.setElementStyle(this.header, 'background-size', 'cover');
-        //this.renderer.setElementStyle(mainContent, 'position', 'absolute');
+        this.renderer.setElementStyle(mainContent, 'position', 'absolute');
+
     }
+
 
     // update the header height on a resize event
     onWindowResize(ev){
@@ -60,6 +65,7 @@ export class ParallaxHeader {
         }
         // apply them
         this.renderer.setElementStyle(this.header, 'webkitTransform', 'translate3d(0,'+this.translateAmt+'px,0) scale('+this.scaleAmt+','+this.scaleAmt+')');
+
         // note: Above is a costly DOM manipulation, which would have caused jerkiness in the past,
         // but now runs smoothely because of ionic's improvements
     }

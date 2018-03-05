@@ -27,8 +27,8 @@ export class CourtDataService{
      route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
 
 
-     // For local connections using ionic serve
-     // route: string = 'http://localhost:3000';
+      // For local connections using ionic serve
+      // route: string = 'http://localhost:3000';
 
      // For connecting from android emulator
      //route: string = 'http://10.0.2.2:3000'
@@ -43,6 +43,7 @@ export class CourtDataService{
     //  isAuthenticated(): no
     //  isCourtside():     no
     getAllCourts(){
+      alert('fetching courts');
       return this.http.get(this.route + '/getAllCourts');
     }
 

@@ -1,5 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
+import { ParallaxHeader }   from '../../components/parallax-header/parallax-header';
+
 import * as Realtime from 'realtime-messaging';
 
 @Component({
