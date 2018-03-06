@@ -15,10 +15,9 @@
 <div id="hackground" (tap)="hackground()"></div>
 
 
-<ion-content id="courtModal" parallax-header (ionScroll)="scrollHandler($event)"
-              [style.margin-top]="margin">
-<!-- #content-->
-  <div id="courtName">
+<ion-content [style.margin-top]="margin" parallax-header id="courtModal" (ionScroll)="scrollHandler($event)">
+
+  <div id="courtName" >
     <p>{{court.name}}</p>
   </div>
 
@@ -38,7 +37,7 @@
     </div>
 
     <!-- Pick up identifier -->
-    <div id="pickUpIdentifier">
+    <div id="pickUpIdentifier" (click)="slideUp()">
       <ion-icon ios="ios-arrow-round-up" md="md-arrow-round-up"></ion-icon> <p>Pick up</p>
     </div>
 

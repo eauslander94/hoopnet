@@ -1,4 +1,4 @@
-import { Component, NgZone, ElementRef, Renderer, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { Component, NgZone, ElementRef, Renderer2, ViewChild, ChangeDetectorRef } from '@angular/core';
 import { ViewController, NavParams, Content } from 'ionic-angular';
 import { ParallaxHeader }   from '../../components/parallax-header/parallax-header';
 
@@ -18,13 +18,15 @@ export class WindowModal {
   marginMax: number;
   margin: string;
 
-  // @ViewChild('content') content: ElementRef;
+  expanded: boolean;
+
+  @ViewChild(Content) content: Content;
 
 
   constructor(public viewCtrl: ViewController,
               private params: NavParams,
               public zone: NgZone,
-              public renderer: Renderer,
+              public renderer: Renderer2,
               public cdr: ChangeDetectorRef)
   {
     this.court = params.get('court');
@@ -41,6 +43,8 @@ export class WindowModal {
     this.marginMax = this.marginNumber = this.vh2px(100) - this.vw2px(43);
     this.marginMin = this.vh2px(100) - this.vw2px(100);
     this.margin = this.marginNumber + 'px';
+
+    this.expanded = false;
 
     //this.renderer.setElementStyle(this.content, 'margin-top', this.marginNumber + 'px');
 
@@ -60,19 +64,29 @@ export class WindowModal {
   adjustShowing(event){
     // this.zone.run(()=>{
       if(event.directionY == "down"){
+        if (this.expanded)
+          return;
+        if(event.scrollTop > this.vw2px(23))
+          this.expand()
 
-        this.marginNumber -= 8;
-        if(this.marginMin > this.marginNumber)
-          this.marginNumber = this.marginMin;
+        // this.marginNumber -= 8;
+        // if(this.marginMin > this.marginNumber)
+        //   this.marginNumber = this.marginMin;
       }
       else{
-        this.marginNumber += 8;
-
-        if(this.marginMax < this.marginNumber)
-          this.marginNumber = this.marginMax;
+        if(!this.expanded) return;
+        // alert(event.scrollTop)
+        if(event.scrollTop < 5){
+          // alert(event.scrollTop)
+          this.contract()
+        }
+          //this.contract();
+        // this.marginNumber += 8;
+        // if(this.marginMax < this.marginNumber)
+        //   this.marginNumber = this.marginMax;
       }
-      this.margin = this.marginNumber + 'px';
-      this.cdr.detectChanges();
+      // this.margin = this.marginNumber + 'px';
+      // this.cdr.detectChanges();
     // })
   }
 
@@ -98,6 +112,15 @@ export class WindowModal {
   }
 
 
+  public expand(){
+    this.margin = this.vh2px(100) - this.vw2px(100) + 'px';
+    this.cdr.detectChanges();
+    this.expanded = true;
+  }
 
-
+  public contract(){
+    this.margin = this.vh2px(100) - this.vw2px(43) + 'px';
+    this.cdr.detectChanges();
+    this.expanded = false;
+  }
 }

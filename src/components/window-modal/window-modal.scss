@@ -14,7 +14,14 @@ window-modal {
     //height: 78vw;
     border-radius: 5vw;
     height: 124vw;
-    //margin-top: 90vw!important;
+    margin-top: 90vw;
+    -webkit-transition: margin-top 1.5s;
+    transition: margin-top 1.5s;
+  }
+
+  .modalExpanded{
+    border: 2px solid red;
+    //margin-top: 45vw!important;
   }
 
   .courtHeader{
