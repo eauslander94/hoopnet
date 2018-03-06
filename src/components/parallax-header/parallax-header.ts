@@ -18,6 +18,9 @@ export class ParallaxHeader {
     translateAmt: any;
     scaleAmt: any;
 
+    modalElement: ElementRef;
+    margin: number = 50;
+
     constructor(public element: ElementRef, public renderer: Renderer){
 
     }
@@ -36,6 +39,7 @@ export class ParallaxHeader {
         this.renderer.setElementStyle(this.header, 'background-size', 'cover');
         this.renderer.setElementStyle(mainContent, 'position', 'absolute');
 
+        this.modalElement = content;
     }
 
 
@@ -51,7 +55,7 @@ export class ParallaxHeader {
         // It essentially tells the browser, 'update at the ideal time'
         ev.domWrite(() => {
             this.updateParallaxHeader(ev);
-        });
+        })
     }
 
     updateParallaxHeader(ev){
@@ -63,9 +67,11 @@ export class ParallaxHeader {
             this.translateAmt = 0;
             this.scaleAmt = -ev.scrollTop / this.headerHeight + 1;
         }
+
         // apply them
         this.renderer.setElementStyle(this.header, 'webkitTransform', 'translate3d(0,'+this.translateAmt+'px,0) scale('+this.scaleAmt+','+this.scaleAmt+')');
 
+        // this.renderer.setElementStyle(this.modalElement.nativeElement, 'margin-top',  '-20vh');
         // note: Above is a costly DOM manipulation, which would have caused jerkiness in the past,
         // but now runs smoothely because of ionic's improvements
     }

@@ -9,26 +9,46 @@ window-modal {
     opacity: .5
   }
 
-  // div holdin te window ad other court content
-  .courtContent {
-    padding-top: 5vw;
-    background-color: white;
-    height: 50vh!important;
-  }
-
   // Wrapper for the entire modal
   #courtModal{
-    height: 50vh;
-    margin-top: 50vh;
+    //height: 78vw;
+    border-radius: 5vw;
+    height: 124vw;
+    //margin-top: 90vw!important;
   }
 
+  .courtHeader{
+    height: 24vw;
+    //border: 1px solid red;
+     position: sticky!important;
+     position: -webkit-sticky!important;
+     top: 19vw;
+
+  }
+
+  // div holdin te window ad other court content
+  .courtContent {
+    //border: 2px solid green;
+    background-color: white;
+    height: 80vw;
+    position: sticky!important;
+    position: -webkit-sticky!important; /* Safari */
+    top: 19vw;
+  }
 
   // title div of te court
   #courtName{
+    //border: 1px solid blue;
+    margin-bottom: 3vw;
+
+    border-top-left-radius: 20vw;
+    border-top-right-radius: 20vw;
+
     position: -webkit-sticky;
     position: sticky;
     top: 0;
     height: 16vw;
+    background-color: white;
 
     //border: 1px solid green;
     text-align: center;
@@ -43,12 +63,12 @@ window-modal {
 
   // The header to which the parallax effect will be applied
   .courtHeader{
-    position: -webkit-sticky;
-    position: sticky;
-    top: 16vw;;
 
-    height: 38vw;
+    //border: 1px solid blue;
     #lineOne{
+      //margin-top: 3vw;
+      // border: 1px solid green;
+      height: 13vw;
       div{
         margin-top: 2vw;
         display: inline-block;
@@ -67,16 +87,84 @@ window-modal {
       p:nth-child(2){
         font-size: 4vw;
       }
+    }
+
+    #pickUpIdentifier{
+
+      display: inline-block;
+      width: 100%;
+      height: 11vw;
+      text-align: center;
+      //position: absolute; bottom: 0;
+      //border: 1px solid blue;
+      p{
+        font-family: Axis;
+        display: inline-block;
+        font-size: 3vw;
+        margin-left: 2vw;
+      }
+      ion-icon{
+        font-size: 4vw;
+      }
+    }
+  } // court header
+
+  .courtContent{
+
+    // The info icons at the bottom of the page
+    #bottomLine{
+      margin-top: 5vw!important;
+      //border: 1px solid yellow;
+      background: white;
+
+      margin-top: 3vw;
+      height: 13vw;
+      width: 100vw;
+      div{
+        text-align: center;
+        display: inline-block;
+        width: 32%;
+
+        height: 100%;
+        ion-icon{
+          color: black;
+          margin-top: 3vw;
+          font-size: 8vw;
+        }
+      }
+    }
+    #dummy{
+      height: 26vh;
+    }
   }
 
-
-  }
-
+}
 
 
 
 
 
+
+// #bottomLine{
+//   // border: 1px solid yellow;
+//   background: white;
+//
+// margin-top: 3vw;
+//   height: 13vw;
+//   width: 100vw;
+//   div{
+//     text-align: center;
+//     display: inline-block;
+//     width: 32%;
+//
+//     height: 100%;
+//     ion-icon{
+//       color: black;
+//       margin-top: 3vw;
+//       font-size: 8vw;
+//     }
+//   }
+// }
 
 
 
@@ -107,24 +195,4 @@ window-modal {
   //   top: 54vw;
   // }
   //
-  // #bottomLine{
-  //   background: white;
-  //   position: absolute;
-  //   bottom: 0;
-  //   height: 13vw;
-  //   width: 100vw;
-  //   div{
-  //     text-align: center;
-  //     display: inline-block;
-  //     width: 32%;
-  //
-  //     height: 100%;
-  //     ion-icon{
-  //       color: black;
-  //       margin-top: 3vw;
-  //       font-size: 8vw;
-  //     }
-  //   }
-  // }
-
-}
+//}

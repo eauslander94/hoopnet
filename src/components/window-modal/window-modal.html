@@ -15,15 +15,18 @@
 <div id="hackground" (tap)="hackground()"></div>
 
 
-<ion-content id="courtModal" parallax-header>
-
-  <!-- Name of court, will stick to top of modalContent -->
+<ion-content id="courtModal" parallax-header (ionScroll)="scrollHandler($event)"
+              [style.margin-top]="margin">
+<!-- #content-->
   <div id="courtName">
     <p>{{court.name}}</p>
   </div>
 
+  <!-- <div style="height: 100vw;"></div> -->
+
   <!-- Court header, the div to which the parallax effect will be applied -->
   <div class="courtHeader">
+    <!-- Name of court, will stick to top of modalContent -->
     <div id="lineOne">
       <div>
         <p>{{court.type}}</p><p>court</p>
@@ -33,13 +36,32 @@
         <p>{{court.baskets}}</p><p>baskets</p>
       </div>
     </div>
+
+    <!-- Pick up identifier -->
+    <div id="pickUpIdentifier">
+      <ion-icon ios="ios-arrow-round-up" md="md-arrow-round-up"></ion-icon> <p>Pick up</p>
+    </div>
+
   </div>
 
   <!-- main content, hidden at first, pulled up as the user scrolls -->
   <div class="courtContent">
     <the-window [windowData]=windowData></the-window>
-  </div>
 
+    <div id="bottomLine">
+      <div>
+        <ion-icon name="information-circle"></ion-icon>
+      </div>
+      <div>
+        <ion-icon name="time"></ion-icon>
+      </div>
+      <div>
+        <ion-icon name="ios-megaphone"></ion-icon>
+      </div>
+    </div>
+
+    <div id="dummy"></div>
+  </div>
 </ion-content>
 
 
