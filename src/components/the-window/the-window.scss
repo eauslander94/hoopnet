@@ -2,6 +2,7 @@ the-window {
   height: 62vw;
   width: 100vw;
   position: relative;
+  //border: 1px solid red;
 
 
   // Classes used across the window
@@ -28,13 +29,13 @@ the-window {
 }
 
 #windowWrapper{
-  // border: 2px solid red;
+  // border: 1px solid blue;
   height:58vw;
   width: 95vw;
   position: relative;
   background-color: $background;
   margin-left: 2.5vw;
-    border-radius: 1vw;
+  border-radius: 1vw;
   border-top-left-radius: 0;
   box-shadow: 1px 1px 1px
 }

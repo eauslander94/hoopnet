@@ -84,6 +84,7 @@ export class TheWindow {
     this.socketURL = courtDataService.route;
     // set got players flag to false
     this.gotPlayers = false;
+
   }
 
   // When windowData has been initialized, update the living timestamps

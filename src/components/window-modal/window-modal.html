@@ -1,31 +1,20 @@
 
 
-<!-- <ion-header>
-  <ion-navbar>
-
-    <ion-title>{{court.name}}</ion-title>
-
-  </ion-navbar>
-</ion-header>
-
-<div id="windowTitle">
-  <p>Pick-up</p>
-</div> -->
-
+<!-- Clickable transparent background sits behind content.  Click to dismiss -->
 <div id="hackground" (tap)="hackground()"></div>
 
-
+<!-- Wrapper for our scrollable content -->
 <ion-content [style.margin-top]="margin" parallax-header id="courtModal" (ionScroll)="scrollHandler($event)">
 
+  <!-- Name of court, lives at top of modal -->
   <div id="courtName" >
     <p>{{court.name}}</p>
   </div>
 
-  <!-- <div style="height: 100vw;"></div> -->
-
   <!-- Court header, the div to which the parallax effect will be applied -->
   <div class="courtHeader">
-    <!-- Name of court, will stick to top of modalContent -->
+
+    <!-- Unchanging court info at top of header -->
     <div id="lineOne">
       <div>
         <p>{{court.type}}</p><p>court</p>
@@ -36,8 +25,23 @@
       </div>
     </div>
 
+    <!-- The info icons at the bottom of the header -->
+    <div id="bottomLine">
+      <div>
+        <ion-icon name="information-circle"></ion-icon>
+      </div>
+
+      <div>
+        <ion-icon name="time"></ion-icon>
+      </div>
+
+      <div>
+        <ion-icon name="ios-megaphone"></ion-icon>
+      </div>
+    </div>
+
     <!-- Pick up identifier -->
-    <div id="pickUpIdentifier" (click)="slideUp()">
+    <div id="pickUpIdentifier">
       <ion-icon ios="ios-arrow-round-up" md="md-arrow-round-up"></ion-icon> <p>Pick up</p>
     </div>
 
@@ -46,39 +50,6 @@
   <!-- main content, hidden at first, pulled up as the user scrolls -->
   <div class="courtContent">
     <the-window [windowData]=windowData></the-window>
-
-    <div id="bottomLine">
-      <div>
-        <ion-icon name="information-circle"></ion-icon>
-      </div>
-      <div>
-        <ion-icon name="time"></ion-icon>
-      </div>
-      <div>
-        <ion-icon name="ios-megaphone"></ion-icon>
-      </div>
-    </div>
-
-    <div id="dummy"></div>
   </div>
+
 </ion-content>
-
-
-  <!-- <the-window [windowData]=windowData></the-window> -->
-<!-- </div> -->
-
-
-
-
-
-<!-- <div id="bottomLine">
-  <div>
-    <ion-icon name="information-circle"></ion-icon>
-  </div>
-  <div>
-    <ion-icon name="time"></ion-icon>
-  </div>
-  <div>
-    <ion-icon name="ios-megaphone"></ion-icon>
-  </div>
-</div> -->

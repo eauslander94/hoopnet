@@ -40,15 +40,12 @@ export class WindowModal {
       this.windowData.scoutPrompt = params.get('scoutPrompt')
 
     // set MarginMax(least modal showing) and marginMin(most showing) using our converters
-    this.marginMax = this.marginNumber = this.vh2px(100) - this.vw2px(43);
-    this.marginMin = this.vh2px(100) - this.vw2px(100);
+    // marginMax = screen height - (name height + header height)
+    this.marginMax = this.marginNumber = this.vh2px(100) - this.vw2px(51);
+    // marginMin = screen height - (name height + content height)
+    this.marginMin = this.vh2px(100) - this.vw2px(78);
     this.margin = this.marginNumber + 'px';
-
     this.expanded = false;
-
-    //this.renderer.setElementStyle(this.content, 'margin-top', this.marginNumber + 'px');
-
-
   }
 
 
@@ -66,17 +63,22 @@ export class WindowModal {
       if(event.directionY == "down"){
         if (this.expanded)
           return;
-        if(event.scrollTop > this.vw2px(23))
+        // if we've scrolled more tan te eader height, expand
+
+        if(event.scrollTop > this.vw2px(34))
           this.expand()
 
         // this.marginNumber -= 8;
         // if(this.marginMin > this.marginNumber)
         //   this.marginNumber = this.marginMin;
+
       }
       else{
         if(!this.expanded) return;
         // alert(event.scrollTop)
+
         if(event.scrollTop < 5){
+
           // alert(event.scrollTop)
           this.contract()
         }
@@ -113,13 +115,13 @@ export class WindowModal {
 
 
   public expand(){
-    this.margin = this.vh2px(100) - this.vw2px(100) + 'px';
+    this.margin = this.marginMin + 'px';
     this.cdr.detectChanges();
     this.expanded = true;
   }
 
   public contract(){
-    this.margin = this.vh2px(100) - this.vw2px(43) + 'px';
+    this.margin = this.marginMax + 'px';
     this.cdr.detectChanges();
     this.expanded = false;
   }

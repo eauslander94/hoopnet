@@ -65,7 +65,7 @@ export class ParallaxHeader {
             this.scaleAmt = 1;
         } else {
             this.translateAmt = 0;
-            this.scaleAmt = -ev.scrollTop / this.headerHeight + 1;
+            this.scaleAmt = -ev.scrollTop / this.headerHeight + 10;
         }
 
         // apply them

@@ -11,54 +11,44 @@ window-modal {
 
   // Wrapper for the entire modal
   #courtModal{
-    //height: 78vw;
-    border-radius: 5vw;
-    height: 124vw;
-    margin-top: 90vw;
-    -webkit-transition: margin-top 1.5s;
-    transition: margin-top 1.5s;
+    height: 78vw; // eigt of courtName + courtContent
+    border-top-left-radius: 5vw;
+    border-top-right-radius: 5vw;
+    -webkit-transition: margin-top .8s;
+    transition: margin-top .8s;
+    overflow-y: hidden;
+    margin-top: 100vh;
   }
 
-  .modalExpanded{
-    border: 2px solid red;
-    //margin-top: 45vw!important;
-  }
-
+  // header to which parallax effect will be applied
   .courtHeader{
-    height: 24vw;
-    //border: 1px solid red;
-     position: sticky!important;
-     position: -webkit-sticky!important;
-     top: 19vw;
-
+    height: 35vw;
+    padding-top: 1vw;
+    background-color: white;
   }
 
-  // div holdin te window ad other court content
+  // div holding the window
   .courtContent {
-    //border: 2px solid green;
+    height: 62vw;   width: 100%;
+    //border-top: 1px solid black;
     background-color: white;
-    height: 80vw;
-    position: sticky!important;
-    position: -webkit-sticky!important; /* Safari */
-    top: 19vw;
+    padding-top: 2vw;  padding-bottom: 2vw;
+    overflow-y: hidden;
+    margin-top: 0px;
   }
 
-  // title div of te court
+
+  // title div of the court
   #courtName{
-    //border: 1px solid blue;
-    margin-bottom: 3vw;
-
-    border-top-left-radius: 20vw;
-    border-top-right-radius: 20vw;
-
-    position: -webkit-sticky;
-    position: sticky;
-    top: 0;
     height: 16vw;
+    // border-bottom: 1px solid black;
+    z-index: 2;
     background-color: white;
-
-    //border: 1px solid green;
     text-align: center;
+
+    position: sticky;
+    position: -webkit-sticky;  // for safari
+    top: 0;
     p{
       position: fixed;
       width: 100%;
@@ -68,63 +58,34 @@ window-modal {
     }
   }
 
-  // The header to which the parallax effect will be applied
+  // styling items witin court header
   .courtHeader{
 
-    //border: 1px solid blue;
-    #lineOne{
-      //margin-top: 3vw;
-      // border: 1px solid green;
-      height: 13vw;
-      div{
-        margin-top: 2vw;
-        display: inline-block;
-        text-align: center;
-        width: 49%;
+      // unchanging court info at top of header
+      #lineOne{
+        height: 13vw;
+        div{
+          margin-top: 2vw;
+          display: inline-block;
+          text-align: center;
+          width: 49%;
+        }
+        p{
+          font-family: Quicksand-regular;
+          color: $text;
+          margin: 0;
+        }
+        p:nth-child(1){
+          font-weight: bold;
+          font-size: 4vw;
+        }
+        p:nth-child(2){
+          font-size: 4vw;
+        }
       }
-      p{
-        font-family: Quicksand-regular;
-        color: $text;
-        margin: 0;
-      }
-      p:nth-child(1){
-        font-weight: bold;
-        font-size: 4vw;
-      }
-      p:nth-child(2){
-        font-size: 4vw;
-      }
-    }
 
-    #pickUpIdentifier{
-
-      display: inline-block;
-      width: 100%;
-      height: 11vw;
-      text-align: center;
-      //position: absolute; bottom: 0;
-      //border: 1px solid blue;
-      p{
-        font-family: Axis;
-        display: inline-block;
-        font-size: 3vw;
-        margin-left: 2vw;
-      }
-      ion-icon{
-        font-size: 4vw;
-      }
-    }
-  } // court header
-
-  .courtContent{
-
-    // The info icons at the bottom of the page
+    // The info icons at the bottom of the header
     #bottomLine{
-      margin-top: 5vw!important;
-      //border: 1px solid yellow;
-      background: white;
-
-      margin-top: 3vw;
       height: 13vw;
       width: 100vw;
       div{
@@ -140,12 +101,25 @@ window-modal {
         }
       }
     }
-    #dummy{
-      height: 26vh;
-    }
-  }
 
-}
+    // arrow at bottom indicatig pick up is below
+    #pickUpIdentifier{
+      display: inline-block;
+      width: 100%;
+      height: 9vw;
+      text-align: center;
+      p{
+        font-family: Axis;
+        display: inline-block;
+        font-size: 3vw;
+        margin-left: 2vw;
+      }
+      ion-icon{
+        font-size: 4vw;
+      }
+    }
+  } // court header
+} // class paren
 
 
 
