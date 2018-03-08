@@ -7,9 +7,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
-import { BackgroundFetch, BackgroundFetchConfig } from '@ionic-native/background-fetch';
-import { BackgroundGeolocation, BackgroundGeolocationConfig,
-  BackgroundGeolocationResponse } from '@ionic-native/background-geolocation';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 
 
@@ -37,7 +34,7 @@ import { InviteFriendsPage} from'../pages/invite-friends/invite-friends';
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
 import { GamesModal }       from '../components/games-modal/games-modal';
-import { ActionModal }      from '../components/action-modal/action-modal';
+import { WaitTimeModal }      from '../components/wait-time-modal/wait-time-modal';
 import { Closures }         from '../components/closures/closures';
 import { AddClosure }       from '../components/add-closure/add-closure';
 import { HoursDisplay }     from '../components/hours-display/hours-display';
@@ -68,7 +65,7 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     TheWindow,
     WindowModal,
     GamesModal,
-    ActionModal,
+    WaitTimeModal,
     CourtsideCheckIn,
     Closures,
     AddClosure,
@@ -100,7 +97,7 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     CourtPage,
     WindowModal,
     GamesModal,
-    ActionModal,
+    WaitTimeModal,
     CourtsideCheckIn,
     Closures,
     AddClosure,
@@ -119,8 +116,6 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
   SplashScreen,
   HttpModule,
   AnimationService,
-  BackgroundFetch,
-  BackgroundGeolocation,
   ScreenOrientation,
     // auth0 providider
     { provide: AuthHttp,

@@ -1,7 +1,7 @@
 import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
 import { ModalController, ViewController, AlertController, Events } from 'ionic-angular';
 import { GamesModal }  from "../games-modal/games-modal";
-import { ActionModal } from '../action-modal/action-modal';
+import { WaitTimeModal } from '../wait-time-modal/wait-time-modal';
 import  moment  from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
@@ -28,7 +28,7 @@ export class TheWindow {
 
   // The living timestamp times, converted into momentjs objects
   gLivingTimestamp: any;
-  aLivingTimestamp: any;
+  wLivingTimesstamp: any;
 
   // For connecting to the server socket
   socketURL: string;
@@ -56,7 +56,7 @@ export class TheWindow {
   animating: boolean = false;
 
   // For animation
-  @ViewChild('alivingTimestamp') alivingTimestampRef: ElementRef;
+  @ViewChild('wLivingTimesstamp') wLivingTimesstampRef: ElementRef;
   @ViewChild('glivingTimestamp') glivingTimestampRef: ElementRef;
   @ViewChild('basket') basket;
   private animator: AnimationBuilder;
@@ -88,7 +88,7 @@ export class TheWindow {
   }
 
   // When windowData has been initialized, update the living timestamps
-  // Post: aLivingTimestamp and gLiving timestamp updated
+  // Post: wLivingTimesstamp and gLiving timestamp updated
   ngOnInit(){
 
     // Update the timestamps
@@ -128,7 +128,7 @@ export class TheWindow {
     // Let the window come to life! UI update on any change from the server
     onUpdate(client: Realtime.Client, channel: string, message: string) {
       this.windowData.dataChanged = true;
-      //alert(JSON.parse(message).aLastValidated)
+      //alert(JSON.parse(message).wLastValiddated)
       this.updateUI(JSON.parse(message));
     }
 
@@ -138,16 +138,15 @@ export class TheWindow {
   // Post3: Update animations fired, if their correspong data were updated
   // Param: new windowData to update the old
   public updateUI(newWindowData: any){
-    //alert(newWindowData.action + " " + newWindowData.games[0]);
 
-    // If we have a new action, animate action and its timestamp
-    if(newWindowData.action !== this.windowData.action){
-      //animate action, here
-      this.flash(this.alivingTimestampRef)
+    // If we have a new waitTime, animate waitTime and its timestamp
+    if(newWindowData.waitTime !== this.windowData.waitTime){
+      //animate waitTime, here
+      this.flash(this.wLivingTimesstampRef)
     }
     // Just new timestamp, animate just that
-    else if(newWindowData.aLastValidated !== this.windowData.aLastValidated)
-      this.flash(this.alivingTimestampRef)
+    else if(newWindowData.wLastValiddated !== this.windowData.wLastValiddated)
+      this.flash(this.wLivingTimesstampRef)
     // Check if we have a new games array, if so animate and its timestamp
     let newGames = false;
     for(let game in this.windowData.games){
@@ -163,18 +162,18 @@ export class TheWindow {
     else if(newWindowData.gLastValidated !== this.windowData.gLastValidated)
       this.flash(this.glivingTimestampRef)
 
-    // alert(moment(newWindowData.aLastValidated).fromNow())
+    // alert(moment(newWindowData.wLastValiddated).fromNow())
     this.windowData = JSON.parse(JSON.stringify(newWindowData));
-    // alert("data from message: " + new Date(newWindowData.aLastValidated).getMinutes());
-    // alert("now our window: " + new Date(this.windowData.aLastValidated).getMinutes());
+    // alert("data from message: " + new Date(newWindowData.wLastValiddated).getMinutes());
+    // alert("now our window: " + new Date(this.windowData.wLastValiddated).getMinutes());
     this.resetNWD();
     this.updateLivingTimestamps();
   }
 
 
   // validate()
-  // param: validated: String - games or action
-  // pre: validated is either "games" or "action"
+  // param: validated: String - games or waitTime
+  // pre: validated is either "games" or "waitTime"
   // post: nwd updated with current time for last validated, data sent to server
   private validate(validated: String){
 
@@ -193,8 +192,8 @@ export class TheWindow {
         }
         break;
       }
-      case "action":{
-        this.nwd.aLastValidated = new Date();
+      case "waitTime":{
+        this.nwd.wLastValiddated = new Date();
         this.courtDataService.putWindowData(this.nwd);
 
         // Keeping track of what has been validated during scoutPrompt
@@ -216,17 +215,17 @@ export class TheWindow {
   // Post: both living timestamps have been replaced with their current
   //       'ago' values
   private updateLivingTimestamps(){
-    //alert(this.aLivingTimestamp)
-    // alert("bro" + new Date(this.windowData.aLastValidated).getMinutes());
+    //alert(this.wLivingTimesstamp)
+    // alert("bro" + new Date(this.windowData.wLastValiddated).getMinutes());
 
-    this.aLivingTimestamp = moment(this.windowData.aLastValidated).fromNow();
+    this.wLivingTimesstamp = moment(this.windowData.wLastValiddated).fromNow();
     this.gLivingTimestamp = moment(this.windowData.gLastValidated).fromNow();
     // enter "just now" for a few seconds ago
-    if(this.aLivingTimestamp === "a few seconds ago") this.aLivingTimestamp = "just now";
+    if(this.wLivingTimesstamp === "a few seconds ago") this.wLivingTimesstamp = "just now";
     if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
 
     if (!this.cdr['destroyed'])
-  this.cdr.detectChanges();
+    this.cdr.detectChanges();
   }
 
 
@@ -234,7 +233,7 @@ export class TheWindow {
   // Pre: User is authenticated and at the court. This is handled by verifyCourtside()
   // Post: Model which collects information about games being currently played
   //    is presented
-  // PostSubmit 1: ActionModal is presented if its data hasn't already been collected
+  // PostSubmit 1: waitTimeModal is presented if its data hasn't already been collected
   // PostSubmit 2: nwd is sent to server
   // Post Cancel: nwd is sent to server if we are coming from games modal. else nada
   private presentGamesModal(){
@@ -259,8 +258,8 @@ export class TheWindow {
         }
         // Where we are in enter window data behavioral loop
         if(this.scoutcounter === 1)       // just games entered
-          this.presentActionModal()
-        else if(this.scoutcounter === 2){ // both games and action entered
+          this.presentWaitTimeModal()
+        else if(this.scoutcounter === 2){ // both games and waitTime entered
           this.courtDataService.putWindowData(this.nwd);  // send data to server
           this.scoutcounter = 0;                          // reset scoutcounter
         }
@@ -277,28 +276,26 @@ export class TheWindow {
 
 
 
-  // presentActionModal()
+  // presentWaitTimeModal()
   // Pre: User is authenticated and at the court
-  // Post: Modal which collects information about court action is presented
+  // Post: Modal which collects information about court waitTime is presented
   // PostSubmit 1: Games modal is presented if it's data hasn't already been collected
   // PostSubmit 2: nwd is sent to server
-  // Post Cancel: nwd is sent to server if we are coming from actionModal. else nada
-  private presentActionModal(){
+  // Post Cancel: nwd is sent to server if we are coming from waitTimeModal. else nada
+  private presentWaitTimeModal(){
 
-    let actionModal = this.modalCtrl.create(ActionModal,
+    let waitTimeModal = this.modalCtrl.create(WaitTimeModal,
       {showBackdrop: true, enableBackdropDismiss: true});
 
-    actionModal.onDidDismiss(data => {
+    waitTimeModal.onDidDismiss(data => {
       if(data){
 
         // increment scoutcounter
         this.scoutcounter++;
 
-        // update nwd with new action data
-        this.nwd.action = data.action;
-        this.nwd.actionDescriptor = data.actionDescriptor;
-        this.nwd.aLastValidated = new Date();
-
+        // update nwd with new waitTime data
+        this.nwd.waitTime = data.waitTime;
+        this.nwd.wLastValidated = new Date();
         // Keeping track of what has been validated during scoutPrompt
         if(this.scoutPrompt){
           this.validated += 'a';
@@ -309,9 +306,9 @@ export class TheWindow {
           }
         }
         // Where we are in enter window data behavioral loop
-        if(this.scoutcounter === 1)       // just action entered
+        if(this.scoutcounter === 1)       // just  entered
           this.presentGamesModal()
-        else if(this.scoutcounter === 2){ // both games and action entered
+        else if(this.scoutcounter === 2){ // both games and waitTime entered
           this.courtDataService.putWindowData(this.nwd);  // send data to server
           this.scoutcounter = 0;                          // reset scoutcounter
         }
@@ -325,7 +322,7 @@ export class TheWindow {
       }
     })
 
-    actionModal.present();
+    waitTimeModal.present();
   }
 
   // post: playerDaya is sorted by criteria described below
@@ -379,25 +376,24 @@ export class TheWindow {
   }
 
 
-  // post: color, green, yellow, red, is returned based on the value of action
-  private getActionColor(){
-    switch(this.windowData.action.toLowerCase()){
-      case "active": return "green";
-      case "packed": return "red";
-      case "empty": return "#FFB300";
-      default: return "black";
-    }
+  // post: color green, yellow, red is returned based on the value of waitTime
+  private getWaitColor(){
+    try{
+      switch(this.windowData.waitTime.toLowerCase()){
+        case "0 - 1": return "#2dc937";
+        case "1 - 2": return "#007fff";
+        case "3+": return "red";
+        default: return "black";
+      }
+  } catch(e) {return "black"}
   }
 
 
   // resetWindowData
-  // post: action is set to empty and games array is emptied
+  // post: games array is emptied
   private resetWindowData(){
     this.windowData.games = [];
-    this.windowData.action = "Empty";
-    this.windowData.actionDescriptor = "Need more players";
     this.validate("games");
-    this.validate("action");
   }
 
 
@@ -409,9 +405,8 @@ export class TheWindow {
       baskets: wd.baskets,
       games: wd.games,
       gLastValidated: wd.gLastValidated,
-      action: wd.action,
-      actionDescriptor: wd.actionDescriptor,
-      aLastValidated: wd.aLastValidated,
+      waitTime: wd.waitTime,
+      wLastValidated: wd.wLastValidated,
       players: wd.players,
     };
   }
@@ -424,7 +419,6 @@ export class TheWindow {
 
     // if animating, wait for animation finised event, return
     if(this.animating){
-      //alert('currently animating');
       this.events.subscribe('animationFinished', () => {
         //alert('we waited');
         this.animating = true;
@@ -473,10 +467,10 @@ export class TheWindow {
         else{
           // call the corresponding metod
           switch(callbackString){
-            case "validateGames":  this.validate('games');     break;
-            case 'validateAction': this.validate('action');    break;
-            case 'gamesModal':     this.presentGamesModal();   break;
-            case 'actionModal':    this.presentActionModal();  break;
+            case "validateGames":    this.validate('games');     break;
+            case 'validateWaitTime': this.validate('waitTime');    break;
+            case 'gamesModal':       this.presentGamesModal();   break;
+            case 'waitTimeModal':    this.presentWaitTimeModal();  break;
             default: break;
         }
         }
@@ -486,9 +480,9 @@ export class TheWindow {
       // call the corresponding metod
       switch(callbackString){
         case "validateGames":  this.validate('games');     break;
-        case 'validateAction': this.validate('action');    break;
+        case 'validateWaitTime': this.validate('waitTime');    break;
         case 'gamesModal':     this.presentGamesModal();   break;
-        case 'actionModal':    this.presentActionModal();  break;
+        case 'waitTimeModal':    this.presentWaitTimeModal();  break;
         default: break;
     }
 }

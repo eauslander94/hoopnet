@@ -59,18 +59,20 @@ the-window {
 .playerBox{
   //border: 1px solid green;
   display: inline-block;
-  height: 22vw;
+  // height: 16vw;
   width: 35vw;
   text-align: center;
   position: relative;
   .avatarWrapper{
-    height: 14vw;
-    padding-top: 1vw;
+    //border: 1px solid blue;
+    height: 11vw;
+    //padding-top: 1vw;
     //border: 1px solid green;
     img {
       border-radius: 25px;
-      height:12vw; width: 12vw;
-      margin: auto;
+      height:11vw; width: 11vw;
+      //margin: auto;
+      margin-top: 0!important;
       //padding: .5vw;
       //border: 2px solid $primary;
       margin-bottom: 0;
@@ -78,21 +80,16 @@ the-window {
   }
   p{
     margin-top: -1vw;
-    font-size: 3vw;
+    font-size: 2.5vw;
     font-family: quicksand-regular;
-    color: grey;
+    color: black;
     //border: 1px solid red;
     margin: 0;
   }
 
-  .courtside{
-    //color: $primary;
-    font-family: Quicksand-bold;
-  }
-
   #playerDate{
-    color: #000000;
-    font-size: 2.2vw;
+    color: grey;
+    font-size: 2vw;
     font-family: Quicksand-regular;
   }
 }
@@ -104,7 +101,6 @@ the-window {
 }
 
 #playersLoading{
-  padding-top: 2vw;
   text-align: center;
   p{
     font-family: Quicksand-regular;
@@ -150,18 +146,30 @@ the-window {
   //margin-top: 1vw;  margin-bottom: 1vw;
   display: inline-block;
   position: relative;
+  //text-align: center;
 
   #activityWrapper{
-    text-align: center;
     margin-top: 5.5vw;
+    display: inline-block;
+    //border: 1px solid blue;
+    width: 80%;
+    margin-left: 10%;
+    text-align: center;
+    p{
+      //display: inline-block;
+      margin: auto;
+      color: $text;
+    }
     p:nth-child(1){
-      font-family: Axis;  font-size: 7vw;
-      width: 100%;  margin: auto;
+      font-family: NBA_76ers;
+      font-size: 9vw;
+      color: #007fff;
     }
     p:nth-child(2){
       margin-top: 0vw;
-      font-family: Quicksand-bold;
-      font-size: 4vw;
+      font-family: Axis;
+      font-size: 4.3vw;
+      // color: red;
     }
   }
 

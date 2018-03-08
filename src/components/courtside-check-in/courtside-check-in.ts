@@ -28,7 +28,7 @@ export class CourtsideCheckIn {
       // alert('got user location');
       this.getCourts([position.coords.longitude, position.coords.latitude])
     }).catch((error) => {
-      alert('Error retrieving your current location');
+      alert('Error retrieving your current location ' + error);
       this.viewCtrl.dismiss({});
     })
 
