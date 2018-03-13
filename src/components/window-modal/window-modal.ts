@@ -40,10 +40,10 @@ export class WindowModal {
       this.windowData.scoutPrompt = params.get('scoutPrompt')
 
     // set MarginMax(least modal showing) and marginMin(most showing) using our converters
-    // marginMax = screen height - (name height + header height)
-    this.marginMax = this.marginNumber = this.vh2px(100) - this.vw2px(51);
-    // marginMin = screen height - (name height + content height)
-    this.marginMin = this.vh2px(100) - this.vw2px(78);
+    // marginMax = screen height - (name height + header height + 3vw padding-bottom)
+    this.marginMax = this.marginNumber = this.vh2px(100) - this.vw2px(52);
+    // marginMin = screen height - (name height + content height + 3vw padding bottom)
+    this.marginMin = this.vh2px(100) - this.vw2px(80);
     this.margin = this.marginNumber + 'px';
     this.expanded = false;
   }
@@ -65,7 +65,7 @@ export class WindowModal {
           return;
         // if we've scrolled more tan te eader height, expand
 
-        if(event.scrollTop > this.vw2px(34))
+        if(event.scrollTop > this.vw2px(35))
           this.expand()
 
         // this.marginNumber -= 8;

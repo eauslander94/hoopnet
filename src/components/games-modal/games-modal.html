@@ -1,11 +1,12 @@
 <div tappable id="hackground" (tap)="viewCtrl.dismiss()"></div>
 
-<div id="content">
-
+<div id="content" [style.margin-top]="margin">
+<!-- [style.margin-top]="margin" -->
   <div id="gmHeader">
     <p>Tap the games that you see</p>
     <p *ngIf="errorMessageShowing">This court only has {{courtBaskets}} baskets</p>
   </div>
+
   <div id="buttonsDiv">
     <div tappable class="gmButton" (click)="incrementGamecount(5)">
         <div id="gmGame">

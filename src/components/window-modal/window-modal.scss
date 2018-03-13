@@ -11,7 +11,7 @@ window-modal {
 
   // Wrapper for the entire modal
   #courtModal{
-    height: 78vw; // eigt of courtName + courtContent
+    height: 80vw; // eigt of courtName + courtContent
     border-top-left-radius: 5vw;
     border-top-right-radius: 5vw;
     -webkit-transition: margin-top .8s;
@@ -22,19 +22,21 @@ window-modal {
 
   // header to which parallax effect will be applied
   .courtHeader{
-    height: 35vw;
+    height: 36vw;
     padding-top: 1vw;
     background-color: white;
+    padding-bottom: 1vw;
   }
 
   // div holding the window
   .courtContent {
-    height: 62vw;   width: 100%;
+    height: 65vw;   width: 100%;
     //border-top: 1px solid black;
     background-color: white;
-    padding-top: 2vw;  padding-bottom: 2vw;
+    padding-top: 2vw;
     overflow-y: hidden;
     margin-top: 0px;
+    padding-bottom: 3vw;
   }
 
 
@@ -104,18 +106,23 @@ window-modal {
 
     // arrow at bottom indicatig pick up is below
     #pickUpIdentifier{
+
       display: inline-block;
       width: 100%;
       height: 9vw;
       text-align: center;
       p{
-        font-family: Axis;
+
+        font-family: Quicksand-bold;
         display: inline-block;
-        font-size: 3vw;
+        font-size: 3.5vw;
         margin-left: 2vw;
+        height: 9vw;
+        margin-bottom: 2vw;
       }
       ion-icon{
-        font-size: 4vw;
+
+        font-size: 3.5vw;
       }
     }
   } // court header

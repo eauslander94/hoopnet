@@ -25,16 +25,16 @@ export class CourtsideCheckIn {
     this.state = "search";
 
     this.geolocation.getCurrentPosition().then((position) => {
-      // alert('got user location');
+
       this.getCourts([position.coords.longitude, position.coords.latitude])
     }).catch((error) => {
-      alert('Error retrieving your current location ' + error);
-      this.viewCtrl.dismiss({});
-    })
+      // for testing - geolocation does not work with livereload flag
+      this.getCourts([ -73.980688, 40.726429 ])
+      alert('performing query wit hardcoded location');
 
-    // workaround for geolocation not working wit live reload
-    // location is currently tompkins
-    // this.getCourts([ -73.980688, 40.726429 ])
+      // alert('Error retrieving your current location ' + error);
+      // this.viewCtrl.dismiss({});
+    })
   }
 
 

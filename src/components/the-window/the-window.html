@@ -37,9 +37,10 @@
     <p class="windowHeaders">Wait Time</p>
     <div id="activityWrapper">
       <p [style.color]="getWaitColor()">{{windowData.waitTime}}</p>
-      <p>GAMES</p>
+      <p>games</p>
     </div>
-    <p class="livingTimestamp" #wLivingTimestamp>{{wLivingTimesstamp}}</p>
+    <!-- lowercase l -->
+    <p #wlivingTimestamp class="livingTimestamp">{{wLivingTimestamp}}</p>
   </div>
 
   <div id="gameList"
@@ -62,7 +63,7 @@
         </div>
     </ion-scroll>
 
-    <!-- Living Timestamp -->
-    <p class="livingTimestamp" #glivingTimestamp>{{gLivingTimestamp}}</p>
+    <!-- Living Timestamp - liwercase l -->
+    <p #glivingTimestamp class="livingTimestamp">{{gLivingTimestamp}}</p>
   </div>
 </div>

@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
+import { Events } from 'ionic-angular'
 import { Observable }  from 'rxjs/Observable';
 import { empty } from "rxjs/observable/empty";
 import { AuthService } from '../services/auth.service'
@@ -21,10 +22,10 @@ export class CourtDataService{
     toast: Toast;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-    // route: string = 'http://192.168.0.4:3000'
+    route: string = 'http://192.168.0.4:3000'
 
      // for connecting to our RESTful API hosted on AWS Lambda
-     route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
+     // route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
 
 
       // For local connections using ionic serve
@@ -35,7 +36,8 @@ export class CourtDataService{
 
     constructor (private http: Http,
                  public auth: AuthService,
-                 public toastCtrl: ToastController)
+                 public toastCtrl: ToastController,
+                 public events: Events)
     {}
 
 
@@ -176,7 +178,8 @@ export class CourtDataService{
     // isCourtside:      yes
      putWindowData(windowData: any){
 
-       if(!this.auth.isAuthenticated()){
+       alert(windowData.games + '\n' + windowData.waitTime)
+;       if(!this.auth.isAuthenticated()){
          this.toastMessage("You must be logged in to perform this action", 3000);
          return;
        }
@@ -190,7 +193,11 @@ export class CourtDataService{
        return this.http.put(this.route + '/putWindowData',
          data,
          {headers: headers}
-       ).subscribe();
+       ).subscribe(
+         res => {
+           this.events.publish('current-user-window-update', res.json()) 
+         }
+       );
     }
 
 

@@ -28,7 +28,7 @@ export class TheWindow {
 
   // The living timestamp times, converted into momentjs objects
   gLivingTimestamp: any;
-  wLivingTimesstamp: any;
+  wLivingTimestamp: any;
 
   // For connecting to the server socket
   socketURL: string;
@@ -55,9 +55,9 @@ export class TheWindow {
 
   animating: boolean = false;
 
-  // For animation
-  @ViewChild('wLivingTimesstamp') wLivingTimesstampRef: ElementRef;
-  @ViewChild('glivingTimestamp') glivingTimestampRef: ElementRef;
+  // For animation - lowercase l
+  @ViewChild('wlivingTimestamp') wLivingTimestampRef: ElementRef;
+  @ViewChild('glivingTimestamp') gLivingTimestampRef: ElementRef;
   @ViewChild('basket') basket;
   private animator: AnimationBuilder;
 
@@ -88,7 +88,7 @@ export class TheWindow {
   }
 
   // When windowData has been initialized, update the living timestamps
-  // Post: wLivingTimesstamp and gLiving timestamp updated
+  // Post: wLivingTimestamp and gLiving timestamp updated
   ngOnInit(){
 
     // Update the timestamps
@@ -142,11 +142,11 @@ export class TheWindow {
     // If we have a new waitTime, animate waitTime and its timestamp
     if(newWindowData.waitTime !== this.windowData.waitTime){
       //animate waitTime, here
-      this.flash(this.wLivingTimesstampRef)
+      this.flash(this.wLivingTimestampRef)
     }
     // Just new timestamp, animate just that
     else if(newWindowData.wLastValiddated !== this.windowData.wLastValiddated)
-      this.flash(this.wLivingTimesstampRef)
+      this.flash(this.wLivingTimestampRef)
     // Check if we have a new games array, if so animate and its timestamp
     let newGames = false;
     for(let game in this.windowData.games){
@@ -156,11 +156,11 @@ export class TheWindow {
     }
     if(newGames){
       //animate games, here
-      this.flash(this.glivingTimestampRef)
+      this.flash(this.gLivingTimestampRef)
     }
     // Just new timestamp, animate just that
     else if(newWindowData.gLastValidated !== this.windowData.gLastValidated)
-      this.flash(this.glivingTimestampRef)
+      this.flash(this.gLivingTimestampRef)
 
     // alert(moment(newWindowData.wLastValiddated).fromNow())
     this.windowData = JSON.parse(JSON.stringify(newWindowData));
@@ -215,17 +215,15 @@ export class TheWindow {
   // Post: both living timestamps have been replaced with their current
   //       'ago' values
   private updateLivingTimestamps(){
-    //alert(this.wLivingTimesstamp)
-    // alert("bro" + new Date(this.windowData.wLastValiddated).getMinutes());
 
-    this.wLivingTimesstamp = moment(this.windowData.wLastValiddated).fromNow();
+    this.wLivingTimestamp = moment(this.windowData.wLastValidated).fromNow();
     this.gLivingTimestamp = moment(this.windowData.gLastValidated).fromNow();
     // enter "just now" for a few seconds ago
-    if(this.wLivingTimesstamp === "a few seconds ago") this.wLivingTimesstamp = "just now";
+    if(this.wLivingTimestamp === "a few seconds ago") this.wLivingTimestamp = "just now";
     if(this.gLivingTimestamp === "a few seconds ago") this.gLivingTimestamp = "just now";
 
     if (!this.cdr['destroyed'])
-    this.cdr.detectChanges();
+      this.cdr.detectChanges();
   }
 
 
@@ -240,12 +238,13 @@ export class TheWindow {
 
     // Pass in the number of baskets at the court
     let gamesModal = this.modalCtrl.create(GamesModal,
-      {"baskets": this.windowData.baskets});
+      {"baskets": this.windowData.baskets, "inWindow": true});
 
     // Dismiss logic
     gamesModal.onDidDismiss(data => {
       if(data){
-        this.nwd.games = data.map(String);  // update nwd with new games array
+
+        this.nwd.games = data.games;  // update nwd with new games array
         this.nwd.gLastValidated = new Date();
         this.scoutcounter++;                          // increment scoutcounter
         // Keeping track of what has been validated during scoutPrompt
@@ -284,8 +283,7 @@ export class TheWindow {
   // Post Cancel: nwd is sent to server if we are coming from waitTimeModal. else nada
   private presentWaitTimeModal(){
 
-    let waitTimeModal = this.modalCtrl.create(WaitTimeModal,
-      {showBackdrop: true, enableBackdropDismiss: true});
+    let waitTimeModal = this.modalCtrl.create(WaitTimeModal, {"inWindow": true});
 
     waitTimeModal.onDidDismiss(data => {
       if(data){

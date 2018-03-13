@@ -16,9 +16,11 @@ games-modal {
     width: 95vw;
     height: 58vw;
     position: absolute;
-    top: 54vw;
+    top: 0vw;
     margin-left:2.5vw;
     background: $background;
+    z-index: 2;
+    border-radius: 1vw;
   }
 
 
@@ -26,10 +28,13 @@ games-modal {
     font-family: Quicksand-bold;
     color: $text;
     text-align: center;
-    font-family: 4vw;
+    font-size: 4vw;
     //border: 1px solid white;
     height: 15vw;
+    width: 100%;
+    //border: 2px solid red;
     margin-bottom: 0!important;
+    background: white;
 
     p:nth-child(1){
       //border: 1px solid white;

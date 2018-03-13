@@ -14,6 +14,8 @@ import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-
 import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
 import { WindowModal }  from '../../components/window-modal/window-modal';
+import { GamesModal }  from "../../components/games-modal/games-modal";
+import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal';
 import { InviteFriendsPage } from '../invite-friends/invite-friends';
 
 import { JwtHelper } from 'angular2-jwt'
@@ -41,6 +43,9 @@ export class HoopMapPage {
 
   allCourtsObservable: Observable<Response>;
 
+  // new window data to be populated as the user scouts
+  nwd: any;
+
 
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
@@ -56,6 +61,11 @@ export class HoopMapPage {
 
     events.subscribe('homeCourtMessage', () => {
       this.addHomeCourtsMessage();
+    })
+
+    // Wen user updates window, replace old marker with newly updated court
+    events.subscribe('current-user-window-update', (court) => {
+      this.addCourtMarker(court);
     })
 
 
@@ -165,13 +175,51 @@ export class HoopMapPage {
       }
       // pull up the window, prompt user to scout the court
       else if(data.scoutPrompt){
-        this.presentWindowModal(data.court, true)
+        this.scoutPrompt(data.court)
       }
 
     })
 
     cci.present();
   }
+
+  // Post:  games and waitTime modals are presented
+  // Post2: retrieved information sent to server
+  // Post3: User prompted to invite friends
+  // Param: Court we are currently scouting
+  // Pre:   User is located at provided court.
+  public scoutPrompt(court: any){
+
+    // Copy window data
+    this.nwd = JSON.parse(JSON.stringify(court.windowData));
+    // present the modal
+    let gamesModal = this.modalCtrl.create(GamesModal, {
+      'baskets': court.baskets,
+      'position': 'high'
+    });
+    // update nwd based on data retreived
+    gamesModal.onDidDismiss(data => {
+      this.nwd.games = data.games;
+      this.nwd.gLastValidated = new Date()
+      // present wait time modal
+      let waitTimeModal = this.modalCtrl.create(WaitTimeModal)
+      waitTimeModal.onDidDismiss(data => {
+        // if we have new data, update nwd
+        if(data && data.waitTime){
+          this.nwd.waitTime = data.waitTime;
+          this.nwd.wLastValiddated = new Date();
+        }
+        // send data to server, thank user for scouting
+        this.courtDataService.putWindowData(this.nwd)
+        this.getCourtsById([court._id]);
+        this.scoutedAlert(court);
+      })
+      waitTimeModal.present();
+    })
+    // present te modal
+    gamesModal.present();
+  }
+
 
   // Post: Window Modal is presented, connect to realtime.co webhook
   // Param: Court which we will connect to
@@ -191,8 +239,8 @@ export class HoopMapPage {
     // Disconnect when dismissing theWindow
     windowModal.onDidDismiss( (data) => {
       // if told to, refresh te court that was just changed
-      if(data.reload)
-        this.getCourtsById([data._id]);
+      // if(data.reload)
+      //   this.getCourtsById([data._id]);
       realtime.disconnect();
 
       if(data)
@@ -202,6 +250,7 @@ export class HoopMapPage {
 
     windowModal.present();
   }
+
 
   // Post: Alert is presented wich thaks players for scouting the court
   public scoutedAlert(court: any){
@@ -227,7 +276,7 @@ export class HoopMapPage {
         }
       ]
     });
-  alert.present();
+    alert.present();
   }
 
 
@@ -260,7 +309,7 @@ export class HoopMapPage {
 // Param: court - a court object as defined in the model
 // Post: a marker corresponding to that court is added to the map
 // Post2 - Event listners are added to each marker to detect for clicks or presses
- addCourtMarker(court: any){
+ public addCourtMarker(court: any){
 
    let latLng = new google.maps.LatLng
      (court.location.coordinates[1], court.location.coordinates[0]);

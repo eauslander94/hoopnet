@@ -12,14 +12,25 @@ export class GamesModal {
   games: Array<number>;
   // gameCount - array used to count the number of each type of game(eg 5v5)
   gamecount: Array<number>
+  // The number of baskets this court has
   courtBaskets: number;
   errorMessageShowing: boolean;
+
+  hackgroundStyle: string;
+  margin: any;
 
   constructor(params: NavParams, public viewCtrl: ViewController) {
 
     // fill gamecount with 0s
     this.gamecount = [0, 0, 0, 0, 0, 0];
     this.courtBaskets = params.get("baskets");
+    if(params.get('inWindow')){
+      this.margin = (document.documentElement.clientHeight - (document.documentElement.clientWidth * .63));
+      this.margin += 'px'
+    }
+    else {
+      this.margin = '54vw';
+    }
   }
 
   // post1: if baskets entered <= court's baskets,
@@ -43,7 +54,7 @@ export class GamesModal {
     this.games.reverse();
 
 /*  Basket number check and response  */
-    if(baskets <= this.courtBaskets)    this.viewCtrl.dismiss(this.games);
+    if(baskets <= this.courtBaskets)    this.viewCtrl.dismiss({games: this.games});
     else{
       this.gamecount = [0, 0, 0, 0, 0, 0];  // reset gamecount
       this.errorMessageShowing = true;      // show the error message
