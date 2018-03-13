@@ -30,7 +30,6 @@ export class CourtsideCheckIn {
     }).catch((error) => {
       // for testing - geolocation does not work with livereload flag
       this.getCourts([ -73.980688, 40.726429 ])
-      alert('performing query wit hardcoded location');
 
       // alert('Error retrieving your current location ' + error);
       // this.viewCtrl.dismiss({});

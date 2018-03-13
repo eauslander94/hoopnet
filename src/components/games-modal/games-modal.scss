@@ -10,6 +10,14 @@ games-modal {
     width: 100vw;
     position: relative;
     z-index: -1;
+    background-color: #131313;
+    opacity: .5
+  }
+
+  // Applied conditionally depending on wether or not we are in the window
+  .coloredHackground{
+    background-color: #131313;
+    opacity: .5
   }
 
   #content{
@@ -20,35 +28,17 @@ games-modal {
     margin-left:2.5vw;
     background: $background;
     z-index: 2;
+    //border: 2px solid yellow;
     border-radius: 1vw;
   }
 
-
-  #gmHeader{
+  #errorMessage{
+    color: red;
+    font-size: 3.5vw;
+    margin-top: 1vw;
     font-family: Quicksand-bold;
-    color: $text;
-    text-align: center;
-    font-size: 4vw;
-    //border: 1px solid white;
-    height: 15vw;
-    width: 100%;
-    //border: 2px solid red;
-    margin-bottom: 0!important;
-    background: white;
+  }
 
-    p:nth-child(1){
-      //border: 1px solid white;
-      margin-top: 3vw;
-      margin-bottom: 0;
-    }
-    // error message
-    p:nth-child(2){
-      font-family: quicksand-bold;
-      color: red;
-      //border: 1px solid red;
-      margin-top: 1vw;
-    }
-  }// gmHeader
 
   #buttonsDiv{
     //border: 1px solid red;
@@ -57,7 +47,7 @@ games-modal {
     position: absolute;
     bottom: 0;
     padding-top: 3px;
-    padding-left: 3px
+    padding-left: 3px;
   }
 
    .gmButton{
@@ -139,12 +129,12 @@ games-modal {
      p{
        color: red;
        font-family: quicksand-regular;
-      // border: 1px solid white;
        font-size: 4vw;
        width: 21vw;
        left: 5.3vw;
        padding: auto;
      }
+     border-bottom-left-radius: 1vw;
    }
 
    #gmSubmit{
@@ -171,6 +161,7 @@ games-modal {
        left: 5.3vw;
        padding: auto;
      }
+     border-bottom-right-radius: 1vw;
    }
 
 

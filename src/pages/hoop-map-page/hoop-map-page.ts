@@ -194,8 +194,8 @@ export class HoopMapPage {
     this.nwd = JSON.parse(JSON.stringify(court.windowData));
     // present the modal
     let gamesModal = this.modalCtrl.create(GamesModal, {
-      'baskets': court.baskets,
-      'position': 'high'
+     'baskets': court.baskets,
+     'position': 'high'
     });
     // update nwd based on data retreived
     gamesModal.onDidDismiss(data => {

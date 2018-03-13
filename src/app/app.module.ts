@@ -38,7 +38,6 @@ import { WaitTimeModal }      from '../components/wait-time-modal/wait-time-moda
 import { Closures }         from '../components/closures/closures';
 import { AddClosure }       from '../components/add-closure/add-closure';
 import { HoursDisplay }     from '../components/hours-display/hours-display';
-import { CourtMapPopup }    from '../components/court-map-popup/court-map-popup';
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
 // services
@@ -70,7 +69,6 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     Closures,
     AddClosure,
     HoursDisplay,
-    CourtMapPopup,
     HomeCourtDisplay,
 
     Profile,
@@ -102,7 +100,6 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     Closures,
     AddClosure,
     HoursDisplay,
-    CourtMapPopup,
     HomeCourtDisplay,
     InviteFriendsPage,
   ],

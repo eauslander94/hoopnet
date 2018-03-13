@@ -1,16 +1,19 @@
 wait-time-modal {
-  // margin-top: 54vw;
-  // height: 58vw!important;
-  // width: 95vw!important;
-  // margin-left: 2.5vw;
-  // background: $blackshade1;
-  // //border: 1px solid white;
 
+  // Tappable background wich dismisses modal
   #hackground{
     height: 100vh;
     width: 100vw;
     position: relative;
     z-index: -1;
+    background-color: #131313;
+    opacity: .5
+  }
+
+  // conditionally applied if we are not in the window
+  .coloredHackground{
+    background-color: #131313;
+    opacity: .5
   }
 
   #content{
@@ -20,28 +23,17 @@ wait-time-modal {
     position: absolute;
     top: 0;
     background: $background;
+    border-radius: 1vw;
   }
 
   #content div{
-    height: 25%;
     width: 100%;
-    //border: 1px solid blue;
-  }
-  // header div
-  #amHeader{
-    text-align: center;
-    // header text
-    height: 12vw!important;
-    p{
-      color: $text;
-      font-family: Quicksand-bold;  font-size: 4vw;
-      margin-top: 2vw;
-    //  border: 1px solid green;
-    }
   }
 
+  // The tappable options
   .amOptions{
     border-top: 1px solid #d3d3d3;
+    height: 14.3vw;
     p{display: inline-block}
     p:first-child{
       font-family: NBA_76ers;
@@ -55,16 +47,9 @@ wait-time-modal {
 
     p:nth-child(2){
       font-family: Quicksand-bold;
+      font-size: 3.5vw;
     }
 
-    // p:last-child{
-    //
-    //   font-family: Quicksand-regular;
-    //   color: $text;
-    //   margin-left: 3.75vw;
-    // //  border-left: 2px solid black;
-    //   padding-left: 3.75vw;
-    // }
   }
 
 

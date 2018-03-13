@@ -1,16 +1,19 @@
-<div tappable id="hackground" (tap)="viewCtrl.dismiss()"></div>
+<div tappable id="hackground" (tap)="viewCtrl.dismiss()"  [class.coloredHackground]="!inWindow"></div>
 
 <div id="content" [style.margin-top]="margin">
-  <div id="amHeader">
-    <p>Across all games currently underway,<br> how long must a player wait before playing. </p>
+
+  <!-- Header -->
+  <div class="scoutModalHeader">
+    <p>Scout Wait Time</p>
+    <ion-icon name="help" (click)="info()"></ion-icon>
+    <p>Enter the average wait time across your court</p>
   </div>
 
+  <!-- The tappale options -->
   <div tappable class="amOptions"
   (tap)="this.viewCtrl.dismiss({'waitTime': '0 - 1'})">
     <p style="color: #2dc937;">0 - 1</p><p>full games</p>
   </div>
-
-
 
   <div tappable class="amOptions"
   (tap)="this.viewCtrl.dismiss({'waitTime': '1 - 2'})">

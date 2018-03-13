@@ -178,8 +178,7 @@ export class CourtDataService{
     // isCourtside:      yes
      putWindowData(windowData: any){
 
-       alert(windowData.games + '\n' + windowData.waitTime)
-;       if(!this.auth.isAuthenticated()){
+       if(!this.auth.isAuthenticated()){
          this.toastMessage("You must be logged in to perform this action", 3000);
          return;
        }
@@ -195,7 +194,7 @@ export class CourtDataService{
          {headers: headers}
        ).subscribe(
          res => {
-           this.events.publish('current-user-window-update', res.json()) 
+           this.events.publish('current-user-window-update', res.json())
          }
        );
     }

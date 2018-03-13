@@ -1,12 +1,20 @@
-<div tappable id="hackground" (tap)="viewCtrl.dismiss()"></div>
+<div tappable id="hackground" (tap)="hackground()" [class.coloredHackground]="!inWindow"></div>
 
 <div id="content" [style.margin-top]="margin">
 <!-- [style.margin-top]="margin" -->
-  <div id="gmHeader">
-    <p>Tap the games that you see</p>
-    <p *ngIf="errorMessageShowing">This court only has {{courtBaskets}} baskets</p>
+  <div class="scoutModalHeader">
+    <p>Scout Games</p>
+    <ion-icon name="help" (click)="info()"></ion-icon>
+    <p [style.display]="message" [style.opacity]="messageOpacity">
+      Enter the games currently being played at your court
+    </p>
+    <p [style.display]="error" [style.opacity]="errorOpacity" id="errorMessage">
+      This court only has {{courtBaskets}} baskets
+    </p>
+
   </div>
 
+  <!-- The buttons -->
   <div id="buttonsDiv">
     <div tappable class="gmButton" (click)="incrementGamecount(5)">
         <div id="gmGame">
@@ -55,7 +63,7 @@
       <p>Submit</p>
     </div>
 
-    <div tappable class="gmButton" id="gmCancel" (click)="closeModal()">
+    <div tappable class="gmButton" id="gmCancel" (click)="hackground()">
       <p>cancel</p>
     </div>
 

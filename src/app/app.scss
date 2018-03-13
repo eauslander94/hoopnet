@@ -66,6 +66,42 @@ ion-navbar{
   }
 }
 
+// Styling the header for gamesModal and waitTimeModal
+.scoutModalHeader{
+  color: $text;
+  text-align: center;
+  height: 15vw;
+  width: 100%;
+  margin-bottom: 0!important;
+  // title header
+  p:nth-child(1){
+    font-family: Quicksand-bold;
+    font-size: 4vw;
+    display: inline-block;
+    margin-top: 3vw;
+    margin-left: 8vw;
+    margin-bottom: 0;
+  }
+  // sub title
+  p:nth-child(3){
+    font-family: quicksand-regular;
+    font-size: 3.2vw;
+    margin-top: 2vw;
+  }
+  // question mark icon
+  ion-icon{
+    display: inline-block;
+    float: right;
+    font-size: 4vw;
+    margin-right: 2vw;        margin-top: 2vw;
+    border: 1px solid $borderColor;
+    border-radius: 25vw;
+    padding: 1vw;
+    height: 6vw; width: 6vw;
+    color: $primary;
+    background: white;
+  }
+}// gmHeader
 
 
 
