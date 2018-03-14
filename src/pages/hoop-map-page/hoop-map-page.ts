@@ -313,17 +313,26 @@ export class HoopMapPage {
 
    let latLng = new google.maps.LatLng
      (court.location.coordinates[1], court.location.coordinates[0]);
+
+   // Get path to icon image based on the largest game being played at that court
+   let iconPath = 'assets/icon/set';
+   if(court.windowData.games.length == 0)
+    iconPath += 'X.png'
+   else iconPath += court.windowData.games[0] + '.png'
+
    let marker = new google.maps.Marker({
     map: this.map,
     animation: google.maps.Animation.DROP,
     position: latLng,
-    // icon: {
-    //   url: 'assets/img/hoopMarkerBlue.png',  // pathing automatically relative to www
-    //   scaledSize: new google.maps.Size(40, 40),
-    //   // The anchor - halfway on x axis, all te way down on y axis
-    //   anchor: new google.maps.Point(20, 40),
-    //   origin: new google.maps.Point(0, 0),
-    // },
+    icon: {
+      url: iconPath,  // pathing automatically relative to www
+      scaledSize: new google.maps.Size(30, 50),
+      // The anchor - halfway on x axis, all te way down on y axis
+      anchor: new google.maps.Point(15, 50),
+      origin: new google.maps.Point(0, 0),
+    },
+    // //label: court.windowData.games[0],
+
     // Each marker has a court object attached to it.
     // This is the object that will be passed into other parts of the app.
     court: court
