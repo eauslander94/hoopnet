@@ -79,6 +79,7 @@ export class AuthService {
       this.setIdToken(authResult.idToken);
       this.setAccessToken(authResult.accessToken);
 
+
       const expiresAt = JSON.stringify((authResult.expiresIn * 1000) + new Date().getTime());
       this.setStorageVariable('expires_at', expiresAt);
 
@@ -90,7 +91,6 @@ export class AuthService {
         profile.user_metadata = profile.user_metadata || {};
         this.setStorageVariable('profile', profile);
 
-        console.log(profile);
         this.zone.run(() => {
           this.user = profile;
         });
@@ -102,9 +102,7 @@ export class AuthService {
   }
 
   public logout() {
-    alert('logging out');
     // disconnect from realtime push plugin
-    alert(this.getStorageVariable('currentUser')._id)
     window['plugins'].OrtcPushPlugin.unsubscribe
     ({'channel': this.getStorageVariable('currentUser')._id }).then(() => {
       alert('unsubscribing')
@@ -119,6 +117,8 @@ export class AuthService {
     this.idToken = null;
     this.accessToken = null;
     this.user = null;
+
+    this.events.publish("loggedOut");
   }
 
 }

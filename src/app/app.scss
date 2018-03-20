@@ -57,6 +57,17 @@ ion-navbar{
   //border: 1px solid black;
 }
 
+
+.someClass{
+  button{
+    color: grey;
+  }
+  button:last-child{
+    color: black;
+  }
+}
+
+
 //Action sheet styling
 .action-sheet-options, .action-sheet-group{
   background: #131313!important;

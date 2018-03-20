@@ -46,6 +46,8 @@ export class HoopMapPage {
   // new window data to be populated as the user scouts
   nwd: any;
 
+  // holds references to te markers on the map
+  markers: Array<any>
 
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
@@ -63,11 +65,10 @@ export class HoopMapPage {
       this.addHomeCourtsMessage();
     })
 
-    // Wen user updates window, replace old marker with newly updated court
+    // When current User user updates window add marker
     events.subscribe('current-user-window-update', (court) => {
       this.addCourtMarker(court);
     })
-
 
     // Subscriing to push notifications. First check for current User, if not wait
     // if(window.localStorage.getItem('currentUser'))
@@ -76,7 +77,23 @@ export class HoopMapPage {
     //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
     // })
 
-        this.dummy = "eli"
+    this.markers = [];
+
+    this.dummy = "eli"
+
+    // Update the markers every 5 minutes to simulate fade effect
+    Observable.interval(1000 * 60 * 5).subscribe( x => {
+      alert('fadingMarkers')
+      for(let marker of this.markers){
+        marker.setIcon( {
+          url: this.getMarkerIcon(marker.court),
+          scaledSize: new google.maps.Size(30, 50),
+          // The anchor - halfway on x axis, all te way down on y axis
+          anchor: new google.maps.Point(15, 30),
+          origin: new google.maps.Point(0, 0),
+       },)
+      }
+    })
   }
 
   // testing our first push notification
@@ -314,30 +331,31 @@ export class HoopMapPage {
    let latLng = new google.maps.LatLng
      (court.location.coordinates[1], court.location.coordinates[0]);
 
+   let iconPath = this.getMarkerIcon(court);
+
    // Get path to icon image based on the largest game being played at that court
-   let iconPath = 'assets/icon/set';
-   if(court.windowData.games.length == 0)
-    iconPath += 'X.png'
-   else iconPath += court.windowData.games[0] + '.png'
+  //  iconPath = 'assets/icon/markers/';
+  //  if(court.windowData.games.length == 0)
+  //   iconPath += 'x.png'
+  //  else iconPath += court.windowData.games[0] + 'v.png'
 
    let marker = new google.maps.Marker({
     map: this.map,
     animation: google.maps.Animation.DROP,
     position: latLng,
     icon: {
-      url: iconPath,  // pathing automatically relative to www
+      url: iconPath,
       scaledSize: new google.maps.Size(30, 50),
       // The anchor - halfway on x axis, all te way down on y axis
-      anchor: new google.maps.Point(15, 50),
+      anchor: new google.maps.Point(15, 30),
       origin: new google.maps.Point(0, 0),
     },
-    // //label: court.windowData.games[0],
-
     // Each marker has a court object attached to it.
     // This is the object that will be passed into other parts of the app.
     court: court
   })
-  //marker.setIcon('../../www/assets/img/hoopPin.png');
+  // Keep reference of eac marker
+  this.markers.push(marker);
 
   google.maps.event.addListener(marker, 'mousedown', () => {
     this.fingerOnScreen = true;
@@ -347,6 +365,39 @@ export class HoopMapPage {
     this.fingerOnScreen = false;
   })
  }
+
+ // Param: Court object
+ // Returns: pat to te correct marker icon
+ // Post: returns marker icon faded based on the largest game entered last
+ private getMarkerIcon(court: any){
+
+  //  pathing automatically relative to www
+   let path = 'assets/icon/markers/'
+   if(court.windowData.games.length == 0){
+     return path + 'x.png'
+   }
+   // marker number becomes the largest game on record
+   else path += court.windowData.games[0]
+
+   // get minutesPassed
+   let minutes = new Date().getTime() - new Date(court.windowData.gLastValidated).getTime();
+   let min = Math.floor(minutes / 60000);
+
+   // get correct path based on minutes passed
+   switch (true) {
+    case (min <= 10):   return path + "v.png";
+    case (min <= 15):   return path + "v90.png";
+    case (min <= 20):   return path + "v80.png";
+    case (min <= 25):   return path + "v70.png";
+    case (min <= 30):   return path + "v60.png";
+    case (min <= 35):   return path + "v50.png";
+    case (min <= 40):   return path + "v40.png";
+    case (min <= 45):   return path + "v30.png";
+    case (min <= 50):   return path + "v20.png";
+    case (min <= 55):   return path + "v10.png";
+    default:            return path + "v0.png";
+  };
+}
 
  // Determines whether the marker was clicked or pressed
  // Post1:  Marker clicked called on a click
@@ -383,8 +434,11 @@ public confirmAddCourt(court: any){
       { text: 'Add',
         handler: () => {
           console.log('added ' + court.name);
-          // TO DO: Server logic for adding this court to current user
           this.courtDataService.putHomecourt(court._id);
+          // update user in local storage to reflect new omecourt
+          let user = JSON.parse(window.localStorage.getItem('currentUser'));
+          user.homecourts.push(court._id);
+          window.localStorage.setItem('currentUser', JSON.stringify(user))
         }
       }
     ]

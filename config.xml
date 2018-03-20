@@ -3,7 +3,7 @@
     <name>Hoophead</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.4:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -56,6 +56,6 @@
         <variable name="ANDROID_PATHPREFIX" value="/cordova/com.eauslander94.courtlife/callback" />
     </plugin>
     <plugin name="cordova-plugin-camera" spec="^4.0.2" />
-    <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
     <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
+    <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
 </widget>

@@ -1,6 +1,7 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, ViewChild, NgZone } from '@angular/core';
 import { ViewController, NavParams, Slides, AlertController, NavController, Tabs } from 'ionic-angular';
 import { HoopMapPage } from '../../pages/hoop-map-page/hoop-map-page';
+import { CourtDataService } from '../../services/courtDataService.service';
 
 @Component({
   selector: 'home-court-display',
@@ -8,7 +9,10 @@ import { HoopMapPage } from '../../pages/hoop-map-page/hoop-map-page';
 })
 export class HomeCourtDisplay {
 
+  // Array of court objects
   courts: Array<any>
+  // Boolean flag telling us we ave retreived court ojects
+  gotCourts: boolean = false;
 
   // Whether or not the current user is looking at their profile
   myProfile: boolean;
@@ -17,14 +21,34 @@ export class HomeCourtDisplay {
   constructor(public viewCtrl: ViewController,
               public params: NavParams,
               public alertCtrl: AlertController,
-              private navCtrl: NavController)
+              private navCtrl: NavController,
+              public courtDataService: CourtDataService,
+              public zone: NgZone)
   {
-    // TO DO: get courts from the court pointers we are passed in
-    this.courts = params.get('homecourts');
+    // Get courts from server
+    this.getCourts(params.get('courtPointers'));
+    // Whether or not this is our profile, and have the ability to add/delete homecourts
     if(params.get('myProfile')) this.myProfile = true;
   }
 
-  //
+
+  // Post: retreives courts from server, sets tis.courts to courts returned
+  // Param: Array of string pointers to court objects
+  public getCourts(courtPointers: Array<string>){
+
+    this.courtDataService.getCourtsById(courtPointers).subscribe(
+      res => {
+        // ngZone to detect changes
+        this.zone.run(() => {
+          this.courts = res.json();
+          this.gotCourts = true
+        })
+      },
+      err => {alert(err)}
+    )
+  }
+
+
   public addHomeCourtPressed(){
      let alert = this.alertCtrl.create({
       subTitle: 'Home Courts can be added from the map page',
@@ -76,6 +100,7 @@ export class HomeCourtDisplay {
     console.log(this.slides.getActiveIndex())
   }
 
+
   // Post:  Slide component slides to previous
   public slideBack(){
     this.slides.slidePrev();
@@ -85,64 +110,4 @@ export class HomeCourtDisplay {
   public slideForward(){
     this.slides.slideNext();
   }
-
-  private generateCourts(){
-    let court1 = {
-
-      name: "Tompkins Square Park",
-      type: "outdoor",
-      baskets: 4,
-
-      // a latLng location
-      location: {
-        lat: 40.726429,
-        lng: -73.981784,
-      },
-
-      // monday(0) - sunday(6) based arrays, representing the time that the court
-      // My own formatted strings
-      openTimes: ['6:00a', '6:00a', '6:00a', '6:00a', '6:00a', '8:00a', '8:00a'],
-      closeTimes: ['11:00p','7:00p','11:00p','11:00p','11:00p','10:30p','8:00p'],
-
-      windowData: {
-        baskets: 4,
-        games: ["5", "4", "2"],
-        gLastValidated: new Date(),
-        action: "Active",
-        actionDescriptor: "continuous runs",
-        aLastValidated: new Date(),
-        pNow: []
-      },
-
-      closures: [],
-    }//court paren;
-
-    let court2 = {
-
-        name: "Forsyth Park - Houston Street Courts",
-        type: "outdoor",
-        baskets: 4,
-
-        // a latLng location
-        location: {},
-
-        // monday(0) - sunday(6) based arrays, representing the time that the court
-        // My own formatted strings
-        openTimes: ['6:00a', '6:00a', '6:00a', '6:00a', '6:00a', '8:00a', '8:00a'],
-        closeTimes: ['11:00p','7:00p','11:00p','11:00p','11:00p','10:30p','8:00p'],
-
-        windowData: {
-          baskets: 4,
-          games: ["5"],
-          gLastValidated: new Date(),
-          action: "Active",
-          actionDescriptor: "continuous runs",
-          aLastValidated: new Date(),
-          pNow: []
-        },
-
-        closures: [],
-      }//court paren
-      return[court1, court2];
-    }
-  }// class paren
+}// class paren

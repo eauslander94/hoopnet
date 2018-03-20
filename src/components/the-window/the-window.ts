@@ -1,4 +1,4 @@
-import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ModalController, ViewController, AlertController, Events } from 'ionic-angular';
 import { GamesModal }  from "../games-modal/games-modal";
 import { WaitTimeModal } from '../wait-time-modal/wait-time-modal';
@@ -69,7 +69,8 @@ export class TheWindow {
                private quick: QuickCourtsideProvider,
                private geolocation: Geolocation,
                private events: Events,
-               private cdr: ChangeDetectorRef)
+               private cdr: ChangeDetectorRef,
+               private zone: NgZone)
   {
 
     // Update the living timestamps every minute
@@ -112,8 +113,10 @@ export class TheWindow {
     // get actual player data from list of pointers provided
     this.courtDataService.windowGetUsers(this.windowData.players).subscribe(
       res => {
-        this.gotPlayers = true;
-        this.sortPlayers(res.json());
+        this.zone.run(() => {
+          this.gotPlayers = true ;
+          this.sortPlayers(res.json());
+        })
       },
       err => {
         console.log(err + 'err getPlayers in theWindow')
@@ -483,8 +486,8 @@ export class TheWindow {
         case 'waitTimeModal':    this.presentWaitTimeModal();  break;
         default: break;
     }
-}
-}
+  }
+ }
 
 
 

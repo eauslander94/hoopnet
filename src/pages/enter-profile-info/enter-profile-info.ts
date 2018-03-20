@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams, AlertController, Events, Tabs,
+import { IonicPage, NavController, NavParams, AlertController, Events,
          ActionSheetController } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { Camera, CameraOptions } from '@ionic-native/camera';
@@ -33,7 +33,6 @@ export class EnterProfileInfo {
               private photoLibrary: PhotoLibrary,
               public alertCtrl: AlertController,
               public events: Events,
-              private tabs: Tabs,
               private courtDataService: CourtDataService,
               private camera: Camera,
               public actionSheetCtrl: ActionSheetController)
@@ -45,7 +44,7 @@ export class EnterProfileInfo {
       this.user = params.get('user');
       this.edit = true;
       // If we've got pictures, show the blue camera
-      if(this.user.avatat !== '') this.avatarChange = true;
+      if(this.user.avatar !== '') this.avatarChange = true;
       if(this.user.backgroundImage !== '') this.backgroundChange = true;
     }
     else this.user = this.generateUserTemplate();
@@ -85,7 +84,6 @@ export class EnterProfileInfo {
               alert.dismiss().then(() => {
                 this.events.publish('homeCourtMessage');
                 this.navCtrl.pop();
-                this.navCtrl.parent.select(0);
               })
               return false;
             }
@@ -196,7 +194,10 @@ export class EnterProfileInfo {
       // Array of pointers to user objects
       friendRequests: [],
       // for now, string link to the image
-      avatar: {},
+      avatar: {
+        data: '',
+        contentType: ''
+      },
       backgroundImage: {},
       // pointer to the court object the user is beside
       courtside: '',

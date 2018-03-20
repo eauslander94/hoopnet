@@ -1,6 +1,6 @@
 
 import { Component, ChangeDetectorRef, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, ModalController, Tabs, Events,
+import { IonicPage, NavController, NavParams, ModalController, Events,
          AlertController } from 'ionic-angular';
 import { FriendsPage }     from '../friends-page/friends-page';
 import { EnterProfileInfo } from '../enter-profile-info/enter-profile-info';
@@ -29,7 +29,6 @@ export class Profile {
   constructor(public navCtrl: NavController,
               public params: NavParams,
               public modalCtrl: ModalController,
-              private tabs: Tabs,
               public events: Events,
               private alertCtrl: AlertController,
               public courtDataService: CourtDataService,
@@ -67,37 +66,40 @@ export class Profile {
     }
 
     // On login event, get user's profile or prompt to enter profle info
-    events.subscribe('loggedIn', ()=> {
-      let jwtHelper = new JwtHelper();
-      let sub = jwtHelper.decodeToken(this.auth.getStorageVariable('id_token')).sub;
+  //   events.subscribe('loggedIn', ()=> {
+  //
+  //     // get user's uniqe aut0 identifier
+  //     let jwtHelper = new JwtHelper();
+  //     let sub = jwtHelper.decodeToken(this.auth.getStorageVariable('id_token')).sub;
+  //
+  //     courtDataService.getUsersByAuth_id(sub)
+  //       .subscribe(
+  //         data => {
+  //           // If we've got an existing user, populate with user data returned
+  //           if(data.json().fName){
+  //             // alert('got data and a first name! now we save')
+  //             this.saveUser(data.json())
+  //             // let app know that we have the current user
+  //             this.events.publish('gotCurrentUser')
+  //             this.getHomecourts();
+  //           }
+  //           // If not, promt to enter profile info
+  //           else
+  //             this.navCtrl.push(EnterProfileInfo, {'edit': false, 'auth_id': sub})
+  //         },
+  //         err => {console.log("error getUsersByAuth_id on profile page")}
+  //       )
+  // })
 
-      // alert('loggedIn, fetching user profile data')
-      courtDataService.getUsersByAuth_id(sub)
-        .subscribe(
-          data => {
-            // If we've got an existing user, populate with user data returned
-            if(data.json().fName){
-              // alert('got data and a first name! now we save')
-              this.saveUser(data.json())
-              // let app know that we have the current user
-              this.events.publish('gotCurrentUser')
-              this.getHomecourts();
-            }
-            // If not, promt to enter profile info
-            else
-              this.navCtrl.push(EnterProfileInfo, {'edit': false, 'auth_id': sub})
-          },
-          err => {console.log("error getUsersByAuth_id on profile page")}
-        )
-  })
+    // When we have new profile info, set user to the user passed in
+    events.subscribe('profileInfoEntered', (user) => {
+      // alert(user.fName + ' received on profile page');
+      this.saveUser(user);
+      // let app know that we have the current user
+      this.events.publish('gotCurrentUser')
+    })
 
-  // When we have new profile info, set user to the user passed in
-  events.subscribe('profileInfoEntered', (user) => {
-    // alert(user.fName + ' received on profile page');
-    this.saveUser(user);
-    // let app know that we have the current user
-    this.events.publish('gotCurrentUser')
-  })
+    this.saveUser(this.user)
 
   }
 
@@ -133,7 +135,7 @@ export class Profile {
 
   // saves user to this.user, saves clone of user without images to local storage
   public saveUser(user: any){
-    // zone.run triggers cange detection
+    // zone.run triggers change detection
     this.zone.run(() => {
       this.user = user;
       this.user_id = user._id;
