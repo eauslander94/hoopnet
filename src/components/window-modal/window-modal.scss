@@ -11,6 +11,9 @@ window-modal {
 
   // Wrapper for the entire modal
   #courtModal{
+    background: linear-gradient(to bottom,  #000  0%, #fff 100%)!important;
+    background-color: red!important;
+
     height: 80vw; // eigt of courtName + courtContent
     border-top-left-radius: 5vw;
     border-top-right-radius: 5vw;

@@ -36,70 +36,15 @@ export class Profile {
               private cdr: ChangeDetectorRef,
               public zone: NgZone)
   {
-    // User in params - someone else's profile. otherwise go get current user
-    if(params.get('user')){
-      this.user = params.get('user');
-      this.myProfile = false;
-    }
-    else {
-      this.myProfile = true;
-      // Get a blank user object ready to be filled
-      this.user = this.generateUserTemplate();
+    // set user data to te param passed in
+    this.user = params.get('user');
+    this.myProfile = params.get('myProfile')
 
-      // If we're already logged in, get the current user
-      if(auth.isAuthenticated()){
-       // use the authID in our id_token to retreive the current user
-       courtDataService.getUsersByAuth_id(new JwtHelper().decodeToken
-         (this.auth.getStorageVariable('id_token')).sub)
-         .subscribe(
-           data => {
-             this.saveUser(data.json())
-             // let app know that we have the current user
-             this.events.publish('gotCurrentUser')
-             this.getHomecourts();
-           },
-           err => {
-             console.log("error getUsersByAuth_id");
-           }
-         )
-     }
-    }
-
-    // On login event, get user's profile or prompt to enter profle info
-  //   events.subscribe('loggedIn', ()=> {
-  //
-  //     // get user's uniqe aut0 identifier
-  //     let jwtHelper = new JwtHelper();
-  //     let sub = jwtHelper.decodeToken(this.auth.getStorageVariable('id_token')).sub;
-  //
-  //     courtDataService.getUsersByAuth_id(sub)
-  //       .subscribe(
-  //         data => {
-  //           // If we've got an existing user, populate with user data returned
-  //           if(data.json().fName){
-  //             // alert('got data and a first name! now we save')
-  //             this.saveUser(data.json())
-  //             // let app know that we have the current user
-  //             this.events.publish('gotCurrentUser')
-  //             this.getHomecourts();
-  //           }
-  //           // If not, promt to enter profile info
-  //           else
-  //             this.navCtrl.push(EnterProfileInfo, {'edit': false, 'auth_id': sub})
-  //         },
-  //         err => {console.log("error getUsersByAuth_id on profile page")}
-  //       )
-  // })
-
-    // When we have new profile info, set user to the user passed in
+    // Update profile page wen editProfileInfo was navigated to from profile page
     events.subscribe('profileInfoEntered', (user) => {
-      // alert(user.fName + ' received on profile page');
       this.saveUser(user);
-      // let app know that we have the current user
       this.events.publish('gotCurrentUser')
     })
-
-    this.saveUser(this.user)
 
   }
 
@@ -139,14 +84,7 @@ export class Profile {
     this.zone.run(() => {
       this.user = user;
       this.user_id = user._id;
-      // clone user, remove lare image data, save to local storage
-      let curr = JSON.parse(JSON.stringify(user))
-      curr.avatar = {};
-      curr.backgroundImage = {};
-      window.localStorage.setItem('currentUser', JSON.stringify(curr));
     })
-
-    // this.cdr.detectChanges();
   }
 
   // Post: Friends page is pushed onto navstack

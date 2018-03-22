@@ -38,18 +38,16 @@ export class EnterProfileInfo {
               public actionSheetCtrl: ActionSheetController)
   {
 
-    this.dummy = window.screen.height;
-
     if(params.get('edit')){
       this.user = params.get('user');
       this.edit = true;
-      // If we've got pictures, show the blue camera
-      if(this.user.avatar !== '') this.avatarChange = true;
-      if(this.user.backgroundImage !== '') this.backgroundChange = true;
     }
     else this.user = this.generateUserTemplate();
   }
 
+  // Post1: Updated user data is sent to server
+  // Post2: Updated User data is saved to local storage
+  // Pre:   USer as entered a first and last name
   submit(){
 
     // Make sure we've at least got a first and last name
@@ -61,8 +59,14 @@ export class EnterProfileInfo {
     // editing - update existing user.  signing up - add new user
     if(this.edit) this.courtDataService.putUser(this.user);
     else this.courtDataService.newUser(this.user);
-    // Tell profile page we have new profile info
-    alert(this.user.fName + ' profile info entered')
+
+    // clone user, remove large image data, save to local storage
+    let curr = JSON.parse(JSON.stringify(this.user))
+    curr.avatar = {};
+    curr.backgroundImage = {};
+    window.localStorage.setItem('currentUser', JSON.stringify(curr));
+
+    // Tell profile page we have entered profile info
     this.events.publish('profileInfoEntered', this.user)
 
     // no homecourt? prompt user to enter one
@@ -96,6 +100,7 @@ export class EnterProfileInfo {
   // We do have a homecourt, so just pop
   else this.navCtrl.pop();
   }
+
 
   // Post: Gallery or camera pops up, populates user.backgroundImage with image uri
   public getBackground(){
@@ -148,7 +153,6 @@ export class EnterProfileInfo {
               },
               (err) => {console.log(err)}
             )
-
           }
         },
         { text: 'choose from gallery',

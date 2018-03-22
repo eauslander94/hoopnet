@@ -11,11 +11,11 @@ import { Platform, NavController, Events, MenuController, ModalController } from
 // Components for menu links
 import { HomeCourtDisplay }  from '../components/home-court-display/home-court-display';
 import { InviteFriendsPage } from '../pages/invite-friends/invite-friends';
+import { ProfileModal }      from '../components/profile-modal/profile-modal';
 import { Profile }           from '../pages/profile/profile';
 import { EnterProfileInfo }  from '../pages/enter-profile-info/enter-profile-info';
 import { FriendsPage }       from '../pages/friends-page/friends-page';
 import { AuthService }       from '../services/auth.service';
-
 
 // Auth0Cordova
 import Auth0Cordova from '@auth0/cordova';
@@ -114,7 +114,15 @@ export class MyApp {
     // If we're not authenticated, do nothing
     if(!this.authFlag) return;
 
-    this.nav.push(Profile);
+    this.modalCtrl.create(ProfileModal, {
+      'user': this.currentUser,
+      'myProfile': 'true'
+    }).present()
+
+    // this.nav.push(Profile, {
+    //   'user': this.currentUser,
+    //   'myProfile': 'true'
+    // });
     this.menu.close();
   }
 
@@ -137,8 +145,8 @@ export class MyApp {
   public navToEnterProfileInfo(){
     // If we're not authenticated, do nothing
     if(!this.authFlag) return;
-
-    let user = JSON.parse(window.localStorage.getItem('currentUser'))
+    // alert(this.currentUser.fName + ' ' + this.currentUser.avatar.data.length);
+    let user = this.currentUser;
     this.nav.push(EnterProfileInfo, {'edit': true, 'user': user})
     this.menu.close();
   }
@@ -163,7 +171,9 @@ export class MyApp {
 
   // saves clone of user without images to local storage
   public saveUser(user: any){
+      alert('saving user');
       this.currentUser = user;
+      //alert(this.currentUser.avatar.data.length);
       // clone user, remove lare image data, save to local storage
       let curr = JSON.parse(JSON.stringify(user))
       curr.avatar = {};

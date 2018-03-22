@@ -110,4 +110,11 @@ export class HomeCourtDisplay {
   public slideForward(){
     this.slides.slideNext();
   }
+
+  $scope.swipeLeft = function () {
+    this.slides.slideNext();
+  };
+
+
+
 }// class paren

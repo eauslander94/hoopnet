@@ -1,14 +1,30 @@
 <ion-menu [content]="nav">
-  <ion-content>
-    <ion-list [class.someClass]="!authFlag">
-      <button ion-item (click)="navToHomecourts()">Homecourts </button>
-      <button ion-item (click)="navToProfile()">My Profile</button>
-      <button ion-item (click)="navToEnterProfileInfo()">Edit Profile</button>
-      <button ion-item (click)="navToFriends()">Friends & Users</button>
-      <button ion-item (click)="auth.login()" *ngIf="!authFlag">Login / Signup</button>
-      <button ion-item (click)="auth.logout()" *ngIf="authFlag">Logout</button>
-    </ion-list>
-  </ion-content>
+
+  <div id="menuDiv" [class.greyButtons]="!authFlag">
+    <div class="menuButton" (click)="navToHomecourts()">
+      <p>Homecourts</p>
+    </div>
+
+    <div class="menuButton" (click)="navToProfile()">
+      <p>My Profile</p>
+    </div>
+
+    <div class="menuButton" (click)="navToEnterProfileInfo()">
+      <p>Edit Profile</p>
+    </div>
+
+    <div class="menuButton" (click)="navToFriends()">
+      <p>Friends & Users</p>
+    </div>
+
+    <div class="menuButton" (click)="auth.login()" *ngIf="!authFlag">
+      <p>Login / Signup</p>
+    </div>
+
+    <div class="menuButton" (click)="auth.logout()" *ngIf="authFlag">
+      <p>Logout</p>
+    </div>
+  </div>
 </ion-menu>
 
 <ion-nav #nav [root]="rootPage"></ion-nav>

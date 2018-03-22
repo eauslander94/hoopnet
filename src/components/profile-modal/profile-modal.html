@@ -1,0 +1,40 @@
+<div tappable id="hackground" (tap)="viewCtrl.dismiss()"></div>
+
+<div id="content">
+
+  <ion-item no-lines>
+    <ion-avatar>
+      <img src="data:{{user.avatar.contentType}};base64,{{user.avatar.data}}"/>
+    </ion-avatar>
+  </ion-item>
+
+  <!-- User Name -->
+  <div id='userName'>
+    <p>{{user.fName}}</p>
+    <p *ngIf='user.nName && user.nName != ""' id='nickname'>{{user.nName}}</p>
+    <p>{{user.lName}}</p>
+  </div>
+
+  <!-- User Info -->
+  <div id="userInfo">
+    <div (tap)="navToFriends()">
+      <p class="small">Friends</p>
+      <p class="large">{{user.friends.length}}</p>
+    </div>
+    <div tappable (tap)='presentHomeCourts()'>
+      <p class="small">Homecourt</p>
+      <p class="large">{{homecourtName}}</p>
+      <!-- <p *ngIf='homecourtObjects[0]'>{{homecourtObjects[0].name}}</p>
+      <p *ngIf='!homecourtObjects[0]'>-</p> -->
+    </div>
+    <!-- <div *ngIf='myProfile' tappable (tap)='navToEnterProfileInfo()'>
+      <p>Edit</p>
+      <p>Profile</p>
+    </div>
+    <div *ngIf='!myProfile' tappable (tap)='presentAddSheet()'>
+      <p>Add</p>
+      <p>Friend</p>
+    </div> -->
+  </div>
+
+</div>

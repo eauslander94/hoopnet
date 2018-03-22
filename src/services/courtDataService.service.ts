@@ -25,7 +25,7 @@ export class CourtDataService{
     route: string = 'http://192.168.0.4:3000'
 
      // for connecting to our RESTful API hosted on AWS Lambda
-     // route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
+     //route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
 
 
       // For local connections using ionic serve

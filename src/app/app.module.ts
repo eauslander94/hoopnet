@@ -40,6 +40,7 @@ import { AddClosure }       from '../components/add-closure/add-closure';
 import { HoursDisplay }     from '../components/hours-display/hours-display';
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
+import { ProfileModal }     from '../components/profile-modal/profile-modal';
 // services
 import { CourtDataService } from '../services/courtDataService.service';
 import { AuthService }      from '../services/auth.service';
@@ -70,6 +71,7 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     AddClosure,
     HoursDisplay,
     HomeCourtDisplay,
+    ProfileModal,
 
     Profile,
     ParallaxHeader,
@@ -90,6 +92,7 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     LoginPage,
     FriendsPage,
     EnterProfileInfo,
+    ProfileModal,
 
     Profile,
     CourtPage,

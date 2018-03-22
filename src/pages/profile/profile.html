@@ -1,23 +1,11 @@
-<ion-header no-border>
-  <ion-navbar>
-    <button ion-button icon-only (click)="logout()">
-      <ion-icon name="settings"></ion-icon>
-    </button>
-    <ion-title>Hoophead</ion-title>
-    <ion-buttons end>
-      <button ion-button icon-only (click)="logout()">
-        <ion-icon name="settings"></ion-icon>
-      </button>
-    </ion-buttons>
-  </ion-navbar>
-</ion-header>
+
 
 
 <ion-content>
 
     <!-- You can't see a profile page unless you are authenticated -->
     <div id='profileWrapper' ion-fixed  *ngIf="auth.isAuthenticated()">
-        <img src="data:{{user.backgroundImage.contentType}};base64,{{user.backgroundImage.data}}"/>
+        <!-- <img src="data:{{user.backgroundImage.contentType}};base64,{{user.backgroundImage.data}}"/> -->
         <!-- User Avatar -->
         <ion-item no-lines>
           <ion-avatar>
@@ -55,8 +43,5 @@
 
     </div>
 
-    <div *ngIf='!auth.isAuthenticated()' id="login">
-      <button ion-button block color="primary" (click)="auth.login()">Log In</button>
-    </div>
 
 </ion-content>

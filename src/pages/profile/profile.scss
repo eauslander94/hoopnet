@@ -2,10 +2,13 @@ page-profile {
   height: 100vh;
   width: 100vw;
   position: fixed;
+  background-color: black;
+  opacity: .5!important;
    // Parallax header style
    #profileWrapper {
+      border: 1px solid red;
       // background-image: url('../assets/img/IversonStepOver.jpg');
-      height: 100vh;
+      height: 62vw;
       //position: relative;
       width: 100vw;
     }

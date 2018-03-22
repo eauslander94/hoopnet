@@ -12,19 +12,24 @@ home-court-display {
 
   #content{
     width: 100vw;
+    //margin-left: 1vw;
+    border-radius: 2vw;
     height: 90vw;
     position: absolute;
-    top: 39vw;
+    top: 100vw;
     //border: 1px solid #050505;
-    background: rgba(19, 19, 19, 0.5);
+    //background: rgba(19, 19, 19, 0.5);
+    background: linear-gradient(to bottom,  #000 0%, #fff  100%);
+
     ion-slides{
       opacity:1!important;
       height: 80vw;
     }
     ion-slide{
+      position: relative;
       #homeCourtName{
         text-align: center!important;
-        font-family: axis;
+        font-family: Quicksand-regular;
         color: $offWhite;
         font-size: 6vw;
         height: 8vw;  width: 100%;
@@ -38,6 +43,8 @@ home-court-display {
         text-overflow: ellipsis;
       }
       the-window{
+        position: relative;
+        //right: 1vw;
         // Fix bug - baskets were centered
         text-align: initial;
       }
@@ -49,6 +56,7 @@ home-court-display {
         }
       }
     }
+
 
     #bottomButtons{
       width: 100%;
@@ -64,7 +72,7 @@ home-court-display {
 
       ion-icon{
         font-size: 8vw;
-        color: $offWhite;
+        color: #bcbaba;
         opacity: 0.9;
         // Give them a quantified width, center them within their element
         width: 5vw; text-align: center;
