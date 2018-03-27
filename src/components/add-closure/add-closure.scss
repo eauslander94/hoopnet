@@ -123,7 +123,7 @@ add-closure {
    //border: 1px solid red;
    p:first-child{
      //border: 1px solid white;
-     color: $offWhite;
+     color: $text;
      font-size: 13px;
      font-family: Quicksand-bold;
      margin-top: 11px;
@@ -132,7 +132,7 @@ add-closure {
    }
 
    p:nth-child(n+2){
-      color: $offWhite;
+      color: $text;
       display: inline-block;
       width: 14.2vw;
       text-align: center;

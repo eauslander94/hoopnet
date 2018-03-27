@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { ViewController, NavParams } from 'ionic-angular';
+import moment from 'moment';
 
 @Component({
   selector: 'hours-display',
@@ -18,20 +19,32 @@ export class HoursDisplay {
   moment:String;
 
   constructor(public viewCtrl: ViewController, params: NavParams) {
-    this.openTimes = params.get("ot");
-    this.closeTimes = params.get("ct");
+    this.openTimes = this.formatTimestrings(params.get("ot"));
+    this.closeTimes = this.formatTimestrings(params.get("ct"));
 
-    // check if monday-friday have the same hours
-    let index = 1;  this.MFsame = true;
-    while (index < 5){
+    // loop tuesday - friday, if any one differs from monday return false
+    let index = 2;  this.MFsame = true;
+    while (index < 6){
       // If any day differs from Monday, either open or close
-      if (this.openTimes[0] !== this.openTimes[index]
-      ||  this.closeTimes[0] !== this.closeTimes[index]){
+      if (this.openTimes[1] !== this.openTimes[index]
+      ||  this.closeTimes[1] !== this.closeTimes[index]){
         this.MFsame = false;  break; //set to false and break
       }
       index++;
     }
 
+  }
+
+  // Returns: array of massaged string representations of date objects
+  // Param:   array of date objects to be converted
+  public formatTimestrings(rawStrings: Array<Date>){
+
+    let sexyStrings: Array<string> = []
+    for(let date of rawStrings){
+      let sexyString = moment(date).format('h:mma');
+      sexyStrings.push(sexyString.substring(0, sexyString.length - 1));
+    }
+    return sexyStrings;
   }
 
 }

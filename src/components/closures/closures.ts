@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { ViewController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
+import { Component, NgZone } from '@angular/core';
+import { ViewController, NavParams, ActionSheetController, AlertController, ModalController, Events } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service'
 import moment from 'moment';
@@ -20,6 +20,9 @@ export class Closures {
   // Whether or not we are displaying today's closures or the regular closures
   showing: String;
 
+  // Whether or not to show load wheel
+  loading: boolean = false;
+
   courtBaskets: number;
 
   constructor(public viewCtrl: ViewController,
@@ -28,7 +31,9 @@ export class Closures {
               public alertCtrl: AlertController,
               public modalCtrl: ModalController,
               public courtDataService: CourtDataService,
-              public auth: AuthService)
+              public auth: AuthService,
+              public zone: NgZone,
+              public events: Events)
   {
     this.closures = params.get('closures');
 
@@ -121,9 +126,11 @@ export class Closures {
           this.courtDataService.deleteClosure(closure._id, this.params.get('court_id'))
           .subscribe(
             res => {
-              this.closures = res.json().closures
-              for(let closure of this.closures)
-                this.formatTimestrings(closure)
+              this.zone.run(() => {
+                this.closures = res.json().closures
+                for(let closure of this.closures)
+                  this.formatTimestrings(closure)
+              })
             },
             err => {console.log('err, deleteClosure ' + err)}
           );
@@ -164,28 +171,21 @@ export class Closures {
     addClosure.onDidDismiss(data => {
       if(data.closure){
         this.formatTimestrings(data.closure);
-
+        this.loading = true;
+        // When editing closure, update existing closure in db with put
         if(edit) {
           this.courtDataService.putClosure(data.closure, this.params.get('court_id'))
           .subscribe(
-            res => {
-              this.closures = res.json().closures
-              for(let closure of this.closures)
-                this.formatTimestrings(closure)
-            },
-            err => {console.log('err, putclosure ' + err)}
+            res => { this.gotData(res.json()) },
+            err => { console.log('err, putclosure ' + err)}
           );
         }
+        // When adding new closure, create new closure in db with post
         else{
-          this.closures.push(data.closure);
           this.courtDataService.postClosure(data.closure, this.params.get('court_id'))
           .subscribe(
-            res => {
-              this.closures = res.json().closures
-              for(let closure of this.closures)
-                this.formatTimestrings(closure)
-            },
-            err => {console.log('err, postClosure() ' + err)}
+            res => { this.gotData(res.json()) },
+            err => { console.log('err, postClosure() ' + err)}
           );
         }
       }
@@ -193,6 +193,21 @@ export class Closures {
 
     addClosure.present();
   }
+
+  // Post1: this.closures replaced with updated value from db
+  // Post2: Load wheel removed from html
+  // Post3: Updated Court sent to hoop map page to reload the marker
+  // Param: court object
+  public gotData(court: any){
+    this.zone.run(() => {
+      for(let closure of court.closures)
+        this.formatTimestrings(closure)
+      this.closures = court.closures;
+      this.loading = false;
+      this.events.publish('reloadCourt', court)
+    })
+  }
+
 
   // Post: date object is converted to sexy timeString, which is added to closure
   // Param: closure to be edited
@@ -203,6 +218,7 @@ export class Closures {
     closure.tse = moment(closure.clEnd).format('h:mma');
     closure.tse = closure.tse.substring(0, closure.tse.length - 1);
   }
+
 
   // Post: Removes the given closure from closures
   // Pre: given closure is in closures
@@ -215,6 +231,12 @@ export class Closures {
       }
       index++;
     }
+  }
+
+
+  // Post: Closures is dismissed wit current closures passed back
+  public dismiss(){
+    this.viewCtrl.dismiss(this.closures)
   }
 
 

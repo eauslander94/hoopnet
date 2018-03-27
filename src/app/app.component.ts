@@ -59,6 +59,8 @@ export class MyApp {
       // lock the screen to portrait
       this.screenOrientation.lock('portrait');
 
+      
+
       // If we're autenticated on startup
       if(this.auth.isAuthenticated()){
         // get a fresh copy of the current user into local storage

@@ -23,15 +23,19 @@ ion-content {
   background-color: $background;
 }
 
-ion-navbar{
-  // text-align: center;
-}
-
 .toolbar-title{
   color: $primary;
-  font-family: Axis;
+  font-family: Play-Bold;
   text-align: center;
 }
+
+// center the toolbar
+.toolbar-content{
+  position: absolute;
+  width: 50%;
+  left: 25%;
+}
+
 
 #courtside{
   background-image: url('../assets/img/ballBlack.png');
@@ -193,6 +197,54 @@ ion-navbar{
 @font-face {
   font-family: "AxisLower";
   src: url("../assets/fonts/AxisLower.otf") format("opentype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Averta";
+  src: url("../assets/fonts/Averta.otf") format("opentype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "AvertaBoldItalic";
+  src: url("../assets/fonts/AvertaBoldItalic.otf") format("opentype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "dozen";
+  src: url("../assets/fonts/dozen.otf") format("opentype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "monique";
+  src: url("../assets/fonts/monique.otf") format("opentype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Tavolga";
+  src: url("../assets/fonts/Tavolga.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "LuckiestGuy";
+  src: url("../assets/fonts/LuckiestGuy.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Play-Regular";
+  src: url("../assets/fonts/Play-Regular.ttf") format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Play-Bold";
+  src: url("../assets/fonts/Play-Bold.ttf") format("truetype");
   font-style: normal;
 }
 

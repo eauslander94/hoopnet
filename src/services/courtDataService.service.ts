@@ -354,6 +354,8 @@ export class CourtDataService{
       if(!this.auth.isAuthenticated())
         return;
 
+      alert(closure.baskets);
+
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       let body = {'closure': closure, 'court_id': court_id};

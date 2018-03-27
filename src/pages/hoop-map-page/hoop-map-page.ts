@@ -59,18 +59,17 @@ export class HoopMapPage {
               private toastCtrl: ToastController,
               private auth: AuthService)
   {
-    this.court = this.generateCourt();
 
     events.subscribe('homeCourtMessage', () => {
       this.addHomeCourtsMessage();
     })
 
     // When current User user updates window add marker
-    events.subscribe('current-user-window-update', (court) => {
+    events.subscribe('reloadCourt', (court) => {
       this.addCourtMarker(court);
     })
 
-    // Subscriing to push notifications. First check for current User, if not wait
+    // Subscribing to push notifications. First check for current User, if not wait
     // if(window.localStorage.getItem('currentUser'))
     //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
     // else events.subscribe('gotCurrentUser', () => {
@@ -285,8 +284,10 @@ export class HoopMapPage {
           handler: () => {
             // dismiss the alert, then bring up invite friends page
             alert.dismiss().then(() => {
-              this.navCtrl.push(InviteFriendsPage,
-              {courtName: court.name, location: court.location})
+              this.navCtrl.push(InviteFriendsPage,{
+                courtName: court.name,
+                location: court.location
+              })
             })
             return false;
           }
@@ -372,7 +373,7 @@ export class HoopMapPage {
  private getMarkerIcon(court: any){
 
   //  pathing automatically relative to www
-   let path = 'assets/icon/markers/'
+   let path = 'assets/icon/markers/fib/'
    if(court.windowData.games.length == 0){
      return path + 'x.png'
    }
@@ -385,16 +386,19 @@ export class HoopMapPage {
 
    // get correct path based on minutes passed
    switch (true) {
-    case (min <= 10):   return path + "v.png";
-    case (min <= 15):   return path + "v90.png";
-    case (min <= 20):   return path + "v80.png";
-    case (min <= 25):   return path + "v70.png";
-    case (min <= 30):   return path + "v60.png";
-    case (min <= 35):   return path + "v50.png";
-    case (min <= 40):   return path + "v40.png";
-    case (min <= 45):   return path + "v30.png";
-    case (min <= 50):   return path + "v20.png";
-    case (min <= 55):   return path + "v10.png";
+     // Stay bright for 30 min, then fade by fibonacci numbers every 5 min
+    case (min <= 30):   return path + "v.png";
+    case (min <= 35):   return path + "v89.png";
+    case (min <= 40):   return path + "v55.png";
+    case (min <= 45):   return path + "v34.png";
+    case (min <= 50):   return path + "v21.png";
+    case (min <= 55):   return path + "v13.png";
+    case (min <= 60):   return path + "v8.png";
+    case (min <= 65):   return path + "v5.png";
+    case (min <= 70):   return path + "v3.png";
+    case (min <= 75):   return path + "v2.png";
+    case (min <= 80):   return path + "v1.png";
+    case (min <= 85):   return path + "v1.png";
     default:            return path + "v0.png";
   };
 }
@@ -496,72 +500,6 @@ public pushConnect(channel: string){
   });
 }
 
-private generateCourt(){
-  return {
-
-    name: "Tompkins Square Park",
-    type: "outdoor",
-    baskets: 4,
-
-    // a latLng location
-    location: {
-      type: 'Point',
-      coordinates: [-73.981784, 40.726429,]
-    },
-
-    // monday(0) - sunday(6) based arrays, representing the time that the court
-    // My own formatted strings
-    openTimes: ['6:00a', '6:00a', '6:00a', '6:00a', '6:00a', '8:00a', '8:00a'],
-    closeTimes: ['11:00p','7:00p','11:00p','11:00p','11:00p','10:30p','8:00p'],
-
-    windowData: {
-      baskets: 4,
-      games: ["5", "4", "2"],
-      gLastValidated: new Date(),
-      action: "Active",
-      actionDescriptor: "continuous runs",
-      aLastValidated: new Date(),
-      pNow: []
-    },
-
-    closures: [
-      {
-        clStart: new Date(10),
-        clEnd: new Date(12),
-        reason: "3 on 3 Tournament",
-        baskets: 4,
-        // sunday(index 0) to saturday(index 6) -
-        // 1 in the index means closure is on that day
-        // 2 in the index means it repeats every week on that day
-        days: [1, 0, 0, 0, 0, 0, 2],
-        repeat: false
-      },
-        {clStart: new Date(16),
-        clEnd: new Date(18),
-        reason: "Mens Soccer Practice",
-        baskets: 4,
-        days: [2, 0, 0, 0, 0, 2, 0],
-        repeat: true
-      },
-      {
-        clStart: new Date(16),
-        clEnd: new Date(18),
-        reason: "Mens Basketball Practice",
-        baskets: 4,
-        days: [1, 0, 0, 0, 0, 0, 1],
-        repeat: true
-      },
-      {
-        clStart: new Date(16),
-        clEnd: new Date(18),
-        reason: "Girls Soccer Practice",
-        baskets: 4,
-        days: [2, 0, 0, 0, 0, 0, 1],
-        repeat: true
-      }
-    ],
-  }//court paren
-}//
 
 
 public tester(){

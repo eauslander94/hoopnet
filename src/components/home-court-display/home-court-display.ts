@@ -111,9 +111,6 @@ export class HomeCourtDisplay {
     this.slides.slideNext();
   }
 
-  $scope.swipeLeft = function () {
-    this.slides.slideNext();
-  };
 
 
 

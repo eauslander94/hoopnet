@@ -1,12 +1,12 @@
 
 <ion-header>
   <ion-navbar>
-    <ion-title>Closures</ion-title>
-     <ion-buttons start>
-      <button ion-button icon only (tap)="viewCtrl.dismiss()">
-        <ion-icon name="arrow-round-back"></ion-icon>
-      </button>
-  </ion-buttons>
+    <ion-buttons start>
+     <button ion-button icon only (tap)="dismiss()">
+       <ion-icon name="ios-arrow-round-back"></ion-icon>
+     </button>
+ </ion-buttons>
+    <ion-title>Court Closings</ion-title>
   </ion-navbar>
 </ion-header>
 
@@ -20,7 +20,7 @@
   </div>
 </div>
 
-<ion-list *ngIf="showing === 'today'">
+<ion-list *ngIf="showing === 'today' && !loading">
   <!-- Show the closure if today is the day of the week -->
   <div *ngFor="let closure of closures" id="closureWrapper">
   <div id="closure" *ngIf="closure.days[dayOfWeek] > 0">
@@ -49,7 +49,7 @@
 </ion-list>
 
 
-<ion-list *ngIf="showing === 'regular'">
+<ion-list *ngIf="showing === 'regular' && !loading">
   <!-- Show the closure if today is the day of the week -->
   <div *ngFor="let closure of closures" id="closureWrapper">
   <div id="closure" *ngIf="closure.repeat">
@@ -78,3 +78,7 @@
 </ion-list>
 
 <button id="addClosure" ion-button full color='$blackshade1'(tap)="presentAddClosure({}, false)">Add Closure</button>
+
+<div id="loading" *ngIf="loading">
+  <ion-spinner></ion-spinner>
+</div>

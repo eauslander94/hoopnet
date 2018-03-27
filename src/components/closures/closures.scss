@@ -9,9 +9,6 @@ closures {
     }
   }
 
-  .toolbar-title{
-    font-family: Quicksand-bold;
-  }
 
 // The top tabs
   #topTab{
@@ -123,14 +120,31 @@ closures {
     }
   }
 
-#addClosure{
-  position: fixed;
-  bottom: 0;
-  background-color: $offWhite;
-  height: 13vw;
-  //border: 2px solid $borderColor;
-  color: $text;
-  font-family: Quicksand-bold;
-}
+  #addClosure{
+    position: fixed;
+    bottom: 0;
+    background-color: $offWhite;
+    height: 13vw;
+    //border: 2px solid $borderColor;
+    color: $text;
+    font-family: Quicksand-bold;
+  }
 
-}
+  #loading{
+    height: 100vh;
+    width: 100vw;
+    z-index: 2;
+    position: absolute; top: 0;
+    //background: black;
+    //opacity: .1;
+    text-align: center;
+
+    ion-spinner{
+      //background: white;
+      margin-top: 40vw;
+      //border: 1px solid red;
+      //opacity: 1!important;
+    }
+  }
+
+}// class paren

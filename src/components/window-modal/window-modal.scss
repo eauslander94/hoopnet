@@ -9,181 +9,116 @@ window-modal {
     opacity: .5
   }
 
-  // Wrapper for the entire modal
-  #courtModal{
-    background: linear-gradient(to bottom,  #000  0%, #fff 100%)!important;
-    background-color: red!important;
+  #content{
 
-    height: 80vw; // eigt of courtName + courtContent
-    border-top-left-radius: 5vw;
-    border-top-right-radius: 5vw;
-    -webkit-transition: margin-top .8s;
-    transition: margin-top .8s;
-    overflow-y: hidden;
-    margin-top: 100vh;
-  }
+    width: 100vw;
+    border-radius: 2vw;
+    height: 95vw;
+    position: absolute;
+    top: 58vw;
+    background: linear-gradient(to bottom,  #33ccff 0%, #fff  95%);
 
-  // header to which parallax effect will be applied
-  .courtHeader{
-    height: 36vw;
-    padding-top: 1vw;
-    background-color: white;
-    padding-bottom: 1vw;
-  }
+    // court name and info
+    #windowModalHeader{
 
-  // div holding the window
-  .courtContent {
-    height: 65vw;   width: 100%;
-    //border-top: 1px solid black;
-    background-color: white;
-    padding-top: 2vw;
-    overflow-y: hidden;
-    margin-top: 0px;
-    padding-bottom: 3vw;
-  }
-
-
-  // title div of the court
-  #courtName{
-    height: 16vw;
-    // border-bottom: 1px solid black;
-    z-index: 2;
-    background-color: white;
-    text-align: center;
-
-    position: sticky;
-    position: -webkit-sticky;  // for safari
-    top: 0;
-    p{
-      position: fixed;
+      border-top: 1px solid $primary;
+      border-top-left-radius: 2vw;
+      border-top-right-radius: 2vw;
+      height: 25vw;
       width: 100%;
-      font-family: Axis;
-      font-size: 5vw;
-      color: $text;
-    }
-  }
+      padding: 0;
 
-  // styling items witin court header
-  .courtHeader{
-
-      // unchanging court info at top of header
-      #lineOne{
-        height: 13vw;
-        div{
-          margin-top: 2vw;
-          display: inline-block;
-          text-align: center;
-          width: 49%;
-        }
-        p{
-          font-family: Quicksand-regular;
-          color: $text;
-          margin: 0;
-        }
-        p:nth-child(1){
-          font-weight: bold;
-          font-size: 4vw;
-        }
-        p:nth-child(2){
-          font-size: 4vw;
-        }
-      }
-
-    // The info icons at the bottom of the header
-    #bottomLine{
-      height: 13vw;
-      width: 100vw;
-      div{
-        text-align: center;
-        display: inline-block;
-        width: 32%;
-
-        height: 100%;
-        ion-icon{
-          color: black;
-          margin-top: 3vw;
-          font-size: 8vw;
-        }
-      }
-    }
-
-    // arrow at bottom indicatig pick up is below
-    #pickUpIdentifier{
-
-      display: inline-block;
-      width: 100%;
-      height: 9vw;
-      text-align: center;
-      p{
-
-        font-family: Quicksand-bold;
-        display: inline-block;
-        font-size: 3.5vw;
-        margin-left: 2vw;
-        height: 9vw;
+      #homeCourtName{
+        margin-top: 3vw;
         margin-bottom: 2vw;
-      }
-      ion-icon{
+        //border: 1px solid red;
+        text-align: center!important;
+        font-family: Play-Bold;
+        color: $offWhite;
+        font-size: 6vw;
+        height: 8vw;  width: 100%;
+        padding-left: 3vw;
+        padding-right: 3vw;
 
-        font-size: 3.5vw;
+        // Ellipsis overflow when the name is too long to fit on one line
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+      }
+
+
+      #courtInfo{
+
+       p {
+          text-align: center;
+          font-family: quicksand-regular;
+          color: $offWhite;
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+
+     div {
+        width: 32%;
+        display: inline-block;
+      }
+
+      .large{
+        font-size: 3.8vw;
+      }
+
+      .small{
+        font-size: 3.3vw;
       }
     }
-  } // court header
-} // class paren
 
+    }
+      the-window{
+        margin-top: 0;
+        position: relative;
+        // Fix bug - baskets were centered
+        text-align: initial;
+      }
+      // Fixing display bugs
+      #activityWrapper{
+        text-align: center!important;
+        p:nth-child(1){
+          text-align: center;
+        }
+      }
 
+    // Tappable icons on bottom of page
+    #bottomButtons{
+      width: 100%;
+      height: 13vw;
+      position: absolute; bottom: 0;
+      div{
+        //border: 1px solid red;
+        height: 100%;
+        display: inline-block;
+        margin-top: 0;
+        width: 16vw;
+        text-align:center;
+      }
 
+      ion-icon{
+        margin-top: 4vw;
+        font-size: 7vw;
+        color: #bcbaba;
+        opacity: 0.9;
+        // Give them a quantified width, center them within their element
+        width: 5vw;
+        text-align: center;
+      }
+      div:last-child{
 
+      }
+      div:nth-child(2){
+        margin-right: 24vw
+      }
+      div:first-child{
+        margin-right: 26vw;
+      }
+    }
+  }// content paren
 
-
-// #bottomLine{
-//   // border: 1px solid yellow;
-//   background: white;
-//
-// margin-top: 3vw;
-//   height: 13vw;
-//   width: 100vw;
-//   div{
-//     text-align: center;
-//     display: inline-block;
-//     width: 32%;
-//
-//     height: 100%;
-//     ion-icon{
-//       color: black;
-//       margin-top: 3vw;
-//       font-size: 8vw;
-//     }
-//   }
-// }
-
-
-
-
-
-  //
-  // .toolbar-title{
-  //   color: black !important;
-  // }
-  //
-  // #windowTitle{
-  //   position: absolute;
-  //   top: 47.5vw;
-  //   height: 6vw;
-  //   width: 36vw;
-  //   margin-left: 2.5vw;
-  //   text-align: center;
-  //   background: white;
-  //   border-top-right-radius: 4vw;
-  //   border-top-left-radius:4vw;
-  //   font-family: axis;
-  //   p{ margin: .5vw;}
-  // }
-  //
-  // the-window{
-  //   //border: 1px solid red;
-  //   position: absolute;
-  //   top: 54vw;
-  // }
-  //
-//}
+}

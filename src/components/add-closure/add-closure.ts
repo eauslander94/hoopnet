@@ -13,8 +13,8 @@ export class AddClosure {
   timeError: boolean;
   enterError: boolean;
   // String objects to capture time
-  startString: String;
-  endString: String;
+  startString: string;
+  endString: string;
   // String in the navbar
   navbar: string;
 
@@ -103,7 +103,7 @@ export class AddClosure {
 
   getStyle(day){
     if(this.closure.days[day] > 0)
-      return '#387ef5';
+      return '#33ccff';
   }
 
   // Post: repeat changed from true to false or vice versa

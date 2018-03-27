@@ -3,53 +3,46 @@
 <!-- Clickable transparent background sits behind content.  Click to dismiss -->
 <div id="hackground" (tap)="hackground()"></div>
 
-<!-- Wrapper for our scrollable content -->
-<ion-content [style.margin-top]="margin" parallax-header id="courtModal" (ionScroll)="scrollHandler($event)">
+<div id="content">
 
-  <!-- Name of court, lives at top of modal -->
-  <div id="courtName" >
-    <p>{{court.name}}</p>
-  </div>
+  <div id="windowModalHeader">
 
-  <!-- Court header, the div to which the parallax effect will be applied -->
-  <div class="courtHeader">
+    <p id='homeCourtName'>{{court.name.toUpperCase()}}</p>
 
-    <!-- Unchanging court info at top of header -->
-    <div id="lineOne">
+    <!-- User Info -->
+    <div id="courtInfo">
       <div>
-        <p>{{court.type}}</p><p>court</p>
+        <p class="large">{{court.type}}</p>
+        <p class="small">court</p>
       </div>
-
-      <div>
-        <p>{{court.baskets}}</p><p>baskets</p>
+      <div tappable (tap)='presentHomeCourts()'>
+        <p class="large">{{court.baskets}}</p>
+        <p class="small">baskets</p>
       </div>
-    </div>
-
-    <!-- The info icons at the bottom of the header -->
-    <div id="bottomLine">
       <div>
-        <ion-icon name="information-circle"></ion-icon>
-      </div>
-
-      <div>
-        <ion-icon name="time"></ion-icon>
-      </div>
-
-      <div>
-        <ion-icon name="ios-megaphone"></ion-icon>
+        <p class="large">{{openString}}</p>
+        <p class="small">now</p>
       </div>
     </div>
 
-    <!-- Pick up identifier -->
-    <div id="pickUpIdentifier">
-      <ion-icon ios="ios-arrow-round-up" md="md-arrow-round-up"></ion-icon> <p>pick up</p>
+  </div>
+    <the-window [windowData]='court.windowData'></the-window>
+  <div id='bottomButtons'>
+
+    <div tappable (tap)="presentHours()">
+      <ion-icon name='time'></ion-icon>
     </div>
 
+    <div tappable (tap)="presentInviteFriends()">
+      <ion-icon name='ios-megaphone'></ion-icon>
+    </div>
+
+    <div tappable (tap)="presentClosures()">
+      <ion-icon name='hand'></ion-icon>
+    </div>
+
+
+
   </div>
 
-  <!-- main content, hidden at first, pulled up as the user scrolls -->
-  <div class="courtContent">
-    <the-window [windowData]=windowData></the-window>
-  </div>
-
-</ion-content>
+</div>

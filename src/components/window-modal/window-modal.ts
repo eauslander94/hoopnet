@@ -1,6 +1,11 @@
 import { Component, NgZone, ElementRef, Renderer2, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ViewController, NavParams, Content } from 'ionic-angular';
-import { ParallaxHeader }   from '../../components/parallax-header/parallax-header';
+import { ViewController, NavParams, Content, ModalController, NavController } from 'ionic-angular';
+
+import { HoursDisplay }  from '../hours-display/hours-display';
+import { Closures }      from '../closures/closures';
+import { InviteFriendsPage } from '../../pages/invite-friends/invite-friends';
+import { AuthService }   from '../../services/auth.service';
+import { CourtDataService } from '../../services/courtDataService.service';
 
 import * as Realtime from 'realtime-messaging';
 
@@ -12,6 +17,10 @@ export class WindowModal {
 
   court: any;
   windowData: any;
+
+  // Whether or not the court is currently open for pick-up
+  openNow: boolean;
+  openString: string;
 
   marginNumber: number;
   marginMin: number;
@@ -27,7 +36,11 @@ export class WindowModal {
               private params: NavParams,
               public zone: NgZone,
               public renderer: Renderer2,
-              public cdr: ChangeDetectorRef)
+              public cdr: ChangeDetectorRef,
+              public modalCtrl: ModalController,
+              public navCtrl: NavController,
+              public auth: AuthService,
+              public courtDataService: CourtDataService)
   {
     this.court = params.get('court');
     this.windowData = params.get('court').windowData;
@@ -39,57 +52,110 @@ export class WindowModal {
     if(params.get('scoutPrompt'))
       this.windowData.scoutPrompt = params.get('scoutPrompt')
 
-    // set MarginMax(least modal showing) and marginMin(most showing) using our converters
-    // marginMax = screen height - (name height + header height + 3vw padding-bottom)
-    this.marginMax = this.marginNumber = this.vh2px(100) - this.vw2px(52);
-    // marginMin = screen height - (name height + content height + 3vw padding bottom)
-    this.marginMin = this.vh2px(100) - this.vw2px(80);
-    this.margin = this.marginNumber + 'px';
-    this.expanded = false;
+    // Find out if the court is open right now
+    if(this.isOpenNow()) this.openString = 'open';
+    else this.openString = 'closed';
   }
 
+  // Post: hours modal is presented
+  public presentHours(){
 
-  // Handle rapidly fired scroll events in batches using domWrite
-  scrollHandler(event) {
-    event.domWrite(() => {
-        this.adjustShowing(event);
+    this.modalCtrl.create(HoursDisplay, {
+      ot: this.court.openTimes,
+      ct: this.court.closeTimes
+    }).present()
+  };
+
+  // Post: Closures Modal is presented
+  public presentClosures(){
+    let closures = this.modalCtrl.create(Closures, {
+      closures: this.court.closures,
+      courtBaskets: this.court.baskets,
+      court_id: this.court._id
+    })
+    closures.onDidDismiss(data => {
+      this.court.closures = data;
+      // Check if court as opened or closed based on closures
+      if(this.isOpenNow()) this.openString = 'open';
+      else this.openString = 'closed';
+    })
+    closures.present();
+  }
+
+  // Post: Invite Friends Page is pused onto the naviation stack
+  public presentInviteFriends(){
+
+    if(!this.auth.isAuthenticated()){
+      this.courtDataService.toastMessage(
+        'Log in to invite friends to hoop!',
+        3000
+      )
+      return;
+    }
+
+    this.navCtrl.push(InviteFriendsPage, {
+      courtName: this.court.name,
+      location: this.court.location
     })
   }
 
 
-  // Moves the entire modal up or down based off scroll values
-  adjustShowing(event){
-    // this.zone.run(()=>{
-      if(event.directionY == "down"){
-        if (this.expanded)
-          return;
-        // if we've scrolled more tan te eader height, expand
+  // Returns: true if court is currently open for pick-up, false otherwise
+  public isOpenNow(){
+    // get te dayOfWeek
+    let day = new Date().getDay();
 
-        if(event.scrollTop > this.vw2px(35))
-          this.expand()
+    alert(new Date(this.court.closeTimes[day]).toLocaleTimeString() + '\n' + this.afterCurrentTime(this.court.closeTimes[day]) )
 
-        // this.marginNumber -= 8;
-        // if(this.marginMin > this.marginNumber)
-        //   this.marginNumber = this.marginMin;
+    // If outside the court's hours for today, return false
+    if(this.afterCurrentTime(this.court.openTimes[day]) // if currently before court's open time for today
+    || this.beforeCurrentTime(this.court.closeTimes[day])){ // if currently after court's close time for today
+      alert('returning false from day');
+      return false;
+    }
 
+    // Check for a closure curently going on right now
+    let closedNow = false;
+    for(let closure of this.court.closures){
+
+      // if closure is not in effect today, or it does not take up all baskets
+      if(closure.days[day] === 0 || closure.baskets < this.court.baskets)
+        continue;  // move on to next closure
+
+      // if closure is in effect right now, the court is closed
+      if(this.beforeCurrentTime(closure.clStart) // If currently after te beginning of the closure
+      && this.afterCurrentTime(closure.clEnd)){ // If currently before the end of the closure
+        closedNow = true;
+        break;
       }
-      else{
-        if(!this.expanded) return;
-        // alert(event.scrollTop)
+    }
+    if(closedNow) return false;
+    // If we got here the court is open, triumphantly return true
+    return true;
+  }
 
-        if(event.scrollTop < 5){
 
-          // alert(event.scrollTop)
-          this.contract()
-        }
-          //this.contract();
-        // this.marginNumber += 8;
-        // if(this.marginMax < this.marginNumber)
-        //   this.marginNumber = this.marginMax;
-      }
-      // this.margin = this.marginNumber + 'px';
-      // this.cdr.detectChanges();
-    // })
+
+  // Performs a strictly time-based comparison between provided date and current time
+  // Param: UTC timestring to be compared to the current time
+  // Returns: True if date is before current time(by milliseconds), false otherwise
+  public beforeCurrentTime(dateString: string){
+    let now = new Date();
+    let date = new Date(dateString);
+    // set day, month and year to today for a strictly time comparison
+    date.setFullYear(now.getFullYear(), now.getMonth(), now.getDate())
+    return (date.getTime() < now.getTime())
+  }
+
+  // Performs a strictly time-based comparison between provided date and current time
+  // Param: the UTC timestring to be compared to the current time
+  // Returns: True if date is after current time(by milliseconds), false otherwise
+  public afterCurrentTime(dateString: string){
+    let now = new Date();
+    let date = new Date(dateString);
+    // set day, month and year tyo today for a strictly time comparison
+    date.setFullYear(now.getFullYear(), now.getMonth(), now.getDate())
+    return (date.getTime() > now.getTime())
   }
 
 
@@ -104,25 +170,6 @@ export class WindowModal {
   }
 
 
-  // returns value in px of vh value passed in
-  public vh2px(val: number){
-    return val * document.documentElement.clientHeight / 100;
-  }
-  // returns value in px of vw value passed in
-  public vw2px(val: number){
-    return val * document.documentElement.clientWidth / 100;
-  }
 
 
-  public expand(){
-    this.margin = this.marginMin + 'px';
-    this.cdr.detectChanges();
-    this.expanded = true;
-  }
-
-  public contract(){
-    this.margin = this.marginMax + 'px';
-    this.cdr.detectChanges();
-    this.expanded = false;
-  }
 }
