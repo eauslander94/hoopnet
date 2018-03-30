@@ -1,0 +1,49 @@
+<!-- Generated template for the NotificationResponseComponent component -->
+<div class="hackground"></div>
+
+<div class="goldenContent">
+
+  <!-- Avatar -->
+  <div id="avatar">
+    <img src="data:{{payload.user.avatar.contentType}};base64,{{payload.user.avatar.data}}"/>
+  </div>
+
+  <!-- Message -->
+  <div id="messageDiv">
+    <p>{{message}}</p>
+    <p>{{customMessage}}</p>
+  </div>
+
+  <!-- When -->
+  <div id="whenWhereWrapper">
+    <div class="whenWhere">
+      <!-- <p>when</p> -->
+      <p>{{payload.court.name}}</p>
+    </div>
+
+    <!-- Where -->
+    <div class="whenWhere">
+      <p>{{when}}</p>
+      <!-- <p>where?</p> -->
+    </div>
+  </div>
+
+
+  <!-- I'm In -->
+  <div id="bottomButtons">
+    <div tappable (tap)="respond(true)">
+      <p>I'm in</p>
+    </div>
+
+    <!-- Can't  -->
+    <div tappable (tap)="respond(false)">
+      <p>I can't</p>
+    </div>
+
+    <!-- Dismiss -->
+    <div tappable (tap)="viewCtrl.dismiss()">
+      <p>Dismiss</p>
+    </div>
+  </div>
+
+</div> <!-- content paren -->

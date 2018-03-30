@@ -15,6 +15,7 @@ import { ProfileModal }      from '../components/profile-modal/profile-modal';
 import { Profile }           from '../pages/profile/profile';
 import { EnterProfileInfo }  from '../pages/enter-profile-info/enter-profile-info';
 import { FriendsPage }       from '../pages/friends-page/friends-page';
+import { CourtSearchPage }   from '../pages/court-search/court-search';
 import { AuthService }       from '../services/auth.service';
 
 // Auth0Cordova
@@ -59,7 +60,7 @@ export class MyApp {
       // lock the screen to portrait
       this.screenOrientation.lock('portrait');
 
-      
+
 
       // If we're autenticated on startup
       if(this.auth.isAuthenticated()){
@@ -112,48 +113,6 @@ export class MyApp {
   }
 
 
-  public navToProfile(){
-    // If we're not authenticated, do nothing
-    if(!this.authFlag) return;
-
-    this.modalCtrl.create(ProfileModal, {
-      'user': this.currentUser,
-      'myProfile': 'true'
-    }).present()
-
-    // this.nav.push(Profile, {
-    //   'user': this.currentUser,
-    //   'myProfile': 'true'
-    // });
-    this.menu.close();
-  }
-
-  public navToFriends(){
-    // If we're not authenticated, do nothing
-    if(!this.authFlag) return;
-
-    let user = JSON.parse(window.localStorage.getItem('currentUser'))
-    this.nav.push(FriendsPage, {
-      'myProfile': true,
-      'friends': user.friends,
-      'friendRequests': user.friendRequests
-    })
-    this.menu.close();
-  }
-
-
-  // Post: Enter ProfileInfo page is pulled up wit edit as true and user is current user
-  // Pre:  User is currently autenticated
-  public navToEnterProfileInfo(){
-    // If we're not authenticated, do nothing
-    if(!this.authFlag) return;
-    // alert(this.currentUser.fName + ' ' + this.currentUser.avatar.data.length);
-    let user = this.currentUser;
-    this.nav.push(EnterProfileInfo, {'edit': true, 'user': user})
-    this.menu.close();
-  }
-
-
   // Post1: homecourt modal is presented if user as homecourts
   // Post2: User is instructed to enter homecourts if she does not
   // Pre:   User is authenticated
@@ -170,6 +129,54 @@ export class MyApp {
     }).present();
     this.menu.close();
   }
+
+
+
+  public navToProfile(){
+    // If we're not authenticated, do nothing
+    if(!this.authFlag) return;
+
+    this.modalCtrl.create(ProfileModal, {
+      'user': this.currentUser,
+      'myProfile': 'true'
+    }).present()
+    this.menu.close();
+  }
+
+
+  // Post: Enter ProfileInfo page is pulled up wit edit as true and user is current user
+  // Pre:  User is currently autenticated
+  public navToEnterProfileInfo(){
+    // If we're not authenticated, do nothing
+    if(!this.authFlag) return;
+    // alert(this.currentUser.fName + ' ' + this.currentUser.avatar.data.length);
+    let user = this.currentUser;
+    this.nav.push(EnterProfileInfo, {'edit': true, 'user': user})
+    this.menu.close();
+  }
+
+
+  // Post: Friends & Users page is pulled up
+  public navToFriends(){
+    // If we're not authenticated, do nothing
+    if(!this.authFlag) return;
+
+    let user = JSON.parse(window.localStorage.getItem('currentUser'))
+    this.nav.push(FriendsPage, {
+      'myProfile': true,
+      'friends': user.friends,
+      'friendRequests': user.friendRequests
+    })
+    this.menu.close();
+  }
+
+  // Post: Invite Friends Behaviorial loop begins
+  public inviteFriends(){
+    if(!this.authFlag) return;
+    this.nav.push(CourtSearchPage)
+    this.menu.close()
+  }
+
 
   // saves clone of user without images to local storage
   public saveUser(user: any){

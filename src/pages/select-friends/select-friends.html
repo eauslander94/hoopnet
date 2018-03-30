@@ -1,0 +1,39 @@
+
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Invite Friends</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content>
+  <p class="inviteFriendsHeader">Select friends to invite to {{court.name}}</p>
+<div>
+  <ion-searchbar
+    [(ngModel)]="searchTerm"
+    [formControl]='formControl'
+    [showCancelButton]="shouldShowCancel"
+  >
+  </ion-searchbar>
+</div>
+
+<!-- Show spinner while fetching friends -->
+<div *ngIf='!gotFriends' id="gettingFriends">
+  <p>Loading Friends</p>
+  <ion-spinner></ion-spinner>
+</div>
+
+  <ion-list id="amigoDisplay">
+    <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)="select(profile)">
+      <img src="data:{{profile.avatar.contentType}};base64,{{profile.avatar.data}}"/>
+      <p>{{profile.fName}}</p><p class="nickName" *ngIf="profile.nName !== '' ">{{profile.nName}}</p><p>{{profile.lName}}</p>
+      <ion-icon name="checkmark-circle" [style.color]='isSelected(profile)'></ion-icon>
+    </div>
+  </ion-list>
+
+  <p id="error" *ngIf="error">Please select at least one friend</p>
+  <button ion-button full id="send" (tap)=next()>Next</button>
+
+</ion-content>

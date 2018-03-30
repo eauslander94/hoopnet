@@ -1,0 +1,72 @@
+page-send-invite {
+
+  #dateString{
+    float: right;
+  }
+
+  #dateItem{
+
+    p{
+      display: inline-block;
+    }
+  }
+
+  #invited{
+    height: 30vw;
+    margin-left: 4vw;
+    border-bottom: 1px solid $borderColor;
+    // border: 2px solid green;
+    p:first-child{
+      color: grey;
+    }
+  }
+
+  ion-scroll{
+    //border: 1px solid blue;
+    height: 22vw;
+    white-space: nowrap;
+    overflow: hidden;
+    overflow-x: scroll;
+  }
+
+  .userBox{
+    display: inline-block;
+    height: 22vw;
+    width: 35vw;
+    text-align: center;
+    position: relative;
+    top: -4vw;
+    .avatarWrapper{
+      height: 13vw;;
+      img {
+        border-radius: 25px;
+        height:13vw; width: 13vw;
+        margin-top: 0!important;
+        margin-bottom: 0;
+      }
+    }
+    p{
+      margin-top: 1vw;
+      font-size: 3vw;
+      font-family: quicksand-regular;
+      color: black;
+    }
+  }
+
+  #error{
+    font-family: Quicksand-bold;
+    text-align: center;
+    color: red;
+    position: absolute;
+    width: 100%;
+    bottom: 10vw;
+    left: 0;
+  }
+
+  button:last-child{
+    position: absolute!important;
+    bottom: 0;
+    left: 0;
+  }
+
+}

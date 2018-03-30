@@ -22,7 +22,7 @@ export class CourtDataService{
     toast: Toast;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-    route: string = 'http://192.168.0.4:3000'
+     route: string = 'http://192.168.0.4:3000'
 
      // for connecting to our RESTful API hosted on AWS Lambda
      //route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest'
@@ -32,7 +32,7 @@ export class CourtDataService{
       // route: string = 'http://localhost:3000';
 
      // For connecting from android emulator
-     //route: string = 'http://10.0.2.2:3000'
+     // route: string = 'http://10.0.2.2:3000'
 
     constructor (private http: Http,
                  public auth: AuthService,
@@ -160,6 +160,23 @@ export class CourtDataService{
       headers.set('searchterm', searchterm);
 
       return this.http.get(this.route + '/getUsersByName',
+        {headers: headers}
+      );
+    }
+
+    // Post: db is queried for courts that contain the searchterm in their name
+    // Param: searchterm - term to search by
+    // Returns: Observable emitting array of courts
+    // isAuthenticated: yes
+    // isCourtside:     no
+    public getCourtsByName(searchterm:string){
+      if(!this.auth.isAuthenticated()) return;
+
+      let headers = new Headers();
+      headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
+      headers.set('searchterm', searchterm);
+
+      return this.http.get(this.route + '/getCourtsByName',
         {headers: headers}
       );
     }

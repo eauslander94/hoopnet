@@ -2,14 +2,18 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormControl } from '@angular/forms'
 import { CourtDataService } from '../../services/courtDataService.service';
+import { SendInvitePage }  from'../send-invite/send-invite';
 
 
 @IonicPage()
 @Component({
-  selector: 'page-invite-friends',
-  templateUrl: 'invite-friends.html',
+  selector: 'page-select-friends',
+  templateUrl: 'select-friends.html',
 })
-export class InviteFriendsPage {
+export class SelectFriendsPage {
+
+  // The court to which we are inviting friends
+  court: any;
 
   // the term to search by and the form control object
   searchTerm: string = '';
@@ -18,20 +22,23 @@ export class InviteFriendsPage {
   // to display and filter your friends
   friends: Array<any>;
   friendsShowing: Array<any>;
-  invited: Array<String> = []
+  selected: Array<any> = [];
 
   user: any;
 
   allSelected: boolean = false;
   gotFriends: boolean = false;
 
-
   ortc: any;
+
+  // Whether or not to show te error message
+  error: boolean = false;
 
   constructor(public navCtrl: NavController,
               public params: NavParams,
               private courtDataService: CourtDataService)
   {
+    this.court = params.get('court');
     this.formControl = new FormControl;
     this.user = JSON.parse(window.localStorage.getItem('currentUser'))
 
@@ -64,66 +71,33 @@ export class InviteFriendsPage {
     })
   }
 
-  // adds given user to invited
-  public select(_id){
-    // if user is already in invited, remove
-    if(this.invited.indexOf(_id) > -1)
-      this.invited = this.invited.filter(user => user !== _id)
-    // otherwise add to invited
+  // adds given user to selected
+  public select(user){
+    // if user is already in selected, remove
+    if(this.selected.indexOf(user) > -1)
+      this.selected = this.selected.filter(selectedUser => selectedUser != user)
+    // otherwise add to selected
     else
-      this.invited.push(_id);
+      this.selected.push(user);
   }
 
   // sets style of ceck icon to primary if the user is selected
-  public isSelected(_id){
-    if(this.invited.indexOf(_id) > -1)
+  public isSelected(user){
+    if(this.selected.indexOf(user) > -1)
       return '#33ccff';
     else return "grey";
   }
 
-  // toggles between selecting and unselecting all friends
-  public selectAll(){
-    // if all have been selected, set to false and empty invited
-    if(this.allSelected){
-      this.allSelected = false;
-      this.invited = []
-    }
-    // otherwise set to true and fill invited
-    else{
-      this.allSelected = true;
-      for(let user of this.friends)
-        this.invited.push(user._id);
-    }
-  }
 
-  public send(){
-    this.ortc = window['plugins'].OrtcPushPlugin;
-    let user = JSON.parse(window.localStorage.getItem('currentUser'))
-    // massage te message
-    let message = user.fName + " "
-       + user.lName + ' is currently hooping at '
-       + this.params.get('courtName') + ' and wants you to join him.'
-
-    // loop through invited, send blast to each friend invited
-    for(let friend of this.invited){
-
-      // Sender side I send a stringified message with all of the properties I
-      // wish to attach. Notified side I use payload as it appears below.
-      // JSON.stringify() when sending, No JSON.parse() when receiving.
-      let payload = {
-        messageType: 'hoopingNow',
-        location: this.params.get('location'),
-        message: message
-      }
-      this.ortc.send({
-        'applicationKey':'pLJ1wW',
-        'privateKey':'mHkwXRv1xbbA',
-        'channel': friend,
-        'message': JSON.stringify(payload),
-      })
+  public next(){
+    if(this.selected.length < 1){
+      this.error = true;
+      return;
     }
-    // return
-    this.navCtrl.pop()
+    this.navCtrl.push(SendInvitePage, {
+      court: this.court,
+      invited: this.selected
+    })
   }
 
 }

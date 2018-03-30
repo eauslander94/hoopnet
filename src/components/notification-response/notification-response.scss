@@ -1,0 +1,90 @@
+notification-response {
+  #avatar{
+    height: 24vw; width: 24vw;
+    display: inline-block;
+    margin-top: 2vw;
+    margin-left: 2vw;
+    img{
+      border-radius: 25vw;
+    }
+  }
+
+  #messageDiv{
+    position: absolute;
+    top: 2vw;
+    right: 2vw;
+
+    width: 65vw;
+    margin-left: 2vw;
+    display: inline-block;
+    //border: 1px solid green;
+    text-align: center;
+    height: 24vw;
+    p{
+      margin: 0;
+      margin-top: 2vw;
+      //border: 1px solid green;
+      height: 10vw;
+      font-family: Quicksand-bold;
+      font-size: 4vw;
+    }
+    p:first-child{
+      text-align: center;
+    }
+    p:last-child{
+      font-family: Quicksand-regular;
+      font-size: 3.5vw;
+    }
+  }
+
+  #whenWhereWrapper{
+     width: 100%;
+     height: 18vw;
+     position: absolute;
+     top: 32vw;
+     //border-top: 1px solid $borderColor;
+    .whenWhere{
+      margin-top: 3vw;
+      width: 50%;
+      display: inline-block;
+      //border: 1px solid red;
+      position: absolute;
+      top: 0;
+        p{
+          text-align: center;
+          font-family: play-bold;
+          color: $text;
+          margin-top: 0;
+          margin-bottom: 0;
+        }
+        p:first-child{
+          font-size: 3.8vw;
+        }
+        p:last-child{
+          font-size: 3.8vw;
+        }
+    }
+    .whenWhere:last-child{
+      right: 0;
+      //border-left: 1px solid $borderColor;
+    }
+
+}
+
+#bottomButtons{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 12vw;
+  border-top: 1px solid $borderColor;
+  div{
+    text-align: center;
+    display: inline-block;
+    width: 32%;
+    p{
+      color: $primary;
+    }
+  }
+}
+
+}

@@ -17,6 +17,7 @@ import { WindowModal }  from '../../components/window-modal/window-modal';
 import { GamesModal }  from "../../components/games-modal/games-modal";
 import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal';
 import { InviteFriendsPage } from '../invite-friends/invite-friends';
+import { NotificationResponse } from '../../components/notification-response/notification-response';
 
 import { JwtHelper } from 'angular2-jwt'
 
@@ -95,15 +96,56 @@ export class HoopMapPage {
     })
   }
 
-  // testing our first push notification
-  public pushTest(){
 
-    this.navCtrl.push(InviteFriendsPage);
+  // Post:  UI displaying court invitation pulled up
+  // Param: Payload of the invitation notification
+  public invitationResponse(payload: any){
+    this.modalCtrl.create(NotificationResponse, {
+      payload: payload
+    }).present()
   }
+
+
+  public invitationConfirm(payload: any){
+    let message = '';
+    if(payload.confirm)
+      message =  'Accepts your invitation to hoop! Have a happy session.';
+    else message =  'Cannot make this hoop session. We hope you ave a good run.';
+
+    this.alertCtrl.create({
+      title: payload.user.fName + ' ' + payload.user.lName,
+      message: message,
+      buttons: [{
+        text: 'Dismiss',
+        role: 'cancel',
+      }]
+    }).present()
+  }
+
+
 
   // load the map when the page has loaded, liste for push-noti events
   ionViewDidLoad(){
     this.loadMap();
+
+    // Subscribing to push notifications. First check for current User, if not wait
+    // if(window.localStorage.getItem('currentUser'))
+    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
+    // else this.events.subscribe('gotCurrentUser', () => {
+    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
+    // })
+
+    // Responding to the invitation sent to you
+    this.events.subscribe('invitation', (payload) => {
+      alert(payload.messageType);
+      this.invitationResponse(payload);
+    })
+
+    // Responding to the response of the invitation you sent out
+    this.events.subscribe('invitationConfirm', (payload) => {
+      alert(payload.messageType);
+      this.invitationConfirm(payload);
+    })
 
     // listen for push notification events
     document.addEventListener("push-notification", function(notification:any){
@@ -111,6 +153,16 @@ export class HoopMapPage {
       // Receiver side tere is no need to parse the payload object. Use it as below
       if(notification.payload.messageType === 'hoopingNow'){
         this.presentHoopingNowAlert(notification.payload);
+      }
+
+      // Responding to the invitation sent to you
+      if(notification.payload.messageType === 'invitation'){
+        alert("got notification, bruh")
+      }
+
+      // Responding to the response of the invitation you sent out
+      if(notification.payload.messageType === 'invitationResponse'){
+        alert("got notification, bruh")
       }
     }.bind(this))// must bind this to function that responds to push-noti events
   }
@@ -494,10 +546,12 @@ public pushConnect(channel: string){
     'projectId':'979214254876',
     'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
   }).then(() => {
+    alert('connected to cennel: ' + channel);
     window['plugins'].OrtcPushPlugin.subscribe({
       'channel': channel
     })
   });
+
 }
 
 

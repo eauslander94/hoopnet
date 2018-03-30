@@ -29,7 +29,10 @@ import { CourtPage }        from '../pages/court-page/court-page';
 import { Profile }          from '../pages/profile/profile';
 import { FriendsPage }      from '../pages/friends-page/friends-page';
 import { EnterProfileInfo } from '../pages/enter-profile-info/enter-profile-info';
-import { InviteFriendsPage} from'../pages/invite-friends/invite-friends';
+import { InviteFriendsPage} from '../pages/invite-friends/invite-friends';
+import { SelectFriendsPage} from '../pages/select-friends/select-friends';
+import { CourtSearchPage }  from '../pages/court-search/court-search';
+import { SendInvitePage }   from '../pages/send-invite/send-invite';
 // components
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
@@ -41,6 +44,7 @@ import { HoursDisplay }     from '../components/hours-display/hours-display';
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
 import { ProfileModal }     from '../components/profile-modal/profile-modal';
+import { NotificationResponse } from '../components/notification-response/notification-response';
 // services
 import { CourtDataService } from '../services/courtDataService.service';
 import { AuthService }      from '../services/auth.service';
@@ -61,6 +65,9 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     FriendsPage,
     EnterProfileInfo,
     InviteFriendsPage,
+    SelectFriendsPage,
+    CourtSearchPage,
+    SendInvitePage,
 
     TheWindow,
     WindowModal,
@@ -72,6 +79,7 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     HoursDisplay,
     HomeCourtDisplay,
     ProfileModal,
+    NotificationResponse,
 
     Profile,
     ParallaxHeader,
@@ -92,8 +100,12 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     LoginPage,
     FriendsPage,
     EnterProfileInfo,
-    ProfileModal,
+    CourtSearchPage,
+    InviteFriendsPage,
+    SelectFriendsPage,
+    SendInvitePage,
 
+    ProfileModal,
     Profile,
     CourtPage,
     WindowModal,
@@ -104,7 +116,7 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     AddClosure,
     HoursDisplay,
     HomeCourtDisplay,
-    InviteFriendsPage,
+    NotificationResponse,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
