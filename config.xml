@@ -58,4 +58,5 @@
     <plugin name="cordova-plugin-camera" spec="^4.0.2" />
     <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
+    <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
 </widget>

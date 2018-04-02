@@ -1,11 +1,11 @@
 import { NgModule } from '@angular/core';
 import { ProfileModal } from './profile-modal/profile-modal';
-import { NotificationResponseComponent } from './notification-response/notification-response';
+import { NotificationResponse } from './notification-response/notification-response';
 @NgModule({
 	declarations: [ProfileModal,
-    NotificationResponseComponent],
+    NotificationResponse],
 	imports: [],
 	exports: [ProfileModal,
-    NotificationResponseComponent]
+    NotificationResponse]
 })
 export class ComponentsModule {}
