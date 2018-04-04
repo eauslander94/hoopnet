@@ -105,12 +105,9 @@ export class WindowModal {
     // get te dayOfWeek
     let day = new Date().getDay();
 
-    alert(new Date(this.court.closeTimes[day]).toLocaleTimeString() + '\n' + this.afterCurrentTime(this.court.closeTimes[day]) )
-
     // If outside the court's hours for today, return false
     if(this.afterCurrentTime(this.court.openTimes[day]) // if currently before court's open time for today
     || this.beforeCurrentTime(this.court.closeTimes[day])){ // if currently after court's close time for today
-      alert('returning false from day');
       return false;
     }
 

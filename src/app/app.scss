@@ -23,9 +23,9 @@ ion-content {
   background-color: $background;
 }
 
-.toolbar-title{
+.toolbar-title {
   color: $primary;
-  font-family: Play-Bold;
+  font-family: axis;
   text-align: center;
 }
 
@@ -309,6 +309,18 @@ ion-content {
 @font-face {
   font-family: "beba-regular";
   src: url('../assets/fonts/Beba/BebasNeue-Regular.otf') format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "pantonBlack";
+  src: url('../assets/fonts/pantonBlack.otf') format("truetype");
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "jaden";
+  src: url('../assets/fonts/jaden.ttf') format("truetype");
   font-style: normal;
 }
 

@@ -82,18 +82,17 @@ export class HoopMapPage {
     this.dummy = "eli"
 
     // Update the markers every 5 minutes to simulate fade effect
-    Observable.interval(1000 * 60 * 5).subscribe( x => {
-      alert('fadingMarkers')
-      for(let marker of this.markers){
-        marker.setIcon( {
-          url: this.getMarkerIcon(marker.court),
-          scaledSize: new google.maps.Size(30, 50),
-          // The anchor - halfway on x axis, all te way down on y axis
-          anchor: new google.maps.Point(15, 30),
-          origin: new google.maps.Point(0, 0),
-       },)
-      }
-    })
+    // Observable.interval(1000 * 60 * 5).subscribe( x => {
+    //   for(let marker of this.markers){
+    //     marker.setIcon( {
+    //       url: '/assets/icon/markers/dribble.png',
+    //       scaledSize: new google.maps.Size(30, 50),
+    //       // The anchor - halfway on x axis, all te way down on y axis
+    //       anchor: new google.maps.Point(15, 30),
+    //       origin: new google.maps.Point(0, 0),
+    //    },)
+    //   }
+    // })
   }
 
 
@@ -191,6 +190,7 @@ export class HoopMapPage {
   // Post1:  Courts are requested from the server
   // Post2:  A marker is added to the map for every court returned
    getCourts(){
+     alert('gettingCourts');
      this.courtDataService.getAllCourts().subscribe(
        res => {
          for (let court of res.json()){
@@ -384,7 +384,7 @@ export class HoopMapPage {
    let latLng = new google.maps.LatLng
      (court.location.coordinates[1], court.location.coordinates[0]);
 
-   let iconPath = this.getMarkerIcon(court);
+   let iconPath = '/assets/icon/markers/dribble.png';
 
    // Get path to icon image based on the largest game being played at that court
   //  iconPath = 'assets/icon/markers/';
@@ -422,7 +422,7 @@ export class HoopMapPage {
  // Param: Court object
  // Returns: pat to te correct marker icon
  // Post: returns marker icon faded based on the largest game entered last
- private getMarkerIcon(court: any){
+ private getfadingNumberIcon(court: any){
 
   //  pathing automatically relative to www
    let path = 'assets/icon/markers/fib/'
@@ -431,6 +431,10 @@ export class HoopMapPage {
    }
    // marker number becomes the largest game on record
    else path += court.windowData.games[0]
+   if(court.windowData.games[0] === '5')
+     return 'assets/icon/markers/imageedit_14_2357865370.png'
+  else if(court.windowData.games[0] === '4')
+     return 'assets/icon/markers/imageedit_10_8717414982.png'
 
    // get minutesPassed
    let minutes = new Date().getTime() - new Date(court.windowData.gLastValidated).getTime();

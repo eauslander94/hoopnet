@@ -59,4 +59,5 @@
     <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
     <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
+    <allow-navigation href="http://192.168.0.3:8100" />
 </widget>
