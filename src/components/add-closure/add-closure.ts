@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ViewController, NavParams } from 'ionic-angular';
+import { ViewController, NavParams, AlertController } from 'ionic-angular';
 
 @Component({
   selector: 'add-closure',
@@ -18,7 +18,9 @@ export class AddClosure {
   // String in the navbar
   navbar: string;
 
-  constructor(public viewCtrl: ViewController, private params: NavParams) {
+  constructor(public viewCtrl: ViewController,
+              private params: NavParams,
+              public alertCtrl: AlertController) {
     this.closure = params.get('closure');
     //this.timeError = true;
     // if we are not editing a closure and are therefore creating a new one
@@ -43,6 +45,20 @@ export class AddClosure {
       //this.endString = this.closure.clEnd.toISOString();
       this.navbar = "Edit Closure";
     }
+
+  }
+
+  // Post: Alert presented which instructs user to add closure information
+  public instructions(){
+    this.alertCtrl.create({
+      title: "So the court is closed..",
+      message: "Please share, if you can find it, information on this court closing"
+      + " with your fellow players.",
+      buttons: [{
+        text: "dismiss",
+        role: 'cancel'
+      }]
+    }).present();
   }
 
   // Post1: Errors found with input data and error message is displayed

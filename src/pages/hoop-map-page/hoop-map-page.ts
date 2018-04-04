@@ -262,11 +262,13 @@ export class HoopMapPage {
     this.nwd = JSON.parse(JSON.stringify(court.windowData));
     // present the modal
     let gamesModal = this.modalCtrl.create(GamesModal, {
-     'baskets': court.baskets,
-     'position': 'high'
+     baskets: court.baskets,
+     court_id: court._id
     });
     // update nwd based on data retreived
     gamesModal.onDidDismiss(data => {
+      if(!data) return;  // If noting returned back, do not proceed
+      // save games data returned
       this.nwd.games = data.games;
       this.nwd.gLastValidated = new Date()
       // present wait time modal
@@ -400,7 +402,7 @@ export class HoopMapPage {
       url: iconPath,
       scaledSize: new google.maps.Size(30, 50),
       // The anchor - halfway on x axis, all te way down on y axis
-      anchor: new google.maps.Point(15, 30),
+      anchor: new google.maps.Point(15, 50),
       origin: new google.maps.Point(0, 0),
     },
     // Each marker has a court object attached to it.

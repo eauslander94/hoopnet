@@ -6,9 +6,10 @@
 
 <!-- DO NOT allow users to access the profile of other users unless they are authenticated -->
 <!-- No navigation to a profile page without authentication -->
-        <div class="playerBox" *ngFor='let player of playerData'>
+        <div class="playerBox" *ngFor='let player of playerData' (click)="presentProfile(player)">
+          <!-- (tap)="presentProfile(player)" -->
           <div class="avatarWrapper">
-           <img src="data:{{player.avatar.contentType}};base64,{{player.avatar.data}}" >
+           <img src="data:{{player.avatar.contentType}};base64,{{player.avatar.data}}">
           </div>
           <p>{{player.fName}} {{player.lName}}</p>
           <p id='playerDate'>{{player.hoopString}}</p>

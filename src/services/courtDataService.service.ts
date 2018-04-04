@@ -366,6 +366,7 @@ export class CourtDataService{
 
     // Post: new closure is added to closures of provided court
     // Param: the closure to be added and the court to wich it will be added
+    // Returns: observable emitting updated court
     public postClosure(closure: any, court_id: string){
 
       if(!this.auth.isAuthenticated())

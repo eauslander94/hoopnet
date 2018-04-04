@@ -87,6 +87,7 @@ games-modal {
        }
      }
      p{ display: inline-block; }
+     // The bottom number
      #gameCount{
        position: absolute;
        right: 1vw;
@@ -114,10 +115,11 @@ games-modal {
    #noGames{
      p{
        position: absolute;
+       top: 1vw;
        color: red;
        font-family: quicksand-regular;
       // border: 1px solid white;
-       font-size: 4vw;
+       font-size: 3.5vw;
        width: 21vw;
        left: 5.3vw;
        padding: auto;
@@ -127,19 +129,22 @@ games-modal {
    #gmClear{
      text-align: center;
      p{
-       color: red;
-       font-family: quicksand-regular;
-       font-size: 4vw;
+       position: absolute;
+       top: 1vw;
+       color: $text;
+       font-family: quicksand-bold;
+       font-size: 3.5vw;
        width: 21vw;
        left: 5.3vw;
        padding: auto;
      }
-     border-bottom-left-radius: 1vw;
+     // border-bottom-left-radius: 1vw;
    }
 
    #gmSubmit{
      text-align: center;
      p{
+       position: absolute;
        color: $primary;
        font-family: quicksand-bold;
       // border: 1px solid white;
@@ -150,15 +155,20 @@ games-modal {
      }
    }
 
-   #gmCancel{
+   #courtClosed{
      text-align: center;
+     //position: absolute;
      p{
+       position: absolute;
+       //border: 1px solid red;
        color: red;
        font-family: quicksand-regular;
       //z border: 1px solid white;
-       font-size: 4vw;
-       width: 21vw;
-       left: 5.3vw;
+       font-size: 3.5vw;
+       width: 100%;
+       height: 100%;
+       top: 1vw;
+       left: 0vw;
        padding: auto;
      }
      border-bottom-right-radius: 1vw;

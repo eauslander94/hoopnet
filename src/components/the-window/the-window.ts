@@ -1,14 +1,16 @@
 import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ModalController, ViewController, AlertController, Events } from 'ionic-angular';
-import { GamesModal }  from "../games-modal/games-modal";
-import { WaitTimeModal } from '../wait-time-modal/wait-time-modal';
+import { Geolocation } from '@ionic-native/geolocation';
 import  moment  from 'moment';
 import { Observable } from 'rxjs/Rx';
 import { AnimationService, AnimationBuilder } from 'css-animator';
+
+import { GamesModal }  from "../games-modal/games-modal";
+import { WaitTimeModal } from '../wait-time-modal/wait-time-modal';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
 import { QuickCourtsideProvider } from '../../providers/quick-courtside/quick-courtside';
-import { Geolocation } from '@ionic-native/geolocation';
+import { ProfileModal } from '../profile-modal/profile-modal';
 
 
 import * as Realtime from 'realtime-messaging';
@@ -43,6 +45,7 @@ export class TheWindow {
 
   // whether or not we've retreived player data from db
   gotPlayers: boolean = false;
+
   // user data for players in the window
   playerData: Array<any>;
 
@@ -240,8 +243,11 @@ export class TheWindow {
   private presentGamesModal(){
 
     // Pass in the number of baskets at the court
-    let gamesModal = this.modalCtrl.create(GamesModal,
-      {"baskets": this.windowData.baskets, "inWindow": true});
+    let gamesModal = this.modalCtrl.create(GamesModal, { 
+      baskets: this.windowData.baskets,
+      court_id: this.windowData.court_id,
+      inWindow: true
+    });
 
     // Dismiss logic
     gamesModal.onDidDismiss(data => {
@@ -487,6 +493,19 @@ export class TheWindow {
         default: break;
     }
   }
+ }
+
+ // Post:  Profile Modal of provided user is presented
+ // Param: user whose profile will be presented
+ public presentProfile(user: any){
+   if(!this.courtDataService.auth.isAuthenticated()) return;
+
+   // Here, we would restrict access to user's profile if user is private
+   this.modalCtrl.create(ProfileModal, {
+     user: user,
+     myProfile: false,
+     inWindow: true
+   }).present();
  }
 
 

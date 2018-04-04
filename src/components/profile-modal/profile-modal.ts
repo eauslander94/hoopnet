@@ -18,6 +18,9 @@ export class ProfileModal {
   gotHomecourtName: boolean = false;
   homecourtName: string = "-";
 
+  // To control the margin-top property programatically
+  margin: any;
+
   constructor(private viewCtrl: ViewController,
               private params: NavParams,
               private navCtrl: NavController,
@@ -27,6 +30,9 @@ export class ProfileModal {
   {
     this.user = params.get('user');
     this.getHomeCourtName();
+    // Position box correctly
+    if(params.get('inWindow')) this.margin = '83vw'
+    else this.margin = '54vw';
   }
 
   // Post: Friends page is pushed onto the naviation stack

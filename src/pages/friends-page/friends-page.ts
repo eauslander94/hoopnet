@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ActionSheetController, AlertController } from 'ionic-angular';
-import { Profile }     from '../profile/profile';
-import { CourtDataService } from '../../services/courtDataService.service';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
 import 'rxjs/add/operator/debounceTime';
+
+import { ProfileModal }     from '../../components/profile-modal/profile-modal';
+import { CourtDataService } from '../../services/courtDataService.service';
 
 @IonicPage()
 @Component({
@@ -41,7 +42,8 @@ export class FriendsPage {
               public params: NavParams,
               public actionSheetCtrl: ActionSheetController,
               public courtDataService: CourtDataService,
-              public alertCtrl: AlertController)
+              public alertCtrl: AlertController,
+              public modalCtrl: ModalController)
   {
     this.friendRequests = params.get('friendRequests');
     // Whether or not we are viewing the current user's profile
@@ -123,10 +125,11 @@ export class FriendsPage {
 
   // Post:  profile page is pulled up with the clicked friend's profile
   // Param: user - the user whose page we will pull up
-  public navToProfile(user: any){
-    this.navCtrl.popToRoot();
-    console.log(user);
-    this.navCtrl.push(Profile, {'user': user});
+  public presentProfile(user: any){
+    this.modalCtrl.create(ProfileModal, {
+      user: user,
+      myProfile: false
+    }).present()
   }
 
 
@@ -153,9 +156,9 @@ export class FriendsPage {
           }
         },
         // Nav to user's profile
-        { text: 'view profile',
+        { text: 'View Profile',
         handler: () =>{
-          this.navToProfile(user);
+          this.presentProfile(user);
         }
       },
       { text: 'cancel', role: 'cancel' }
@@ -172,7 +175,7 @@ export class FriendsPage {
     let action = this.actionSheetCtrl.create({
       title: 'Add ' + user.fName + " " + user.lName + "?",
       buttons: [
-        { text: 'send friend request',
+        { text: 'Send Friend Request',
           handler: () => {
             // Check if user is already a friend of current user
             let yourFriend = false;
@@ -201,9 +204,9 @@ export class FriendsPage {
           }
         },
         // Nav to user's profile
-        { text: 'view profile',
+        { text: 'View Profile',
         handler: () =>{
-          this.navToProfile(user);
+          this.presentProfile(user);
         }
       },
       { text: 'cancel', role: 'cancel' }
@@ -233,7 +236,7 @@ export class FriendsPage {
     let action = this.actionSheetCtrl.create({
       title: 'Confirm ' + user.fName + " " + user.lName + "?",
       buttons: [
-        { text: 'add friend',
+        { text: 'Add Friend',
           handler: () => {
 
             this.courtDataService.addFriend('currentUser', user._id).subscribe();
@@ -244,9 +247,9 @@ export class FriendsPage {
           }
         },
         // Nav to user's profile
-        { text: 'view profile',
+        { text: 'View Profile',
         handler: () =>{
-          this.navToProfile(user);
+          this.presentProfile(user);
         }
       },
       { text: 'cancel', role: 'cancel' }

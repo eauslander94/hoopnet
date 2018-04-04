@@ -1,10 +1,15 @@
 import { Component } from '@angular/core';
-import { NavParams, ViewController, AlertController} from 'ionic-angular';
+import { NavParams, ViewController, AlertController, ModalController,
+         Events} from 'ionic-angular';
+
+import { AddClosure } from '../add-closure/add-closure';
+import { CourtDataService } from '../../services/courtDataService.service';
 
 
 @Component({
   selector: 'games-modal',
-  templateUrl: 'games-modal.html'
+  templateUrl: 'games-modal.html',
+  providers: [AddClosure]
 })
 export class GamesModal {
 
@@ -28,14 +33,17 @@ export class GamesModal {
 
   constructor(private params: NavParams,
               public viewCtrl: ViewController,
-              private alertCtrl: AlertController) {
+              private alertCtrl: AlertController,
+              private modalCtrl: ModalController,
+              public addClosure: AddClosure,
+              public courtDataService: CourtDataService,
+              public events: Events) {
 
     // fill gamecount with 0s
     this.gamecount = [0, 0, 0, 0, 0, 0];
     this.courtBaskets = params.get("baskets");
     if(params.get('inWindow')){
-      this.margin = (document.documentElement.clientHeight - (document.documentElement.clientWidth * .63));
-      this.margin += 'px'
+      this.margin = '83vw';
       this.inWindow = true;
     }
     else {
@@ -144,4 +152,29 @@ export class GamesModal {
     // -1 because the increment event is fired when this button is clicked
     this.gamecount = [0, 0, 0, 0, 0, 0]
   }
+
+  // Post: Add Closure Form is presented
+  public courtClosed(){
+    let add = this.modalCtrl.create(AddClosure, {
+      edit: false,
+      courtBaskets: this.courtBaskets,
+      fromGamesModal: true,
+    })
+    add.onDidDismiss((data) => {
+      if(data && data.closure){
+        // send closure data to server, dismiss games modal, reload te court
+        this.courtDataService.postClosure(data.closure, this.params.get('court_id')).subscribe(
+          res => {this.events.publish('reloadCourt', res.json()),
+          err => {alert(err)}}
+        );
+      }
+      this.viewCtrl.dismiss();
+    })
+
+    add.present().then(() => {
+      this.addClosure.instructions()
+    })
+  }
+
+
 }

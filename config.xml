@@ -3,7 +3,7 @@
     <name>Hoophead</name>
     <description>An awesome Ionic/Cordova app.</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.3:8100" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -33,6 +33,7 @@
     <allow-navigation href="http://192.168.0.12:8100" />
     <allow-navigation href="http://192.168.0.7:8100" />
     <allow-navigation href="http://192.168.0.4:8100" />
+    <allow-navigation href="http://192.168.0.3:8100" />
     <engine name="ios" spec="^4.4.0" />
     <engine name="android" spec="~6.3.0" />
     <plugin name="cordova-plugin-device" spec="^1.1.4" />
@@ -59,5 +60,4 @@
     <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
     <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
-    <allow-navigation href="http://192.168.0.3:8100" />
 </widget>

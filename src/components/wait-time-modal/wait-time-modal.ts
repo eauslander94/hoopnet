@@ -18,8 +18,7 @@ export class WaitTimeModal {
               private alertCtrl: AlertController) {
     if(params.get('inWindow')){
       this.inWindow = true;
-      this.margin = (document.documentElement.clientHeight - (document.documentElement.clientWidth * .63));
-      this.margin += 'px'
+      this.margin = '83vw';
     }
     else {
       this.inWindow = false;
