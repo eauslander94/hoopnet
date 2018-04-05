@@ -106,4 +106,44 @@ profile-modal {
     //margin-top: 1vh
   }
 }
+
+#profileInfo{
+  position: absolute;
+  bottom: 2vw;
+  width: 100%;
+  margin-top: 3vw;
+  //border: 2px solid blue;
+  // position: fixed;
+  // bottom: 15vh;
+
+  // All text on the page
+ p {
+    text-align: center;
+    font-family: quicksand-regular;
+    color: $text;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+
+div:nth-child(2n+1) {
+  width: 23%;
+  display: inline-block;
+  //border: 2px solid yellow;
+}
+
+div:nth-child(2n){
+  width: 50%;
+  display: inline-block;
+}
+
+.large{ font-size: 3.5vw; }
+
+.small{ font-size: 3.0vw; }
+
+div:last-child{
+  //height: 10vw;
+  float: right;
+}
+}
+
 }

@@ -16,7 +16,7 @@
   </div>
 
   <!-- User Info -->
-  <div id="userInfo">
+  <div id="userInfo" *ngIf='myProfile'>
     <div (tap)="navToFriends()">
       <p class="small">Friends</p>
       <p class="large">{{user.friends.length}}</p>
@@ -24,17 +24,24 @@
     <div tappable (tap)='presentHomeCourts()'>
       <p class="small">Homecourt</p>
       <p class="large">{{homecourtName}}</p>
-      <!-- <p *ngIf='homecourtObjects[0]'>{{homecourtObjects[0].name}}</p>
-      <p *ngIf='!homecourtObjects[0]'>-</p> -->
     </div>
-    <!-- <div *ngIf='myProfile' tappable (tap)='navToEnterProfileInfo()'>
-      <p>Edit</p>
-      <p>Profile</p>
-    </div>
-    <div *ngIf='!myProfile' tappable (tap)='presentAddSheet()'>
-      <p>Add</p>
-      <p>Friend</p>
-    </div> -->
   </div>
+
+  <div id="profileInfo" *ngIf=!myProfile>
+    <div (tap)="navToFriends()">
+      <p class="small">Friends</p>
+      <p class="large">{{user.friends.length}}</p>
+    </div>
+    <div tappable (tap)='presentHomeCourts()'>
+      <p class="small">Homecourt</p>
+      <p class="large">{{homecourtName}}</p>
+    </div>
+    <div tappable (tap)="addFriend()">
+      <p class="small" *ngIf="!isMyFriend()">Add</p>
+      <p class="small" *ngIf="isMyFriend()">Remove</p>
+      <p class="large">Friend</p>
+    </div>
+  </div>
+
 
 </div>

@@ -1,5 +1,6 @@
 import { Component, NgZone } from '@angular/core';
-import { ViewController, NavParams, AlertController, NavController, ModalController } from 'ionic-angular';
+import { ViewController, NavParams, AlertController, NavController, ModalController,
+         Events} from 'ionic-angular';
 
 import { FriendsPage } from '../../pages/friends-page/friends-page'
 import { HomeCourtDisplay } from '../home-court-display/home-court-display';
@@ -21,18 +22,27 @@ export class ProfileModal {
   // To control the margin-top property programatically
   margin: any;
 
+  // Whether or not this is te current user's profile
+  myProfile: boolean;
+
   constructor(private viewCtrl: ViewController,
               private params: NavParams,
               private navCtrl: NavController,
               private modalCtrl: ModalController,
               private courtDataService: CourtDataService,
-              private zone: NgZone)
+              private zone: NgZone,
+              private alertCtrl: AlertController,
+              private events: Events)
   {
     this.user = params.get('user');
     this.getHomeCourtName();
     // Position box correctly
     if(params.get('inWindow')) this.margin = '83vw'
     else this.margin = '54vw';
+
+    if(this.user._id === JSON.parse(window.localStorage.getItem('currentUser'))._id)
+      this.myProfile = true;
+    else this.myProfile = params.get('myProfile');
   }
 
   // Post: Friends page is pushed onto the naviation stack
@@ -63,6 +73,62 @@ export class ProfileModal {
         })
       }
     )
+  }
+
+  // Post: friend request sent to user
+  public addFriend(){
+    if(this.isMyFriend()){
+      this.removeFriend()
+      return;
+    }
+
+    let request = this.alertCtrl.create({
+      title: 'Request ' + this.user.fName + ' ' + this.user.lName + '?',
+      buttons: [
+        { text: 'Cancel', handler: ()=> {} },
+        { text: 'Send Friend Request', handler: ()=> {
+          this.courtDataService.requestFriend(this.user._id)
+          request.dismiss().then(() => {
+            this.courtDataService.notify('Request sent!', 'A friend request has been sent to ' + this.user.fName + ' ' + this.user.lName + '.')
+          })
+          return false;
+        }}
+      ]
+    })
+    request.present()
+  }
+
+  // Post: user and current user are o loner friends
+  public removeFriend(){
+    let remove = this.alertCtrl.create({
+      title: 'Remove ' + this.user.fName + ' ' + this.user.lName + '?',
+      buttons: [
+        { text: 'Cancel', handler: ()=> {} },
+        { text: 'Remove Friend', handler: ()=> {
+          // Remove friend, update currentUser
+          this.events.publish('removingFriend');  // Tell friends page to present load wheel while waiting for update
+          this.courtDataService.removeFriend(this.user._id).subscribe(
+            res => { this.events.publish('updateCurrentUser', res.json()[1]) },
+            err => { alert(err) }
+          )
+          // dismiss this alert, dismiss profile, present message alert
+          remove.dismiss().then(() => {
+            this.viewCtrl.dismiss().then(() => {
+              this.courtDataService.notify('Friend Removed', 'You and ' + this.user.fName + ' ' + this.user.lName + ' are no longer friends. We hope you patch things up.')
+            });
+          })
+        return false;
+        }}
+      ]
+    })
+    remove.present()
+  }
+
+  // Returns: true of this is te profile of one of currentUser's Friends, false otherwise
+  public isMyFriend(){
+    for(let friend of JSON.parse(window.localStorage.getItem('currentUser')).friends)
+      if(friend === this.user._id) return true;
+    return false;
   }
 
 }

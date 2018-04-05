@@ -20,7 +20,7 @@ page-friends-page {
         font-size: 4vw;
         display: inline-block;
       }
-      ion-badge{margin-left: 1vw; color: #131313; background-color: $background}
+      ion-badge{margin-left: 1vw; color: #131313; background-color: $primary}
     }
     div:nth-child(n + 1){ border-left: 1px solid #030303}
     // The top tab that is currently selected
@@ -28,10 +28,10 @@ page-friends-page {
       height: 103%;
       border-bottom: 2px solid $primary;
       p{
-        //font-family: Quicksand-bold!important;
+        font-family: Quicksand-bold!important;
         color: $primary!important;
       }
-      ion-badge{background-color: $primary}
+      ion-badge{background-color: $primary!important}
     }
   }// amigoTabs paren
 

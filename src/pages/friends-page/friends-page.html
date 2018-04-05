@@ -2,7 +2,7 @@
 <ion-header>
 
   <ion-navbar>
-    <ion-title>Courtscope</ion-title>
+    <ion-title>Courtsite</ion-title>
   </ion-navbar>
 
 </ion-header>
@@ -14,11 +14,11 @@
     </div>
 
     <div [ngClass]="{'active': showing === 'add'}" (tap)="tabSwitch('add')">
-      <p>Add</p>
+      <p>Search</p>
     </div>
 
     <div [ngClass]="{'active': showing === 'requests'}" (tap)="requestTabTapped()">
-      <p>Requests</p><ion-badge>{{friendRequests.length}}</ion-badge>
+      <p>Requests</p><ion-badge>{{requestPointers.length}}</ion-badge>
     </div>
   </div>
 
@@ -31,12 +31,18 @@
   >
   </ion-searchbar>
 
-  <ion-list id="amigoDisplay">
-    <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)='friendSheet(profile)'>
+  <!-- List of friends -->
+  <ion-list id="amigoDisplay" *ngIf="!friendLoading">
+    <div *ngFor="let profile of friendsShowing" class='userDisplay' tappable (tap)='presentProfile(profile)'>
       <img src="data:{{profile.avatar.contentType}};base64,{{profile.avatar.data}}"/>
       <p>{{profile.fName}}</p><p class="nickName" *ngIf="profile.nName !== '' ">{{profile.nName}}</p><p>{{profile.lName}}</p>
     </div>
   </ion-list>
+
+  <!-- Load wheel -->
+  <div class="spinDiv" *ngIf="friendLoading">
+    <ion-spinner></ion-spinner>
+  </div>
 </div>
 
 <!-- Add friends Display -->
@@ -47,25 +53,37 @@
     [showCancelButton]='shouldShowCancel'
   >
   </ion-searchbar>
-  <ion-list>
-    <div *ngFor='let user of addResults' class='userDisplay' tappable (tap)="sendRequestSheet(user)">
+
+  <!-- List of users returned from search -->
+  <ion-list *ngIf="!addLoading">
+    <div *ngFor='let user of addResults' class='userDisplay' tappable (tap)="presentProfile(user)">
       <img src="data:{{user.avatar.contentType}};base64,{{user.avatar.data}}"/>
       <p>{{user.fName}}</p><p class="nickName" *ngIf="user.nName !== '' ">{{user.nName}}</p><p>{{user.lName}}</p>
     </div>
   </ion-list>
+
+  <!-- Load wheel -->
+  <div class="spinDiv" *ngIf="addLoading">
+    <ion-spinner></ion-spinner>
+  </div>
 </div>
 
 
 <!-- Friend Request Dislay -->
 <div *ngIf="showing === 'requests'">
-  <ion-list id="friendRequests">
 
+  <!-- List of friends tat have requested you -->
+  <ion-list id="friendRequests" *ngIf=!requestsLoading>
     <div *ngFor="let request of friendRequests" class='userDisplay' tappable (tap)="confirmRequestSheet(request)">
       <img src="data:{{request.avatar.contentType}};base64,{{request.avatar.data}}"/>
       <p>{{request.fName}}</p><p class="nickName" *ngIf="request.nName !== '' ">{{request.nName}}</p><p>{{request.lName}}</p>
     </div>
-
   </ion-list>
+
+  <!-- Load wheel -->
+  <div class="spinDiv" *ngIf="requestsLoading">
+    <ion-spinner></ion-spinner>
+  </div>
 </div>
 
 

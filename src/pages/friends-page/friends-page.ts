@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { FormControl } from '@angular/forms';
-import { IonicPage, NavController, NavParams, ActionSheetController, AlertController, ModalController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, ActionSheetController, AlertController,
+         ModalController, Events } from 'ionic-angular';
 import 'rxjs/add/operator/debounceTime';
 
 import { ProfileModal }     from '../../components/profile-modal/profile-modal';
@@ -16,8 +17,15 @@ export class FriendsPage {
 
   // Friends and requests recieved from profile page
   friends: Array<any>;
+  // Friend Request User Objects
   friendRequests: Array<any>;
-  gotFriendRequests: boolean = false;
+  // Pointers to friend request user objects
+  requestPointers: Array<string>
+  gotFriendRequests: boolean;
+
+  friendLoading: boolean = true;
+  addLoading: boolean = false;
+  requestsLoading: boolean = true;
 
   // So that when we filter friends we do not lose values that were filtered out
   friendsShowing: Array<any>;
@@ -43,40 +51,24 @@ export class FriendsPage {
               public actionSheetCtrl: ActionSheetController,
               public courtDataService: CourtDataService,
               public alertCtrl: AlertController,
-              public modalCtrl: ModalController)
+              public modalCtrl: ModalController,
+              public events: Events,
+              public zone: NgZone)
   {
-    this.friendRequests = params.get('friendRequests');
+    this.requestPointers = params.get('friendRequests');
+    this.gotFriendRequests = false;
     // Whether or not we are viewing the current user's profile
     this.myProfile = params.get('myProfile');
 
-    // Call the server, set friends and friends showing
-    this.courtDataService.getUsers(params.get('friends')).subscribe(
-      res => {
-        this.friends = res.json();
-        this.friendsShowing = res.json();
-      },
-      err => { console.log ('error retrieving users in friends page ' + err) },
-      () => {}
-    )
+    // Call the server, set friends, friends showing and friend requests
+    this.getFriends(params.get('friends'))
+    this.getFriendRequests(params.get('friendRequests'))
 
     //this.addResults = this.friends;
     this.showing = 'friends';
 
     this.friendSearchControl = new FormControl;
     this.addSearchControl = new FormControl
-  }
-
-  // Post 1: this.showing becomes requests
-  // Post 2: Gets friend requests from server upon first click of the tab
-  public requestTabTapped(){
-    this.showing = 'requests';
-    if (this.gotFriendRequests)  return;
-    this.gotFriendRequests = true;
-    this.courtDataService.getUsers(this.params.get('friendRequests')).subscribe(
-      res => { this.friendRequests = res.json(); console.log('got friend requests')},
-      err => { console.log('error retrievein friend requests in friends page ' + err)},
-      () => {}
-    )
   }
 
 
@@ -87,17 +79,72 @@ export class FriendsPage {
     });
 
     // This observable controls the moment at which we ask the server for friends to add
-    this.addSearchControl.valueChanges.debounceTime(700).subscribe(search =>{
+    this.addSearchControl.valueChanges.debounceTime(500).subscribe(search => {
       if (search === '') {
         this.addResults = [];
         return;
       }
+      this.addLoading = true;
       this.courtDataService.getUsersByName(this.addSearchTerm).subscribe(
-        res => { this.addResults = res.json() },
-        err => { console.log('error getUsersByName() on friends page ' + err) }
+        res => {
+          this.addResults = res.json()
+          this.addLoading = false;
+        },
+        err => this.courtDataService.notify('Error', err)
       );
     });
+
+    this.events.subscribe('updateCurrentUser', (user) => {
+      this.zone.run(() => {
+        this.getFriends(user.friends);
+      })
+    })
+
+    // Load wheel, updateCurrentUser event soon to follow
+    this.events.subscribe('removingFriend', () => {
+      this.zone.run(() => {
+        this.friendLoading = true;
+      })
+    })
   }
+
+
+  // Post: friends and friends showing set to friends retrieved
+  // Param: array of ids of friends to be retreived
+  public getFriends(friend_ids: Array<string>){
+    // Call the server, set friends and friends showing
+    this.courtDataService.getUsers(friend_ids).subscribe(
+      res => {
+        this.friends = res.json();
+        this.friendsShowing = res.json();
+        this.friendLoading = false;
+      },
+      err => { this.courtDataService.notify('Error', err) },
+    )
+  }
+
+
+  // Post: Freind Requests set to usere retreived, got friend requests becomes true
+  public getFriendRequests(ids: Array<string>){
+    this.courtDataService.getUsers(ids).subscribe(
+      res => {
+        this.friendRequests = res.json();
+        this.gotFriendRequests = true;
+        this.requestsLoading = false;
+      },
+      err => { this.courtDataService.notify('Error', err)},
+    )
+  }
+
+
+  // Post 1: this.showing becomes requests
+  // Post 2: Gets friend requests if we aven't already
+  public requestTabTapped(){
+    this.showing = 'requests';
+    if (this.gotFriendRequests) return;
+    this.getFriendRequests(this.requestPointers);
+  }
+
 
 
 
@@ -132,90 +179,6 @@ export class FriendsPage {
     }).present()
   }
 
-
-  // Post:  Action sheet displaying add friend options is presented
-  // Param: user - the user to be potentially added
-  public friendSheet(user: any){
-    let action = this.actionSheetCtrl.create({
-      title: user.fName + " " + user.lName,
-      buttons: [
-        { text: 'Remove Friend',
-          handler: () => {
-            console.log(user.nName + ' removed');
-            this.courtDataService.removeFriend(user).subscribe(
-              res => {
-                // Below is a 'cheat' to save a server call.  If prolems arise,
-                // we can ask server for the actual users from the db using the returned pointers
-                this.friends.splice(this.friends.indexOf(user));
-                this.friendsShowing = this.friends;
-              },
-              err => {
-                console.log('error removing friend on friends page ' + err);
-              }
-            );
-          }
-        },
-        // Nav to user's profile
-        { text: 'View Profile',
-        handler: () =>{
-          this.presentProfile(user);
-        }
-      },
-      { text: 'cancel', role: 'cancel' }
-      ]
-    })
-
-    action.present();
-  }
-
-
-  // Post:  Action sheet displaying add friend options is presented
-  // Param: user - the user to be potentially added
-  public sendRequestSheet(user: any){
-    let action = this.actionSheetCtrl.create({
-      title: 'Add ' + user.fName + " " + user.lName + "?",
-      buttons: [
-        { text: 'Send Friend Request',
-          handler: () => {
-            // Check if user is already a friend of current user
-            let yourFriend = false;
-            for(let friend of this.friends)
-              if(friend._id === user._id) { yourFriend = true;  break };
-
-            if(yourFriend) {
-              action.dismiss().then(() => {
-                this.alreadyFriendsAlert(user);
-              })
-              return false;
-            }
-            // Check if this person has already requested you
-            let requestedYou = false;
-            for(let profile of this.friendRequests)
-              if (profile._id === user._id) { requestedYou = true; break };
-
-            if(requestedYou){
-              action.dismiss().then(() => {
-                this.requestedYouAlert(user);
-              })
-              return false;
-            }
-            // If all checks our, send the friend request
-            this.courtDataService.requestFriend(user);
-          }
-        },
-        // Nav to user's profile
-        { text: 'View Profile',
-        handler: () =>{
-          this.presentProfile(user);
-        }
-      },
-      { text: 'cancel', role: 'cancel' }
-      ]
-    })
-    action.present();
-  }
-
-
   alreadyFriendsAlert(user: any) {
     let alert = this.alertCtrl.create({
       subTitle: user.fName + ' ' + user.lName + ' is already your friend',
@@ -238,12 +201,18 @@ export class FriendsPage {
       buttons: [
         { text: 'Add Friend',
           handler: () => {
-
-            this.courtDataService.addFriend('currentUser', user._id).subscribe();
-            // Below is a 'cheat' to save a server call.  If prolems arise,
-            // we can ask server for the actual users from the db.
-            this.friends.push(user);
-            this.friendRequests.splice(this.friendRequests.indexOf(user));
+            // load wheel, get updated user
+            this.requestsLoading = true;
+            this.courtDataService.confirmFriendRequest('currentUser', user._id).subscribe(
+              res => {
+                // Update currentUser, pull added user from requests & requestPointers
+                this.events.publish('updateCurrentUser', res.json()[0])
+                this.friendRequests.splice(this.friendRequests.indexOf(user));
+                this.requestPointers.splice(this.requestPointers.indexOf(user._id))
+                this.requestsLoading = false;
+              },
+              err => {this.courtDataService.notify('Error', err)}
+            );
           }
         },
         // Nav to user's profile

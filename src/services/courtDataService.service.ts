@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
-import { Events } from 'ionic-angular'
+import { Events, AlertController, ToastController, Toast} from 'ionic-angular'
 import { Observable }  from 'rxjs/Observable';
 import { empty } from "rxjs/observable/empty";
 import { AuthService } from '../services/auth.service'
-import { ToastController, Toast } from 'ionic-angular';
+
 
 import 'rxjs/add/operator/map';
 
@@ -37,7 +37,8 @@ export class CourtDataService{
     constructor (private http: Http,
                  public auth: AuthService,
                  public toastCtrl: ToastController,
-                 public events: Events)
+                 public events: Events,
+                 public alertCtrl: AlertController)
     {}
 
 
@@ -300,28 +301,28 @@ export class CourtDataService{
     // Returns: Observable emitting an array of the updated users, starting with user1
     // isAuthenticated: yes
     // isCourtside:     no
-    addFriend(id1: string, id2: string){
+    confirmFriendRequest(user1: string, user2: string){
 
       if(!this.auth.isAuthenticated()){
         this.toastMessage("You must be logged in to perform this action", 3000);
         return;
       }
 
-      let body = { 'user1': id1, 'user2': id2 };
-      if(id1 === 'currentUser') body.user1 = JSON.parse(window.localStorage.getItem('currentUser'))._id;
-      else if(id2 === 'currentUser') body.user2 = JSON.parse(window.localStorage.getItem('currentUser'))._id;
+      let body = { 'user1': user1, 'user2': user2 };
+      if(user1 === 'currentUser') body.user1 = JSON.parse(window.localStorage.getItem('currentUser'))._id;
+      else if(user2 === 'currentUser') body.user2 = JSON.parse(window.localStorage.getItem('currentUser'))._id;
       let headers = new Headers()
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
 
-      return this.http.put(this.route + '/addFriend', body, {headers: headers});
+      return this.http.put(this.route + '/confirmFriendRequest', body, {headers: headers});
     }
 
 
     // Post:  current user is added to friendRequest list of requested user
-    // Param: requestedUser - user whose friend request currentUser will be added to
+    // Param: requestedUser_id - string pointer to user whose friend requests array currentUser will be added to
     // isAuthenticated: yes
     // isCourtside:     no
-    public requestFriend(requestedUser){
+    public requestFriend(requestedUser_id: string){
 
       if(!this.auth.isAuthenticated()){
         this.toastMessage("You must be logged in to perform this action", 3000);
@@ -329,7 +330,7 @@ export class CourtDataService{
       }
 
       let body = {
-        'requestedUser': requestedUser._id,
+        'requestedUser': requestedUser_id,
         'currentUser': JSON.parse(window.localStorage.getItem('currentUser'))._id
       };
       let headers = new Headers()
@@ -343,7 +344,7 @@ export class CourtDataService{
     // Post: both users removed from friends[] of the other
     // Param: The users who will no longer be friends
     // Returns: observable emitting an array of the uppdated users - user1 in position 0
-    public removeFriend(user1){
+    public removeFriend(user1_id: string){
 
       if(!this.auth.isAuthenticated()){
         this.toastMessage("You must be logged in to perform this action", 3000);
@@ -351,7 +352,7 @@ export class CourtDataService{
       }
 
       let body = {
-        'user1': user1._id,
+        'user1': user1_id,
         'user2': JSON.parse(window.localStorage.getItem('currentUser'))._id
       };
       let headers = new Headers()
@@ -458,6 +459,20 @@ export class CourtDataService{
 
       this.toast.present();
     }
+
+
+    // Post: Alert presented with provided title and message
+    public notify(title: string, message: string){
+      let note = this.alertCtrl.create({
+        title: title,
+        message: message,
+        buttons: ['Dismiss']
+      })
+      note.present()
+    }
+
+
+
 
 
 }

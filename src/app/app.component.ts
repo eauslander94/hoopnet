@@ -95,17 +95,13 @@ export class MyApp {
         this.authFlag = false;
       })
     })
+
+    // Repopulate current user in local storage and on MyApp
+    this.events.subscribe('updateCurrentUser', (user) => {
+      this.saveUser(user)
+    })
+
   }
-
-  public _keyPress(event: any) {
-    const pattern = /[0-9\+\-\ ]/;
-    let inputChar = String.fromCharCode(event.charCode);
-
-    if (!pattern.test(inputChar)) {
-      // invalid character, prevent input
-      event.preventDefault();
-    }
- }
 
 
   // Post: User is retreived from database and saved in local storage
@@ -120,6 +116,10 @@ export class MyApp {
       },
       err => {alert(err)}
     )
+  }
+
+  public eli(){
+    alert('ello');
   }
 
 
@@ -190,7 +190,7 @@ export class MyApp {
 
   // saves clone of user without images to local storage
   public saveUser(user: any){
-      alert('saving user');
+      // alert('saving user');
       this.currentUser = user;
       //alert(this.currentUser.avatar.data.length);
       // clone user, remove lare image data, save to local storage
