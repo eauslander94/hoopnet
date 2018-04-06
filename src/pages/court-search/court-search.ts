@@ -26,6 +26,9 @@ export class CourtSearchPage {
   header: string;
   subHeader: string;
 
+  // Whether or not we are loading
+  loading: boolean = true;
+
   constructor(public navCtrl: NavController,
               public params: NavParams,
               public courtDataService: CourtDataService,
@@ -48,12 +51,17 @@ export class CourtSearchPage {
   ionViewDidLoad() {
     // This observable controls the moment at which we ask the server for friends to add
     this.searchControl.valueChanges.debounceTime(700).subscribe(search =>{
+      this.loading = true;
       if (search === '') {
         this.searchResults = this.suggestedCourts;
+        this.loading = false;
         return;
       }
       this.courtDataService.getCourtsByName(this.searchTerm).subscribe(
-        res => { this.searchResults = res.json() },
+        res => {
+          this.searchResults = res.json()
+          this.loading = false;
+        },
         err => { console.log('error getUsersByName() on friends page ' + err) }
       );
     });
@@ -78,8 +86,9 @@ export class CourtSearchPage {
           return 0;
         });
         this.searchResults = this.suggestedCourts;
+        this.loading = false;
       },
-      err => {alert(err)}
+      err => this.courtDataService.notify('ERROR', err)
     )
   }
 

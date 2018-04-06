@@ -156,12 +156,12 @@ export class HoopMapPage {
 
       // Responding to the invitation sent to you
       if(notification.payload.messageType === 'invitation'){
-        alert("got notification, bruh")
+        // alert("got notification, bruh")
       }
 
       // Responding to the response of the invitation you sent out
       if(notification.payload.messageType === 'invitationResponse'){
-        alert("got notification, bruh")
+        // alert("got notification, bruh")
       }
     }.bind(this))// must bind this to function that responds to push-noti events
   }
@@ -190,7 +190,6 @@ export class HoopMapPage {
   // Post1:  Courts are requested from the server
   // Post2:  A marker is added to the map for every court returned
    getCourts(){
-     alert('gettingCourts');
      this.courtDataService.getAllCourts().subscribe(
        res => {
          for (let court of res.json()){

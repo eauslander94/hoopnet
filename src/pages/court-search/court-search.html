@@ -23,9 +23,13 @@
 </ion-searchbar>
 
   <!-- Results -->
-  <ion-list>
+  <ion-list *ngIf="!loading">
     <ion-item *ngFor="let court of searchResults" (click)="courtClicked(court)">
       <p>{{court.name}}</p>
     </ion-item>
   </ion-list>
+
+  <div class="spinDiv" *ngIf="loading">
+    <ion-spinner></ion-spinner>
+  </div>
 </ion-content>

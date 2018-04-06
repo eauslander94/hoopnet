@@ -119,7 +119,7 @@ export class SendInvitePage {
   public getCurrentUser(){
     this.courtDataService.getCurrentUser().subscribe(
       res => this.currentUser = res.json()[0],
-      err => alert(err)
+      err => this.courtDataService.notify('ERROR', err)
     )
   }
 

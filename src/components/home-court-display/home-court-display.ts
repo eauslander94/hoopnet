@@ -56,7 +56,7 @@ export class HomeCourtDisplay {
           this.gotCourts = true
         })
       },
-      err => {alert(err)}
+      err => this.courtDataService.notify('ERROR', err)
     )
   }
 

@@ -164,8 +164,8 @@ export class GamesModal {
       if(data && data.closure){
         // send closure data to server, dismiss games modal, reload te court
         this.courtDataService.postClosure(data.closure, this.params.get('court_id')).subscribe(
-          res => {this.events.publish('reloadCourt', res.json()),
-          err => {alert(err)}}
+          res => this.events.publish('reloadCourt', res.json()),
+          err => this.courtDataService.notify('ERROR', err)
         );
       }
       this.viewCtrl.dismiss();

@@ -94,7 +94,6 @@ export class EnterProfileInfo {
           }
         ]
       })
-
       alert.present();
   }
   // We do have a homecourt, so just pop

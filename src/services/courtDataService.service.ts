@@ -373,8 +373,6 @@ export class CourtDataService{
       if(!this.auth.isAuthenticated())
         return;
 
-      alert(closure.baskets);
-
       let headers = new Headers();
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
       let body = {'closure': closure, 'court_id': court_id};
@@ -421,7 +419,6 @@ export class CourtDataService{
 
 
     public realtime(){
-      // alert('realtime');
       this.http.post('https://id8o1v79q2.execute-api.us-east-1.amazonaws.com/pubSub/realtimeTest', {})
         .subscribe()
     }

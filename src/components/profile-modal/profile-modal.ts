@@ -109,7 +109,7 @@ export class ProfileModal {
           this.events.publish('removingFriend');  // Tell friends page to present load wheel while waiting for update
           this.courtDataService.removeFriend(this.user._id).subscribe(
             res => { this.events.publish('updateCurrentUser', res.json()[1]) },
-            err => { alert(err) }
+            err => this.courtDataService.notify('ERROR', err)
           )
           // dismiss this alert, dismiss profile, present message alert
           remove.dismiss().then(() => {
