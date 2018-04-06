@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { SelectFriendsPage } from '../select-friends/select-friends';
@@ -21,13 +21,28 @@ export class CourtSearchPage {
   // Our User's homecourts for quick access to their regular courts
   suggestedCourts: Array<any>;
 
+  // Variable header and title so that page can be used in different ways
+  title: string;
+  header: string;
+  subHeader: string;
+
   constructor(public navCtrl: NavController,
-              public navParams: NavParams,
-              public courtDataService: CourtDataService
+              public params: NavParams,
+              public courtDataService: CourtDataService,
+              public events: Events
   ) {
     this.searchControl = new FormControl;
     // Get user's recently visited courts as reference
     this.getSuggestedCourts();
+    if(params.get('role') === 'homecourts'){
+      this.title = 'Court Search';
+      this.header = 'Where do you regularly play?'
+      this.subHeader = 'You can also add Homecourts from the map by holding the marker icon of the court you wish to add.'
+    }
+    else if(params.get('role') === 'inviteFriends'){
+      this.title = 'Invite Friends'
+      this.header = 'Where do you wish to play?'
+    }
   }
 
   ionViewDidLoad() {
@@ -80,7 +95,19 @@ export class CourtSearchPage {
   // Post: Move on to select friends portion of invite friends loop
   // Param: court to be passed to next page
   public courtClicked(court: any){
-    this.navCtrl.push(SelectFriendsPage, { court: court} )
+    if(this.params.get('role') === 'inviteFriends')
+      this.navCtrl.push(SelectFriendsPage, { court: court})
+
+    else if(this.params.get('role') === 'homecourts'){
+      this.courtDataService.putHomecourt(court._id).subscribe(
+        res => {
+          this.events.publish('updateCurrentUser', res.json())
+          this.events.publish('newHomecourt', res.json())
+        } ,
+        err => { this.courtDataService.notify('ERROR', err) }
+      );
+      this.navCtrl.pop()
+    }
   }
 
 }

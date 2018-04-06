@@ -249,13 +249,13 @@ export class CourtDataService{
       }
       let headers = new Headers()
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
-      this.http.put(this.route + '/putUser', {'user': user}, {headers: headers})
-      .subscribe();
+      return this.http.put(this.route + '/putUser', {'user': user}, {headers: headers})
     }
 
 
     // Post: provided court_id is added to current user's homecourts array
     // Param: id of court to be added
+    // Returns: Observable emitting updated user object
     putHomecourt(court_id: string){
 
       if(!this.auth.isAuthenticated()){
@@ -266,10 +266,10 @@ export class CourtDataService{
       let headers = new Headers()
       headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
 
-      this.http.put(this.route + '/putHomecourt',
+      return this.http.put(this.route + '/putHomecourt',
         {'user_id': JSON.parse(window.localStorage.getItem('currentUser'))._id, 'court_id': court_id},
         {headers: headers}
-      ).subscribe();
+      )
     }
 
 

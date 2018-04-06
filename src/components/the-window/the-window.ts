@@ -243,7 +243,7 @@ export class TheWindow {
   private presentGamesModal(){
 
     // Pass in the number of baskets at the court
-    let gamesModal = this.modalCtrl.create(GamesModal, { 
+    let gamesModal = this.modalCtrl.create(GamesModal, {
       baskets: this.windowData.baskets,
       court_id: this.windowData.court_id,
       inWindow: true
@@ -507,6 +507,7 @@ export class TheWindow {
      inWindow: true
    }).present();
  }
+
 
 
 

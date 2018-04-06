@@ -101,6 +101,13 @@ export class MyApp {
       this.saveUser(user)
     })
 
+    this.events.subscribe('removeHomecourt', (court_id) => {
+      this.currentUser.homecourts.splice(court_id, 1);
+      this.courtDataService.putUser(this.currentUser).subscribe(
+        res => this.saveUser(res.json()),
+        err => this.courtDataService.notify('Error', err)
+      )
+    })
   }
 
 
@@ -183,12 +190,15 @@ export class MyApp {
   // Post: Invite Friends Behaviorial loop begins
   public inviteFriends(){
     if(!this.authFlag) return;
-    this.nav.push(CourtSearchPage)
+    this.nav.push(CourtSearchPage, {
+      role: 'inviteFriends'
+    })
     this.menu.close()
   }
 
 
-  // saves clone of user without images to local storage
+  // Post: saves user to this component, clone of user without images to local storage
+  // Param: User to save
   public saveUser(user: any){
       // alert('saving user');
       this.currentUser = user;

@@ -207,8 +207,8 @@ export class FriendsPage {
               res => {
                 // Update currentUser, pull added user from requests & requestPointers
                 this.events.publish('updateCurrentUser', res.json()[0])
-                this.friendRequests.splice(this.friendRequests.indexOf(user));
-                this.requestPointers.splice(this.requestPointers.indexOf(user._id))
+                this.friendRequests.splice(this.friendRequests.indexOf(user), 1);
+                this.requestPointers.splice(this.requestPointers.indexOf(user._id), 1)
                 this.requestsLoading = false;
               },
               err => {this.courtDataService.notify('Error', err)}

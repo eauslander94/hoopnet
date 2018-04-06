@@ -1,7 +1,9 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
-import { ViewController, NavParams, Slides, AlertController, NavController, Tabs } from 'ionic-angular';
+import { ViewController, NavParams, Slides, AlertController, NavController, Tabs,
+          Events} from 'ionic-angular';
 import { HoopMapPage } from '../../pages/hoop-map-page/hoop-map-page';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { CourtSearchPage }  from '../../pages/court-search/court-search';
 
 @Component({
   selector: 'home-court-display',
@@ -18,17 +20,27 @@ export class HomeCourtDisplay {
   myProfile: boolean;
   @ViewChild(Slides) slides: Slides;
 
+  // Wether or not we ave omecourts
+  noHomecourts: boolean;
+
+  // For load wheel
+  loading: boolean;
+
   constructor(public viewCtrl: ViewController,
               public params: NavParams,
               public alertCtrl: AlertController,
               private navCtrl: NavController,
               public courtDataService: CourtDataService,
-              public zone: NgZone)
+              public zone: NgZone,
+              public events: Events)
   {
     // Get courts from server
     this.getCourts(params.get('courtPointers'));
     // Whether or not this is our profile, and have the ability to add/delete homecourts
     if(params.get('myProfile')) this.myProfile = true;
+
+    if(params.get('courtPointers').length > 0) this.noHomecourts = false;
+    else this.noHomecourts = true;
   }
 
 
@@ -87,8 +99,10 @@ export class HomeCourtDisplay {
         },
         { text: 'Remove',
           handler: () => {
-            console.log(court.name + 'removed from homecourts');
             // TO DO: Server logic for removing this court from home courts
+            this.courts.splice(this.courts.indexOf(court), 1);
+            if(this.courts.length === 0) this.noHomecourts = true;
+            this.events.publish('removeHomecourt', court._id)
           }
         }
       ]
@@ -96,8 +110,21 @@ export class HomeCourtDisplay {
   ).present();
   }
 
-  test(){
-    console.log(this.slides.getActiveIndex())
+  public courtSearch(){
+    this.navCtrl.push(CourtSearchPage, {
+      role: 'homecourts'
+    })
+    // When we've got new omecourts, update homecourts display
+    this.events.subscribe('newHomecourt', (user) => {
+      this.loading = true;
+      this.courtDataService.getCourtsById(user.homecourts).subscribe(
+        res => {
+          this.courts = res.json();
+          this.loading = false;
+        },
+        err => this.courtDataService.notify('ERROR', err)
+      )
+    })
   }
 
 

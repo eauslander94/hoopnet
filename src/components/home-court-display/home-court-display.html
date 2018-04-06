@@ -1,6 +1,6 @@
 <div tappable id="hackground" (tap)="viewCtrl.dismiss({})"></div>
 
-<div id="content">
+<div id="content" *ngIf="!noHomecourts && !loading">
 
   <ion-slides pager='true'>
     <ion-slide *ngFor='let court of courts' class='swiper-no-swiping'>
@@ -13,10 +13,21 @@
     <div tappable (click)='presentDeleteConfirmation()' *ngIf='myProfile'>
       <ion-icon name='trash'></ion-icon>
     </div>
-    <div tappable (tap)='addHomeCourtPressed()' *ngIf='myProfile'>
+    <div tappable (tap)='courtSearch()' *ngIf='myProfile'>
       <ion-icon name ='add'></ion-icon>
     </div>
     <div tappable (click)='slideForward()'><ion-icon name='arrow-forward'></ion-icon></div>
   </div>
 
+</div>
+
+<div id="noCourts" *ngIf="noHomecourts && !loading">
+  <ion-icon name="add-circle" tappable (tap)="courtSearch()"></ion-icon>
+  <p>Add courts where you regularly hoop</p>
+</div>
+
+<div id="loading" *ngIf="loading">
+  <div class="spinDiv">
+    <ion-spinner></ion-spinner>
+  </div>
 </div>

@@ -6,7 +6,7 @@ home-court-display {
     width: 100vw;
     position: relative;
     z-index: -1;
-    opacity: .1;
+    opacity: .5;
     background: #131313;
   }
 
@@ -16,7 +16,7 @@ home-court-display {
     border-radius: 2vw;
     height: 90vw;
     position: absolute;
-    top: 100vw;
+    top: 54vw;
     //border: 1px solid #050505;
     //background: rgba(19, 19, 19, 0.5);
     background: linear-gradient(to bottom,  #33ccff 0%, #fff  100%);
@@ -87,4 +87,42 @@ home-court-display {
     }
   }// content paren
 
+  // What to display wen user has no homecourts
+  #noCourts{
+    width: 100vw;
+    border-radius: 2vw;
+    height: 90vw;
+    position: absolute;
+    top: 54vw;
+
+    background: linear-gradient(to bottom,  #33ccff 0%, #fff  100%);
+    text-align: center;
+
+    p:first-child{
+      width: 100%;
+      font-family: Axis;
+      font-size: 6vw;
+      color: white;
+      display: none;
+    }
+    ion-icon{
+      //border: 1px solid red;
+      color: $offWhite;
+      font-size: 13vw;
+      margin-top: 34vw;
+    }
+    p:last-child{
+      font-family: Quicksand-regular;
+
+    }
+  }
+
+  #loading{
+    width: 100vw;
+    border-radius: 2vw;
+    height: 90vw;
+    position: absolute;
+    top: 54vw;
+    background: linear-gradient(to bottom,  #33ccff 0%, #fff  100%);
+  }
 }
