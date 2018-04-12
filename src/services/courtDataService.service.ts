@@ -22,17 +22,17 @@ export class CourtDataService{
     toast: Toast;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-    // route: string = 'http://192.168.0.3:3000'
+    // route: string = 'http://192.168.0.3:3000';
 
-     // for connecting to our RESTful API hosted on AWS Lambda
-     route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest';
+    // for connecting to our RESTful API hosted on AWS Lambda
+    route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest';
 
 
-      // For local connections using ionic serve
-      // route: string = 'http://localhost:3000';
+    // For local connections using ionic serve
+    // route: string = 'http://localhost:3000';
 
-     // For connecting from android emulator
-     // route: string = 'http://10.0.2.2:3000'
+    // For connecting from android emulator
+    // route: string = 'http://10.0.2.2:3000'
 
     constructor (private http: Http,
                  public auth: AuthService,
@@ -46,6 +46,7 @@ export class CourtDataService{
     //  isAuthenticated(): no
     //  isCourtside():     no
     getAllCourts(){
+      alert('getting courts, courtDataService');
       return this.http.get(this.route + '/getAllCourts');
     }
 

@@ -190,6 +190,7 @@ export class HoopMapPage {
   // Post1:  Courts are requested from the server
   // Post2:  A marker is added to the map for every court returned
    getCourts(){
+     alert('getting courts, map page');
      this.courtDataService.getAllCourts().subscribe(
        res => {
          for (let court of res.json()){
@@ -385,7 +386,7 @@ export class HoopMapPage {
    let latLng = new google.maps.LatLng
      (court.location.coordinates[1], court.location.coordinates[0]);
 
-   let iconPath = '/assets/icon/markers/dribble.png';
+   let iconPath = 'assets/icon/dribble.png';
 
    // Get path to icon image based on the largest game being played at that court
   //  iconPath = 'assets/icon/markers/';
