@@ -46,7 +46,6 @@ export class CourtDataService{
     //  isAuthenticated(): no
     //  isCourtside():     no
     getAllCourts(){
-      alert('getting courts, courtDataService');
       return this.http.get(this.route + '/getAllCourts');
     }
 

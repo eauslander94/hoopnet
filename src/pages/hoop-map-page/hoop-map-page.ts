@@ -190,7 +190,6 @@ export class HoopMapPage {
   // Post1:  Courts are requested from the server
   // Post2:  A marker is added to the map for every court returned
    getCourts(){
-     alert('getting courts, map page');
      this.courtDataService.getAllCourts().subscribe(
        res => {
          for (let court of res.json()){
