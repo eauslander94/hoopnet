@@ -186,7 +186,7 @@ export class TheWindow {
     switch(validated){
       case "games": {
         this.nwd.gLastValidated = new Date();
-        this.courtDataService.putWindowData(this.nwd);
+        this.courtDataService.scout(this.nwd);
 
         // Keeping track of what has been validated during scoutPrompt
         if(this.scoutPrompt){
@@ -200,7 +200,7 @@ export class TheWindow {
       }
       case "waitTime":{
         this.nwd.wLastValiddated = new Date();
-        this.courtDataService.putWindowData(this.nwd);
+        this.courtDataService.scout(this.nwd);
 
         // Keeping track of what has been validated during scoutPrompt
         if(this.scoutPrompt){
@@ -268,14 +268,14 @@ export class TheWindow {
         if(this.scoutcounter === 1)       // just games entered
           this.presentWaitTimeModal()
         else if(this.scoutcounter === 2){ // both games and waitTime entered
-          this.courtDataService.putWindowData(this.nwd);  // send data to server
+          this.courtDataService.scout(this.nwd);  // send data to server
           this.scoutcounter = 0;                          // reset scoutcounter
         }
       }
 
       // On cancel, when we already have one set of data entered
       else if (this.scoutcounter === 1){
-        this.courtDataService.putWindowData(this.nwd);  // send data to server
+        this.courtDataService.scout(this.nwd);  // send data to server
         this.scoutcounter = 0;                          // reset scoutcounter
       }
     });
@@ -316,7 +316,7 @@ export class TheWindow {
         if(this.scoutcounter === 1)       // just  entered
           this.presentGamesModal()
         else if(this.scoutcounter === 2){ // both games and waitTime entered
-          this.courtDataService.putWindowData(this.nwd);  // send data to server
+          this.courtDataService.scout(this.nwd);  // send data to server
           this.scoutcounter = 0;                          // reset scoutcounter
         }
 
@@ -324,7 +324,7 @@ export class TheWindow {
 
       // On cancel, when we already have one set of data entered
       else if (this.scoutcounter === 1){
-        this.courtDataService.putWindowData(this.nwd);  // send data to server
+        this.courtDataService.scout(this.nwd);  // send data to server
         this.scoutcounter = 0;                          // reset scoutcounter
       }
     })
@@ -336,6 +336,8 @@ export class TheWindow {
   // param: Array of user objects to be sorted
   // Time complexity: O(n^2). Players is capped at 50. We're good.
   public sortPlayers(players: Array<any>){
+
+    alert(players.length)
 
     // get the current user, if present. We will access their friends
     let gotCurrentUser: boolean = false;

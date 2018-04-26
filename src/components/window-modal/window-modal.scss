@@ -1,5 +1,6 @@
 window-modal {
 
+
   #hackground{
     height: 100vh;
     width: 100vw;
@@ -33,9 +34,9 @@ window-modal {
         margin-bottom: 2vw;
         //border: 1px solid red;
         text-align: center!important;
-        font-family: Play-Bold;
+        font-family: axis;
         color: $offWhite;
-        font-size: 6vw;
+        font-size: 5.5vw;
         height: 8vw;  width: 100%;
         padding-left: 3vw;
         padding-right: 3vw;
@@ -51,10 +52,10 @@ window-modal {
 
        p {
           text-align: center;
-          font-family: quicksand-regular;
           color: $offWhite;
           margin-top: 0;
           margin-bottom: 0;
+                  font-family: quicksand-regular;
         }
 
      div {

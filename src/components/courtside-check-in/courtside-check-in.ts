@@ -26,13 +26,22 @@ export class CourtsideCheckIn {
 
     this.geolocation.getCurrentPosition().then((position) => {
 
+      // Get court in local storage and use it to test quick courtside.
+      // Will need to add the entire court to local storage if the quick courtside check in saves signifigant time.
+      // It likely will as we do not need to query the db in this case.
+      if(JSON.parse(window.localStorage.getItem('courtside')) ){
+        let courtside = JSON.parse(window.localStorage.getItem('courtside'));
+        if(this.quick.isCourtside(courtside.coordinates, [position.coords.longitude, position.coords.latitude]))
+          alert('courtside verified quickly');
+      }
+
       this.getCourts([position.coords.longitude, position.coords.latitude])
     }).catch((error) => {
       // for testing - geolocation does not work with livereload flag
-      // this.getCourts([ -73.990822, 40.723199 ])
+       this.getCourts([ -73.995068, 40.728819 ])
 
       alert('Error retrieving your current location');
-      this.viewCtrl.dismiss({});
+      //this.viewCtrl.dismiss({});
     })
   }
 
@@ -79,7 +88,7 @@ export class CourtsideCheckIn {
     }
     window.localStorage.setItem('courtside', JSON.stringify(courtside));
 
-    this.courtDataService.checkIn(court._id).subscribe()  // data to server
+    //this.courtDataService.checkIn(court._id).subscribe()  // data to server
     this.scoutPrompt(court);
   }
 

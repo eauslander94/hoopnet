@@ -23,9 +23,15 @@ ion-content {
   background-color: $background;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+// Font Variables
+$Montserrat: 'Montserrat', sans-serif;
+
+
 .toolbar-title {
   color: $primary;
   font-family: axis;
+  font-size: 6vw;
   text-align: center;
 }
 
@@ -207,6 +213,10 @@ ion-content {
   background-size: 100%;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Krona+One|PT+Sans:400,400i');
+// Font Variables
+$krona-one: 'Krona One', sans-serif;
+$open-sans: 'Open Sans', sans-serif;
 
 @font-face {
   font-family: "bulls";

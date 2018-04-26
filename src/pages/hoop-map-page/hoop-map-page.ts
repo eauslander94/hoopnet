@@ -85,7 +85,7 @@ export class HoopMapPage {
     // Observable.interval(1000 * 60 * 5).subscribe( x => {
     //   for(let marker of this.markers){
     //     marker.setIcon( {
-    //       url: '/assets/icon/markers/dribble.png',
+    //       url: '/assets/icon/markers/holdMine.png',
     //       scaledSize: new google.maps.Size(30, 50),
     //       // The anchor - halfway on x axis, all te way down on y axis
     //       anchor: new google.maps.Point(15, 30),
@@ -175,7 +175,7 @@ export class HoopMapPage {
 
       let mapOptions = {
         center: latLng,
-        zoom: 12,
+        zoom: 11,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         styles: this.getStyles()
       }
@@ -201,19 +201,6 @@ export class HoopMapPage {
          () => {}
        );
    }
-
-   // Post1:  Courts are requested from the server
-   // Post2:  A marker is added to the map for every court returned
-    getCourtsById(_ids: Array<string>){
-      this.courtDataService.getCourtsById(_ids).subscribe(
-        res => {
-          for (let court of res.json()){
-            this.addCourtMarker(court);
-         }
-        },
-        error => {alert(error)},
-        );
-    }
 
 
   // post: courtsideCheckIn modal is presented, starting courtside behavior
@@ -276,11 +263,10 @@ export class HoopMapPage {
         // if we have new data, update nwd
         if(data && data.waitTime){
           this.nwd.waitTime = data.waitTime;
-          this.nwd.wLastValiddated = new Date();
+          this.nwd.wLastValidated = new Date();
         }
         // send data to server, thank user for scouting
-        this.courtDataService.putWindowData(this.nwd)
-        this.getCourtsById([court._id]);
+        this.courtDataService.scout(this.nwd)
         this.scoutedAlert(court);
       })
       waitTimeModal.present();
@@ -307,9 +293,6 @@ export class HoopMapPage {
 
     // Disconnect when dismissing theWindow
     windowModal.onDidDismiss( (data) => {
-      // if told to, refresh te court that was just changed
-      // if(data.reload)
-      //   this.getCourtsById([data._id]);
       realtime.disconnect();
 
       if(data)
@@ -385,7 +368,7 @@ export class HoopMapPage {
    let latLng = new google.maps.LatLng
      (court.location.coordinates[1], court.location.coordinates[0]);
 
-   let iconPath = 'assets/icon/dribble.png';
+   let iconPath = 'assets/icon/courtMarker.png';
 
    // Get path to icon image based on the largest game being played at that court
   //  iconPath = 'assets/icon/markers/';
@@ -399,9 +382,9 @@ export class HoopMapPage {
     position: latLng,
     icon: {
       url: iconPath,
-      scaledSize: new google.maps.Size(30, 50),
+      scaledSize: new google.maps.Size(24, 40),
       // The anchor - halfway on x axis, all te way down on y axis
-      anchor: new google.maps.Point(15, 50),
+      anchor: new google.maps.Point(12, 40),
       origin: new google.maps.Point(0, 0),
     },
     // Each marker has a court object attached to it.

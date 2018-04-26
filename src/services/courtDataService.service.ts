@@ -22,10 +22,10 @@ export class CourtDataService{
     toast: Toast;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-    // route: string = 'http://192.168.0.3:3000';
+    route: string = 'http://192.168.0.3:3000';
 
     // for connecting to our RESTful API hosted on AWS Lambda
-    route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest';
+    // route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest';
 
 
     // For local connections using ionic serve
@@ -190,30 +190,33 @@ export class CourtDataService{
     }
 
 
-    // Post:  Window data provided replaces correspondin windowData in the server
+    // Post, serverSide: Check user into the court, updates court's window data
+    // Post, clientSide: Updates currentUser in local storage and provided court on map page
     // Param: windowData: any - the data to be sent to the server
     // isAuthenticated:  yes
     // isCourtside:      yes
-     putWindowData(windowData: any){
+     scout(windowData: any){
 
        if(!this.auth.isAuthenticated()){
          this.toastMessage("You must be logged in to perform this action", 3000);
          return;
        }
-
-       // Set the headers, make the request
+       
        let headers = new Headers();
        headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
-       //headers.set('windowData', JSON.stringify(windowData));
-       let data = {'windowData': windowData};
 
-       return this.http.put(this.route + '/putWindowData',
-         data,
-         {headers: headers}
-       ).subscribe(
+       let data = {
+         windowData: this.currentUserCheckIn(windowData),
+         user_id: JSON.parse(window.localStorage.getItem('currentUser'))._id
+       };
+
+       this.http.put(this.route + '/scout', data, {headers: headers})
+       .subscribe(
          res => {
-           this.events.publish('current-user-window-update', res.json())
-         }
+           this.events.publish('updateCurrentUser', res.json().user)
+           this.events.publish('reloadCourt', res.json().court)
+         },
+         err => this.notify('ERROR', err)
        );
     }
 
@@ -467,6 +470,29 @@ export class CourtDataService{
       })
       note.present()
     }
+
+
+    // Performs court model check in responsibilities client side so all server needs to do is update window data
+    // Post: Current user is added to the beginning of players array.
+    // Post2: Players is capped at 50
+    // param: windowData to be adjusted
+    // Returns: adjusted windowData
+    private currentUserCheckIn(windowData: any){
+      let players = windowData.players;
+      let curr = JSON.parse(window.localStorage.getItem('currentUser'))._id
+      // If user is already in players, remove her
+      if(players.indexOf(curr) > -1)
+        players.splice(players.indexOf(curr), 1)
+      // add user to beginning of players
+      players.unshift(curr)
+      // If more than 50 players, remove last one
+      if(players.length > 5)
+        players.splice(players.length - 1, 1)
+
+      windowData.players = players;
+      return windowData;
+    }
+
 
 
 
