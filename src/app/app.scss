@@ -23,9 +23,21 @@ ion-content {
   background-color: $background;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Krona+One|PT+Sans:400,400i');
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans|Lobster|Shrikhand|Righteous|Titan+One');
+// Font Variables
+$krona-one: 'Krona One', sans-serif;
+$black-han-sans: 'Black Han Sans', sans-serif;
+$lobster: 'lobster', cursive;
+$shrikhand: 'shrikhand', cursive;
+$righteous: 'Righteous', sans-serif;
+$titan-one: 'Titan One', cursive;
+
 .toolbar-title {
   color: $primary;
-  font-family: axis;
+  font-family: $titan-one;
+  //font-weight: bold;
+  font-size: 6vw;
   text-align: center;
 }
 
@@ -207,6 +219,10 @@ ion-content {
   background-size: 100%;
 }
 
+@import url('https://fonts.googleapis.com/css?family=Krona+One|PT+Sans:400,400i');
+// Font Variables
+$krona-one: 'Krona One', sans-serif;
+$open-sans: 'Open Sans', sans-serif;
 
 @font-face {
   font-family: "bulls";

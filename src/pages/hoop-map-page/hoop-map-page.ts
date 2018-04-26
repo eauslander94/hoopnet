@@ -175,7 +175,7 @@ export class HoopMapPage {
 
       let mapOptions = {
         center: latLng,
-        zoom: 12,
+        zoom: 11,
         mapTypeId: google.maps.MapTypeId.ROADMAP,
         styles: this.getStyles()
       }
