@@ -23,6 +23,7 @@ ion-content {
   background-color: $background;
 }
 
+<<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 // Font Variables
 $Montserrat: 'Montserrat', sans-serif;
@@ -31,6 +32,22 @@ $Montserrat: 'Montserrat', sans-serif;
 .toolbar-title {
   color: $primary;
   font-family: axis;
+=======
+@import url('https://fonts.googleapis.com/css?family=Krona+One|PT+Sans:400,400i');
+@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans|Lobster|Shrikhand|Righteous|Titan+One');
+// Font Variables
+$krona-one: 'Krona One', sans-serif;
+$black-han-sans: 'Black Han Sans', sans-serif;
+$lobster: 'lobster', cursive;
+$shrikhand: 'shrikhand', cursive;
+$righteous: 'Righteous', sans-serif;
+$titan-one: 'Titan One', cursive;
+
+.toolbar-title {
+  color: $primary;
+  font-family: $titan-one;
+  //font-weight: bold;
+>>>>>>> 0c4293d4d6f0e50665922f08f65b233090cb8478
   font-size: 6vw;
   text-align: center;
 }
