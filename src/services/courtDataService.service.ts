@@ -22,7 +22,7 @@ export class CourtDataService{
     toast: Toast;
 
     // For connecting using goBox's private ip address - works for devices on same wifi & ionic serve
-    route: string = 'http://192.168.0.3:3000';
+    route: string = 'http://192.168.0.8:3000';
 
     // for connecting to our RESTful API hosted on AWS Lambda
     // route: string = 'https://xdyhadso88.execute-api.us-east-1.amazonaws.com/latest';
@@ -201,7 +201,7 @@ export class CourtDataService{
          this.toastMessage("You must be logged in to perform this action", 3000);
          return;
        }
-       
+
        let headers = new Headers();
        headers.set('Authorization', 'Bearer ' + this.auth.getStorageVariable('access_token'));
 
