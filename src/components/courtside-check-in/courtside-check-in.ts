@@ -26,22 +26,24 @@ export class CourtsideCheckIn {
 
     this.geolocation.getCurrentPosition().then((position) => {
 
-      // Get court in local storage and use it to test quick courtside.
-      // Will need to add the entire court to local storage if the quick courtside check in saves signifigant time.
-      // It likely will as we do not need to query the db in this case.
+      // Check if user is currently located at the last court they checked in to
       if(JSON.parse(window.localStorage.getItem('courtside')) ){
         let courtside = JSON.parse(window.localStorage.getItem('courtside'));
-        if(this.quick.isCourtside(courtside.coordinates, [position.coords.longitude, position.coords.latitude]))
-          alert('courtside verified quickly');
+
+        if(this.quick.courtside(courtside, [position.coords.longitude, position.coords.latitude])){
+          this.verified(courtside)
+          return;
+        }
       }
 
+      alert('fetching courts from database');
       this.getCourts([position.coords.longitude, position.coords.latitude])
     }).catch((error) => {
       // for testing - geolocation does not work with livereload flag
-       this.getCourts([ -73.995068, 40.728819 ])
+       //this.getCourts([ -73.995068, 40.728819 ])
 
       alert('Error retrieving your current location');
-      //this.viewCtrl.dismiss({});
+      this.viewCtrl.dismiss({});
     })
   }
 
@@ -77,34 +79,25 @@ export class CourtsideCheckIn {
 
   // Performs check-in responsibilities for the provided court
   public verified(court: any){
-
     this.court = court;
     this.state = 'checkedIn';
-
-    // Save court and the current time into local storage
-    let courtside = {
-      coordinates: court.location.coordinates,
-      timestamp: new Date()
-    }
-    window.localStorage.setItem('courtside', JSON.stringify(courtside));
-
-    //this.courtDataService.checkIn(court._id).subscribe()  // data to server
+    window.localStorage.setItem('courtside', JSON.stringify(court));
     this.scoutPrompt(court);
   }
 
-  // Wa
+  // Wait then prompt to scout
   private async scoutPrompt(court){
     await this.delay(1200);
     this.viewCtrl.dismiss({scoutPrompt: "true", court: court})
   }
 
-// Post:  from an async function, execution is delayed for the given time
-// Param: number ms - the time to wait for
-private delay(ms: number) {
-  return new Promise<void>(function(resolve) {
+  // Post:  from an async function, execution is delayed for the given time
+  // Param: number ms - the time to wait for
+  private delay(ms: number) {
+    return new Promise<void>(function(resolve) {
       setTimeout(resolve, ms);
-  });
-}
+    });
+  }
 
 
   // post: modal is dismiss and the location of the court to move to is sent to the map

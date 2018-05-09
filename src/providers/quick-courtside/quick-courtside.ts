@@ -14,16 +14,12 @@ export class QuickCourtsideProvider {
   // Param: the coords of the court the user is to be verified against.
   // Pre: Coordinates are in the [lng, lat] fromat we use trouhout the app
   // Post: If user at given court, court's location and a timestamp into local storage
-  public isCourtside(courtCoords: Array<number>, userCoords: Array<number>){
+  public courtside(court: any, userCoords: Array<number>){
 
       // If distance between user and court in local storage is less than 50m, return true
-      if(this.distance(courtCoords[0], courtCoords[1], userCoords[0], userCoords[1]) < 50){
-        // Save court coordinates and the current time into local storage
-        let courtside = {
-          coordinates: courtCoords,
-          timestamp: new Date()
-        }
-        window.localStorage.setItem('courtside', JSON.stringify(courtside))
+      if(this.distance(court.location.coordinates[0], court.location.coordinates[1], userCoords[0], userCoords[1]) < 50){
+        // courtside court into local storage
+        window.localStorage.setItem('courtside', JSON.stringify(court))
         return true;
       }
       return false;
@@ -41,21 +37,21 @@ export class QuickCourtsideProvider {
   // performs time based verification based on court in local storage, if present
   // Ensures that user as been at provided court witin 30 minutes
   // Risk: User can scout provided court from anywhere within the timeframe. We take risks out here
-  public timeCheck(location: Array<number>){
-
-    if(JSON.parse(window.localStorage.getItem('courtside')) ){
-      let courtside = JSON.parse(window.localStorage.getItem('courtside'));
-
-      if(new Date().getTime() - new Date(courtside.timestamp).getTime() < 1800000
-       // ensure courts ave te same location
-       && this.distance(location[0], location[1],
-       courtside.coordinates[0],
-       courtside.coordinates[1]) < 10){
-         return true;
-      }
-    }
-    return false;
-  }
+  // public timeCheck(location: Array<number>){
+  //
+  //   if(JSON.parse(window.localStorage.getItem('courtside')) ){
+  //     let courtside = JSON.parse(window.localStorage.getItem('courtside'));
+  //
+  //     if(new Date().getTime() - new Date(courtside.timestamp).getTime() < 1800000
+  //      // ensure courts ave te same location
+  //      && this.distance(location[0], location[1],
+  //      courtside.coordinates[0],
+  //      courtside.coordinates[1]) < 10){
+  //        return true;
+  //     }
+  //   }
+  //   return false;
+  // }
 
   // returns distance in metwer between locations provided by lat lng
   private distance(lon1, lat1, lon2, lat2) {

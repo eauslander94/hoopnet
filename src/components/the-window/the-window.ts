@@ -88,12 +88,13 @@ export class TheWindow {
     this.socketURL = courtDataService.route;
     // set got players flag to false
     this.gotPlayers = false;
-
   }
 
   // When windowData has been initialized, update the living timestamps
   // Post: wLivingTimestamp and gLiving timestamp updated
   ngOnInit(){
+
+    alert(JSON.parse(this.windowData.court).name)
 
     // Update the timestamps
     this.updateLivingTimestamps();
@@ -467,35 +468,23 @@ export class TheWindow {
       this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
       return;
     }
-    // ensure we are courtside, first check based on time
-    if(!this.quick.timeCheck(this.coordinates)){
-      // Verify versus user's current location
-      this.geolocation.getCurrentPosition().then((position) => {
-        if(!this.quick.isCourtside(this.coordinates, [position.coords.longitude, position.coords.latitude]))
-          this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
-        else{
-          // call the corresponding metod
-          switch(callbackString){
-            case "validateGames":    this.validate('games');     break;
-            case 'validateWaitTime': this.validate('waitTime');    break;
-            case 'gamesModal':       this.presentGamesModal();   break;
-            case 'waitTimeModal':    this.presentWaitTimeModal();  break;
-            default: break;
-        }
-        }
-      }).catch((err) => {alert('Error retrieving your current location')})
-    }
-    else{
-      // call the corresponding metod
-      switch(callbackString){
-        case "validateGames":  this.validate('games');     break;
-        case 'validateWaitTime': this.validate('waitTime');    break;
-        case 'gamesModal':     this.presentGamesModal();   break;
-        case 'waitTimeModal':    this.presentWaitTimeModal();  break;
-        default: break;
-    }
-  }
+
+    // Ensure we're at the court
+    this.geolocation.getCurrentPosition().then((position) => {
+      alert('got your position, verifying')
+      if(this.quick.courtside(JSON.parse(this.windowData.court), [position.coords.longitude, position.coords.latitude]))
+        // call the corresponding metod
+        switch(callbackString){
+          case "validateGames":    this.validate('games');     break;
+          case 'validateWaitTime': this.validate('waitTime');    break;
+          case 'gamesModal':       this.presentGamesModal();   break;
+          case 'waitTimeModal':    this.presentWaitTimeModal();  break;
+          default: break;
+      }
+      else this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
+    }).catch((err) => {alert('Error retrieving your current location')})
  }
+
 
  // Post:  Profile Modal of provided user is presented
  // Param: user whose profile will be presented

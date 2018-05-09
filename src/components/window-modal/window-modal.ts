@@ -46,6 +46,9 @@ export class WindowModal {
     this.windowData = params.get('court').windowData;
     this.windowData.coordinates = this.court.location.coordinates;
 
+    let court = JSON.stringify(params.get('court'))
+    this.windowData.court = court;
+
     // pass in the realtime client
     this.windowData.realtime = params.get('realtime');
     // Prompt user to enter info

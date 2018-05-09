@@ -53,6 +53,8 @@ export class HomeCourtDisplay {
         // ngZone to detect changes
         this.zone.run(() => {
           this.courts = res.json();
+          // This is ugly but it makes for good UX, give window data a pointer to its court
+          for(let court of this.courts) court.windowData.court = JSON.stringify(court);
           this.gotCourts = true
         })
       },
@@ -120,6 +122,8 @@ export class HomeCourtDisplay {
       this.courtDataService.getCourtsById(user.homecourts).subscribe(
         res => {
           this.courts = res.json();
+          // This is ugly but it makes for good UX, give window data a pointer to its court
+          for(let court of this.courts) court.windowData.court = JSON.stringify(court);
           this.loading = false;
         },
         err => this.courtDataService.notify('ERROR', err)
