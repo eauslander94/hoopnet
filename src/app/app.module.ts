@@ -24,7 +24,6 @@ import { AnimationService, AnimatesDirective } from 'css-animator';
 // pages
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
 import { LoginPage }        from '../pages/login/login';
-import { TabsPage }         from '../pages/tabs/tabs';
 import { CourtPage }        from '../pages/court-page/court-page';
 import { Profile }          from '../pages/profile/profile';
 import { FriendsPage }      from '../pages/friends-page/friends-page';
@@ -51,7 +50,9 @@ import { AuthService }      from '../services/auth.service';
 // Directives
 import { Dbltap }           from '../components/dbltap/dbltap';
 import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
+// Providers
 import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-courtside';
+import { RealtimeProvider } from '../providers/realtime/realtime';
 
 
 
@@ -61,7 +62,6 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
     MyApp,
     HoopMapPage,
     LoginPage,
-    TabsPage,
     FriendsPage,
     EnterProfileInfo,
     InviteFriendsPage,
@@ -96,7 +96,6 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
   entryComponents: [
     MyApp,
     HoopMapPage,
-    TabsPage,
     LoginPage,
     FriendsPage,
     EnterProfileInfo,
@@ -137,6 +136,7 @@ import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-court
       deps: [Http]
     },
     QuickCourtsideProvider,
+    RealtimeProvider,
 ]
 })
 export class AppModule {}

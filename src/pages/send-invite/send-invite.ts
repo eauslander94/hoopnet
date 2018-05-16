@@ -94,20 +94,25 @@ export class SendInvitePage {
     // loop through invited, send invitation to each friend selected
     for(let friend of this.invited){
 
+      alert('friend to send invite to: ' + friend.fName + ' ' + friend.lName)
+
       let payload = {
         messageType: 'invitation',
-        user: this.currentUser,
-        court: this.params.get('court'),
-        dateTime: this.dateDate,
-        message: this.message
+        user: this.currentUser.fName,
+        // court: this.params.get('court'),
+        // dateTime: this.dateDate,
+        // message: this.message
       }
+
       this.ortc.send({
         'applicationKey':'pLJ1wW',
         'privateKey':'mHkwXRv1xbbA',
         'channel': friend._id,
+        //'channel': 'testChannel',
         'message': JSON.stringify(payload),
       })
-      // alert('sending to channel: ' + friend._id);
+
+      alert('sending to channel: ' + friend._id);
       this.navCtrl.popToRoot().then(() => {
         this.events.publish('invitation', payload)
       });

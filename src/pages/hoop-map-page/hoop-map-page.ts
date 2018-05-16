@@ -19,6 +19,8 @@ import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal'
 import { InviteFriendsPage } from '../invite-friends/invite-friends';
 import { NotificationResponse } from '../../components/notification-response/notification-response';
 
+import { RealtimeProvider } from '../../providers/realtime/realtime'
+
 import { JwtHelper } from 'angular2-jwt'
 
 import * as Realtime from 'realtime-messaging';
@@ -37,8 +39,6 @@ export class HoopMapPage {
   dummy: any;
   court: any;
 
-  ortc: any;
-
   // To be used for determining if a marker was clicked or pressed
   fingerOnScreen: boolean;
 
@@ -50,6 +50,9 @@ export class HoopMapPage {
   // holds references to te markers on the map
   markers: Array<any>
 
+
+  count: number = 0;
+
   constructor(public navCtrl: NavController,
               public geolocation: Geolocation,
               public courtDataService: CourtDataService,
@@ -58,9 +61,9 @@ export class HoopMapPage {
               private modalCtrl: ModalController,
               public events: Events,
               private toastCtrl: ToastController,
-              private auth: AuthService)
+              private auth: AuthService,
+              public realtime: RealtimeProvider)
   {
-
     events.subscribe('homeCourtMessage', () => {
       this.addHomeCourtsMessage();
     })
@@ -70,12 +73,16 @@ export class HoopMapPage {
       this.addCourtMarker(court);
     })
 
-    // Subscribing to push notifications. First check for current User, if not wait
+    //Subscribing to push notifications. First check for current User, if not wait until we are logged in.
     // if(window.localStorage.getItem('currentUser'))
     //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
     // else events.subscribe('gotCurrentUser', () => {
+    //   alert('gotCurrentUser');
     //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
-    // })
+    //})
+
+    // Subscribe to a test channel
+    // this.pushConnect('testChannel');
 
     this.markers = [];
 
@@ -94,6 +101,7 @@ export class HoopMapPage {
     //   }
     // })
   }
+
 
 
   // Post:  UI displaying court invitation pulled up
@@ -121,11 +129,14 @@ export class HoopMapPage {
     }).present()
   }
 
-
+  public push(){
+    this.realtime.connect();
+  }
 
   // load the map when the page has loaded, liste for push-noti events
   ionViewDidLoad(){
     this.loadMap();
+    alert('ionViewDidLoad hoopMap')
 
     // Subscribing to push notifications. First check for current User, if not wait
     // if(window.localStorage.getItem('currentUser'))
@@ -135,35 +146,52 @@ export class HoopMapPage {
     // })
 
     // Responding to the invitation sent to you
-    this.events.subscribe('invitation', (payload) => {
-      alert(payload.messageType);
-      this.invitationResponse(payload);
-    })
-
-    // Responding to the response of the invitation you sent out
-    this.events.subscribe('invitationConfirm', (payload) => {
-      alert(payload.messageType);
-      this.invitationConfirm(payload);
-    })
+    // this.events.subscribe('invitation', (payload) => {
+    //   alert(payload.messageType);
+    //   this.invitationResponse(payload);
+    // })
+    //
+    // // Responding to the response of the invitation you sent out
+    // this.events.subscribe('invitationConfirm', (payload) => {
+    //   alert(payload.messageType);
+    //   this.invitationConfirm(payload);
+    // })
 
     // listen for push notification events
-    document.addEventListener("push-notification", function(notification:any){
 
-      // Receiver side tere is no need to parse the payload object. Use it as below
-      if(notification.payload.messageType === 'hoopingNow'){
-        this.presentHoopingNowAlert(notification.payload);
-      }
-
-      // Responding to the invitation sent to you
-      if(notification.payload.messageType === 'invitation'){
-        // alert("got notification, bruh")
-      }
-
-      // Responding to the response of the invitation you sent out
-      if(notification.payload.messageType === 'invitationResponse'){
-        // alert("got notification, bruh")
-      }
-    }.bind(this))// must bind this to function that responds to push-noti events
+    // document.addEventListener("push-notification", (notification: any) => {
+    //   alert("received notification: " + notification.type + notification.payload)
+    //   // alert(document.getElementById('payload'))
+    //
+    //   // this.ortc.unsubscribe({channel: '5a7f4a103501495b9db120d2'})
+    // }, false);
+    //
+    // document.addEventListener("push-notification", function(notification:any){
+    //
+    //   alert('received push notification, document.addEventListener (\'push-notification\') event fired');
+    //   alert('notification of type ' + notification.payload.messageType);
+    //
+    //   this.count++;
+    //
+    //   if(this.count === 10 || this.count === 1000 || this.count === 1000 || this.count === 1)
+    //     // alert ('number of times this event has fired is in the order of magnitude of ' + this.count)
+    //
+    //   // Receiver side tere is no need to parse the payload object. Use it as below
+    //   if(notification.payload.messageType === 'hoopingNow'){
+    //     alert('received hoopingNow notification')
+    //     this.presentHoopingNowAlert(notification.payload);
+    //   }
+    //
+    //   // Responding to the invitation sent to you
+    //   if(notification.payload.messageType === 'invitation'){
+    //     alert("received invitation notification")
+    //   }
+    //
+    //   // Responding to the response of the invitation you sent out
+    //   if(notification.payload.messageType === 'invitationResponse'){
+    //     alert("received invitation response");
+    //   }
+    // }.bind(this))// must bind this to function that responds to push-noti events
   }
 
 
@@ -281,19 +309,19 @@ export class HoopMapPage {
   presentWindowModal(court: any, scoutPrompt: boolean){
 
     // connect to realtime webhook upon presenting window, pass it in
-    const realtime = Realtime.createClient();
-    realtime.setClusterUrl('https://ortc-developers.realtime.co/server/ssl/2.1/');
-    realtime.connect('pLJ1wW', 'testToken')
+    // const realtime = Realtime.createClient();
+    // realtime.setClusterUrl('https://ortc-developers.realtime.co/server/ssl/2.1/');
+    // realtime.connect('pLJ1wW', 'testToken')
 
     let windowModal = this.modalCtrl.create(WindowModal,
       { 'court': court,
-        'realtime': realtime,
+        //'realtime': realtime,
         'scoutPrompt': scoutPrompt }
     )
 
     // Disconnect when dismissing theWindow
     windowModal.onDidDismiss( (data) => {
-      realtime.disconnect();
+      //realtime.disconnect();
 
       if(data)
         if(data.invite)
@@ -519,27 +547,6 @@ public testAuth(){
       console.log(res.json()[0].nName);
     }
   )
-}
-
-// Post: Connects to recieve push notifications provided channel
-// Param: Channel to listen on
-public pushConnect(channel: string){
-
-  let ortc = window['plugins'].OrtcPushPlugin;
-  // estalish connection
-  ortc.connect({
-    'appkey':'pLJ1wW',
-    'token':'appToken',
-    'metadata':'androidMetadata',
-    'projectId':'979214254876',
-    'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
-  }).then(() => {
-    alert('connected to cennel: ' + channel);
-    window['plugins'].OrtcPushPlugin.subscribe({
-      'channel': channel
-    })
-  });
-
 }
 
 

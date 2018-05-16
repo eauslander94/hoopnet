@@ -105,6 +105,7 @@ export class AuthService {
     // disconnect from realtime push plugin
     window['plugins'].OrtcPushPlugin.unsubscribe
     ({'channel': this.getStorageVariable('currentUser')._id }).then(() => {
+      alert('unsubscribed')
     });
 
     window.localStorage.removeItem('profile');

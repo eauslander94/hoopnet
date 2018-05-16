@@ -75,7 +75,7 @@ export class TheWindow {
                private cdr: ChangeDetectorRef,
                private zone: NgZone)
   {
-
+    alert('theWindow');
     // Update the living timestamps every minute
     Observable.interval(1000 * 60).subscribe( x => {
       this.updateLivingTimestamps();
@@ -93,8 +93,6 @@ export class TheWindow {
   // When windowData has been initialized, update the living timestamps
   // Post: wLivingTimestamp and gLiving timestamp updated
   ngOnInit(){
-
-    alert(JSON.parse(this.windowData.court).name)
 
     // Update the timestamps
     this.updateLivingTimestamps();
@@ -135,7 +133,6 @@ export class TheWindow {
     // Let the window come to life! UI update on any change from the server
     onUpdate(client: Realtime.Client, channel: string, message: string) {
       this.windowData.dataChanged = true;
-      //alert(JSON.parse(message).wLastValiddated)
       this.updateUI(JSON.parse(message));
     }
 
@@ -338,8 +335,6 @@ export class TheWindow {
   // Time complexity: O(n^2). Players is capped at 50. We're good.
   public sortPlayers(players: Array<any>){
 
-    alert(players.length)
-
     // get the current user, if present. We will access their friends
     let gotCurrentUser: boolean = false;
     let currentUser;
@@ -430,7 +425,6 @@ export class TheWindow {
     // if animating, wait for animation finised event, return
     if(this.animating){
       this.events.subscribe('animationFinished', () => {
-        //alert('we waited');
         this.animating = true;
         this.animator.setType('flash').show(ref.nativeElement).then(() => {
           this.animating = false;
@@ -471,7 +465,6 @@ export class TheWindow {
 
     // Ensure we're at the court
     this.geolocation.getCurrentPosition().then((position) => {
-      alert('got your position, verifying')
       if(this.quick.courtside(JSON.parse(this.windowData.court), [position.coords.longitude, position.coords.latitude]))
         // call the corresponding metod
         switch(callbackString){

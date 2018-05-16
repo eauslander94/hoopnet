@@ -6,7 +6,9 @@ import { HoopMapPage }             from '../pages/hoop-map-page/hoop-map-page'
 import { JwtHelper }               from 'angular2-jwt'
 import { CourtDataService }        from '../services/courtDataService.service'
 import { Component, ViewChild, ChangeDetectorRef, NgZone }    from '@angular/core';
-import { Platform, NavController, Events, MenuController, ModalController } from 'ionic-angular';
+import { Platform, Events, MenuController, ModalController } from 'ionic-angular';
+
+import * as RealtimeMessaging from 'realtime-messaging';
 
 // Components for menu links
 import { HomeCourtDisplay }  from '../components/home-court-display/home-court-display';
@@ -18,6 +20,7 @@ import { FriendsPage }       from '../pages/friends-page/friends-page';
 import { CourtSearchPage }   from '../pages/court-search/court-search';
 import { AuthService }       from '../services/auth.service';
 
+import { RealtimeProvider } from '../providers/realtime/realtime';
 // Auth0Cordova
 import Auth0Cordova from '@auth0/cordova';
 
@@ -44,7 +47,11 @@ export class MyApp {
               public menu: MenuController,
               public modalCtrl: ModalController,
               private cdr: ChangeDetectorRef,
-              private zone: NgZone) {
+              private zone: NgZone,
+              public realtime: RealtimeProvider) {
+
+    alert('constructor, app.component.ts')
+
 
     platform.ready().then(() => {
       // Okay, so the platform is ready and our plugins are available.
@@ -60,8 +67,6 @@ export class MyApp {
       // lock the screen to portrait
       this.screenOrientation.lock('portrait');
 
-
-
       // If we're autenticated on startup
       if(this.auth.isAuthenticated()){
         // get a fresh copy of the current user into local storage
@@ -72,6 +77,18 @@ export class MyApp {
 
       if (!this.cdr['destroyed'])
         this.cdr.detectChanges();
+
+        document.addEventListener("push-notification", (notification: any) => {
+          alert("received notification: " + notification.type + ' ' + notification.channel)
+          // alert(document.getElementById('payload'))
+
+          // this.ortc.unsubscribe({channel: '5a7f4a103501495b9db120d2'})
+        }, false);
+
+        document.addEventListener("onException", function(exception){
+          alert('Exception with underlying native ortc client: ' + JSON.stringify(exception))
+        }, false);
+
     });
 
     // subscribe to te login event
@@ -108,7 +125,73 @@ export class MyApp {
         err => this.courtDataService.notify('Error', err)
       )
     })
+
+
+
+    // Check if we're connected, if not connect
+    // ortc.getIsConnected().then((connected) => {
+    //   if(connected === 1) return;
+    //   ortc.connect({
+    //     'appkey':'pLJ1wW',
+    //     'token':'appToken',
+    //     'metadata':'androidMetadata',
+    //     'projectId':'979214254876',
+    //     'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
+    //   }).then(() => {
+    //     alert('connecting');
+    //
+    //     // ortc.subscribe({
+    //     //   'channel': 'thinkWeFoundIt'
+    //     // }).then(() => {
+    //     //   alert('subscribing to channel: thinkWeFoundIt')
+    //     // })
+    //   });
+    //})
+
   }
+
+
+  // Post: establishes the ORTC connection to our realtime account
+  // Post: subscribes to the provided channel
+  // Param: Channel to listen on
+  // public pushConnect(channel: string){
+  //
+  //   alert('in push connect, unsubscribing from 5a7f55a7d2a42c6d4142d9ad');
+  //
+  //   ortc.disconnect({
+  //     'appkey':'pLJ1wW',
+  //     'token':'appToken',
+  //     'metadata':'androidMetadata',
+  //     'projectId':'979214254876',
+  //     'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
+  //   }).then(() => {
+  //     alert('disconnected');
+  //   })
+  //
+  //   ortc.unsubscribe({
+  //     'channel': '5a7f55a7d2a42c6d4142d9ad'
+  //   }).then(() => {
+  //     alert('unsubscribed from 5a7f55a7d2a42c6d4142d9ad')
+  //   })
+
+    // // estalish connection
+    // ortc.connect({
+    //   'appkey':'pLJ1wW',
+    //   'token':'appToken',
+    //   'metadata':'androidMetadata',
+    //   'projectId':'979214254876',
+    //   'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
+    // }).then(() => {
+    //   alert('connecting');
+    //
+    //   ortc.subscribe({
+    //     'channel': channel
+    //   }).then(() => {
+    //     alert('subscribing to channel: ' + channel)
+    //   })
+    // });
+
+  // }
 
 
   // Post: User is retreived from database and saved in local storage

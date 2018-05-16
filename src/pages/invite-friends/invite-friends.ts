@@ -32,6 +32,7 @@ export class InviteFriendsPage {
               public params: NavParams,
               private courtDataService: CourtDataService)
   {
+    alert('inviteFriends');
     this.formControl = new FormControl;
     this.user = JSON.parse(window.localStorage.getItem('currentUser'))
 
@@ -51,6 +52,7 @@ export class InviteFriendsPage {
       this.friendsShowing = this.filterFriends(this.searchTerm);
     });
   }
+
 
   // Post:  friendsShowing becomes a filtered version of friends
   // Param: string to filter by
