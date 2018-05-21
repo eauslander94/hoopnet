@@ -1,7 +1,7 @@
 // ionic imports
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, PopoverController, AlertController, ModalController, Events,
-        ToastController } from 'ionic-angular';
+        ToastController, IonicPage } from 'ionic-angular';
 // Map imports
 import { Geolocation } from '@ionic-native/geolocation';
 // communication with server
@@ -19,7 +19,7 @@ import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal'
 import { InviteFriendsPage } from '../invite-friends/invite-friends';
 import { NotificationResponse } from '../../components/notification-response/notification-response';
 
-import { RealtimeProvider } from '../../providers/realtime/realtime'
+//import { RealtimeProvider } from '../../providers/realtime/realtime'
 
 import { JwtHelper } from 'angular2-jwt'
 
@@ -36,7 +36,7 @@ export class HoopMapPage {
   @ViewChild('map') mapElement: ElementRef;
   map: any;
   test: any;
-  dummy: any;
+
   court: any;
 
   // To be used for determining if a marker was clicked or pressed
@@ -62,8 +62,9 @@ export class HoopMapPage {
               public events: Events,
               private toastCtrl: ToastController,
               private auth: AuthService,
-              public realtime: RealtimeProvider)
+            /*public realtime: RealtimeProvider*/)
   {
+
     events.subscribe('homeCourtMessage', () => {
       this.addHomeCourtsMessage();
     })
@@ -73,20 +74,7 @@ export class HoopMapPage {
       this.addCourtMarker(court);
     })
 
-    //Subscribing to push notifications. First check for current User, if not wait until we are logged in.
-    // if(window.localStorage.getItem('currentUser'))
-    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
-    // else events.subscribe('gotCurrentUser', () => {
-    //   alert('gotCurrentUser');
-    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
-    //})
-
-    // Subscribe to a test channel
-    // this.pushConnect('testChannel');
-
     this.markers = [];
-
-    this.dummy = "eli"
 
     // Update the markers every 5 minutes to simulate fade effect
     // Observable.interval(1000 * 60 * 5).subscribe( x => {
@@ -104,95 +92,31 @@ export class HoopMapPage {
 
 
 
-  // Post:  UI displaying court invitation pulled up
-  // Param: Payload of the invitation notification
-  public invitationResponse(payload: any){
-    this.modalCtrl.create(NotificationResponse, {
-      payload: payload
-    }).present()
-  }
-
-
-  public invitationConfirm(payload: any){
-    let message = '';
-    if(payload.confirm)
-      message =  'Accepts your invitation to hoop! Have a happy session.';
-    else message =  'Cannot make this hoop session. We hope you ave a good run.';
-
-    this.alertCtrl.create({
-      title: payload.user.fName + ' ' + payload.user.lName,
-      message: message,
-      buttons: [{
-        text: 'Dismiss',
-        role: 'cancel',
-      }]
-    }).present()
-  }
-
-  public push(){
-    this.realtime.connect();
-  }
 
   // load the map when the page has loaded, liste for push-noti events
   ionViewDidLoad(){
     this.loadMap();
-    alert('ionViewDidLoad hoopMap')
 
-    // Subscribing to push notifications. First check for current User, if not wait
-    // if(window.localStorage.getItem('currentUser'))
-    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
-    // else this.events.subscribe('gotCurrentUser', () => {
-    //   this.pushConnect(JSON.parse(window.localStorage.getItem('currentUser'))._id)
-    // })
+    document.addEventListener("push-notification", function(notification:any){
 
-    // Responding to the invitation sent to you
-    // this.events.subscribe('invitation', (payload) => {
-    //   alert(payload.messageType);
-    //   this.invitationResponse(payload);
-    // })
-    //
-    // // Responding to the response of the invitation you sent out
-    // this.events.subscribe('invitationConfirm', (payload) => {
-    //   alert(payload.messageType);
-    //   this.invitationConfirm(payload);
-    // })
+      if(notification.payload.messageType === 'hoopingNow'){
+        this.presentHoopingNowAlert(notification.payload);
+      }
 
-    // listen for push notification events
+      // Responding to the invitation sent to you
+      if(notification.payload.messageType === 'invitation'){
+        this.notificationResponse(notification.payload)
+      }
 
-    // document.addEventListener("push-notification", (notification: any) => {
-    //   alert("received notification: " + notification.type + notification.payload)
-    //   // alert(document.getElementById('payload'))
-    //
-    //   // this.ortc.unsubscribe({channel: '5a7f4a103501495b9db120d2'})
-    // }, false);
-    //
-    // document.addEventListener("push-notification", function(notification:any){
-    //
-    //   alert('received push notification, document.addEventListener (\'push-notification\') event fired');
-    //   alert('notification of type ' + notification.payload.messageType);
-    //
-    //   this.count++;
-    //
-    //   if(this.count === 10 || this.count === 1000 || this.count === 1000 || this.count === 1)
-    //     // alert ('number of times this event has fired is in the order of magnitude of ' + this.count)
-    //
-    //   // Receiver side tere is no need to parse the payload object. Use it as below
-    //   if(notification.payload.messageType === 'hoopingNow'){
-    //     alert('received hoopingNow notification')
-    //     this.presentHoopingNowAlert(notification.payload);
-    //   }
-    //
-    //   // Responding to the invitation sent to you
-    //   if(notification.payload.messageType === 'invitation'){
-    //     alert("received invitation notification")
-    //   }
-    //
-    //   // Responding to the response of the invitation you sent out
-    //   if(notification.payload.messageType === 'invitationResponse'){
-    //     alert("received invitation response");
-    //   }
-    // }.bind(this))// must bind this to function that responds to push-noti events
+      // Responding to the response of the invitation you sent out
+      if(notification.payload.messageType === 'invitationResponse'){
+        this.invitationResponse(notification.payload);
+      }
+
+    }.bind(this))// must bind this to function that responds to push-noti events
   }
+
+
 
 
   // post: Map is loaded, addCourtMarker is called when the map has finished loading
@@ -220,13 +144,9 @@ export class HoopMapPage {
    getCourts(){
      this.courtDataService.getAllCourts().subscribe(
        res => {
-         for (let court of res.json()){
-           this.addCourtMarker(court);
-           console.log(court.windowData.court_id);
-        }
+         for (let court of res.json()) this.addCourtMarker(court);
        },
-       error => {this.dummy += error},
-         () => {}
+       error => console.log(error),
        );
    }
 
@@ -385,6 +305,33 @@ export class HoopMapPage {
       }]
     })
     alert.present()
+  }
+
+  // Post:  UI displaying court invitation pulled up
+  // Param: Payload of the invitation notification
+  public notificationResponse(payload: any){
+    this.modalCtrl.create(NotificationResponse, {
+      payload: payload,
+    }).present()
+  }
+
+
+  // Post: Alert confirming or denying hoop invitation is pulled up
+  // Param: payload from notification invitation
+  public invitationResponse(payload: any){
+    let message = payload.userName;
+    if(payload.confirm == true)
+      message +=  ' accepts your invitation to hoop! Have a happy session.';
+    else message +=  ' cannot make this hoop session. We hope that you have a good run.';
+
+    this.alertCtrl.create({
+      title: 'Invitation Response',
+      message: message,
+      buttons: [{
+        text: 'Dismiss',
+        role: 'cancel',
+      }]
+    }).present()
   }
 
 

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormControl } from '@angular/forms'
 import { CourtDataService } from '../../services/courtDataService.service';
+import { RealtimeProvider } from '../../providers/realtime/realtime';
 
 
 @IonicPage()
@@ -16,23 +17,20 @@ export class InviteFriendsPage {
   formControl: FormControl;
 
   // to display and filter your friends
-  friends: Array<any>;
-  friendsShowing: Array<any>;
-  invited: Array<String> = []
+  friends: Array <any>;
+  friendsShowing: Array <any>;
+  invited: Array <string> = []
 
   user: any;
 
   allSelected: boolean = false;
   gotFriends: boolean = false;
 
-
-  ortc: any;
-
   constructor(public navCtrl: NavController,
               public params: NavParams,
-              private courtDataService: CourtDataService)
+              private courtDataService: CourtDataService,
+              private realtime: RealtimeProvider)
   {
-    alert('inviteFriends');
     this.formControl = new FormControl;
     this.user = JSON.parse(window.localStorage.getItem('currentUser'))
 
@@ -99,32 +97,20 @@ export class InviteFriendsPage {
   }
 
   public send(){
-    this.ortc = window['plugins'].OrtcPushPlugin;
+
     let user = JSON.parse(window.localStorage.getItem('currentUser'))
     // massage te message
     let message = user.fName + " "
        + user.lName + ' is currently hooping at '
        + this.params.get('courtName') + ' and wants you to join him.'
 
-    // loop through invited, send blast to each friend invited
-    for(let friend of this.invited){
-
-      // Sender side I send a stringified message with all of the properties I
-      // wish to attach. Notified side I use payload as it appears below.
-      // JSON.stringify() when sending, No JSON.parse() when receiving.
-      let payload = {
-        messageType: 'hoopingNow',
-        location: this.params.get('location'),
-        message: message
-      }
-      this.ortc.send({
-        'applicationKey':'pLJ1wW',
-        'privateKey':'mHkwXRv1xbbA',
-        'channel': friend,
-        'message': JSON.stringify(payload),
-      })
+    let payload = {
+      messageType: 'hoopingNow',
+      location: this.params.get('location'),
+      message: message
     }
-    // return
+
+    this.realtime.notify(this.invited, payload, user.fName + " " + user.lName + ' is playing at ' + this.params.get('courtName') + '.')
     this.navCtrl.pop()
   }
 

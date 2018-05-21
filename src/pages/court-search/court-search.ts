@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import { CourtDataService } from '../../services/courtDataService.service';
@@ -32,7 +32,8 @@ export class CourtSearchPage {
   constructor(public navCtrl: NavController,
               public params: NavParams,
               public courtDataService: CourtDataService,
-              public events: Events
+              public events: Events,
+              public zone: NgZone
   ) {
     this.searchControl = new FormControl;
     // Get user's recently visited courts as reference
@@ -76,6 +77,10 @@ export class CourtSearchPage {
     // Loop thru user's recent checkIns, if not already in courts push to courts
     for(let checkIn of JSON.parse(window.localStorage.getItem('currentUser')).checkIns)
       if(courts.indexOf(checkIn.court_id) === -1) courts.push(checkIn.court_id)
+    if(courts.length === 0){
+      this.zone.run(() => { this.loading = false })
+      return;
+    }
 
     this.courtDataService.getCourtsById(courts).subscribe(
       res => {

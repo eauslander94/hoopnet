@@ -38,8 +38,7 @@ export class CourtDataService{
                  public auth: AuthService,
                  public toastCtrl: ToastController,
                  public events: Events,
-                 public alertCtrl: AlertController)
-    {}
+                 public alertCtrl: AlertController) {}
 
 
     //  returns: Observable which emits a response containing an array of All courts in the db

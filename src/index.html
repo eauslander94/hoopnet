@@ -14,29 +14,19 @@
   <!-- cordova.js required for cordova apps -->
   <script src="cordova.js"></script>
 
-  <!-- For 'webpack.jsonp is not defined' error -->
-  <script src="build/vendor.js"></script>
+  <!-- For 'webpack.jsonp is not defined' error DO NOT include this script and its twin below.  This will cause the bootstrap process to occur twice -->
+  <!-- <script src="build/vendor.js"></script> -->
 
   <!-- google Maps API -->
   <script src="http://maps.google.com/maps/api/js?key=AIzaSyAgAC0aw1bCe0w9Z2ueT5TQnLAUIryV3G0&"></script>
 
   <!-- Auth0 Lock script -->
   <script src="http://cdn.auth0.com/js/lock/10.17.0/lock.min.js"></script>
-  <link href="build/main.css" rel="stylesheet">
+  <link href="build/main.css" rel="stylesheet">``
 
   <!-- animate.css entry link -->
   <link rel="stylesheet" href="build/animate.css">
 
-  <!-- For push notifications -->
-  <!-- <script type="text/javascript">
-     document.addEventListener("deviceready",
-              function () {
-              	if(window.plugins && window.plugins.OrtcPushPlugin){
-                		var OrtcPushPlugin = window.plugins.OrtcPushPlugin;
-                		OrtcPushPlugin.checkForNotifications();
-                 }
-               }, false);
-</script> -->
 </head>
 <body>
 

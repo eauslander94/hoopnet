@@ -20,7 +20,7 @@ export class LoginPage {
 
   constructor(public auth: AuthService,
               public courtDataService: CourtDataService,
-              public events: Events) {
+              public events: Events) { alert('login page, no module.ts file')
 
     this.id_token = "notLoggedIn";
 

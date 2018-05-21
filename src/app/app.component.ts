@@ -25,21 +25,22 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
 import Auth0Cordova from '@auth0/cordova';
 
 @Component({
-  templateUrl: 'app.html'
+  templateUrl: 'app.html',
 })
 export class MyApp {
+  
   rootPage = HoopMapPage;
 
   // user currently logged in
   currentUser: any;
+
   // whether or not we are currently logged in
   authFlag: boolean;
 
-  applyClass: boolean = true;
 
   @ViewChild('nav') nav;
 
-  constructor(platform: Platform,
+  constructor(public platform: Platform,
               public screenOrientation: ScreenOrientation,
               public auth: AuthService,
               public courtDataService: CourtDataService,
@@ -48,16 +49,17 @@ export class MyApp {
               public modalCtrl: ModalController,
               private cdr: ChangeDetectorRef,
               private zone: NgZone,
-              public realtime: RealtimeProvider) {
+              public realtime: RealtimeProvider)
+  {
+    this.initializeApp();
+    this.initializeListeners();
+  }
 
-    alert('constructor, app.component.ts')
 
+  // Once platform is ready, performs high level native initializations
+  private initializeApp(){
 
-    platform.ready().then(() => {
-      // Okay, so the platform is ready and our plugins are available.
-      // Here you can do any higher level native things you might need.
-      //StatusBar.styleDefault();
-      //SplashScreen.hide();
+    this.platform.ready().then(() => {
 
       // for auth0 URL redirects
       (<any>window).handleOpenURL = (url) => {
@@ -72,33 +74,22 @@ export class MyApp {
         // get a fresh copy of the current user into local storage
         this.getCurrentUser(new JwtHelper().decodeToken(this.auth.getStorageVariable('id_token')).sub)
         this.authFlag = true;
+        // connect to realtime
+        this.realtime.connect((JSON.parse(window.localStorage.getItem('currentUser'))._id))
       }
       else this.authFlag = false;
 
       if (!this.cdr['destroyed'])
         this.cdr.detectChanges();
-
-        document.addEventListener("push-notification", (notification: any) => {
-          alert("received notification: " + notification.type + ' ' + notification.channel)
-          // alert(document.getElementById('payload'))
-
-          // this.ortc.unsubscribe({channel: '5a7f4a103501495b9db120d2'})
-        }, false);
-
-        document.addEventListener("onException", function(exception){
-          alert('Exception with underlying native ortc client: ' + JSON.stringify(exception))
-        }, false);
-
     });
+  }
 
-    // subscribe to te login event
+  // Post: sets up listners on various events & responds accordingly
+  private initializeListeners(){
+
+    // On login event, get user data & populate local storage. Also set auth flag
     this.events.subscribe('loggedIn', () => {
-
-      // set auth flag
-      this.zone.run(() => {
-        this.authFlag = true;
-      })
-
+      this.zone.run(() => {  this.authFlag = true  })
       let id_token = new JwtHelper().decodeToken(this.auth.getStorageVariable('id_token'))
       // If it is our first time logging in - ie signup - prompt to enter profile info
       if(id_token['hoophead/firstLogin'] === "true")
@@ -107,17 +98,20 @@ export class MyApp {
       else this.getCurrentUser(id_token.sub);
     })
 
+    // on logout, reset the auth flag. auth service depopulates local storage
     this.events.subscribe('loggedOut', () => {
       this.zone.run(() => {
         this.authFlag = false;
       })
+      this.realtime.disconnect();
     })
 
-    // Repopulate current user in local storage and on MyApp
+    // When user data is refreshed, repopulate current user here and in local storage
     this.events.subscribe('updateCurrentUser', (user) => {
       this.saveUser(user)
     })
 
+    // When homecourt is removed, remove client side and update backend
     this.events.subscribe('removeHomecourt', (court_id) => {
       this.currentUser.homecourts.splice(court_id, 1);
       this.courtDataService.putUser(this.currentUser).subscribe(
@@ -125,73 +119,7 @@ export class MyApp {
         err => this.courtDataService.notify('Error', err)
       )
     })
-
-
-
-    // Check if we're connected, if not connect
-    // ortc.getIsConnected().then((connected) => {
-    //   if(connected === 1) return;
-    //   ortc.connect({
-    //     'appkey':'pLJ1wW',
-    //     'token':'appToken',
-    //     'metadata':'androidMetadata',
-    //     'projectId':'979214254876',
-    //     'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
-    //   }).then(() => {
-    //     alert('connecting');
-    //
-    //     // ortc.subscribe({
-    //     //   'channel': 'thinkWeFoundIt'
-    //     // }).then(() => {
-    //     //   alert('subscribing to channel: thinkWeFoundIt')
-    //     // })
-    //   });
-    //})
-
   }
-
-
-  // Post: establishes the ORTC connection to our realtime account
-  // Post: subscribes to the provided channel
-  // Param: Channel to listen on
-  // public pushConnect(channel: string){
-  //
-  //   alert('in push connect, unsubscribing from 5a7f55a7d2a42c6d4142d9ad');
-  //
-  //   ortc.disconnect({
-  //     'appkey':'pLJ1wW',
-  //     'token':'appToken',
-  //     'metadata':'androidMetadata',
-  //     'projectId':'979214254876',
-  //     'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
-  //   }).then(() => {
-  //     alert('disconnected');
-  //   })
-  //
-  //   ortc.unsubscribe({
-  //     'channel': '5a7f55a7d2a42c6d4142d9ad'
-  //   }).then(() => {
-  //     alert('unsubscribed from 5a7f55a7d2a42c6d4142d9ad')
-  //   })
-
-    // // estalish connection
-    // ortc.connect({
-    //   'appkey':'pLJ1wW',
-    //   'token':'appToken',
-    //   'metadata':'androidMetadata',
-    //   'projectId':'979214254876',
-    //   'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
-    // }).then(() => {
-    //   alert('connecting');
-    //
-    //   ortc.subscribe({
-    //     'channel': channel
-    //   }).then(() => {
-    //     alert('subscribing to channel: ' + channel)
-    //   })
-    // });
-
-  // }
 
 
   // Post: User is retreived from database and saved in local storage
@@ -200,16 +128,14 @@ export class MyApp {
 
     this.courtDataService.getUsersByAuth_id(sub).subscribe(
       data => {
-        // save user, let app know tat we have user
+        // save user, let app know that we have user
         this.saveUser(data.json())
         this.events.publish('gotCurrentUser')
+        // Try and connect to realtime, in most cases the connection will already exist and this method will do nothing
+        this.realtime.connect(data.json()._id)
       },
       err => {alert(err)}
     )
-  }
-
-  public eli(){
-    alert('ello');
   }
 
 

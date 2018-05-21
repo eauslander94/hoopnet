@@ -1,78 +1,98 @@
 notification-response {
-  #avatar{
-    height: 24vw; width: 24vw;
-    display: inline-block;
-    margin-top: 2vw;
+
+  #content{
+    width: 95vw;
+    height: 58vw;
+    margin-left: 2.5vw;
+    position: absolute;
+    top: 0;
+    margin-top: 54vw;
+    background: $background;
+    border-radius: 1vw;
+  }
+  .header{
+    font-family: Quicksand-bold;
+    margin: 0;
+    font-size: 3vw;
     margin-left: 2vw;
+    margin-top: 1vw;
+  }
+
+  #title{
+    font-family: Axis;
+    width: 100%;
+    text-align: center;
+    margin-top: 2vw;
+    margin-bottom: 0;
+  }
+
+  #avatar{
+    height: 14vw; width: 14vw;
+    display: inline-block;
+    margin-top: 1vw;
+    margin-left: 3vw;
+    border: 2px solid $primary;
+    border-radius: 25vw;
+    padding: 2px;
     img{
       border-radius: 25vw;
+
     }
   }
 
-  #messageDiv{
-    position: absolute;
-    top: 2vw;
-    right: 2vw;
-
-    width: 65vw;
-    margin-left: 2vw;
+  #inviter{
     display: inline-block;
-    //border: 1px solid green;
-    text-align: center;
-    height: 24vw;
-    p{
-      margin: 0;
-      margin-top: 2vw;
-      //border: 1px solid green;
-      height: 10vw;
-      font-family: Quicksand-bold;
-      font-size: 4vw;
-    }
-    p:first-child{
-      text-align: center;
-    }
-    p:last-child{
-      font-family: Quicksand-regular;
-      font-size: 3.5vw;
-    }
+    font-family: Quicksand-regular;
+    margin-right: 2vw;
+    margin-bottom: 1vw;
   }
 
-  #whenWhereWrapper{
+
+  #whenWhereWrapper {
+    //border: 1px solid red;
      width: 100%;
      height: 18vw;
-     position: absolute;
-     top: 32vw;
-     //border-top: 1px solid $borderColor;
+     border-top: 1px solid $borderColor;
     .whenWhere{
-      margin-top: 3vw;
+      margin-top: 1vw;
+      height: 18vw;
+      //border: 1px solid blue;
+      //margin-top: 3vw;
       width: 50%;
       display: inline-block;
       //border: 1px solid red;
-      position: absolute;
-      top: 0;
-        p{
-          text-align: center;
-          font-family: play-bold;
+      // position: absolute;
+      // top: 0;
+        p:nth-child(2){
+          //border: 1px solid blue;
+          //text-align: center;
+          margin-left: 2vw;
+          font-family: Quicksand-regular;
           color: $text;
-          margin-top: 0;
+          margin-top: 5px;
           margin-bottom: 0;
+          // Ellipsis overflow when the name is too long to fit on one line
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-box-orient: vertical;
+          -webkit-line-clamp: 2; /* number of lines to show */
         }
-        p:first-child{
-          font-size: 3.8vw;
-        }
-        p:last-child{
-          font-size: 3.8vw;
-        }
+    }
+    .whenWhere:first-child{
+      p{
+        //font-family: axis;
+      }
     }
     .whenWhere:last-child{
-      right: 0;
+      float: right;
       //border-left: 1px solid $borderColor;
     }
-
 }
 
 #bottomButtons{
   position: absolute;
+  font-family: Quicksand-regular;
   bottom: 0;
   width: 100%;
   height: 12vw;
@@ -84,6 +104,9 @@ notification-response {
     p{
       color: $primary;
     }
+  }
+  div:nth-child(2){
+    font-family: Quicksand-bold;
   }
 }
 

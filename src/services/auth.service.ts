@@ -6,6 +6,7 @@ import Auth0Cordova from '@auth0/cordova';
 import Auth0 from 'auth0-js';
 
 import { CourtDataService } from '../services/courtDataService.service'
+import { RealtimeProvider } from '../providers/realtime/realtime'
 
 // configuration options
 const auth0Config = {
@@ -31,7 +32,8 @@ export class AuthService {
   testJWT: string;
 
   constructor(public zone: NgZone,
-              public events: Events)
+              public events: Events,
+              public realtime: RealtimeProvider)
   {
     this.user = this.getStorageVariable('profile');
     this.idToken = this.getStorageVariable('id_token');
@@ -102,11 +104,6 @@ export class AuthService {
   }
 
   public logout() {
-    // disconnect from realtime push plugin
-    window['plugins'].OrtcPushPlugin.unsubscribe
-    ({'channel': this.getStorageVariable('currentUser')._id }).then(() => {
-      alert('unsubscribed')
-    });
 
     window.localStorage.removeItem('profile');
     window.localStorage.removeItem('access_token');
@@ -120,5 +117,4 @@ export class AuthService {
 
     this.events.publish("loggedOut");
   }
-
 }

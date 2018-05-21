@@ -3,7 +3,8 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { DatePicker } from '@ionic-native/date-picker';
 import  moment  from 'moment';
 
-import{ CourtDataService } from '../../services/courtDataService.service';
+import { CourtDataService } from '../../services/courtDataService.service';
+import { RealtimeProvider } from '../../providers/realtime/realtime';
 
 
 @IonicPage()
@@ -25,9 +26,6 @@ export class SendInvitePage {
   // users who ave been invited
   invited: Array<any>
 
-  // For sedin pus notifications;
-  ortc: any;
-
   // User currently logged in
   currentUser: any;
 
@@ -38,7 +36,8 @@ export class SendInvitePage {
               public params: NavParams,
               public datePicker: DatePicker,
               public courtDataService: CourtDataService,
-              public events: Events)
+              public events: Events,
+              public realtime: RealtimeProvider)
   {
     // set Datestring to be today's date, formatted sexily
     this.dateString = moment(new Date()).format('dddd MMM D')
@@ -87,37 +86,25 @@ export class SendInvitePage {
     this.dateDate.setHours(+this.timeString.substring(0,2))
     this.dateDate.setMinutes(+this.timeString.substring(3))
 
-    this.ortc = window['plugins'].OrtcPushPlugin;
     if(!this.currentUser)
       this.currentUser = JSON.parse(window.localStorage.getItem('currentUser'))
 
-    // loop through invited, send invitation to each friend selected
-    for(let friend of this.invited){
+    let channels: Array<string> = []
+    for(let friend of this.invited)
+      channels.push(friend._id);
+    let userName = this.currentUser.fName + ' ' + this.currentUser.lName
 
-      alert('friend to send invite to: ' + friend.fName + ' ' + friend.lName)
-
-      let payload = {
-        messageType: 'invitation',
-        user: this.currentUser.fName,
-        // court: this.params.get('court'),
-        // dateTime: this.dateDate,
-        // message: this.message
-      }
-
-      this.ortc.send({
-        'applicationKey':'pLJ1wW',
-        'privateKey':'mHkwXRv1xbbA',
-        'channel': friend._id,
-        //'channel': 'testChannel',
-        'message': JSON.stringify(payload),
-      })
-
-      alert('sending to channel: ' + friend._id);
-      this.navCtrl.popToRoot().then(() => {
-        this.events.publish('invitation', payload)
-      });
-
+    let payload = {
+      messageType: 'invitation',
+      userName: userName,
+      user_id: this.currentUser._id,
+      courtName: this.params.get('court').name,
+      court_id: this.params.get('court')._id,
+      dateTime: this.dateDate,
     }
+
+    this.realtime.notify(channels, payload, userName + ' invites you to hoop!');
+    this.navCtrl.popToRoot()
   }
 
   // Post: this.user is set to the current user
