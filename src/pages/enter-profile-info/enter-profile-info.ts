@@ -73,17 +73,9 @@ export class EnterProfileInfo {
     if(this.user.homecourts.length === 0){
       // Loading wheel  here, before presenting alert
       let alert = this.alertCtrl.create({
-        subTitle: 'Got Your Info! Now we encourage you to find your homecourt on our map',
+        subTitle: 'Got Your Info! Now we encourage you to find your homecourt on our map.',
         buttons: [
-          { text: 'no thanks',
-            handler: () => {
-              alert.dismiss().then(() => {
-                this.navCtrl.pop()
-              })
-            return false;
-            }
-          },
-          { text: 'Go to map',
+          { text: 'Dismiss',
             handler: () => {
               alert.dismiss().then(() => {
                 this.events.publish('homeCourtMessage');

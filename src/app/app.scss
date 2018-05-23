@@ -63,6 +63,7 @@ $titan-one: 'Titan One', cursive;
   text-align: center;
 }
 
+
 #courtside{
   background-image: url('../assets/img/ballBlack.png');
   background-size: 100%;
@@ -140,16 +141,6 @@ $titan-one: 'Titan One', cursive;
 }
 
 
-
-//Action sheet styling
-.action-sheet-options, .action-sheet-group{
-  background: #131313!important;
-
-  button{
-    background: #131313!important;
-  }
-}
-
 // Styling the header for gamesModal and waitTimeModal
 .scoutModalHeader{
   color: $text;
@@ -223,16 +214,6 @@ $titan-one: 'Titan One', cursive;
   padding-right: 5%;
 }
 
-// Court report icon
-.courtReportIcon {
-  background-image: url('../assets/img/courtReport.png');
-  background-size: 100%;
-}
-
-@import url('https://fonts.googleapis.com/css?family=Krona+One|PT+Sans:400,400i');
-// Font Variables
-$krona-one: 'Krona One', sans-serif;
-$open-sans: 'Open Sans', sans-serif;
 
 @font-face {
   font-family: "bulls";
@@ -259,66 +240,6 @@ $open-sans: 'Open Sans', sans-serif;
 }
 
 @font-face {
-  font-family: "Averta";
-  src: url("../assets/fonts/Averta.otf") format("opentype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "AvertaBoldItalic";
-  src: url("../assets/fonts/AvertaBoldItalic.otf") format("opentype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "dozen";
-  src: url("../assets/fonts/dozen.otf") format("opentype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "monique";
-  src: url("../assets/fonts/monique.otf") format("opentype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Tavolga";
-  src: url("../assets/fonts/Tavolga.ttf") format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "LuckiestGuy";
-  src: url("../assets/fonts/LuckiestGuy.ttf") format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Play-Regular";
-  src: url("../assets/fonts/Play-Regular.ttf") format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "Play-Bold";
-  src: url("../assets/fonts/Play-Bold.ttf") format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "NBA_Celtics";
-  src: url('../assets/fonts/NBA_Celtics.ttf') format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "NBA_Cavaliers";
-  src: url('../assets/fonts/NBA_Cavaliers.ttf') format("truetype");
-  font-style: normal;
-}
-
-@font-face {
   font-family: "Quicksand-Regular";
   src: url("../assets/fonts/Quicksand/Quicksand-Regular.otf") format("truetype");
   font-style: normal;
@@ -330,29 +251,6 @@ $open-sans: 'Open Sans', sans-serif;
   font-style: normal;
 }
 
-@font-face {
-  font-family: "extravaganzza";
-  src: url("../assets/fonts/Extravaganzza/extravaganzza-extra-bold.ttf") format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "beba-regular";
-  src: url('../assets/fonts/Beba/BebasNeue-Regular.otf') format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "pantonBlack";
-  src: url('../assets/fonts/pantonBlack.otf') format("truetype");
-  font-style: normal;
-}
-
-@font-face {
-  font-family: "jaden";
-  src: url('../assets/fonts/jaden.ttf') format("truetype");
-  font-style: normal;
-}
 
 // Below is the styling for the shared header on text/picture posts
 .postHeader {

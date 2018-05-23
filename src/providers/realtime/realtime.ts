@@ -91,5 +91,5 @@ export class RealtimeProvider {
         message : message,
         payload : JSON.stringify(payload)
       }).subscribe()
-  }
+  } 
 }

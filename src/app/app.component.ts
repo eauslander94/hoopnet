@@ -28,7 +28,7 @@ import Auth0Cordova from '@auth0/cordova';
   templateUrl: 'app.html',
 })
 export class MyApp {
-  
+
   rootPage = HoopMapPage;
 
   // user currently logged in
@@ -218,6 +218,7 @@ export class MyApp {
       curr.backgroundImage = {};
       window.localStorage.setItem('currentUser', JSON.stringify(curr));
   }
+
 
   public greyOrNay(){
     return "red!important;"

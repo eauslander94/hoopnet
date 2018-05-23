@@ -235,6 +235,20 @@ export class FriendsPage {
     this.showing = switchTo;
   }
 
+  // Post user data is refreshed and saved, refresher stops spinning
+  public doRefresh(refresher: any){
+    this.courtDataService.getUsersByAuth_id(JSON.parse(window.localStorage.getItem('currentUser')).auth_id)
+    .subscribe(res => {
+      this.events.publish('updateCurrentUser', res.json())
+      this.getFriendRequests(res.json().friendRequests);
+      refresher.complete()
+    },
+    err => {
+      this.courtDataService.notify('Error', 'Error refreshing user data'),
+      refresher.complete()
+    })
+  }
+
 
 
 
