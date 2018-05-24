@@ -80,7 +80,6 @@ export class NotificationResponse {
   respond(confirm: boolean){
 
     let user = JSON.parse(window.localStorage.getItem('currentUser'))
-
     this.realtime.notify([this.inviter._id], {
       messageType: 'invitationResponse',
       userName: user.fName + ' ' + user.lName,

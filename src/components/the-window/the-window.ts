@@ -75,7 +75,6 @@ export class TheWindow {
                private cdr: ChangeDetectorRef,
                private zone: NgZone)
   {
-    alert('theWindow');
     // Update the living timestamps every minute
     Observable.interval(1000 * 60).subscribe( x => {
       this.updateLivingTimestamps();

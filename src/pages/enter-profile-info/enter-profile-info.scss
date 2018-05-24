@@ -4,6 +4,7 @@ page-enter-profile-info {
     background: $background!important;
     position: relative;
   }
+
   // Message up top
   #enterHeader{
     font-family: Quicksand-regular;
@@ -11,6 +12,7 @@ page-enter-profile-info {
     font-size: 4.3vw;
     text-align: center;
   }
+
   // The inputs for getting names
   ion-item{
     background-color: $background!important;
@@ -26,10 +28,6 @@ page-enter-profile-info {
     color: $offWhite!important;
     position: absolute!important;  bottom: 1vw;
     //margin-top: 20vw!important;
-  }
-
-  button{
-    //position: absolute!important;
   }
 
   .imagePicker{

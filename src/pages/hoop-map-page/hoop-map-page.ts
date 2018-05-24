@@ -319,8 +319,10 @@ export class HoopMapPage {
   // Post: Alert confirming or denying hoop invitation is pulled up
   // Param: payload from notification invitation
   public invitationResponse(payload: any){
+
     let message = payload.userName;
-    if(payload.confirm == true)
+    // payload.confirm comes back as a string.  So we treat it so, below
+    if(payload.confirm === 'true')
       message +=  ' accepts your invitation to hoop! Have a happy session.';
     else message +=  ' cannot make this hoop session. We hope that you have a good run.';
 

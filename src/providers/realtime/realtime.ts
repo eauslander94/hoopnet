@@ -12,13 +12,17 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class RealtimeProvider {
 
-  private ortc: any = window['plugins'].OrtcPushPlugin;
-
+  //private ortc: any = window['plugins'].OrtcPushPlugin;
+  private ortc: any = '';
   constructor(private http: Http) {}
 
   // Post:  Connection established with realtime server if no previous connection exists
   // Post2: Subscribe to current user's channel
   public connect(currentUser: string){
+
+    // For testing without making the connection to realtime
+    if(this.ortc === '') return;
+
     // If connection already exists do nothing
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 1){
@@ -33,7 +37,7 @@ export class RealtimeProvider {
         'projectId':'979214254876',
         'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
       }).then(() => {
-        this.ortc.subscribe({'channel': currentUser}).then(() => {alert(currentUser)})
+        this.ortc.subscribe({'channel': currentUser + 'test456'}).then(() => {alert(currentUser + 'test456')})
       })
     })
   }
@@ -91,5 +95,5 @@ export class RealtimeProvider {
         message : message,
         payload : JSON.stringify(payload)
       }).subscribe()
-  } 
+  }
 }

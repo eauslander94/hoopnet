@@ -18,7 +18,9 @@ const auth0Config = {
   domain: 'eauslander94-dev.auth0.com',
   callbackURL: location.href,
   // Below is from config.xml
-  packageIdentifier: 'com.eauslander94.courtlife'
+  packageIdentifier: 'com.eauslander94.courtlife',
+  location:"no",
+  toolbar:"no"
 };
 
 

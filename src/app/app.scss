@@ -52,16 +52,12 @@ $titan-one: 'Titan One', cursive;
 }
 
 // center the toolbar
-.toolbar-content{
+.toolbar-content {
   position: absolute;
-  width: 50%;
-  left: 25%;
+  width: 70%;
+  left: 15%;
 }
 
-.spinDiv{
-  width: 100%;
-  text-align: center;
-}
 
 
 #courtside{
@@ -89,17 +85,19 @@ $titan-one: 'Titan One', cursive;
 }
 
 // Styling te side menu - html lives in app.html
+
+
 #menuDiv{
   height: 100%;
-  background: linear-gradient(to bottom,  #33ccff  0%, #fff 100%);
-  border-top: 1px solid $primary;
+  background: linear-gradient(to top,  #33ccff  0%, #fff 100%);
 }
 
 .menuButton{
   height: 10vw;
   width: 100%;
   border-bottom: 1px solid $borderColor;
-  font-family: axis;
+  font-family: Quicksand-bold;
+  font-size: 4vw;
   margin-left: 3vw;
 }
 

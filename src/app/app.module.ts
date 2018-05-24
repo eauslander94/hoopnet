@@ -25,7 +25,6 @@ import { AnimationService, AnimatesDirective } from 'css-animator';
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
 import { LoginPage }        from '../pages/login/login';
 import { CourtPage }        from '../pages/court-page/court-page';
-import { Profile }          from '../pages/profile/profile';
 import { FriendsPage }      from '../pages/friends-page/friends-page';
 import { EnterProfileInfo } from '../pages/enter-profile-info/enter-profile-info';
 import { InviteFriendsPage} from '../pages/invite-friends/invite-friends';
@@ -81,7 +80,6 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     ProfileModal,
     NotificationResponse,
 
-    Profile,
     ParallaxHeader,
     CourtPage,
     Dbltap,
@@ -105,7 +103,6 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     SendInvitePage,
 
     ProfileModal,
-    Profile,
     CourtPage,
     WindowModal,
     GamesModal,

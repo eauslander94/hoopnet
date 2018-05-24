@@ -15,13 +15,15 @@
 
 <ion-content padding>
 
-<p class="inviteFriendsHeader">Please enter a date, time, and optionally a message</p>
+<p class="inviteFriendsHeader">When do you want to play?</p>
 
+<!-- Date picker -->
 <ion-item id="dateItem" (tap)="pickDate()">
   <p>Date</p>
   <p id="dateString">{{dateString}}</p>
 </ion-item>
 
+  <!-- Time picker -->
   <ion-item>
     <ion-label>Time</ion-label>
     <ion-datetime displayFormat="hh:mm a" [(ngModel)]="timeString"
@@ -29,12 +31,6 @@
     </ion-datetime>
   </ion-item>
 
-  <!-- Get First Name -->
-  <ion-item>
-    <ion-label floating>Message</ion-label>
-    <ion-input [(ngModel)]='message' ></ion-input>
-  </ion-item>
-<!--[attr.maxLength]="20"-->
   <!-- users wo ave been invited -->
   <div id="invited">
     <p>Friends Invited</p>

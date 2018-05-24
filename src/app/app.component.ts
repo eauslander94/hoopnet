@@ -14,7 +14,6 @@ import * as RealtimeMessaging from 'realtime-messaging';
 import { HomeCourtDisplay }  from '../components/home-court-display/home-court-display';
 import { InviteFriendsPage } from '../pages/invite-friends/invite-friends';
 import { ProfileModal }      from '../components/profile-modal/profile-modal';
-import { Profile }           from '../pages/profile/profile';
 import { EnterProfileInfo }  from '../pages/enter-profile-info/enter-profile-info';
 import { FriendsPage }       from '../pages/friends-page/friends-page';
 import { CourtSearchPage }   from '../pages/court-search/court-search';
@@ -49,7 +48,8 @@ export class MyApp {
               public modalCtrl: ModalController,
               private cdr: ChangeDetectorRef,
               private zone: NgZone,
-              public realtime: RealtimeProvider)
+              public realtime: RealtimeProvider,
+              public statusBar: StatusBar)
   {
     this.initializeApp();
     this.initializeListeners();
@@ -72,10 +72,8 @@ export class MyApp {
       // If we're autenticated on startup
       if(this.auth.isAuthenticated()){
         // get a fresh copy of the current user into local storage
-        this.getCurrentUser(new JwtHelper().decodeToken(this.auth.getStorageVariable('id_token')).sub)
+        this.getCurrentUserByAuthId(new JwtHelper().decodeToken(this.auth.getStorageVariable('id_token')).sub)
         this.authFlag = true;
-        // connect to realtime
-        this.realtime.connect((JSON.parse(window.localStorage.getItem('currentUser'))._id))
       }
       else this.authFlag = false;
 
@@ -89,13 +87,16 @@ export class MyApp {
 
     // On login event, get user data & populate local storage. Also set auth flag
     this.events.subscribe('loggedIn', () => {
-      this.zone.run(() => {  this.authFlag = true  })
       let id_token = new JwtHelper().decodeToken(this.auth.getStorageVariable('id_token'))
       // If it is our first time logging in - ie signup - prompt to enter profile info
-      if(id_token['hoophead/firstLogin'] === "true")
-        this.nav.push(EnterProfileInfo, {'edit': false, 'auth_id': id_token.sub})
+      if(id_token['hoophead/firstLogin'] === "true"){
+        this.menu.close().then(() => {
+          this.nav.push(EnterProfileInfo, {'edit': false, 'auth_id': id_token.sub})
+        });
+
+      }
       // else retreive our user from db
-      else this.getCurrentUser(id_token.sub);
+      else this.getCurrentUserByAuthId(id_token.sub);
     })
 
     // on logout, reset the auth flag. auth service depopulates local storage
@@ -119,20 +120,29 @@ export class MyApp {
         err => this.courtDataService.notify('Error', err)
       )
     })
+
+    this.events.subscribe('newUserInfo', (user) => {  this.initUser(user)  })
+  }
+
+  // Preforms startup responsibilities only when we first get user info
+  // Post: user is saved, auth flag is set to true, connects to realtime
+  // Pre: Only fires when we first get user info
+  private initUser(user: any){
+    this.zone.run(() => { this.authFlag = true })
+    this.saveUser(user)
+    this.realtime.connect(user._id)
   }
 
 
-  // Post: User is retreived from database and saved in local storage
+  // Post:  User is retreived from database by authID, init User is called
   // Param: Unique auth0 id used to identify user
-  public getCurrentUser(sub: string){
+  // Pre:   This event is only called when the app loads, and when a user logs in
+  private getCurrentUserByAuthId(sub: string){
 
     this.courtDataService.getUsersByAuth_id(sub).subscribe(
       data => {
-        // save user, let app know that we have user
-        this.saveUser(data.json())
         this.events.publish('gotCurrentUser')
-        // Try and connect to realtime, in most cases the connection will already exist and this method will do nothing
-        this.realtime.connect(data.json()._id)
+        this.initUser(data.json())
       },
       err => {alert(err)}
     )

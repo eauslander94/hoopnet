@@ -95,9 +95,7 @@ export class FriendsPage {
     });
 
     this.events.subscribe('updateCurrentUser', (user) => {
-      this.zone.run(() => {
         this.getFriends(user.friends);
-      })
     })
 
     // Load wheel, updateCurrentUser event soon to follow
@@ -116,7 +114,10 @@ export class FriendsPage {
     this.courtDataService.getUsers(friend_ids).subscribe(
       res => {
         this.friends = res.json();
-        this.friendsShowing = res.json();
+        this.zone.run(() => {
+          this.friendsShowing = res.json();
+          this.friendLoading = false;
+        })
         this.friendLoading = false;
       },
       err => { this.courtDataService.notify('Error', err) },

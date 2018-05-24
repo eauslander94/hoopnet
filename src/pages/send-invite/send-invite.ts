@@ -20,9 +20,6 @@ export class SendInvitePage {
   dateString: string;
   timeString: string = '';
 
-  // message to e sent to other user
-  message: string;
-
   // users who ave been invited
   invited: Array<any>
 
@@ -104,7 +101,24 @@ export class SendInvitePage {
     }
 
     this.realtime.notify(channels, payload, userName + ' invites you to hoop!');
-    this.navCtrl.popToRoot()
+    this.navCtrl.popToRoot().then(() => {
+      let message = 'You\'ve successfully invited '
+      if(this.invited.length > 5)
+        message = message + 'your friends to hoop.'
+      else {
+        let i: number = 0;
+        while(i < this.invited.length - 1){
+          message += this.invited[i].fName + ', ';
+          i++;
+        }
+        message = message.substring(0, message.length - 2)
+        message += ' and ' + this.invited[this.invited.length - 1].fName + ' to hoop.'
+      }
+
+      message += ' We hope that you have a happy session.'
+
+      this.courtDataService.notify('Invitation Sent!', message)
+    })
   }
 
   // Post: this.user is set to the current user

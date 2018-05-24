@@ -24,9 +24,8 @@ export class EnterProfileInfo {
   // Whether or not we are editing existing profile information
   edit: boolean;
 
-  // whether or not we have edited the avatar/background
+  // whether or not we have edited the avatar
   avatarChange: boolean = false;
-  backgroundChange: boolean = false;
 
   constructor(public navCtrl: NavController,
               public params: NavParams,
@@ -56,18 +55,16 @@ export class EnterProfileInfo {
       return;
     }
 
-    // editing - update existing user.  signing up - add new user
-    if(this.edit) this.courtDataService.putUser(this.user);
-    else this.courtDataService.newUser(this.user);
-
-    // clone user, remove large image data, save to local storage
-    let curr = JSON.parse(JSON.stringify(this.user))
-    curr.avatar = {};
-    curr.backgroundImage = {};
-    window.localStorage.setItem('currentUser', JSON.stringify(curr));
-
-    // Tell profile page we have entered profile info
-    this.events.publish('profileInfoEntered', this.user)
+    // editing - update existing user.  signing up - add new user.
+    if(this.edit) {
+      this.courtDataService.putUser(this.user);
+      this.events.publish('updateCurrentUser', this.user);
+    }
+    else{
+      alert('received new User info, sending to server and initializing here');
+      this.courtDataService.newUser(this.user);
+      this.events.publish('newUserInfo', this.user);
+    }
 
     // no homecourt? prompt user to enter one
     if(this.user.homecourts.length === 0){
@@ -90,30 +87,6 @@ export class EnterProfileInfo {
   }
   // We do have a homecourt, so just pop
   else this.navCtrl.pop();
-  }
-
-
-  // Post: Gallery or camera pops up, populates user.backgroundImage with image uri
-  public getBackground(){
-
-    let cameraOptions: CameraOptions = {
-      sourceType: this.camera.PictureSourceType.PHOTOLIBRARY,
-      destinationType: 0,
-      encodingType: this.camera.EncodingType.JPEG,
-      allowEdit: true,
-      quality: 50,
-      correctOrientation: true
-    }
-    this.camera.getPicture(cameraOptions).then(
-      (data_url) => {
-        this.user.backgroundImage = {
-          data: data_url,
-          contentType: 'image/jpeg'
-        }
-        this.backgroundChange = true;
-      },
-      (err) => {console.log(err)}
-    )
   }
 
   // Post: Gallery or camera pops up, populates user.avatar with image uri
@@ -193,7 +166,6 @@ export class EnterProfileInfo {
         data: '',
         contentType: ''
       },
-      backgroundImage: {},
       // pointer to the court object the user is beside
       courtside: '',
       checkIns: [{}]
