@@ -27,10 +27,12 @@ import { LoginPage }        from '../pages/login/login';
 import { CourtPage }        from '../pages/court-page/court-page';
 import { FriendsPage }      from '../pages/friends-page/friends-page';
 import { EnterProfileInfo } from '../pages/enter-profile-info/enter-profile-info';
-import { InviteFriendsPage} from '../pages/invite-friends/invite-friends';
-import { SelectFriendsPage} from '../pages/select-friends/select-friends';
+import { InviteFriendsPage }from '../pages/invite-friends/invite-friends';
+import { SelectFriendsPage }from '../pages/select-friends/select-friends';
 import { CourtSearchPage }  from '../pages/court-search/court-search';
 import { SendInvitePage }   from '../pages/send-invite/send-invite';
+import { CourtClosingsPage }from '../pages/court-closings/court-closings';
+import { AddClosingPage }   from '../pages/add-closing/add-closing';
 // components
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
@@ -67,6 +69,8 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     SelectFriendsPage,
     CourtSearchPage,
     SendInvitePage,
+    CourtClosingsPage,
+    AddClosingPage,
 
     TheWindow,
     WindowModal,
@@ -101,6 +105,8 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     InviteFriendsPage,
     SelectFriendsPage,
     SendInvitePage,
+    CourtClosingsPage,
+    AddClosingPage,
 
     ProfileModal,
     CourtPage,

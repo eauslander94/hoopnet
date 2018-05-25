@@ -1,9 +1,10 @@
 import { Component, NgZone, ElementRef, Renderer2, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ViewController, NavParams, Content, ModalController, NavController } from 'ionic-angular';
+import { ViewController, NavParams, Content, ModalController, NavController, Events } from 'ionic-angular';
 
 import { HoursDisplay }  from '../hours-display/hours-display';
 import { Closures }      from '../closures/closures';
 import { InviteFriendsPage } from '../../pages/invite-friends/invite-friends';
+import { CourtClosingsPage } from '../../pages/court-closings/court-closings'
 import { AuthService }   from '../../services/auth.service';
 import { CourtDataService } from '../../services/courtDataService.service';
 
@@ -40,7 +41,8 @@ export class WindowModal {
               public modalCtrl: ModalController,
               public navCtrl: NavController,
               public auth: AuthService,
-              public courtDataService: CourtDataService)
+              public courtDataService: CourtDataService,
+              public events: Events)
   {
     this.court = params.get('court');
     this.windowData = params.get('court').windowData;
@@ -71,18 +73,21 @@ export class WindowModal {
 
   // Post: Closures Modal is presented
   public presentClosures(){
-    let closures = this.modalCtrl.create(Closures, {
+
+    this.navCtrl.push(CourtClosingsPage, {
       closures: this.court.closures,
       courtBaskets: this.court.baskets,
       court_id: this.court._id
     })
-    closures.onDidDismiss(data => {
+
+    this.events.subscribe('closingsDismissed', (data) => {
       this.court.closures = data;
       // Check if court as opened or closed based on closures
-      if(this.isOpenNow()) this.openString = 'open';
-      else this.openString = 'closed';
+      this.zone.run(() => {
+        if(this.isOpenNow()) this.openString = 'open';
+        else this.openString = 'closed';
+      })
     })
-    closures.present();
   }
 
   // Post: Invite Friends Page is pused onto the naviation stack

@@ -1,15 +1,12 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>Add closing</ion-title>
-     <ion-buttons start>
-      <button ion-button icon only (tap)="viewCtrl.dismiss({})">
-        <ion-icon name="arrow-round-back"></ion-icon>
-      </button>
-  </ion-buttons>
+    <ion-title>{{navbar}}</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content>
+
+  <p class='instructionHeader'>Please enter information on the temporary closing of this court.</p>
 
   <ion-item no-lines class="time item">
     <ion-label>start time</ion-label>

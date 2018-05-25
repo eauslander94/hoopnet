@@ -1,8 +1,12 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, ViewController, NavParams, ActionSheetController, AlertController, ModalController, Events } from 'ionic-angular';
+import { IonicPage, ViewController, NavParams, ActionSheetController,
+  NavController, AlertController, ModalController, Events } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service'
 import moment from 'moment';
+import { AddClosingPage }   from '../../pages/add-closing/add-closing';
+
+
 import { AddClosure } from '../../components/add-closure/add-closure';
 
 // Notes: This may end up becoming its own page.
@@ -10,10 +14,10 @@ import { AddClosure } from '../../components/add-closure/add-closure';
 
 @IonicPage()
 @Component({
-  selector: 'closures',
-  templateUrl: 'closures.html'
+  selector: 'page-court-closings',
+  templateUrl: 'court-closings.html',
 })
-export class Closures {
+export class CourtClosingsPage {
 
   closures: Array<any>;
   dayOfWeek: number;
@@ -34,7 +38,8 @@ export class Closures {
               public courtDataService: CourtDataService,
               public auth: AuthService,
               public zone: NgZone,
-              public events: Events)
+              public events: Events,
+              public navCtrl: NavController)
   {
     this.closures = params.get('closures');
 
@@ -80,25 +85,21 @@ export class Closures {
   public presentFlagActions(closure: any){
     let flagActions = this.actionSheetCtrl.create({
       // title: 'gfhgdgh',
-      cssClass: 'action-sheet',
+      //cssClass: 'action-sheet',
       buttons: [
        {
-         text: 'Edit Closure',
+         text: 'Edit Closing',
          handler: () => {
            // Present the edit form with the given closure and true for edit
-           this.presentAddClosure(closure, true);
+           //this.presentAddClosure(closure, true);
+           this.presentAddClosing(closure, true);
          }
        },
        {
-         text: 'Delete Closure',
+         text: 'Delete Closing',
          handler: () => {
-           let transition = flagActions.dismiss();
-
-           transition.then(() => {
-             this.confirmDelete(closure);
-             //console.log(closure.reason);
-           })
-        return false;
+           flagActions.dismiss().then(() => { this.confirmDelete(closure) })
+           return false;
          }
        },
        {
@@ -122,8 +123,8 @@ export class Closures {
       buttons: [
         { text: 'Cancel', handler: ()=> {} },
         { text: 'Delete', handler: ()=> {
+          this.zone.run(() => { this.loading = true })
           // delete the closure
-          //this.deleteClosure(closure)
           this.courtDataService.deleteClosure(closure._id, this.params.get('court_id'))
           .subscribe(
             res => {
@@ -131,7 +132,9 @@ export class Closures {
                 this.closures = res.json().closures
                 for(let closure of this.closures)
                   this.formatTimestrings(closure)
+                this.loading = false;
               })
+              this.events.publish('reloadCourt', res.json())
             },
             err => {console.log('err, deleteClosure ' + err)}
           );
@@ -147,7 +150,7 @@ export class Closures {
 
   // Return our primary color for days on which the closure occurs
   public getStyle(days:any, index: number){
-    if (days[index] > 0) return'#387ef5';
+    if (days[index] > 0) return'#33ccff';
   }
 
   // post: AddClosure modal is presented
@@ -155,26 +158,19 @@ export class Closures {
   // param: boolean edit - whether or not we are editing an existing closure
   // closure - the closure to be edited, undef if edit is false
   // Edit - boolean, whether or not we are editing an existing closure
-  public presentAddClosure(closure, edit: boolean){
+  public presentAddClosing(closure, edit: boolean){
 
     if(!this.auth.isAuthenticated()){
       this.courtDataService.toastMessage("You must be logged in to perform this action", 3000);
       return;
     }
 
-    let addClosure = this.modalCtrl.create(AddClosure, {"courtBaskets": this.params.get('courtBaskets'),
-    'closure': closure, 'edit': edit});
-
-    // Save the old reason as an identifier for put server requests when editing
-    let oldReason = '';
-    if(edit) oldReason = closure.reason;
-
-    addClosure.onDidDismiss(data => {
+    this.events.subscribe('newClosureData', (data) => {
       if(data.closure){
         this.formatTimestrings(data.closure);
         this.loading = true;
         // When editing closure, update existing closure in db with put
-        if(edit) {
+        if(data.edit) {
           this.courtDataService.putClosure(data.closure, this.params.get('court_id'))
           .subscribe(
             res => { this.gotData(res.json()) },
@@ -192,7 +188,11 @@ export class Closures {
       }
     });
 
-    addClosure.present();
+    this.navCtrl.push(AddClosingPage, {
+      "courtBaskets": this.params.get('courtBaskets'),
+      'closure': closure,
+      'edit': edit
+    });
   }
 
   // Post1: this.closures replaced with updated value from db
@@ -237,7 +237,9 @@ export class Closures {
 
   // Post: Closures is dismissed wit current closures passed back
   public dismiss(){
-    this.viewCtrl.dismiss(this.closures)
+    this.navCtrl.pop().then(() => {
+      this.events.publish('closingsDismissed', this.closures)
+    })
   }
 
 

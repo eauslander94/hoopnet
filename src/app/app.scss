@@ -84,9 +84,8 @@ $titan-one: 'Titan One', cursive;
   //border: 1px solid black;
 }
 
+
 // Styling te side menu - html lives in app.html
-
-
 #menuDiv{
   height: 100%;
   background: linear-gradient(to top,  #33ccff  0%, #fff 100%);
@@ -132,10 +131,12 @@ $titan-one: 'Titan One', cursive;
   border-radius: 1vw;
 }
 
-// Header for invite friends loop
-.inviteFriendsHeader{
+// Header for instructions pn various pages
+.instructionHeader {
   text-align: center;
   font-family: Quicksand-bold;
+  width: 90vw;
+  margin-left: 5vw;
 }
 
 
@@ -180,10 +181,12 @@ $titan-one: 'Titan One', cursive;
   color: white !important;
 }
 
-.slider-pager-page.active {
-  color: red !important;
-}
 
+.bottomButton{
+  font-family: Quicksand-bold;
+  position: absolute;
+  bottom: 0;
+}
 
 #selectDiv{
   border-radius: 3px;

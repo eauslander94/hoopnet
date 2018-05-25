@@ -1,11 +1,11 @@
 
 <ion-header>
   <ion-navbar>
-    <ion-buttons start>
+    <!-- <ion-buttons start>
      <button ion-button icon only (tap)="dismiss()">
        <ion-icon name="ios-arrow-round-back"></ion-icon>
      </button>
- </ion-buttons>
+ </ion-buttons> -->
     <ion-title>Court Closings</ion-title>
   </ion-navbar>
 </ion-header>
@@ -77,7 +77,7 @@
 </div>
 </ion-list>
 
-<button id="addClosure" ion-button full color='$blackshade1'(tap)="presentAddClosure({}, false)">Add Closure</button>
+<button class='bottomButton' ion-button full (tap)="presentAddClosure({}, false)">Add Closing</button>
 
 <div id="loading" *ngIf="loading">
   <ion-spinner></ion-spinner>

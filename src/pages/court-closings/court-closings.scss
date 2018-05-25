@@ -1,0 +1,131 @@
+page-court-closings {
+
+  height: 100vh;
+  width: 100vw;
+  background: $background;
+  button{
+    ion-icon{
+      font-size: 8vw;
+    }
+  }
+
+
+// The top tabs
+  #topTab{
+    width: 100vw;    height: 12vw;
+    //margin-top: 18vw;
+    background: $background;
+              border: 1px solid $borderColor;
+    // each tab
+    div{
+      display: inline-block;
+      width: 50%;
+      margin:-1px;
+      //border-right:  solid white;
+      text-align: center;
+      height: 12vw;
+    }
+    // put a border between the two
+    div:first-child{  border-right: 1px solid $borderColor;}
+    p{
+      color: $text;
+      font-family: Quicksand-regular;
+      font-size: 4vw;
+    }
+  }
+  // The top tab that is currently selected
+  .active{
+    //height: 100%;
+    border-bottom: 2px solid $primary!important;
+    p{
+      color: $primary!important;
+      font-family: Quicksand-bold!important;
+
+    }
+  }
+
+  ion-list{ padding-top: 5vw;}
+
+  #closureWrapper{
+  //  border: 1px solid red;
+    margin-bottom: 3vw;
+  //  box-shadow: 1px 1px 1px 1px;
+    background: $background;
+  }
+
+  #closure{
+    height: 20vw;
+    width: 100vw;
+    background: $background;
+    border-bottom: 1px solid $borderColor;
+    border-top: 1px solid $borderColor;
+
+    // Holds the time, the baskets and the days
+    #closureHeader{
+      height: 7vw;
+      text-align: center;
+      border-bottom: 1px solid $borderColor;
+      p{
+        margin-top: 1vw;
+        color: $text;
+        display: inline-block;
+        font-family: Quicksand-regular;
+        font-size: 3.5vw;
+      }
+      #days{
+        display: inline-block;
+        width: 32%;
+        p{
+          margin-left: .5vw;
+          margin-right: .5vw;
+        }
+      }
+    }
+
+    // The baskets and the time
+    #closureHeader > p{width: 32%;}
+
+    // Reason and flag icon
+    #reasonFlag {
+      height: 13vw;
+      p{
+        color: $text;
+        font-size: 6vw;
+        margin-left: 3vw;
+        display: inline-block;
+        height: 8vw;
+        margin-top: 3vw;
+      }
+      div{
+        margin-top: 3vw;
+        height: 8vw;
+        width: 7vw;
+        float: right;
+
+        ion-icon{
+          color: $borderColor;
+          font-size: 25px;
+          height: 8vw;
+        }
+      }
+    }
+  }
+
+  #loading{
+    height: 100vh;
+    width: 100vw;
+    z-index: 2;
+    position: absolute; top: 0;
+    //background: black;
+    //opacity: .1;
+    text-align: center;
+
+    ion-spinner{
+      //background: white;
+      margin-top: 40vw;
+      //border: 1px solid red;
+      //opacity: 1!important;
+    }
+  }
+
+}// class paren

@@ -402,9 +402,9 @@ export class CourtDataService{
     }
 
 
-    // Post:    Closure whose id is provided is removed from the db
-    // Param:   _id of the closure to be deleted, and court to which it belongs
-    // Returns: observable emitting updated court
+    // Post:     Closure whose id is provided is removed from the db
+    // Param:    _id of the closure to be deleted, and court to which it belongs
+    // Returns:  Observable emitting updated court
     public deleteClosure(closure_id: string, court_id: string){
 
       if(!this.auth.isAuthenticated()){  // if we're not authenticated
