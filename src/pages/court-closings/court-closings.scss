@@ -89,12 +89,18 @@ page-court-closings {
     #reasonFlag {
       height: 13vw;
       p{
-        color: $text;
         font-size: 6vw;
-        margin-left: 3vw;
         display: inline-block;
         height: 8vw;
         margin-top: 3vw;
+        width: 89vw;
+        margin-left: 3vw;
+
+
+        // Ellipsis overflow when the name is too long to fit on one line
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
       }
       div{
         margin-top: 3vw;
