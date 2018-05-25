@@ -12,8 +12,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class RealtimeProvider {
 
-  //private ortc: any = window['plugins'].OrtcPushPlugin;
-  private ortc: any = '';
+  private ortc: any = window['plugins'].OrtcPushPlugin;
+  // private ortc: any = '';
   constructor(private http: Http) {}
 
   // Post:  Connection established with realtime server if no previous connection exists
@@ -26,10 +26,8 @@ export class RealtimeProvider {
     // If connection already exists do nothing
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 1){
-        alert ('existing connection')
         return;
       }
-      alert('no active connection, connecing to realtime server')
       this.ortc.connect({
         'appkey':'pLJ1wW',
         'token':'appToken',
@@ -37,7 +35,7 @@ export class RealtimeProvider {
         'projectId':'979214254876',
         'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
       }).then(() => {
-        this.ortc.subscribe({'channel': currentUser + 'test456'}).then(() => {alert(currentUser + 'test456')})
+        this.ortc.subscribe({'channel': currentUser})
       })
     })
   }
@@ -46,13 +44,10 @@ export class RealtimeProvider {
   public disconnect(){
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 0){
-         alert('in disconnect, no existing connection')
          return;
       }
       this.ortc.disconnect().then(() => {
-        alert('disconnected from realtime server')
         this.ortc.getIsConnected().then((connected) => {
-          alert('connection status: ' + connected)
         })
       })
     })
@@ -66,7 +61,7 @@ export class RealtimeProvider {
       if(connected === 1)
         this.ortc.subscribe({
           'channel': channel
-        }).then(() => { alert('subscription successful') });
+        })
     })
   }
 
@@ -76,7 +71,6 @@ export class RealtimeProvider {
   public unsubscribe(channel: string){
     try{
       this.ortc.unsubscribe({'channel': channel}).then(() => {
-        alert('unsubscribed from channel: ' + channel);
         this.disconnect();
       })
     } catch (e){ alert(e) };

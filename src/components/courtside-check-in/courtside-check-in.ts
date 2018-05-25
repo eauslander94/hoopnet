@@ -36,7 +36,6 @@ export class CourtsideCheckIn {
         }
       }
 
-      alert('fetching courts from database');
       this.getCourts([position.coords.longitude, position.coords.latitude])
     }).catch((error) => {
       // for testing - geolocation does not work with livereload flag

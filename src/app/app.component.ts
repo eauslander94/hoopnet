@@ -185,7 +185,6 @@ export class MyApp {
   public navToEnterProfileInfo(){
     // If we're not authenticated, do nothing
     if(!this.authFlag) return;
-    // alert(this.currentUser.fName + ' ' + this.currentUser.avatar.data.length);
     let user = this.currentUser;
     this.nav.push(EnterProfileInfo, {'edit': true, 'user': user})
     this.menu.close();
@@ -219,9 +218,7 @@ export class MyApp {
   // Post: saves user to this component, clone of user without images to local storage
   // Param: User to save
   public saveUser(user: any){
-      // alert('saving user');
       this.currentUser = user;
-      //alert(this.currentUser.avatar.data.length);
       // clone user, remove lare image data, save to local storage
       let curr = JSON.parse(JSON.stringify(user))
       curr.avatar = {};
