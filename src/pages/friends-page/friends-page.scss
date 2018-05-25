@@ -7,7 +7,7 @@ page-friends-page {
   #amigoTabs{
     width: 100vw;
     height: 12vw;
-    border-bottom: 1px solid #030303;
+    border-bottom: 1px solid $borderColor;
     div{
       display: inline-block;
       height: 100%; width: 33vw;
@@ -22,7 +22,7 @@ page-friends-page {
       }
       ion-badge{margin-left: 1vw; color: #131313; background-color: $primary}
     }
-    div:nth-child(n + 1){ border-left: 1px solid #030303}
+    div:nth-child(n + 1){ border-left: 1px solid $borderColor}
     // The top tab that is currently selected
     .active{
       height: 103%;
@@ -44,15 +44,14 @@ page-friends-page {
   // Basic style for the display of a single user
   .userDisplay{
     height: 16vw;  width: 100vw;
-    border-bottom: 1px solid #030303;
+    border-bottom: 1px solid $borderColor;
+    margin-left: 3vw;
 
     img{
       display: inline-block;
       height: 12vw;
       width: 12vw;
       border-radius: 30px;
-      padding: .5vw;
-      border: 2px solid $primary;
       margin-top: 2vw;  margin-left: 2vw;
     }
     p{

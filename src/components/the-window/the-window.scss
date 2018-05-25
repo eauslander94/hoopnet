@@ -37,13 +37,13 @@ the-window {
   margin-left: 2.5vw;
   border-radius: 1vw;
   //border-top-left-radius: 0;
-  box-shadow: 1px 1px 1px;
+  box-shadow: 1px 1px 1px grey;
 }
 
 // The following pertains to the playing now list
 #playingNow{
   height: 22vw; width: 100%;
-  border-bottom: 2px solid #010101;
+  border-bottom: 1px solid $borderColor;
   padding-top: .1vw;
   //border: 1px solid red;
 }
@@ -142,7 +142,7 @@ the-window {
 #activityBox{
   height: 36vw; width: 38%;
   //margin-top: 1vw; margin-bottom: 1vw;
-  border-right: 2px solid #010101;
+  border-right: 1px solid $borderColor;
   //margin-top: 1vw;  margin-bottom: 1vw;
   display: inline-block;
   position: relative;

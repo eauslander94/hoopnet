@@ -29,13 +29,13 @@ home-court-display {
       position: relative;
       #homeCourtName{
         text-align: center!important;
-        font-family: Quicksand-regular;
+        font-family: axis;
         color: $offWhite;
-        font-size: 6vw;
+        font-size: 5.5vw;
         height: 8vw;  width: 100%;
         padding-left: 2vw;
         padding-right: 2vw;
-        margin-top: -4vw;
+        margin-top: -5vw;
         margin-bottom: 2vw;
         // Ellipsis overflow when the name is too long to fit on one line
         white-space: nowrap;

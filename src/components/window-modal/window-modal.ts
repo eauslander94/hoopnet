@@ -3,7 +3,7 @@ import { ViewController, NavParams, Content, ModalController, NavController, Eve
 
 import { HoursDisplay }  from '../hours-display/hours-display';
 import { Closures }      from '../closures/closures';
-import { InviteFriendsPage } from '../../pages/invite-friends/invite-friends';
+import { SelectFriendsPage } from '../../pages/select-friends/select-friends';
 import { CourtClosingsPage } from '../../pages/court-closings/court-closings'
 import { AuthService }   from '../../services/auth.service';
 import { CourtDataService } from '../../services/courtDataService.service';
@@ -101,10 +101,7 @@ export class WindowModal {
       return;
     }
 
-    this.navCtrl.push(InviteFriendsPage, {
-      courtName: this.court.name,
-      location: this.court.location
-    })
+    this.navCtrl.push(SelectFriendsPage, { court: this.court})
   }
 
 

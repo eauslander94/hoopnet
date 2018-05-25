@@ -361,6 +361,8 @@ export class TheWindow {
           player.hoopString = moment(player.hoopTime).fromNow();
         }
       }
+      // Catch for corrupted checkIn data
+      if (!player.hoopString) player.hoopString = 'gametime';
     }
 
     // finally, based on time and friendship.
@@ -369,9 +371,11 @@ export class TheWindow {
     this.playerData = players.sort( (a, b) => {
       if(a.priority > b.priority) return -1;
       else if(a.priority < b.priority) return 1;
-      // if priority is equal, sort by hoopTime
-      if(a.hoopTime.getTime() < b.hoopTime.getTime()) return 1;
-      else if(a.hoopTime.getTime() > b.hoopTime.getTime()) return - 1;
+      if(a.hoopTime && b.hoopTime){
+        // if priority is equal, sort by hoopTime
+        if(a.hoopTime.getTime() < b.hoopTime.getTime()) return 1;
+        else if(a.hoopTime.getTime() > b.hoopTime.getTime()) return - 1;
+      }
       return 0;
     });
     // tell angular that we ave canges

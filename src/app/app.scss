@@ -58,8 +58,7 @@ $titan-one: 'Titan One', cursive;
   left: 15%;
 }
 
-
-
+// Image icon on navbar
 #courtside{
   background-image: url('../assets/img/ballBlack.png');
   background-size: 100%;
@@ -181,12 +180,25 @@ $titan-one: 'Titan One', cursive;
   color: white !important;
 }
 
-
+// Button on bottom of many pages
 .bottomButton{
   font-family: Quicksand-bold;
   position: absolute;
   bottom: 0;
 }
+
+// Thin grey text used on our input forms
+.thinsand{
+  font-family: Quicksand-regular;
+  color: $borderColor;
+  font-size: 4vw;
+}
+
+.spinDiv{
+  text-align: center;
+}
+
+
 
 #selectDiv{
   border-radius: 3px;

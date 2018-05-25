@@ -1,19 +1,19 @@
 page-send-invite {
 
-  #dateString{
-    float: right;
+  #dateString{ float: right }
+
+  #dateItem{ p { display: inline-block }}
+
+  ion-item{
+    //border: 1px solid blue!important;
+    height: 62px;
   }
 
-  #dateItem{
-
-    p{
-      display: inline-block;
-    }
-  }
+  ion-item:nth-child(2){ border-top: 1px solid $borderColor}
 
   #invited{
-    height: 30vw;
-    margin-left: 4vw;
+    margin-left: 5vw;
+    width: 95vw;
     border-bottom: 1px solid $borderColor;
     // border: 2px solid green;
     p:first-child{
@@ -22,7 +22,6 @@ page-send-invite {
   }
 
   ion-scroll{
-    //border: 1px solid blue;
     height: 22vw;
     white-space: nowrap;
     overflow: hidden;
@@ -34,10 +33,10 @@ page-send-invite {
     height: 22vw;
     width: 35vw;
     text-align: center;
-    position: relative;
-    top: -4vw;
+
     .avatarWrapper{
-      height: 13vw;;
+      margin-top: 8px;
+      height: 13vw;
       img {
         border-radius: 25px;
         height:13vw; width: 13vw;
@@ -53,7 +52,7 @@ page-send-invite {
     }
   }
 
-  #error{
+  #error {
     font-family: Quicksand-bold;
     text-align: center;
     color: red;

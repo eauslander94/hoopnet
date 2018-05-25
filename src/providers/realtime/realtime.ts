@@ -88,6 +88,8 @@ export class RealtimeProvider {
   //  message to display on notification itself
   public notify(channels: Array<string>, payload: any, message: string){
 
+
+
       this.http.post('https://ortc-mobilepush.realtime.co/mp/publishbatch', {
         applicationKey: "pLJ1wW",
         privateKey: "mHkwXRv1xbbA",

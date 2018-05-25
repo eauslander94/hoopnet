@@ -13,21 +13,21 @@
 </ion-header>
 
 
-<ion-content padding>
+<ion-content>
 
 <p class="instructionHeader">When do you want to play?</p>
 
 <!-- Date picker -->
 <ion-item id="dateItem" (tap)="pickDate()">
-  <p>Date</p>
-  <p id="dateString">{{dateString}}</p>
+  <p style="color: grey; font-size: 4vw;">Date</p>
+  <p id="dateString" style="color: black; font-size: 4vw;">{{dateString}}</p>
 </ion-item>
 
   <!-- Time picker -->
   <ion-item>
-    <ion-label>Time</ion-label>
+    <ion-label style="color: grey; font-size: 4vw;">Time</ion-label>
     <ion-datetime displayFormat="hh:mm a" [(ngModel)]="timeString"
-    minuteValues = "0, 15, 30, 45">
+    minuteValues = "0, 15, 30, 45" style="font-size: 4vw;">
     </ion-datetime>
   </ion-item>
 
