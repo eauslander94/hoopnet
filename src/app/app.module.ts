@@ -8,6 +8,8 @@ import { HttpModule } from '@angular/http';
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
+import { Keyboard } from '@ionic-native/keyboard';
+
 
 
 // TO DO: clean up once auth is working
@@ -140,6 +142,7 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     },
     QuickCourtsideProvider,
     RealtimeProvider,
+    Keyboard
 ]
 })
 export class AppModule {}

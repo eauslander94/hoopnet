@@ -55,10 +55,14 @@ export class EnterProfileInfo {
       return;
     }
 
+    alert('submitting, picture length = ' + this.user.avatar.data.length)
+
     // editing - update existing user.  signing up - add new user.
     if(this.edit) {
-      this.courtDataService.putUser(this.user);
-      this.events.publish('updateCurrentUser', this.user);
+      this.courtDataService.putUser(this.user).subscribe(
+        res => { this.events.publish('updateCurrentUser', res.json()) },
+        err => { this.courtDataService.notify('Error', err) }
+      );
     }
     else{
       alert('received new User info, sending to server and initializing here');
@@ -96,7 +100,7 @@ export class EnterProfileInfo {
     let cameraOptions: CameraOptions = {
       destinationType: 0,
       allowEdit: true,
-      quality: 50,
+      quality: 30,
       targetWidth: 1000,
       targetHeight: 1000,
       correctOrientation: true
@@ -109,6 +113,7 @@ export class EnterProfileInfo {
           handler: () => {
             this.camera.getPicture(cameraOptions).then(
               (data_url) => {
+                alert('got data, image data length = ' + data_url.length)
                 this.user.avatar = {
                   data: data_url,
                   contentType: 'image/jpeg'
@@ -124,6 +129,7 @@ export class EnterProfileInfo {
             cameraOptions.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
             this.camera.getPicture(cameraOptions).then(
               (data_url) => {
+                alert('got data, image data length = ' + data_url.length)
                 this.user.avatar = {
                   data: data_url,
                   contentType: 'image/jpeg'

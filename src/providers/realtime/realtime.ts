@@ -12,8 +12,8 @@ import 'rxjs/add/operator/map';
 @Injectable()
 export class RealtimeProvider {
 
-  private ortc: any = window['plugins'].OrtcPushPlugin;
-  // private ortc: any = '';
+  //private ortc: any = window['plugins'].OrtcPushPlugin;
+  private ortc: any = '';
   constructor(private http: Http) {}
 
   // Post:  Connection established with realtime server if no previous connection exists

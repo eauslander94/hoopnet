@@ -113,13 +113,8 @@ export class CourtSearchPage {
       this.navCtrl.push(SelectFriendsPage, { court: court})
 
     else if(this.params.get('role') === 'homecourts'){
-      this.courtDataService.putHomecourt(court._id).subscribe(
-        res => {
-          this.events.publish('updateCurrentUser', res.json())
-          this.events.publish('newHomecourt', res.json())
-        } ,
-        err => { this.courtDataService.notify('ERROR', err) }
-      );
+      // Tell homecourt display to refresh with new court
+      this.events.publish('newHomecourt', court);
       this.navCtrl.pop()
     }
   }

@@ -446,24 +446,43 @@ export class HoopMapPage {
 // Post:  Confirm add courts alert is presented
 // Param: the court to be potentially added
 public confirmAddCourt(court: any){
+
+  if(!this.auth.isAuthenticated()){
+    this.courtDataService.toastMessage('Log in to add homecourts', 3000)
+    return;
+  }
+
+  // check if this is one of your homecourts first
+  for(let homecourt of JSON.parse(window.localStorage.getItem('currentUser')).homecourts)
+    if(court._id === homecourt){
+      this.courtDataService.notify('Already a Homecourt', court.name + ' is already a homecourt of yours.');
+      return;
+    }
+
   let alert = this.alertCtrl.create({
-    subTitle: 'Add ' + court.name + ' to your Home Courts?',
+    title: 'Add Homecourt',
+    message: 'Add ' + court.name + ' to your homecourts?',
     buttons: [
       { text: 'Cancel',
         role: 'cancel'
       },
       { text: 'Add',
         handler: () => {
-          console.log('added ' + court.name);
-          this.courtDataService.putHomecourt(court._id);
-          // update user in local storage to reflect new omecourt
-          let user = JSON.parse(window.localStorage.getItem('currentUser'));
-          user.homecourts.push(court._id);
-          window.localStorage.setItem('currentUser', JSON.stringify(user))
+
+          this.courtDataService.putHomecourt(court._id).subscribe(
+            res => this.events.publish('updateCurrentUser', res.json())
+          );
+          alert.dismiss().then(() => {
+            this.courtDataService.notify('Homecourt Added',
+            court.name + ' has been added to your homecourts.')
+          })
+          return false;
         }
       }
     ]
-  }).present();
+  })
+
+  alert.present();
 }
 
 // Post: Add HomeCourts message is presented

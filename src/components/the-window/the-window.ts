@@ -462,7 +462,7 @@ export class TheWindow {
 
     // ensure we're autenticated
     if(!this.courtDataService.auth.isAuthenticated()){
-      this.courtDataService.toastMessage("You must be logged in to contribute", 3000);
+      this.courtDataService.toastMessage("Log-in to contribute", 3000);
       return;
     }
 
@@ -477,7 +477,7 @@ export class TheWindow {
           case 'waitTimeModal':    this.presentWaitTimeModal();  break;
           default: break;
       }
-      else this.courtDataService.toastMessage('You must be at this court to scout this court', 3000)
+      else this.courtDataService.toastMessage('Log-in to contribute', 3000)
     }).catch((err) => {alert('Error retrieving your current location')})
  }
 

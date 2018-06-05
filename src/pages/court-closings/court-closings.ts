@@ -83,6 +83,12 @@ export class CourtClosingsPage {
   // post: Flag actionsheet is presented
   // param: the closure to be edited or deleted
   public presentFlagActions(closure: any){
+
+    if(!this.auth.isAuthenticated()){
+      this.courtDataService.toastMessage('Log in to contribute!', 3000)
+      return;
+    }
+
     let flagActions = this.actionSheetCtrl.create({
       // title: 'gfhgdgh',
       //cssClass: 'action-sheet',
@@ -98,6 +104,9 @@ export class CourtClosingsPage {
        {
          text: 'Delete Closing',
          handler: () => {
+
+           if(this.auth.isAuthenticated)
+
            flagActions.dismiss().then(() => { this.confirmDelete(closure) })
            return false;
          }
@@ -119,7 +128,7 @@ export class CourtClosingsPage {
   // param: closure - the closure to be deleted
   private confirmDelete(closure){
     let confirmDelete = this.alertCtrl.create({
-      subTitle: 'Delete this closure?',
+      subTitle: 'Delete this closings?',
       buttons: [
         { text: 'Cancel', handler: ()=> {} },
         { text: 'Delete', handler: ()=> {
@@ -136,7 +145,7 @@ export class CourtClosingsPage {
               })
               this.events.publish('reloadCourt', res.json())
             },
-            err => {console.log('err, deleteClosure ' + err)}
+            err => {console.log('err, deleteClosing ' + err)}
           );
         }}
       ]
@@ -161,7 +170,7 @@ export class CourtClosingsPage {
   public presentAddClosing(closure, edit: boolean){
 
     if(!this.auth.isAuthenticated()){
-      this.courtDataService.toastMessage("You must be logged in to perform this action", 3000);
+      this.courtDataService.toastMessage("Log in to contribute!", 3000);
       return;
     }
 

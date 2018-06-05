@@ -7,6 +7,9 @@ import 'rxjs/add/operator/debounceTime';
 import { ProfileModal }     from '../../components/profile-modal/profile-modal';
 import { CourtDataService } from '../../services/courtDataService.service';
 
+import { Keyboard } from '@ionic-native/keyboard';
+
+
 @IonicPage()
 @Component({
   selector: 'page-friends-page',
@@ -53,7 +56,8 @@ export class FriendsPage {
               public alertCtrl: AlertController,
               public modalCtrl: ModalController,
               public events: Events,
-              public zone: NgZone)
+              public zone: NgZone,
+              public keyboard: Keyboard)
   {
     this.requestPointers = params.get('friendRequests');
     this.gotFriendRequests = false;
@@ -89,6 +93,8 @@ export class FriendsPage {
         res => {
           this.addResults = res.json()
           this.addLoading = false;
+          // close keyboard if many people are returned
+          if(res.json().length > 5) this.keyboard.close();
         },
         err => this.courtDataService.notify('Error', err)
       );
