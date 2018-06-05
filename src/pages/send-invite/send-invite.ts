@@ -106,7 +106,7 @@ export class SendInvitePage {
       if(this.invited.length > 5)
         message = message + 'your friends to hoop.'
       else if(this.invited.length === 1)
-        message += this.invited[0].fName + ' to hoop.' 
+        message += this.invited[0].fName + ' to hoop.'
       else {
         let i: number = 0;
         while(i < this.invited.length - 1){

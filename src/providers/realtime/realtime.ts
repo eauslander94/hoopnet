@@ -3,16 +3,12 @@ import { Http, RequestOptions, URLSearchParams, Headers } from '@angular/http';
 
 import 'rxjs/add/operator/map';
 
-/*
-  Generated class for the RealtimeProvider provider.
 
-  See https://angular.io/docs/ts/latest/guide/dependency-injection.html
-  for more info on providers and Angular DI.
-*/
+
 @Injectable()
 export class RealtimeProvider {
 
-  //private ortc: any = window['plugins'].OrtcPushPlugin;
+  // private ortc: any = window['plugins'].OrtcPushPlugin;
   private ortc: any = '';
   constructor(private http: Http) {}
 

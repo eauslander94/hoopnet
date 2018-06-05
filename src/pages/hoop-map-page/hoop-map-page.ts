@@ -228,14 +228,8 @@ export class HoopMapPage {
   // Param: Court which we will connect to
   presentWindowModal(court: any, scoutPrompt: boolean){
 
-    // connect to realtime webhook upon presenting window, pass it in
-    // const realtime = Realtime.createClient();
-    // realtime.setClusterUrl('https://ortc-developers.realtime.co/server/ssl/2.1/');
-    // realtime.connect('pLJ1wW', 'testToken')
-
     let windowModal = this.modalCtrl.create(WindowModal,
       { 'court': court,
-        //'realtime': realtime,
         'scoutPrompt': scoutPrompt }
     )
 

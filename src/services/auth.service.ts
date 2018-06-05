@@ -5,6 +5,8 @@ import { Observable, Subscription } from 'rxjs';
 import Auth0Cordova from '@auth0/cordova';
 import Auth0 from 'auth0-js';
 
+import { normalizeURL } from 'ionic-angular';
+
 import { CourtDataService } from '../services/courtDataService.service'
 import { RealtimeProvider } from '../providers/realtime/realtime'
 
@@ -16,11 +18,9 @@ const auth0Config = {
   // needed for auth0cordova
   clientId: 'pu0puMWvKB1XANUkPh0sygZwdGGR_oE1',
   domain: 'eauslander94-dev.auth0.com',
-  callbackURL: location.href,
   // Below is from config.xml
   packageIdentifier: 'com.eauslander94.courtlife',
-  location:"no",
-  toolbar:"no"
+  callbackURL: location.href,
 };
 
 
@@ -75,7 +75,6 @@ export class AuthService {
 
     client.authorize(options, (err, authResult) => {
       if (err) {
-        alert(JSON.stringify(err));
         throw err;
       }
 

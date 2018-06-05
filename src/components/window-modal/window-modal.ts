@@ -163,6 +163,7 @@ export class WindowModal {
 
   // dismiss logic
   public hackground(){
+
     // Unless scoutPrompt, dismiss
     if(!this.params.get('scoutPrompt'))
       // Tell map to reload if window changes have occurred

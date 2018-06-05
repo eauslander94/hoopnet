@@ -61,6 +61,8 @@ export class MyApp {
 
     this.platform.ready().then(() => {
 
+      this.statusBar.styleDefault();
+
       // for auth0 URL redirects
       (<any>window).handleOpenURL = (url) => {
         Auth0Cordova.onRedirectUri(url);

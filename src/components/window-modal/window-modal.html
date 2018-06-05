@@ -1,9 +1,9 @@
 
 
 <!-- Clickable transparent background sits behind content.  Click to dismiss -->
-<div id="hackground" tappable (click)="hackground()"></div>
+<div tappable class="hackground" (click)="hackground()"></div>
 
-<div id="content">
+<div id='content'>
 
   <div id="windowModalHeader">
 
@@ -15,7 +15,7 @@
         <p class="large">{{court.type}}</p>
         <p class="small">court</p>
       </div>
-      <div tappable (tap)='presentHomeCourts()'>
+      <div>
         <p class="large">{{court.baskets}}</p>
         <p class="small">baskets</p>
       </div>
@@ -27,6 +27,7 @@
 
   </div>
     <the-window [windowData]='court.windowData'></the-window>
+
   <div id='bottomButtons'>
 
     <div tappable (tap)="presentHours()">

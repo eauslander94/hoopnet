@@ -5,7 +5,7 @@ window-modal {
     height: 100vh;
     width: 100vw;
     position: relative;
-    z-index: -1;
+    z-index: 10;
     background-color: #131313;
     opacity: .5
   }
@@ -18,6 +18,7 @@ window-modal {
     position: absolute;
     top: 58vw;
     background: linear-gradient(to bottom,  #33ccff 0%, #fff  95%);
+    z-index: 100;
 
     // court name and info
     #windowModalHeader{
@@ -93,11 +94,10 @@ window-modal {
       height: 13vw;
       position: absolute; bottom: 0;
       div{
-        //border: 1px solid red;
         height: 100%;
         display: inline-block;
         margin-top: 0;
-        width: 16vw;
+        width: 16%;
         text-align:center;
       }
 
@@ -111,13 +111,10 @@ window-modal {
         text-align: center;
       }
       div:last-child{
-
+        float: right;
       }
       div:nth-child(2){
-        margin-right: 24vw
-      }
-      div:first-child{
-        margin-right: 26vw;
+        margin-left: 26%;
       }
     }
   }// content paren

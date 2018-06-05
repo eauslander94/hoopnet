@@ -94,7 +94,13 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
   imports: [
     BrowserModule,
     HttpModule,
-    IonicModule.forRoot(MyApp),
+    IonicModule.forRoot(MyApp, {
+      platforms: {
+        ios: {
+          statusbarPadding: true
+        }
+      }
+    })
   ],
   bootstrap: [IonicApp],
   entryComponents: [

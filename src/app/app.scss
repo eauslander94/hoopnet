@@ -19,43 +19,23 @@ ion-content {
   background-size: contain;
 }
 
-.toolbar-background{
-  background-color: $background;
-}
 
 // <<<<<<< HEAD
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
 // Font Variables
 $Montserrat: 'Montserrat', sans-serif;
 
-
-.toolbar-title {
-  color: $primary;
-  font-family: axis;
-}
-// =======
-@import url('https://fonts.googleapis.com/css?family=Krona+One|PT+Sans:400,400i');
-@import url('https://fonts.googleapis.com/css?family=Black+Han+Sans|Lobster|Shrikhand|Righteous|Titan+One');
-// Font Variables
-$krona-one: 'Krona One', sans-serif;
-$black-han-sans: 'Black Han Sans', sans-serif;
-$lobster: 'lobster', cursive;
-$shrikhand: 'shrikhand', cursive;
-$righteous: 'Righteous', sans-serif;
-$titan-one: 'Titan One', cursive;
-
-.toolbar-title {
-  color: $primary;
-  font-family: axis;
-  font-size: 6vw;
-  text-align: center;
+.toolbar-background{
+  background-color: $background;
 }
 
-// center the toolbar
-.toolbar-content {
-  position: absolute;
-  width: 70%;
-  left: 15%;
+.toolbar-title {
+
+  color: $primary;
+  font-family: axis;
+  font-size: 5.5vw;
+  margin: auto;
+
 }
 
 // Image icon on navbar
@@ -63,11 +43,14 @@ $titan-one: 'Titan One', cursive;
   background-image: url('../assets/img/ballBlack.png');
   background-size: 100%;
   background-repeat: no-repeat;
-  //border: 1px solid red;
-  height: 12vw;
-  width:12vw;
+  height: 11vw;
+  width: 11vw;
   background-color: $background;
+  max-height: 50px;
+  max-width: 50px;
 }
+
+
 
 // OneBasket Style
 .oneBasket {
@@ -113,7 +96,7 @@ $titan-one: 'Titan One', cursive;
   height: 100vh;
   width: 100vw;
   position: relative;
-  z-index: -1;
+  z-index: 10;
   background-color: #131313;
   opacity: .5
 }
@@ -125,9 +108,9 @@ $titan-one: 'Titan One', cursive;
   margin-left: 2.5vw;
   position: absolute;
   top: 0;
-  margin-top: 54vw;
   background: $background;
   border-radius: 1vw;
+  z-index: 100;
 }
 
 // Header for instructions pn various pages
