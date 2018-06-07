@@ -37,7 +37,6 @@
     "angular2-jwt": "^0.2.3",
     "animate.css": "^3.5.2",
     "auth0-js": "^9.0.2",
-    "co.realtime.plugins.CordovaPush": "~0.2.2",
     "cordova-android": "^6.4.0",
     "cordova-ios": "^4.5.4",
     "cordova-plugin-add-swift-support": "^1.6.0",
@@ -70,7 +69,8 @@
     "socket.io": "^2.0.4",
     "sw-toolbox": "3.4.0",
     "zone": "^0.3.4",
-    "zone.js": "0.6.26"
+    "zone.js": "0.6.26",
+    "co.realtime.plugins.CordovaPush": "~0.2.2"
   },
   "devDependencies": {
     "@ionic/app-scripts": "1.3.12",
@@ -113,10 +113,10 @@
       "cordova-plugin-camera": {},
       "cordova-plugin-screen-orientation": {},
       "cordova-plugin-datepicker": {},
-      "co.realtime.plugins.CordovaPush": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-safariviewcontroller": {}
+      "cordova-plugin-safariviewcontroller": {},
+      "co.realtime.plugins.CordovaPush": {}
     },
     "platforms": [
       "android",

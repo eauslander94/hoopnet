@@ -19,7 +19,7 @@ import { FriendsPage }       from '../pages/friends-page/friends-page';
 import { CourtSearchPage }   from '../pages/court-search/court-search';
 import { AuthService }       from '../services/auth.service';
 
-import { RealtimeProvider } from '../providers/realtime/realtime';
+// import { RealtimeProvider } from '../providers/realtime/realtime';
 // Auth0Cordova
 import Auth0Cordova from '@auth0/cordova';
 
@@ -48,7 +48,7 @@ export class MyApp {
               public modalCtrl: ModalController,
               private cdr: ChangeDetectorRef,
               private zone: NgZone,
-              public realtime: RealtimeProvider,
+              // public realtime: RealtimeProvider,
               public statusBar: StatusBar)
   {
     this.initializeApp();
@@ -106,7 +106,7 @@ export class MyApp {
       this.zone.run(() => {
         this.authFlag = false;
       })
-      this.realtime.disconnect();
+      //this.realtime.disconnect();
     })
 
     // When user data is refreshed, repopulate current user here and in local storage
@@ -137,7 +137,7 @@ export class MyApp {
   private initUser(user: any){
     this.zone.run(() => { this.authFlag = true })
     this.saveUser(user)
-    this.realtime.connect(user._id)
+    // this.realtime.connect(user._id)
   }
 
 

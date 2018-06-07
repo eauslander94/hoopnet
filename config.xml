@@ -3,7 +3,7 @@
     <name>Courtlife</name>
     <description>A realtime window to your local court</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
-    <content src="index.html" />
+    <content original-src="index.html" src="http://192.168.0.15:8102" />
     <access origin="*" />
     <allow-intent href="http://*/*" />
     <allow-intent href="https://*/*" />
@@ -57,6 +57,10 @@
     <allow-navigation href="http://192.168.0.3:8101" />
     <allow-navigation href="http://192.168.0.15:8100" />
     <allow-navigation href="http://192.168.0.15:8101" />
+    <allow-navigation href="http://192.168.0.5:8100" />
+    <allow-navigation href="http://192.168.0.5:8101" />
+    <allow-navigation href="http://192.168.0.15:8102" />
+    <engine name="android" spec="^6.4.0" />
     <engine name="ios" spec="^4.5.4" />
     <plugin name="cordova-plugin-device" spec="^1.1.7" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.1.0" />
@@ -82,9 +86,8 @@
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
     <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
-    <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="cordova-plugin-ionic-webview" spec="git+https://github.com/ghenry22/cordova-plugin-ionic-webview.git" />
-    <engine name="android" spec="~6.4.0" />
     <plugin name="cordova-plugin-safariviewcontroller" spec="^1.5.3" />
+    <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
 </widget>
