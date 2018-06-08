@@ -13,6 +13,7 @@ export class RealtimeProvider {
   constructor(private platform: Platform, private http: Http) {
     // wait for platform to become ready and plugins to become available
     this.platform.ready().then(() => {
+    alert('declaring ortc');
       this.ortc = window['plugins'].OrtcPushPlugin
     })
   }
@@ -22,13 +23,15 @@ export class RealtimeProvider {
   public connect(currentUser: string){
 
     // If ortc has yet to be declared return
-    if(this.ortc === '') return;
+    if(this.ortc === '')
 
     // If connection already exists do nothing
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 1){
+        alert('active connection exists');
         return;
       }
+      alert('no active connection, connecting to ortc');
       this.ortc.connect({
         'appkey':'pLJ1wW',
         'token':'appToken',
@@ -36,7 +39,7 @@ export class RealtimeProvider {
         'projectId':'979214254876',
         'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
       }).then(() => {
-        this.ortc.subscribe({'channel': currentUser})
+        this.ortc.subscribe({'channel': currentUser}).then(() => {alert('subscribed to channel ' + currentUser)})
       })
     })
   }
@@ -48,9 +51,11 @@ export class RealtimeProvider {
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 0){
          return;
+         alert('in disconnect, no active connection exists')
       }
       this.ortc.disconnect().then(() => {
         this.ortc.getIsConnected().then((connected) => {
+          if(connected === 0) alert('successfully disconnected from ortc');
         })
       })
     })
@@ -89,12 +94,16 @@ export class RealtimeProvider {
   //  message to display on notification itself
   public notify(channels: Array<string>, payload: any, message: string){
 
+    for(let channel of channels) alert('sending to channel: ' + channel)
+
       this.http.post('https://ortc-mobilepush.realtime.co/mp/publishbatch', {
         applicationKey: "pLJ1wW",
         privateKey: "mHkwXRv1xbbA",
         channels : channels,
         message : message,
         payload : JSON.stringify(payload)
-      }).subscribe()
+      }).subscribe(
+        err => {alert('error sending notifications\n' + err)}
+      )
   }
 }

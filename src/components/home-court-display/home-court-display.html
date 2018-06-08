@@ -1,6 +1,6 @@
 <div tappable class="hackground" (click)="viewCtrl.dismiss({})"></div>
 
-<div class='goldenContent' *ngIf="!noHomecourts && !loading">
+<div id='content' *ngIf="!noHomecourts && !loading">
 
   <ion-slides pager='true'>
     <ion-slide *ngFor='let court of courts' class='swiper-no-swiping'>

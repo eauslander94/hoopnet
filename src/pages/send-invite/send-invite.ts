@@ -52,6 +52,12 @@ export class SendInvitePage {
     let min = new Date().getDate();
     let max = new Date().getMonth() + 1;
 
+    //let nextYear = new Date().get
+
+    // alert(new Date().setMonth(max).setYear(new Date().getMonth() + 1))
+
+    //alert moment()
+
     this.datePicker.show({
       date: new Date(),
       mode: 'date',
