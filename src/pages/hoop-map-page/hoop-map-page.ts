@@ -1,7 +1,7 @@
 // ionic imports
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, PopoverController, AlertController, ModalController, Events,
-        ToastController, IonicPage } from 'ionic-angular';
+        ToastController } from 'ionic-angular';
 // Map imports
 import { Geolocation } from '@ionic-native/geolocation';
 // communication with server
@@ -11,12 +11,10 @@ import { Response } from '@angular/http';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService } from '../../services/auth.service'
 import { CourtsideCheckIn } from '../../components/courtside-check-in/courtside-check-in';
-import { CourtMapPopup } from '../../components/court-map-popup/court-map-popup';
 
 import { WindowModal }  from '../../components/window-modal/window-modal';
 import { GamesModal }  from "../../components/games-modal/games-modal";
 import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal';
-import { InviteFriendsPage } from '../invite-friends/invite-friends';
 import { NotificationResponse } from '../../components/notification-response/notification-response';
 
 //import { RealtimeProvider } from '../../providers/realtime/realtime'
@@ -262,7 +260,7 @@ export class HoopMapPage {
           handler: () => {
             // dismiss the alert, then bring up invite friends page
             alert.dismiss().then(() => {
-              this.navCtrl.push(InviteFriendsPage,{
+              this.navCtrl.push('InviteFriendsPage',{
                 courtName: court.name,
                 location: court.location
               })

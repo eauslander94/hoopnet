@@ -60,8 +60,6 @@
     <allow-navigation href="http://192.168.0.5:8100" />
     <allow-navigation href="http://192.168.0.5:8101" />
     <allow-navigation href="http://192.168.0.15:8102" />
-    <engine name="android" spec="^6.4.0" />
-    <engine name="ios" spec="^4.5.4" />
     <plugin name="cordova-plugin-device" spec="^1.1.7" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.1.0" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
@@ -90,4 +88,7 @@
     <plugin name="cordova-plugin-ionic-webview" spec="git+https://github.com/ghenry22/cordova-plugin-ionic-webview.git" />
     <plugin name="cordova-plugin-safariviewcontroller" spec="^1.5.3" />
     <allow-navigation href="http://192.168.0.15:8103" />
+    <allow-navigation href="http://192.168.0.6:8100" />
+    <engine name="ios" spec="^4.5.4" />
+    <engine name="android" spec="~7.0.0" />
 </widget>

@@ -2,9 +2,6 @@ import { Component, NgZone, ElementRef, Renderer2, ViewChild, ChangeDetectorRef 
 import { ViewController, NavParams, Content, ModalController, NavController, Events } from 'ionic-angular';
 
 import { HoursDisplay }  from '../hours-display/hours-display';
-import { Closures }      from '../closures/closures';
-import { SelectFriendsPage } from '../../pages/select-friends/select-friends';
-import { CourtClosingsPage } from '../../pages/court-closings/court-closings'
 import { AuthService }   from '../../services/auth.service';
 import { CourtDataService } from '../../services/courtDataService.service';
 
@@ -74,7 +71,7 @@ export class WindowModal {
   // Post: Closures Modal is presented
   public presentClosures(){
 
-    this.navCtrl.push(CourtClosingsPage, {
+    this.navCtrl.push('CourtClosingsPage', {
       closures: this.court.closures,
       courtBaskets: this.court.baskets,
       court_id: this.court._id
@@ -101,7 +98,7 @@ export class WindowModal {
       return;
     }
 
-    this.navCtrl.push(SelectFriendsPage, { court: this.court})
+    this.navCtrl.push('SelectFriendsPage', { court: this.court})
   }
 
 

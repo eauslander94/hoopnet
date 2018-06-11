@@ -50,8 +50,8 @@ export class RealtimeProvider {
 
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 0){
-         return;
          alert('in disconnect, no active connection exists')
+         return;
       }
       this.ortc.disconnect().then(() => {
         this.ortc.getIsConnected().then((connected) => {

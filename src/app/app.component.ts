@@ -8,17 +8,10 @@ import { CourtDataService }        from '../services/courtDataService.service'
 import { Component, ViewChild, ChangeDetectorRef, NgZone }    from '@angular/core';
 import { Platform, Events, MenuController, ModalController } from 'ionic-angular';
 
-import * as RealtimeMessaging from 'realtime-messaging';
-
 // Components for menu links
 import { HomeCourtDisplay }  from '../components/home-court-display/home-court-display';
-import { InviteFriendsPage } from '../pages/invite-friends/invite-friends';
 import { ProfileModal }      from '../components/profile-modal/profile-modal';
-import { EnterProfileInfo }  from '../pages/enter-profile-info/enter-profile-info';
-import { FriendsPage }       from '../pages/friends-page/friends-page';
-import { CourtSearchPage }   from '../pages/court-search/court-search';
 import { AuthService }       from '../services/auth.service';
-
 import { RealtimeProvider } from '../providers/realtime/realtime';
 // Auth0Cordova
 import Auth0Cordova from '@auth0/cordova';
@@ -95,7 +88,7 @@ export class MyApp {
       // If it is our first time logging in - ie signup - prompt to enter profile info
       if(id_token['hoophead/firstLogin'] === "true"){
         this.menu.close().then(() => {
-          this.nav.push(EnterProfileInfo, {'edit': false, 'auth_id': id_token.sub})
+          this.nav.push('EnterProfileInfo', {'edit': false, 'auth_id': id_token.sub})
         });
 
       }
@@ -195,7 +188,7 @@ export class MyApp {
     // If we're not authenticated, do nothing
     if(!this.authFlag) return;
     let user = this.currentUser;
-    this.nav.push(EnterProfileInfo, {'edit': true, 'user': user})
+    this.nav.push('EnterProfileInfo', {'edit': true, 'user': user})
     this.menu.close();
   }
 
@@ -206,7 +199,7 @@ export class MyApp {
     if(!this.authFlag) return;
 
     let user = JSON.parse(window.localStorage.getItem('currentUser'))
-    this.nav.push(FriendsPage, {
+    this.nav.push('FriendsPage', {
       'myProfile': true,
       'friends': user.friends,
       'friendRequests': user.friendRequests
@@ -217,7 +210,7 @@ export class MyApp {
   // Post: Invite Friends Behaviorial loop begins
   public inviteFriends(){
     if(!this.authFlag) return;
-    this.nav.push(CourtSearchPage, {
+    this.nav.push('CourtSearchPage', {
       role: 'inviteFriends'
     })
     this.menu.close()

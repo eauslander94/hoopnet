@@ -59,6 +59,7 @@ export class FriendsPage {
               public zone: NgZone,
               public keyboard: Keyboard)
   {
+
     this.requestPointers = params.get('friendRequests');
     this.gotFriendRequests = false;
     // Whether or not we are viewing the current user's profile

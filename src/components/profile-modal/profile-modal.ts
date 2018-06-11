@@ -2,7 +2,6 @@ import { Component, NgZone } from '@angular/core';
 import { ViewController, NavParams, AlertController, NavController, ModalController,
          Events} from 'ionic-angular';
 
-import { FriendsPage } from '../../pages/friends-page/friends-page'
 import { HomeCourtDisplay } from '../home-court-display/home-court-display';
 import { CourtDataService } from '../../services/courtDataService.service';
 
@@ -47,7 +46,7 @@ export class ProfileModal {
 
   // Post: Friends page is pushed onto the naviation stack
   public navToFriends(){
-    this.navCtrl.push(FriendsPage, {
+    this.navCtrl.push('FriendsPage', {
       'friends': this.user.friends,
       'myProfile': false
     })

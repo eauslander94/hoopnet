@@ -49,6 +49,7 @@ export class InviteFriendsPage {
     this.formControl.valueChanges.debounceTime(10).subscribe(search => {
       this.friendsShowing = this.filterFriends(this.searchTerm);
     });
+    alert('ion view did load invite friends');
   }
 
 

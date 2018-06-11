@@ -30,12 +30,10 @@ $Montserrat: 'Montserrat', sans-serif;
 }
 
 .toolbar-title {
-
+  text-align: center;
   color: $primary;
   font-family: axis;
   font-size: 5.5vw;
-  margin: auto;
-
 }
 
 // Image icon on navbar
@@ -116,7 +114,8 @@ $Montserrat: 'Montserrat', sans-serif;
 // Header for instructions pn various pages
 .instructionHeader {
   text-align: center;
-  font-family: Quicksand-bold;
+  font-family: Quicksand-regular;
+  font-size: 4.3vw;
   width: 90vw;
   margin-left: 5vw;
 }

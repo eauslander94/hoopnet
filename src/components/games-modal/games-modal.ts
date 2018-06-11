@@ -2,14 +2,12 @@ import { Component } from '@angular/core';
 import { NavParams, ViewController, AlertController, ModalController,
          Events} from 'ionic-angular';
 
-import { AddClosure } from '../add-closure/add-closure';
 import { CourtDataService } from '../../services/courtDataService.service';
 
 
 @Component({
   selector: 'games-modal',
   templateUrl: 'games-modal.html',
-  providers: [AddClosure]
 })
 export class GamesModal {
 
@@ -35,7 +33,6 @@ export class GamesModal {
               public viewCtrl: ViewController,
               private alertCtrl: AlertController,
               private modalCtrl: ModalController,
-              public addClosure: AddClosure,
               public courtDataService: CourtDataService,
               public events: Events) {
 
@@ -154,27 +151,27 @@ export class GamesModal {
   }
 
   // Post: Add Closure Form is presented
-  public courtClosed(){
-    let add = this.modalCtrl.create(AddClosure, {
-      edit: false,
-      courtBaskets: this.courtBaskets,
-      fromGamesModal: true,
-    })
-    add.onDidDismiss((data) => {
-      if(data && data.closure){
-        // send closure data to server, dismiss games modal, reload te court
-        this.courtDataService.postClosure(data.closure, this.params.get('court_id')).subscribe(
-          res => this.events.publish('reloadCourt', res.json()),
-          err => this.courtDataService.notify('ERROR', err)
-        );
-      }
-      this.viewCtrl.dismiss();
-    })
-
-    add.present().then(() => {
-      this.addClosure.instructions()
-    })
-  }
+  // public courtClosed(){
+  //   let add = this.modalCtrl.create(AddClosure, {
+  //     edit: false,
+  //     courtBaskets: this.courtBaskets,
+  //     fromGamesModal: true,
+  //   })
+  //   add.onDidDismiss((data) => {
+  //     if(data && data.closure){
+  //       // send closure data to server, dismiss games modal, reload te court
+  //       this.courtDataService.postClosure(data.closure, this.params.get('court_id')).subscribe(
+  //         res => this.events.publish('reloadCourt', res.json()),
+  //         err => this.courtDataService.notify('ERROR', err)
+  //       );
+  //     }
+  //     this.viewCtrl.dismiss();
+  //   })
+  //
+  //   add.present().then(() => {
+  //     this.addClosure.instructions()
+  //   })
+  // }
 
 
 }

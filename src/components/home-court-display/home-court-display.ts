@@ -1,9 +1,7 @@
 import { Component, ViewChild, NgZone } from '@angular/core';
 import { ViewController, NavParams, Slides, AlertController, NavController, Tabs,
           Events} from 'ionic-angular';
-import { HoopMapPage } from '../../pages/hoop-map-page/hoop-map-page';
 import { CourtDataService } from '../../services/courtDataService.service';
-import { CourtSearchPage }  from '../../pages/court-search/court-search';
 
 @Component({
   selector: 'home-court-display',
@@ -142,7 +140,7 @@ export class HomeCourtDisplay {
   }
 
   public courtSearch(){
-    this.navCtrl.push(CourtSearchPage, {
+    this.navCtrl.push('CourtSearchPage', {
       role: 'homecourts'
     })
   }

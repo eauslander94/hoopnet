@@ -4,13 +4,7 @@ import { IonicPage, ViewController, NavParams, ActionSheetController,
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service'
 import moment from 'moment';
-import { AddClosingPage }   from '../../pages/add-closing/add-closing';
 
-
-import { AddClosure } from '../../components/add-closure/add-closure';
-
-// Notes: This may end up becoming its own page.
-//   If any issure arise it is not much of an adjustment
 
 @IonicPage()
 @Component({
@@ -41,6 +35,7 @@ export class CourtClosingsPage {
               public events: Events,
               public navCtrl: NavController)
   {
+
     this.closures = params.get('closures');
 
     this.courtBaskets = params.get('courtBaskets');
@@ -197,7 +192,7 @@ export class CourtClosingsPage {
       }
     });
 
-    this.navCtrl.push(AddClosingPage, {
+    this.navCtrl.push('AddClosingPage', {
       "courtBaskets": this.params.get('courtBaskets'),
       'closure': closure,
       'edit': edit

@@ -2,7 +2,6 @@ import { Component, NgZone } from '@angular/core';
 import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import { CourtDataService } from '../../services/courtDataService.service';
-import { SelectFriendsPage } from '../select-friends/select-friends';
 
 
 @IonicPage()
@@ -110,7 +109,7 @@ export class CourtSearchPage {
   // Param: court to be passed to next page
   public courtClicked(court: any){
     if(this.params.get('role') === 'inviteFriends')
-      this.navCtrl.push(SelectFriendsPage, { court: court})
+      this.navCtrl.push('SelectFriendsPage', { court: court})
 
     else if(this.params.get('role') === 'homecourts'){
       // Tell homecourt display to refresh with new court

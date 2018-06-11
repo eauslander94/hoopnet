@@ -25,23 +25,11 @@ import { AnimationService, AnimatesDirective } from 'css-animator';
 
 // pages
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
-import { LoginPage }        from '../pages/login/login';
-import { CourtPage }        from '../pages/court-page/court-page';
-import { FriendsPage }      from '../pages/friends-page/friends-page';
-import { EnterProfileInfo } from '../pages/enter-profile-info/enter-profile-info';
-import { InviteFriendsPage }from '../pages/invite-friends/invite-friends';
-import { SelectFriendsPage }from '../pages/select-friends/select-friends';
-import { CourtSearchPage }  from '../pages/court-search/court-search';
-import { SendInvitePage }   from '../pages/send-invite/send-invite';
-import { CourtClosingsPage }from '../pages/court-closings/court-closings';
-import { AddClosingPage }   from '../pages/add-closing/add-closing';
 // components
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
 import { GamesModal }       from '../components/games-modal/games-modal';
 import { WaitTimeModal }      from '../components/wait-time-modal/wait-time-modal';
-import { Closures }         from '../components/closures/closures';
-import { AddClosure }       from '../components/add-closure/add-closure';
 import { HoursDisplay }     from '../components/hours-display/hours-display';
 import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-check-in';
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
@@ -64,30 +52,18 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
   declarations: [
     MyApp,
     HoopMapPage,
-    LoginPage,
-    FriendsPage,
-    EnterProfileInfo,
-    InviteFriendsPage,
-    SelectFriendsPage,
-    CourtSearchPage,
-    SendInvitePage,
-    CourtClosingsPage,
-    AddClosingPage,
 
     TheWindow,
     WindowModal,
     GamesModal,
     WaitTimeModal,
     CourtsideCheckIn,
-    Closures,
-    AddClosure,
     HoursDisplay,
     HomeCourtDisplay,
     ProfileModal,
     NotificationResponse,
 
     ParallaxHeader,
-    CourtPage,
     Dbltap,
     AnimatesDirective,
   ],
@@ -106,24 +82,12 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
   entryComponents: [
     MyApp,
     HoopMapPage,
-    LoginPage,
-    FriendsPage,
-    EnterProfileInfo,
-    CourtSearchPage,
-    InviteFriendsPage,
-    SelectFriendsPage,
-    SendInvitePage,
-    CourtClosingsPage,
-    AddClosingPage,
 
     ProfileModal,
-    CourtPage,
     WindowModal,
     GamesModal,
     WaitTimeModal,
     CourtsideCheckIn,
-    Closures,
-    AddClosure,
     HoursDisplay,
     HomeCourtDisplay,
     NotificationResponse,

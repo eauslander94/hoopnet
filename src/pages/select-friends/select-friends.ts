@@ -2,8 +2,6 @@ import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { FormControl } from '@angular/forms'
 import { CourtDataService } from '../../services/courtDataService.service';
-import { SendInvitePage }  from'../send-invite/send-invite';
-
 
 @IonicPage()
 @Component({
@@ -94,7 +92,7 @@ export class SelectFriendsPage {
       this.error = true;
       return;
     }
-    this.navCtrl.push(SendInvitePage, {
+    this.navCtrl.push('SendInvitePage', {
       court: this.court,
       invited: this.selected
     })
