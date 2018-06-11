@@ -18,10 +18,11 @@ import { Keyboard } from '@ionic-native/keyboard';
 //import {provide} from 'angular-provide';
 import { Http } from '@angular/http'
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
+import { authFactory } from './authFactory'
 //import {Type} from '@angular/core';
 
 // css animation
-import { AnimationService, AnimatesDirective } from 'css-animator';
+// import { AnimationService, AnimatesDirective } from 'css-animator';
 
 // pages
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
@@ -65,7 +66,7 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
 
     ParallaxHeader,
     Dbltap,
-    AnimatesDirective,
+    // AnimatesDirective,
   ],
   imports: [
     BrowserModule,
@@ -101,18 +102,16 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
   StatusBar,
   SplashScreen,
   HttpModule,
-  AnimationService,
+  // AnimationService,
   ScreenOrientation,
-    // auth0 providider
-    { provide: AuthHttp,
-      useFactory: (http) => {
-        return new AuthHttp(new AuthConfig(), http);
-      },
-      deps: [Http]
-    },
-    QuickCourtsideProvider,
-    RealtimeProvider,
-    Keyboard
+  // auth0 providider
+  { provide: AuthHttp,
+    useFactory: authFactory,
+    deps: [Http]
+  },
+  QuickCourtsideProvider,
+  RealtimeProvider,
+  Keyboard
 ]
 })
 export class AppModule {}
