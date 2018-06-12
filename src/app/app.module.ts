@@ -9,20 +9,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ScreenOrientation } from '@ionic-native/screen-orientation';
 import { Keyboard } from '@ionic-native/keyboard';
-
-
-
-// TO DO: clean up once auth is working
-// For auth0 authintication
-//import {App, Platform} from 'ionic-angular';
-//import {provide} from 'angular-provide';
 import { Http } from '@angular/http'
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { authFactory } from './authFactory'
-//import {Type} from '@angular/core';
-
-// css animation
-// import { AnimationService, AnimatesDirective } from 'css-animator';
 
 // pages
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';

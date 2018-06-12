@@ -1,9 +1,8 @@
-import { Component, Input, ViewChild, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
+import { Component, Input, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
 import { ModalController, ViewController, AlertController, Events } from 'ionic-angular';
 import { Geolocation } from '@ionic-native/geolocation';
 import  moment  from 'moment';
 import { Observable } from 'rxjs/Rx';
-import { AnimationService, AnimationBuilder } from 'css-animator';
 
 import { GamesModal }  from "../games-modal/games-modal";
 import { WaitTimeModal } from '../wait-time-modal/wait-time-modal';
@@ -56,18 +55,10 @@ export class TheWindow {
   // coordinates of the court
   coordinates: Array<number>;
 
-  animating: boolean = false;
-
-  // For animation - lowercase l
-  @ViewChild('wlivingTimestamp') wLivingTimestampRef: ElementRef;
-  @ViewChild('glivingTimestamp') gLivingTimestampRef: ElementRef;
-  @ViewChild('basket') basket;
-  private animator: AnimationBuilder;
 
   constructor (public modalCtrl: ModalController,
                public viewCtrl: ViewController,
                public alertCtrl: AlertController,
-               private animationService: AnimationService,
                private courtDataService: CourtDataService,
                private quick: QuickCourtsideProvider,
                private geolocation: Geolocation,
@@ -79,9 +70,6 @@ export class TheWindow {
     Observable.interval(1000 * 60).subscribe( x => {
       this.updateLivingTimestamps();
     })
-
-    // For animation
-    this.animator = animationService.builder();
 
     // Get the route on which we listen for window updates
     this.socketURL = courtDataService.route;
@@ -138,37 +126,9 @@ export class TheWindow {
 
   // Post1: new WindowData replaces current window data
   // Post2: living timestamps updated based on new lastValidated values
-  // Post3: Update animations fired, if their correspong data were updated
-  // Param: new windowData to update the old
   public updateUI(newWindowData: any){
 
-    // If we have a new waitTime, animate waitTime and its timestamp
-    if(newWindowData.waitTime !== this.windowData.waitTime){
-      //animate waitTime, here
-      this.flash(this.wLivingTimestampRef)
-    }
-    // Just new timestamp, animate just that
-    else if(newWindowData.wLastValiddated !== this.windowData.wLastValiddated)
-      this.flash(this.wLivingTimestampRef)
-    // Check if we have a new games array, if so animate and its timestamp
-    let newGames = false;
-    for(let game in this.windowData.games){
-      if(newWindowData.games[game] !== this.windowData.games[game]){
-        newGames = true
-      }
-    }
-    if(newGames){
-      //animate games, here
-      this.flash(this.gLivingTimestampRef)
-    }
-    // Just new timestamp, animate just that
-    else if(newWindowData.gLastValidated !== this.windowData.gLastValidated)
-      this.flash(this.gLivingTimestampRef)
-
-    // alert(moment(newWindowData.wLastValiddated).fromNow())
     this.windowData = JSON.parse(JSON.stringify(newWindowData));
-    // alert("data from message: " + new Date(newWindowData.wLastValiddated).getMinutes());
-    // alert("now our window: " + new Date(this.windowData.wLastValiddated).getMinutes());
     this.resetNWD();
     this.updateLivingTimestamps();
   }
@@ -419,42 +379,6 @@ export class TheWindow {
     };
   }
 
-
-  // fadeInRight(object)
-  // param: object - String - the object to be faded in
-  // post:  object fades in from the right
-  private flash(ref: ElementRef){
-
-    // if animating, wait for animation finised event, return
-    if(this.animating){
-      this.events.subscribe('animationFinished', () => {
-        this.animating = true;
-        this.animator.setType('flash').show(ref.nativeElement).then(() => {
-          this.animating = false;
-          this.events.publish('animationFinished');
-          this.events.unsubscribe('animationFinished');
-        });
-      });
-    }
-    else {
-    // otherwise flash then notify app we're done flasing
-    this.animating = true;
-    this.animator.setType('flash').show(ref.nativeElement).then(() => {
-      this.animating = false;
-      this.events.publish('animationFinished');
-    });
-  }
-  }
-
-
-  private wiggle(){
-    this.animator.setType('shake').show(this.basket.nativeElement);
-  }
-
-
-  private fadeOut(ref: ElementRef){
-    this.animator.setType('fadeOut').show(ref.nativeElement);
-  }
 
   // ensures that the user is authenticated and at the court
   // param: a string referencing the method to be called once user as been verified
