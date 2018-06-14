@@ -2,12 +2,13 @@ import { StatusBar }               from '@ionic-native/status-bar';
 import { SplashScreen }            from '@ionic-native/splash-screen';
 import { Geolocation }             from '@ionic-native/geolocation';
 import { ScreenOrientation }       from '@ionic-native/screen-orientation';
-import { HoopMapPage }             from '../pages/hoop-map-page/hoop-map-page'
 import { JwtHelper }               from 'angular2-jwt'
 import { CourtDataService }        from '../services/courtDataService.service'
 import { Component, ViewChild, ChangeDetectorRef, NgZone }    from '@angular/core';
 import { Platform, Events, MenuController, ModalController } from 'ionic-angular';
 
+import { HoopMapPage } from '../pages/hoop-map-page/hoop-map-page';
+import { SplashPage  } from '../pages/splash/splash';
 // Components for menu links
 import { HomeCourtDisplay }  from '../components/home-court-display/home-court-display';
 import { ProfileModal }      from '../components/profile-modal/profile-modal';
@@ -54,7 +55,7 @@ export class MyApp {
 
     this.platform.ready().then(() => {
 
-      alert(location.href);
+      this.modalCtrl.create(SplashPage).present();
 
       this.statusBar.styleDefault();
 
@@ -64,7 +65,7 @@ export class MyApp {
       };
 
       // lock the screen to portrait
-      this.screenOrientation.lock('portrait');
+      //this.screenOrientation.lock('portrait');
 
       // If we're autenticated on startup
       if(this.auth.isAuthenticated()){

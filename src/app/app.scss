@@ -64,15 +64,22 @@ $Montserrat: 'Montserrat', sans-serif;
   //border: 1px solid black;
 }
 
+ion-menu{
+      height: 100%;
+}
 
 // Styling te side menu - html lives in app.html
 #menuDiv{
-  height: 100%;
-  background: linear-gradient(to top,  #000  0%, #fff 100%);
+  background: white;
+}
+
+#belowMenu{
+  height: 64%;
+  background: linear-gradient(to top,  #33ccff  0%, #fff 100%);
 }
 
 .menuButton{
-  height: 10vw;
+  height: 8%;
   width: 100%;
   border-bottom: 1px solid $borderColor;
   font-family: Quicksand-regular;
@@ -178,6 +185,14 @@ $Montserrat: 'Montserrat', sans-serif;
 
 .spinDiv{
   text-align: center;
+}
+
+// Make all modals fill the entire page
+.modal-wrapper {
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
 }
 
 

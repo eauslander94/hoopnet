@@ -13,8 +13,8 @@ export class RealtimeProvider {
   constructor(private platform: Platform, private http: Http) {
     // wait for platform to become ready and plugins to become available
     this.platform.ready().then(() => {
-    alert('declaring ortc');
-      this.ortc = window['plugins'].OrtcPushPlugin
+    // alert('declaring ortc');
+      //this.ortc = window['plugins'].OrtcPushPlugin
     })
   }
 
@@ -28,10 +28,10 @@ export class RealtimeProvider {
     // If connection already exists do nothing
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 1){
-        alert('active connection exists');
+        // alert('active connection exists');
         return;
       }
-      alert('no active connection, connecting to ortc');
+      // alert('no active connection, connecting to ortc');
       this.ortc.connect({
         'appkey':'pLJ1wW',
         'token':'appToken',
@@ -50,7 +50,7 @@ export class RealtimeProvider {
 
     this.ortc.getIsConnected().then((connected) => {
       if(connected === 0){
-         alert('in disconnect, no active connection exists')
+        //  alert('in disconnect, no active connection exists')
          return;
       }
       this.ortc.disconnect().then(() => {

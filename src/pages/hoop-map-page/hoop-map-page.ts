@@ -1,7 +1,7 @@
 // ionic imports
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { NavController, PopoverController, AlertController, ModalController, Events,
-        ToastController } from 'ionic-angular';
+        ToastController, ViewController } from 'ionic-angular';
 // Map imports
 import { Geolocation } from '@ionic-native/geolocation';
 // communication with server
@@ -16,6 +16,7 @@ import { WindowModal }  from '../../components/window-modal/window-modal';
 import { GamesModal }  from "../../components/games-modal/games-modal";
 import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal';
 import { NotificationResponse } from '../../components/notification-response/notification-response';
+
 
 //import { RealtimeProvider } from '../../providers/realtime/realtime'
 
@@ -36,6 +37,9 @@ export class HoopMapPage {
   test: any;
 
   court: any;
+
+  // Hold a reference to all the courts we've gathered
+  courts: Array<any>
 
   // To be used for determining if a marker was clicked or pressed
   fingerOnScreen: boolean;
@@ -60,7 +64,7 @@ export class HoopMapPage {
               public events: Events,
               private toastCtrl: ToastController,
               private auth: AuthService,
-            /*public realtime: RealtimeProvider*/)
+              public viewCtrl: ViewController)
   {
 
     events.subscribe('homeCourtMessage', () => {
@@ -71,6 +75,9 @@ export class HoopMapPage {
     events.subscribe('reloadCourt', (court) => {
       this.addCourtMarker(court);
     })
+
+    // When splashcreen is dismissed, cascade court markers
+    events.subscribe('dismissingSplashscreen', () => { this.dropCourts() })
 
     this.markers = [];
 
@@ -87,6 +94,15 @@ export class HoopMapPage {
     //   }
     // })
   }
+
+  // Add markers to map, wait 200ms in between each one
+  public async dropCourts(){
+    for (let court of this.courts){
+      this.addCourtMarker(court);
+      await this.delay(8);
+    }
+  }
+
 
 
 
@@ -133,20 +149,65 @@ export class HoopMapPage {
 
       // Once we have loaded the map, get courts from db
       google.maps.event.addListenerOnce(this.map, 'tilesloaded', () => {
-        this.getCourts();
+        this.courtDataService.getAllCourts().subscribe(
+          res => {
+            this.courts = res.json();
+            // this.events.publish('gotAllCourtObjects');
+            this.testLongLoad()
+          },
+          error => console.log(error),
+          );
       })
   }
 
-  // Post1:  Courts are requested from the server
-  // Post2:  A marker is added to the map for every court returned
-   getCourts(){
-     this.courtDataService.getAllCourts().subscribe(
-       res => {
-         for (let court of res.json()) this.addCourtMarker(court);
-       },
-       error => console.log(error),
-       );
+public async testLongLoad(){
+  await this.delay(6000);
+  this.events.publish('gotAllCourtObjects');
+}
+
+  // Param: court - a court object as defined in the model
+  // Post: a marker corresponding to that court is added to the map
+  // Post2 - Event listners are added to each marker to detect for clicks or presses
+   public addCourtMarker(court: any){
+
+     let latLng = new google.maps.LatLng
+       (court.location.coordinates[1], court.location.coordinates[0]);
+
+     let iconPath = 'assets/icon/courtMarker.png';
+
+     // Get path to icon image based on the largest game being played at that court
+    //  iconPath = 'assets/icon/markers/';
+    //  if(court.windowData.games.length == 0)
+    //   iconPath += 'x.png'
+    //  else iconPath += court.windowData.games[0] + 'v.png'
+
+     let marker = new google.maps.Marker({
+      map: this.map,
+      animation: google.maps.Animation.DROP,
+      position: latLng,
+      icon: {
+        url: iconPath,
+        scaledSize: new google.maps.Size(24, 40),
+        // The anchor - halfway on x axis, all te way down on y axis
+        anchor: new google.maps.Point(12, 40),
+        origin: new google.maps.Point(0, 0),
+      },
+      // Each marker has a court object attached to it.
+      // This is the object that will be passed into other parts of the app.
+      court: court
+    })
+    // Keep reference of eac marker
+    this.markers.push(marker);
+
+    google.maps.event.addListener(marker, 'mousedown', () => {
+      this.fingerOnScreen = true;
+      this.clickOrPress(court);
+    })
+    google.maps.event.addListener(marker, 'mouseup', () => {
+      this.fingerOnScreen = false;
+    })
    }
+
 
 
   // post: courtsideCheckIn modal is presented, starting courtside behavior
@@ -329,49 +390,6 @@ export class HoopMapPage {
   }
 
 
-// Param: court - a court object as defined in the model
-// Post: a marker corresponding to that court is added to the map
-// Post2 - Event listners are added to each marker to detect for clicks or presses
- public addCourtMarker(court: any){
-
-   let latLng = new google.maps.LatLng
-     (court.location.coordinates[1], court.location.coordinates[0]);
-
-   let iconPath = 'assets/icon/courtMarker.png';
-
-   // Get path to icon image based on the largest game being played at that court
-  //  iconPath = 'assets/icon/markers/';
-  //  if(court.windowData.games.length == 0)
-  //   iconPath += 'x.png'
-  //  else iconPath += court.windowData.games[0] + 'v.png'
-
-   let marker = new google.maps.Marker({
-    map: this.map,
-    animation: google.maps.Animation.DROP,
-    position: latLng,
-    icon: {
-      url: iconPath,
-      scaledSize: new google.maps.Size(24, 40),
-      // The anchor - halfway on x axis, all te way down on y axis
-      anchor: new google.maps.Point(12, 40),
-      origin: new google.maps.Point(0, 0),
-    },
-    // Each marker has a court object attached to it.
-    // This is the object that will be passed into other parts of the app.
-    court: court
-  })
-  // Keep reference of eac marker
-  this.markers.push(marker);
-
-  google.maps.event.addListener(marker, 'mousedown', () => {
-    this.fingerOnScreen = true;
-    this.clickOrPress(court);
-  })
-  google.maps.event.addListener(marker, 'mouseup', () => {
-    this.fingerOnScreen = false;
-  })
- }
-
  // Param: Court object
  // Returns: pat to te correct marker icon
  // Post: returns marker icon faded based on the largest game entered last
@@ -499,22 +517,7 @@ public addHomeCourtsMessage(){
  }
 
 
-public testAuth(){
-  console.log('testingAuth');
-  // Log the nickname of the user returnes
-  this.courtDataService.getUsers(['59f77e89da1d9f295b577f0f']).subscribe(
-    res => {
-      console.log(res.json()[0].nName);
-    }
-  )
-}
 
-
-
-public tester(){
-
-  this.courtDataService.checkIn("5a78817d5b0b83251d7c2eb7").subscribe();
-}
 
 //post: Styles array is returned to be used in creation of the map
 private getStyles(){

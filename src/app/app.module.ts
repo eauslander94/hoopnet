@@ -15,6 +15,7 @@ import { authFactory } from './authFactory'
 
 // pages
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
+import { SplashPage  }      from '../pages/splash/splash';
 // components
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
@@ -42,6 +43,7 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
   declarations: [
     MyApp,
     HoopMapPage,
+    SplashPage,
 
     TheWindow,
     WindowModal,
@@ -72,6 +74,7 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
   entryComponents: [
     MyApp,
     HoopMapPage,
+    SplashPage,
 
     ProfileModal,
     WindowModal,
