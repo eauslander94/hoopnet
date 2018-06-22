@@ -1,6 +1,6 @@
 
 
-<ion-content>
+<ion-content class="masters">
 
   <div class='headline'>
     <p [style.opacity]='yDisplay'>You've</p>
@@ -8,8 +8,6 @@
     <p [style.opacity]='nDisplay'>next.</p>
   </div>
 
-  <p class='enterCourtlife' [style.opacity]='bDisplay' tappable (click)="enter()">Courtlife<p>
-
-  <ion-spinner class=splashLoadWheel [style.opacity]='lDisplay'></ion-spinner>
+  <domino-spinner [text]="loadingText" [style.opacity]='lDisplay'></domino-spinner>
 
 </ion-content>

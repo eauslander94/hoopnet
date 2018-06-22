@@ -3,6 +3,9 @@ import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
 import { ViewController } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
+import { DominoSpinner } from '../../components/domino-spinner/domino-spinner';
+import { CustomSpinner } from '../../components/custom-spinner/custom-spinner';
+
 
 @Component({
   selector: 'page-splash',
@@ -14,10 +17,10 @@ export class SplashPage {
   yDisplay: number = 0;
   gDisplay: number = 0;
   nDisplay: number = 0;
-  bDisplay: number = 0;
   lDisplay: number = 0;
 
   canNavigate: boolean = false;
+  loadingText: string = 'loading Courtlife'
 
   // When we've finished our animation and can navigate to the map page
   splashReady: boolean = false;
@@ -52,8 +55,8 @@ export class SplashPage {
     await this.delay(800);
     this.nDisplay = 1;
     await this.delay(1000);
-    this.bDisplay = 1;
-    await this.delay(1500);
+    this.lDisplay = 1;
+    await this.delay(1000);
 
     // SPLASH READY, waiting on gotAllCourtObjects
     if(this.gotCourts)
@@ -62,7 +65,6 @@ export class SplashPage {
       })
     else {
       this.splashReady = true;
-      this.lDisplay = 1;
     }
     // Also pull up load wheel, here
   }

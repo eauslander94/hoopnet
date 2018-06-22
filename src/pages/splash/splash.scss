@@ -1,5 +1,10 @@
 page-splash {
 
+
+  .masters {
+    background-color: white;
+  }
+
   // position: relative;
   // height: 100vw;
 .headline{
@@ -14,25 +19,9 @@ page-splash {
     display: inline-block;
     //margin: 1vw;
     -webkit-transition: opacity 1.5s;
-
   }
 }
 
-.enterCourtlife{
-  position: absolute!important;
-  bottom: 0px;
-  width: 50vw;
-  text-align: center;
-  //padding: auto;
-  margin-left: 25vw;
-  -webkit-transition: opacity 1s;
-  transition: opacity 1s;
-  color: $primary;
-  font-family: Axis;
-  font-size: 5.5vw;
-  //border: 1px solid blue;
-  display: inline-block;
-}
 
 .splashLoadWheel{
   position: absolute;
@@ -42,6 +31,14 @@ page-splash {
   display: inline-block;
   -webkit-transition: opacity 3s;
   transition: opacity 3s;
+}
+
+domino-spinner{
+  position: absolute; bottom: 0;
+  margin-left: 25vw;
+  width: 50vw;
+  -webkit-transition: opacity 1s;
+  transition: opacity 1s;
 }
 
 }

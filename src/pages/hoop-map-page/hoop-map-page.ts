@@ -17,7 +17,6 @@ import { GamesModal }  from "../../components/games-modal/games-modal";
 import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal';
 import { NotificationResponse } from '../../components/notification-response/notification-response';
 
-
 //import { RealtimeProvider } from '../../providers/realtime/realtime'
 
 import { JwtHelper } from 'angular2-jwt'
@@ -95,6 +94,7 @@ export class HoopMapPage {
     // })
   }
 
+
   // Add markers to map, wait 200ms in between each one
   public async dropCourts(){
     for (let court of this.courts){
@@ -152,18 +152,12 @@ export class HoopMapPage {
         this.courtDataService.getAllCourts().subscribe(
           res => {
             this.courts = res.json();
-            // this.events.publish('gotAllCourtObjects');
-            this.testLongLoad()
+            this.events.publish('gotAllCourtObjects');
           },
           error => console.log(error),
           );
       })
   }
-
-public async testLongLoad(){
-  await this.delay(6000);
-  this.events.publish('gotAllCourtObjects');
-}
 
   // Param: court - a court object as defined in the model
   // Post: a marker corresponding to that court is added to the map
@@ -287,9 +281,10 @@ public async testLongLoad(){
   // Param: Court which we will connect to
   presentWindowModal(court: any, scoutPrompt: boolean){
 
-    let windowModal = this.modalCtrl.create(WindowModal,
-      { 'court': court,
-        'scoutPrompt': scoutPrompt }
+
+
+   let windowModal = this.modalCtrl.create(WindowModal,
+      { 'court': court, 'scoutPrompt': scoutPrompt }
     )
 
     // Disconnect when dismissing theWindow

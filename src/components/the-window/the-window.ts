@@ -10,6 +10,7 @@ import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
 import { QuickCourtsideProvider } from '../../providers/quick-courtside/quick-courtside';
 import { ProfileModal } from '../profile-modal/profile-modal';
+import { DominoSpinner } from '../domino-spinner/domino-spinner';
 
 
 import * as Realtime from 'realtime-messaging';
@@ -44,6 +45,7 @@ export class TheWindow {
 
   // whether or not we've retreived player data from db
   gotPlayers: boolean = false;
+  loadText: string = 'loading players';
 
   // user data for players in the window
   playerData: Array<any>;

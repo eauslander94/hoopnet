@@ -1,0 +1,22 @@
+page-loading {
+
+// background of ion-content
+.loading{ background-color: rgba(0, 0, 0, .8) }
+
+// Remove the border
+domino-spinner{ border: none; }
+
+// Wrapping the spinner
+#dominoWrapper{
+  margin-top: 40vh;
+  p{
+    color: white;
+  }
+  li{
+    background-color: white;
+  }
+}
+
+
+
+}

@@ -23,7 +23,7 @@ export class RealtimeProvider {
   public connect(currentUser: string){
 
     // If ortc has yet to be declared return
-    if(this.ortc === '')
+    if(this.ortc === '') return;
 
     // If connection already exists do nothing
     this.ortc.getIsConnected().then((connected) => {

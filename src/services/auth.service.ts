@@ -9,6 +9,7 @@ import { normalizeURL } from 'ionic-angular';
 
 import { CourtDataService } from '../services/courtDataService.service'
 import { RealtimeProvider } from '../providers/realtime/realtime'
+import { LoadingPage      } from '../pages/loading/loading';
 
 // configuration options
 const auth0Config = {
@@ -77,6 +78,8 @@ export class AuthService {
       if (err) {
         throw err;
       }
+
+      // this.navCtrl.push(LoadingPage, {loadingMessage: 'retrieving user data'})
 
       this.testJWT = authResult.idToken;
       this.setIdToken(authResult.idToken);

@@ -103,7 +103,7 @@ ion-menu{
   position: relative;
   z-index: 10;
   background-color: #131313;
-  opacity: .5
+  opacity: .3
 }
 
 // Wrapper for content in the sape of the golden rectangle
@@ -260,6 +260,9 @@ ion-menu{
   src: url("../assets/fonts/Quicksand/Quicksand-Bold.otf") format("truetype");
   font-style: normal;
 }
+
+@import '../pages/loading/loading';
+
 
 
 // Below is the styling for the shared header on text/picture posts

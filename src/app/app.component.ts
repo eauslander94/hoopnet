@@ -9,6 +9,7 @@ import { Platform, Events, MenuController, ModalController } from 'ionic-angular
 
 import { HoopMapPage } from '../pages/hoop-map-page/hoop-map-page';
 import { SplashPage  } from '../pages/splash/splash';
+import { LoadingPage } from '../pages/loading/loading';
 // Components for menu links
 import { HomeCourtDisplay }  from '../components/home-court-display/home-court-display';
 import { ProfileModal }      from '../components/profile-modal/profile-modal';
@@ -29,6 +30,9 @@ export class MyApp {
 
   // whether or not we are currently logged in
   authFlag: boolean;
+
+  loadScreenShowing: boolean = false;
+  loadScreen: any;
 
 
   @ViewChild('nav') nav;
@@ -64,8 +68,10 @@ export class MyApp {
         Auth0Cordova.onRedirectUri(url);
       };
 
+      // alert(location.href);
+
       // lock the screen to portrait
-      //this.screenOrientation.lock('portrait');
+      this.screenOrientation.lock('portrait');
 
       // If we're autenticated on startup
       if(this.auth.isAuthenticated()){
@@ -91,10 +97,30 @@ export class MyApp {
         this.menu.close().then(() => {
           this.nav.push('EnterProfileInfo', {'edit': false, 'auth_id': id_token.sub})
         });
-
       }
-      // else retreive our user from db
-      else this.getCurrentUserByAuthId(id_token.sub);
+      // else retreive our user from db, pull up load screen
+      else {
+        this.loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'retrieving user data' },
+        {
+          enterAnimation: 'ModalEnterFadeIn',
+          leaveAnimation: 'ModalLeaveFadeOut'
+        })
+        this.loadScreen.present();
+
+        this.courtDataService.getUsersByAuth_id(id_token.sub).subscribe(
+          res => {
+            this.events.publish('gotCurrentUser');
+            this.initUser(res.json())
+            this.loadScreen.dismiss().then(() => { this.courtDataService.notify(
+              'Login Success', 'Enjoy Courtlife, my friend')
+            })
+          },
+          err => { this.loadScreen.dismiss().then(() => { this.courtDataService.notify(
+            'Error', 'We ran into an error retrieving your profile data.');
+          })}
+        )
+        this.getCurrentUserByAuthId(id_token.sub);
+      }
     })
 
     // on logout, reset the auth flag. auth service depopulates local storage
@@ -137,13 +163,14 @@ export class MyApp {
   }
 
 
-  // Post:  User is retreived from database by authID, init User is called
+  // Post:  User is retreived from database by authID, load screen shows, init User is called
   // Param: Unique auth0 id used to identify user
   // Pre:   This event is only called when the app loads, and when a user logs in
   private getCurrentUserByAuthId(sub: string){
 
     this.courtDataService.getUsersByAuth_id(sub).subscribe(
       data => {
+        if(this.loadScreenShowing)  this.nav.pop();
         this.events.publish('gotCurrentUser')
         this.initUser(data.json())
       },
@@ -228,6 +255,14 @@ export class MyApp {
     curr.backgroundImage = {};
     window.localStorage.setItem('currentUser', JSON.stringify(curr));
   }
+
+
+  // Present auth page and close menu
+  public login(){
+    this.auth.login();
+    this.menu.close();
+  }
+
 
 
   public greyOrNay(){

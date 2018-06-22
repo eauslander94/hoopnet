@@ -1,5 +1,5 @@
 import { NgModule, ErrorHandler } from '@angular/core';
-import { IonicApp, IonicModule, IonicErrorHandler } from 'ionic-angular';
+import { IonicApp, IonicModule, IonicErrorHandler, Config } from 'ionic-angular';
 import { MyApp } from './app.component';
 import { Geolocation } from '@ionic-native/geolocation';
 import { PhotoLibrary } from '@ionic-native/photo-library';
@@ -16,6 +16,7 @@ import { authFactory } from './authFactory'
 // pages
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
 import { SplashPage  }      from '../pages/splash/splash';
+import { LoadingPage }      from '../pages/loading/loading';
 // components
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
@@ -26,6 +27,8 @@ import { CourtsideCheckIn } from '../components/courtside-check-in/courtside-che
 import { HomeCourtDisplay } from '../components/home-court-display/home-court-display';
 import { ProfileModal }     from '../components/profile-modal/profile-modal';
 import { NotificationResponse } from '../components/notification-response/notification-response';
+import { DominoSpinner }    from '../components/domino-spinner/domino-spinner';
+import { CustomSpinner }    from '../components/custom-spinner/custom-spinner';
 // services
 import { CourtDataService } from '../services/courtDataService.service';
 import { AuthService }      from '../services/auth.service';
@@ -35,6 +38,14 @@ import { ParallaxHeader }   from '../components/parallax-header/parallax-header'
 // Providers
 import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-courtside';
 import { RealtimeProvider } from '../providers/realtime/realtime';
+// transitions
+import {
+    ModalEnterDirect, ModalLeaveDirect
+    ,ModalEnterFadeIn, ModalLeaveFadeOut
+    ,ModalEnterZoomIn, ModalLeaveZoomIn
+    ,ModalEnterZoomOut, ModalLeaveZoomOut
+} from '../transitions/ionic-modal-transition-pack';
+
 
 
 
@@ -44,6 +55,8 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     MyApp,
     HoopMapPage,
     SplashPage,
+    LoadingPage,
+
 
     TheWindow,
     WindowModal,
@@ -54,6 +67,8 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     HomeCourtDisplay,
     ProfileModal,
     NotificationResponse,
+    DominoSpinner,
+    CustomSpinner,
 
     ParallaxHeader,
     Dbltap,
@@ -75,6 +90,7 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     MyApp,
     HoopMapPage,
     SplashPage,
+    LoadingPage,
 
     ProfileModal,
     WindowModal,
@@ -84,6 +100,8 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
     HoursDisplay,
     HomeCourtDisplay,
     NotificationResponse,
+    DominoSpinner,
+    CustomSpinner,
   ],
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
@@ -106,4 +124,23 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
   Keyboard
 ]
 })
-export class AppModule {}
+export class AppModule {
+
+  constructor(public config: Config) {
+        this.setCustomTransitions();
+    }
+
+    private setCustomTransitions() {
+      this.config.setTransition('ModalEnterDirect', ModalEnterDirect);
+      this.config.setTransition('ModalLeaveDirect', ModalLeaveDirect);
+
+      this.config.setTransition('ModalEnterFadeIn', ModalEnterFadeIn);
+      this.config.setTransition('ModalLeaveFadeOut', ModalLeaveFadeOut);
+
+      this.config.setTransition('ModalEnterZoomIn', ModalEnterZoomIn);
+      this.config.setTransition('ModalLeaveZoomIn', ModalLeaveZoomIn);
+
+      this.config.setTransition('ModalEnterZoomOut', ModalEnterZoomOut);
+      this.config.setTransition('ModalLeaveZoomOut', ModalLeaveZoomOut);
+    }
+}
