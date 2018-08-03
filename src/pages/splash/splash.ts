@@ -58,6 +58,11 @@ export class SplashPage {
     this.lDisplay = 1;
     await this.delay(1000);
 
+    // this.viewCtrl.dismiss().then(() => {
+    //   this.events.publish('dismissingSplashscreen');
+    // })
+
+
     // SPLASH READY, waiting on gotAllCourtObjects
     if(this.gotCourts)
       this.viewCtrl.dismiss().then(() => {

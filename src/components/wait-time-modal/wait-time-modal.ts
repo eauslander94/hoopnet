@@ -31,7 +31,7 @@ export class WaitTimeModal {
 
     this.alertCtrl.create({
       title: "How to Scout Wait Time",
-      message: "Enter the average wait time across all games currently being played.\n\n We understand that this value varies from game to game, and as players come and go.  Use your best estimate.  Your fellow players thank you.",
+      message: "Across the entire court complex, how many games must a new player wait before playing? Enter your best estimate. Thank you.",
       buttons: [{
         text: "got it",
         role: 'cancel'

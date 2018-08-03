@@ -622,5 +622,8 @@ private getStyles(){
   ]
 }
 
+public tester(){
+  this.modalCtrl.create(WaitTimeModal, {inWindow: false}).present();
+}
 
  }

@@ -93,6 +93,7 @@ home-court-display {
     position: absolute;
     top: 54vw;
 
+    z-index: 50;
     background: linear-gradient(to bottom,  #33ccff 0%, #fff  100%);
     text-align: center;
 

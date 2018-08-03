@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController, Events,
-         ActionSheetController } from 'ionic-angular';
+         ActionSheetController, ModalController } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { Camera, CameraOptions } from '@ionic-native/camera';
 import { PhotoLibrary } from '@ionic-native/photo-library';
+import { LoadingPage }  from '../loading/loading';
 
 
 @IonicPage()
@@ -34,7 +35,8 @@ export class EnterProfileInfo {
               public events: Events,
               private courtDataService: CourtDataService,
               private camera: Camera,
-              public actionSheetCtrl: ActionSheetController)
+              public actionSheetCtrl: ActionSheetController,
+              public modalCtrl: ModalController)
   {
 
     if(params.get('edit')){
@@ -55,13 +57,30 @@ export class EnterProfileInfo {
       return;
     }
 
-    alert('submitting, picture length = ' + this.user.avatar.data.length)
+    // Pop, present load screen, response behavior
+    this.navCtrl.pop();
+    let loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'Submitting user info' },
+    {
+      enterAnimation: 'ModalEnterFadeIn',
+      leaveAnimation: 'ModalLeaveFadeOut'
+    })
+    loadScreen.present();
 
     // editing - update existing user.  signing up - add new user.
     if(this.edit) {
       this.courtDataService.putUser(this.user).subscribe(
-        res => { this.events.publish('updateCurrentUser', res.json()) },
-        err => { this.courtDataService.notify('Error', err) }
+        res => {
+          loadScreen.dismiss().then(() => {
+            this.postSubmitPrompt();
+          });
+          this.events.publish('updateCurrentUser', res.json())
+        },
+        err => {
+          loadScreen.dismiss().then(() => {
+            this.postSubmitPrompt();
+          });
+          this.courtDataService.notify('Error', err)
+        }
       );
     }
     else{
@@ -69,28 +88,6 @@ export class EnterProfileInfo {
       this.courtDataService.newUser(this.user);
       this.events.publish('newUserInfo', this.user);
     }
-
-    // no homecourt? prompt user to enter one
-    if(this.user.homecourts.length === 0){
-      // Loading wheel  here, before presenting alert
-      let alert = this.alertCtrl.create({
-        subTitle: 'Got Your Info! Now we encourage you to find your homecourt on our map.',
-        buttons: [
-          { text: 'Dismiss',
-            handler: () => {
-              alert.dismiss().then(() => {
-                this.events.publish('homeCourtMessage');
-                this.navCtrl.pop();
-              })
-              return false;
-            }
-          }
-        ]
-      })
-      alert.present();
-  }
-  // We do have a homecourt, so just pop
-  else this.navCtrl.pop();
   }
 
   // Post: Gallery or camera pops up, populates user.avatar with image uri
@@ -150,6 +147,19 @@ export class EnterProfileInfo {
   private cameraColor(edit: boolean){
     if(edit) return '#33ccff'
     return 'grey';
+  }
+
+
+  private postSubmitPrompt(){
+    this.alertCtrl.create({
+        title: 'Profile Info Received',
+        subTitle: 'Happy hooping.',
+        buttons: [
+          { text: 'dismiss',
+            role: 'destructive',
+          }
+        ]
+      }).present()
   }
 
 

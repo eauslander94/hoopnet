@@ -56,6 +56,7 @@ export class TheWindow {
   validated: string = '';
   // coordinates of the court
   coordinates: Array<number>;
+  waitNum: string = '';
 
 
   constructor (public modalCtrl: ModalController,
@@ -88,6 +89,9 @@ export class TheWindow {
 
     // Set nwd to window data, it will be updated as we go along
     this.resetNWD();
+
+    // Set wait number
+    this.setWaitNum();
 
     // If we've got realtime capabilities coming in, set up connection to webhook
     if(this.windowData.realtime){
@@ -131,6 +135,7 @@ export class TheWindow {
   public updateUI(newWindowData: any){
 
     this.windowData = JSON.parse(JSON.stringify(newWindowData));
+    this.setWaitNum();
     this.resetNWD();
     this.updateLivingTimestamps();
   }
@@ -350,12 +355,21 @@ export class TheWindow {
   private getWaitColor(){
     try{
       switch(this.windowData.waitTime.toLowerCase()){
-        case "0 - 1": return "#2dc937";
-        case "1 - 2": return "#007fff";
-        case "3+": return "red";
+        case "short": return "#2dc937";
+        case "medium": return "#007fff";
+        case "long": return "red";
         default: return "black";
       }
   } catch(e) {return "black"}
+  }
+
+  private setWaitNum(){
+    switch(this.windowData.waitTime.toLowerCase()){
+      case "short": this.waitNum = '1 - 2 games';  break;
+      case "medium": this.waitNum = "2 - 3 games"; break;
+      case "long": this.waitNum = "3+ games";      break;
+      default: this.waitNum = "";
+    }
   }
 
 

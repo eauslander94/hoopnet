@@ -54,7 +54,7 @@ export class MyApp {
   }
 
 
-  // Once platform is ready, performs high level native initializations
+  // Once platform is ready, perform high level native initializations
   private initializeApp(){
 
     this.platform.ready().then(() => {

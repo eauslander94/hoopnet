@@ -31,22 +31,23 @@ wait-time-modal {
   }
 
   // The tappable options
-  .amOptions{
+  .wtOptions{
     border-top: 1px solid #d3d3d3;
     height: 14.3vw;
     p{display: inline-block}
-    p:first-child{
-      font-family: NBA_76ers;
-      color: white;
-      font-size: 7vw;
-     //border: 1px solid white;
-      width: 23vw;
+    // Short/med/long
+    p:first-child {
+      font-family: Axis;
+      font-size: 6vw;
+      font-style: italic;
+
+      width: 40vw;
       height: 7vw;  margin-top: 3.75vw;
       margin-left: 8vw;
     }
 
     p:nth-child(2){
-      font-family: Quicksand-bold;
+      font-family: Quicksand-regular;
       font-size: 3.5vw;
     }
 

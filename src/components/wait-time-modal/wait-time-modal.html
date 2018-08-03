@@ -10,18 +10,18 @@
   </div>
 
   <!-- The tappale options -->
-  <div tappable class="amOptions"
-  (tap)="this.viewCtrl.dismiss({'waitTime': '0 - 1'})">
-    <p style="color: #2dc937;">0 - 1</p><p>full games</p>
+  <div tappable class="wtOptions"
+  (tap)="this.viewCtrl.dismiss({'waitTime': 'short'})">
+    <p style="color: #2dc937;">short</p><p>1 - 2 games</p>
   </div>
 
-  <div tappable class="amOptions"
-  (tap)="this.viewCtrl.dismiss({'waitTime': '1 - 2'})">
-    <p style="color: #007fff">1 - 2</p><p>full games</p>
+  <div tappable class="wtOptions"
+  (tap)="this.viewCtrl.dismiss({'waitTime': 'medium'})">
+    <p style="color: #007fff">medium</p><p>2 - 3 games</p>
   </div>
 
-  <div tappable class="amOptions"
-  (tap)="this.viewCtrl.dismiss({'waitTime': '3+'})">
-    <p style="color: red">3+</p><p>full games</p>
+  <div tappable class="wtOptions"
+  (tap)="this.viewCtrl.dismiss({'waitTime': 'long'})">
+    <p style="color: red">long</p><p>3+ games</p>
   </div>
 </div>
