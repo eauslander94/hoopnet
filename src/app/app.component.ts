@@ -138,15 +138,18 @@ export class MyApp {
 
     // When homecourt is removed, remove client side and update backend.
     // Could be issues here with this.currentUser replacing the current user server side.
-    // MAKE SURE we call updateCurrentUser every time usewr data is changed.
-    this.events.subscribe('removeHomecourt', (court) => {
+    // MAKE SURE we call updateCurrentUser every time user data is changed.
+    this.events.subscribe('removeHomecourtStarted', (court) => {
       this.currentUser.homecourts.splice(court._id, 1);
       this.courtDataService.putUser(this.currentUser).subscribe(
         res => {
           this.saveUser(res.json())
-          //this.courtDataService.notify('Homecourt Removed', 'You have successfully removed ' + court.name + ' from your homecourts');
+          // Tell homecourt display that we've completed
+          this.events.publish('removeHomecourtCompleted', {error: false});
         },
-        err => this.courtDataService.notify('Error', err)
+        err => {
+          this.events.publish('removeHomecourtCompleted', {error: true})
+        }
       )
     })
 

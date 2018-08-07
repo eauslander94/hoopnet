@@ -1,7 +1,8 @@
-import { Component, ViewChild, NgZone } from '@angular/core';
+import { Component, ViewChild, NgZone, ChangeDetectorRef } from '@angular/core';
 import { ViewController, NavParams, Slides, AlertController, NavController, Tabs,
-          Events} from 'ionic-angular';
+          Events, ModalController} from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { LoadingPage }      from '../../pages/loading/loading';
 
 @Component({
   selector: 'home-court-display',
@@ -30,7 +31,9 @@ export class HomeCourtDisplay {
               private navCtrl: NavController,
               public courtDataService: CourtDataService,
               public zone: NgZone,
-              public events: Events)
+              public events: Events,
+              public modalCtrl: ModalController,
+              public cdr: ChangeDetectorRef)
   {
     // Get courts from server
     this.getCourts(params.get('courtPointers'));
@@ -43,20 +46,41 @@ export class HomeCourtDisplay {
     // When we've got new omecourts, update homecourts display
     this.events.subscribe('newHomecourt', (court) => {
 
+      // Check if this is already a homecourt
       for(let homecourt of this.courts)
         if(homecourt._id === court._id) {
           this.courtDataService.notify('Already a homecourt', court.name + ' is already a homecourt of yours');
           return;
         }
 
-      // Update the server and the current user in the background
+      // Push load page, send court data to server
+      let loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'adding homecourt' },
+      {
+        enterAnimation: 'ModalEnterFadeIn',
+        leaveAnimation: 'ModalLeaveFadeOut'
+      })
+      loadScreen.present();
+
       this.courtDataService.putHomecourt(court._id).subscribe(
-        res => this.events.publish('updateCurrentUser', res.json()),
-        err => this.courtDataService.notify('Error', err)
+        res => {
+          // Pop load page, perform court updating, give user feedback/error message
+          loadScreen.dismiss().then(() => {
+            court.windowData.court = JSON.stringify(court); // For window scouting
+            this.zone.run(() => {
+              this.courts.push(court);
+              this.noHomecourts = false;
+            })
+            this.events.publish('updateCurrentUser', res.json())
+            if(this.courts.length > 1)
+            this.courtDataService.notify('Homecourt Added', court.name + ' has been added to your homecourts.')
+          })
+        },
+        err => {
+          loadScreen.dismiss().then(() => {
+            this.courtDataService.notify('Error', 'Error adding ' + court + ' to your homecourts. Please try again.')
+          })
+        }
       );
-      court.windowData.court = JSON.stringify(court); // For window scouting
-      this.zone.run(() => { this.courts.push(court) })
-      this.courtDataService.notify('Homecourt Added', court.name + ' has been added to your homecourts.')
     })
   }
 
@@ -123,13 +147,28 @@ export class HomeCourtDisplay {
         },
         { text: 'Remove',
           handler: () => {
-            // remove client side, tell app.component.ts to remove server side & update current user, alert user
-            this.zone.run(() => {
-              this.courts.splice(this.courts.indexOf(court), 1);
-              if(this.courts.length === 0) this.noHomecourts = true;
+            alert.dismiss().then(() => {
+              // present load screen
+              let loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'removing homecourt' },
+              { enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut' })
+              loadScreen.present();
+              // Tell app.component.ts to remove homecourt & update current user
+              this.events.publish('removeHomecourtStarted', court);
+              // When that completes, dismiss load screen, provide feedback, & update homecourt display
+              this.events.subscribe('removeHomecourtCompleted', (data) => {
+                loadScreen.dismiss().then(() => {
+                  if(data.error) this.courtDataService.notify('Error', 'Error removing homecourt. Please try again.');
+                  else {
+                    this.zone.run(() => {
+                      this.courts.splice(this.courts.indexOf(court), 1);
+                      if(this.courts.length === 0) this.noHomecourts = true;
+                    })
+                    this.courtDataService.notify('Homecourt Removed', court.name + ' has been removed from your homecourts.')
+                  }
+                })
+                this.events.unsubscribe('removeHomecourtCompleted')
+              })
             })
-            this.events.publish('removeHomecourt', court)
-            alert.dismiss().then(() => this.courtDataService.notify('Homecourt Removed', court.name + ' has been removed from your homecourts.'))
             return false;
           }
         }

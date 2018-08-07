@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, AlertController } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import { CourtDataService } from '../../services/courtDataService.service';
 
@@ -32,7 +32,8 @@ export class CourtSearchPage {
               public params: NavParams,
               public courtDataService: CourtDataService,
               public events: Events,
-              public zone: NgZone
+              public zone: NgZone,
+              public alertCtrl: AlertController
   ) {
     this.searchControl = new FormControl;
     // Get user's recently visited courts as reference
@@ -40,7 +41,7 @@ export class CourtSearchPage {
     if(params.get('role') === 'homecourts'){
       this.title = 'Court Search';
       this.header = 'Where do you regularly play?'
-      this.subHeader = 'You can also add Homecourts from the map by holding the marker icon of the court you wish to add.'
+      this.subHeader = 'Search to add to your collection of homecourts'
     }
     else if(params.get('role') === 'inviteFriends'){
       this.title = 'Invite Friends'
@@ -108,13 +109,33 @@ export class CourtSearchPage {
   // Post: Move on to select friends portion of invite friends loop
   // Param: court to be passed to next page
   public courtClicked(court: any){
+
     if(this.params.get('role') === 'inviteFriends')
       this.navCtrl.push('SelectFriendsPage', { court: court})
 
     else if(this.params.get('role') === 'homecourts'){
-      // Tell homecourt display to refresh with new court
-      this.events.publish('newHomecourt', court);
-      this.navCtrl.pop()
+      // Confirm homecourt add
+      let alert = this.alertCtrl.create({
+         title: 'Add Homecourt',
+         subTitle: 'Confirm to add ' + court.name + ' to your collection of homecourts.',
+         buttons: [
+           { text: 'Cancel',
+             role: 'cancel'
+           },
+           { text: 'Confirm',
+             handler: () =>{
+               // Dismiss alert, pop court search, spark response behavior
+               alert.dismiss().then(() => {
+                 this.navCtrl.pop().then(() => {
+                   this.events.publish('newHomecourt', court);
+                 })
+               })
+               return false;
+             }
+           }
+         ]
+       })
+       alert.present()
     }
   }
 
