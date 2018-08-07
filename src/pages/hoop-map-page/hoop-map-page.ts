@@ -623,7 +623,10 @@ private getStyles(){
 }
 
 public tester(){
-  this.modalCtrl.create(WaitTimeModal, {inWindow: false}).present();
+  this.modalCtrl.create(GamesModal, {
+   baskets: 2,
+   court_id: "5a79e2f6698f5d132e1484f4"
+ }).present();
 }
 
  }

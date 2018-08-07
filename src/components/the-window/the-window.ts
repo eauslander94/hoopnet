@@ -8,7 +8,8 @@ import { GamesModal }  from "../games-modal/games-modal";
 import { WaitTimeModal } from '../wait-time-modal/wait-time-modal';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
-import { QuickCourtsideProvider } from '../../providers/quick-courtside/quick-courtside';
+import { CourtHelper } from '../../providers/court-helper/court-helper';
+
 import { ProfileModal } from '../profile-modal/profile-modal';
 import { DominoSpinner } from '../domino-spinner/domino-spinner';
 
@@ -63,7 +64,7 @@ export class TheWindow {
                public viewCtrl: ViewController,
                public alertCtrl: AlertController,
                private courtDataService: CourtDataService,
-               private quick: QuickCourtsideProvider,
+               private courtHelper: CourtHelper,
                private geolocation: Geolocation,
                private events: Events,
                private cdr: ChangeDetectorRef,
@@ -408,7 +409,7 @@ export class TheWindow {
 
     // Ensure we're at the court
     this.geolocation.getCurrentPosition().then((position) => {
-      if(this.quick.courtside(JSON.parse(this.windowData.court), [position.coords.longitude, position.coords.latitude]))
+      if(this.courtHelper.courtside(JSON.parse(this.windowData.court), [position.coords.longitude, position.coords.latitude]))
         // call the corresponding metod
         switch(callbackString){
           case "validateGames":    this.validate('games');     break;

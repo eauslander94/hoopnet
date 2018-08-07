@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { ViewController } from 'ionic-angular';
 import { CourtDataService } from '../../services/courtDataService.service';
-import { QuickCourtsideProvider } from '../../providers/quick-courtside/quick-courtside';
+import { CourtHelper } from '../../providers/court-helper/court-helper';
 // geolocation
 import { Geolocation } from '@ionic-native/geolocation';
 @Component({
@@ -21,7 +21,7 @@ export class CourtsideCheckIn {
   constructor(public viewCtrl: ViewController,
               private geolocation: Geolocation,
               public courtDataService: CourtDataService,
-              public quick: QuickCourtsideProvider) {
+              public courtHelper: CourtHelper) {
     this.state = "search";
 
     this.geolocation.getCurrentPosition().then((position) => {
@@ -30,7 +30,7 @@ export class CourtsideCheckIn {
       if(JSON.parse(window.localStorage.getItem('courtside')) ){
         let courtside = JSON.parse(window.localStorage.getItem('courtside'));
 
-        if(this.quick.courtside(courtside, [position.coords.longitude, position.coords.latitude])){
+        if(this.courtHelper.courtside(courtside, [position.coords.longitude, position.coords.latitude])){
           this.verified(courtside)
           return;
         }

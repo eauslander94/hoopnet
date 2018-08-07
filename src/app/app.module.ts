@@ -36,7 +36,7 @@ import { AuthService }      from '../services/auth.service';
 import { Dbltap }           from '../components/dbltap/dbltap';
 import { ParallaxHeader }   from '../components/parallax-header/parallax-header';
 // Providers
-import { QuickCourtsideProvider } from '../providers/quick-courtside/quick-courtside';
+import { CourtHelper } from '../providers/court-helper/court-helper';
 import { RealtimeProvider } from '../providers/realtime/realtime';
 // transitions
 import {
@@ -119,7 +119,7 @@ import {
     useFactory: authFactory,
     deps: [Http]
   },
-  QuickCourtsideProvider,
+  CourtHelper,
   RealtimeProvider,
   Keyboard
 ]

@@ -1,5 +1,12 @@
 <ion-header>
   <ion-navbar>
+
+    <ion-buttons left *ngIf='params.get("fromGamesModal")'>
+      <button ion-button icon-only (click)="viewCtrl.dismiss()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </button>
+    </ion-buttons>
+
     <ion-title>{{navbar}}</ion-title>
   </ion-navbar>
 </ion-header>

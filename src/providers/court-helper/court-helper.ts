@@ -4,7 +4,7 @@ import { Geolocation } from '@ionic-native/geolocation';
 
 
 @Injectable()
-export class QuickCourtsideProvider {
+export class CourtHelper {
 
   constructor(public geo: Geolocation) {}
 
@@ -70,5 +70,63 @@ export class QuickCourtsideProvider {
 
     return dist;
 }
+
+// Checks if court is closed based on open/close times and court closings
+// Param:   Court to be checked
+// Returns: true if court is currently open for pick-up, false otherwise
+public isOpenNow(court: any){
+  // get te dayOfWeek
+  let day = new Date().getDay();
+
+  // If outside the court's hours for today, return false
+  if(this.afterCurrentTime(court.openTimes[day]) // if currently before court's open time for today
+  || this.beforeCurrentTime(court.closeTimes[day])){ // if currently after court's close time for today
+    return false;
+  }
+
+  // Check for a closure curently going on right now
+  let closedNow = false;
+  for(let closure of court.closures){
+
+    // if closure is not in effect today, or it does not take up all baskets
+    if(closure.days[day] === 0 || closure.baskets < court.baskets)
+      continue;  // move on to next closure
+
+    // if closure is in effect right now, the court is closed
+    if(this.beforeCurrentTime(closure.clStart) // If currently after te beginning of the closure
+    && this.afterCurrentTime(closure.clEnd)){ // If currently before the end of the closure
+      closedNow = true;
+      break;
+    }
+  }
+  if(closedNow) return false;
+  // If we got here the court is open, triumphantly return true
+  return true;
+}
+
+
+
+// Performs a strictly time-based comparison between provided date and current time
+// Param: UTC timestring to be compared to the current time
+// Returns: True if date is before current time(by milliseconds), false otherwise
+public beforeCurrentTime(dateString: string){
+  let now = new Date();
+  let date = new Date(dateString);
+  // set day, month and year to today for a strictly time comparison
+  date.setFullYear(now.getFullYear(), now.getMonth(), now.getDate())
+  return (date.getTime() < now.getTime())
+}
+
+// Performs a strictly time-based comparison between provided date and current time
+// Param: the UTC timestring to be compared to the current time
+// Returns: True if date is after current time(by milliseconds), false otherwise
+public afterCurrentTime(dateString: string){
+  let now = new Date();
+  let date = new Date(dateString);
+  // set day, month and year tyo today for a strictly time comparison
+  date.setFullYear(now.getFullYear(), now.getMonth(), now.getDate())
+  return (date.getTime() > now.getTime())
+}
+
 
 }

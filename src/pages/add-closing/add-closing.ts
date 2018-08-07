@@ -1,6 +1,10 @@
 import { Component } from '@angular/core';
 import { IonicPage, ViewController, NavParams, AlertController,
-  Events, NavController} from 'ionic-angular';
+  Events, NavController, ModalController} from 'ionic-angular';
+import { CourtDataService } from '../../services/courtDataService.service';
+import { LoadingPage } from '../loading/loading';
+import moment from 'moment';
+
 
 
 @IonicPage()
@@ -26,7 +30,9 @@ export class AddClosingPage {
                 private params: NavParams,
                 public alertCtrl: AlertController,
                 public navCtrl: NavController,
-                public events: Events) {
+                public events: Events,
+                public courtDataService: CourtDataService,
+                public modalCtrl: ModalController) {
       this.closure = params.get('closure');
       //this.timeError = true;
       // if we are not editing a closure and are therefore creating a new one
@@ -101,12 +107,49 @@ export class AddClosingPage {
        }
 
        // If we got here we've got a valid closure - Dismiss with data
+
+       if(this.params.get('fromGamesModal')){
+         //this.formatTimestrings(this.closure);
+         // Pop this page, raise load screen, submit data to server, provide user with success/fail feedback
+         this.navCtrl.pop().then(() => {
+           let loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'submitting court closing' },
+           { enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut' })
+           loadScreen.present();
+           this.courtDataService.postClosure(this.closure, this.params.get('court_id')).subscribe(
+             res => {
+               loadScreen.dismiss().then(() => {
+                 this.courtDataService.notify('Court Closing Added',
+                 'Thank you for updating the current activity at your court. Your fellow ballers thank you.')
+               })
+             },
+             err => {
+               loadScreen.dismiss().then(() => {
+                 this.courtDataService.notify('Error', 'Error submitting court closing. Please try again later.');
+               })
+             }
+           )
+         })
+         return;
+       }
+
        this.navCtrl.pop();
        this.events.publish('newClosureData', {
          closure: this.closure,
          edit: this.params.get('edit')
        })
     }
+
+
+    // Post: date object is converted to sexy timeString, which is added to closure
+    // Param: closure to be edited
+    // Pre: Closure has clStart and clEnd date objects
+    private formatTimestrings(closure){
+      closure.tss = moment(closure.clStart).format('h:mma');
+      closure.tss = closure.tss.substring(0, closure.tss.length - 1);
+      closure.tse = moment(closure.clEnd).format('h:mma');
+      closure.tse = closure.tse.substring(0, closure.tse.length - 1);
+    }
+
 
     // post: Either adds or subtracts from baskets, with restrictions
     // param: string s - whether or not to add or subtract from baskets

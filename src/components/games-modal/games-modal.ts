@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
 import { NavParams, ViewController, AlertController, ModalController,
-         Events} from 'ionic-angular';
+         Events, NavController } from 'ionic-angular';
 
 import { CourtDataService } from '../../services/courtDataService.service';
+import { CourtHelper }  from '../../providers/court-helper/court-helper';
 
 
 @Component({
@@ -29,12 +30,17 @@ export class GamesModal {
 
   inWindow: boolean;
 
+  court: any;
+  gotCourt: boolean = false;
+
   constructor(private params: NavParams,
               public viewCtrl: ViewController,
               private alertCtrl: AlertController,
               private modalCtrl: ModalController,
               public courtDataService: CourtDataService,
-              public events: Events) {
+              public events: Events,
+              public courtHelper: CourtHelper,
+              public navCtrl: NavController) {
 
     // fill gamecount with 0s
     this.gamecount = [0, 0, 0, 0, 0, 0];
@@ -47,6 +53,10 @@ export class GamesModal {
       this.margin = '54vw';
       this.inWindow = false;
     }
+    // get the court
+    this.courtDataService.getCourtsById([params.get('court_id')]).subscribe(
+      res => {this.court = res.json()[0], this.gotCourt = true}
+    )
   }
 
   // post1: if baskets entered <= court's baskets,
@@ -84,8 +94,8 @@ export class GamesModal {
       title: "How to Scout Games",
       message: "In no particular order, tap the games that you see."
       + " The number below each game value indicates the number of games of that value being played."
-      + " For example, if there is a \'5 on 5\' and two \'3 on 3\'s being played at your court, "
-      + " you would tap \'5 on 5\' once and \'3 on 3\' twice."
+      + " For example, if there were two games of 5 on 5 being played at your court, "
+      + " you would tap \'5 on 5\' twice."
       + " Happy hooping.",
       buttons: [{
         text: "got it",
@@ -151,27 +161,44 @@ export class GamesModal {
   }
 
   // Post: Add Closure Form is presented
-  // public courtClosed(){
-  //   let add = this.modalCtrl.create(AddClosure, {
-  //     edit: false,
-  //     courtBaskets: this.courtBaskets,
-  //     fromGamesModal: true,
-  //   })
-  //   add.onDidDismiss((data) => {
-  //     if(data && data.closure){
-  //       // send closure data to server, dismiss games modal, reload te court
-  //       this.courtDataService.postClosure(data.closure, this.params.get('court_id')).subscribe(
-  //         res => this.events.publish('reloadCourt', res.json()),
-  //         err => this.courtDataService.notify('ERROR', err)
-  //       );
-  //     }
-  //     this.viewCtrl.dismiss();
-  //   })
-  //
-  //   add.present().then(() => {
-  //     this.addClosure.instructions()
-  //   })
-  // }
+  public courtClosed(){
+    let alert = this.alertCtrl.create({
+      title: 'Confirm Closing',
+      subTitle: 'Please confirm that this court is currently closed',
+      buttons: [
+        { text: "Cancel", role: 'cancel'},
+        { text: 'Confirm',
+          handler: () => {
+            // Dismiss alert and games modal
+            alert.dismiss().then(() => {
+              this.viewCtrl.dismiss().then(() => {
+                if(!this.gotCourt) {
+                  this.courtDataService.notify('Copy That', 'We\'ve registered that the court is closed. Thank you.');
+                  return; // Protection in case we haven't received court object yet
+                }
+                // Scout so that data is as fresh as possible
+                this.court.windowData.games = [];
+                this.court.windowData.waitTime = 'short';
+                this.courtDataService.scout(this.court.windowData);
+                // If we're notifying app that the court is closed, prompt to add closing
+                if(this.courtHelper.isOpenNow(this.court))
+                  this.navCtrl.push('AddClosingPage', {
+                    edit: false,
+                    fromGamesModal: true,
+                    courtBaskets: this.court.baskets,
+                    court_id: this.params.get('court_id')
+                  });
+                else this.courtDataService.notify('Copy That', 'We\'ve registered that the court is closed. Thank you.')
+
+              })
+            })
+            return false;
+          }
+        }
+      ]
+    })
+    alert.present()
+  }
 
 
 }

@@ -123,7 +123,7 @@ export class CourtClosingsPage {
   // param: closure - the closure to be deleted
   private confirmDelete(closure){
     let confirmDelete = this.alertCtrl.create({
-      subTitle: 'Delete this closings?',
+      subTitle: 'Delete this closing?',
       buttons: [
         { text: 'Cancel', handler: ()=> {} },
         { text: 'Delete', handler: ()=> {
