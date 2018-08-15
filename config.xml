@@ -117,11 +117,12 @@
     <plugin name="cordova-plugin-screen-orientation" spec="^2.0.2" />
     <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
-    <plugin name="cordova-plugin-ionic-webview" spec="git+https://github.com/ghenry22/cordova-plugin-ionic-webview.git" />
     <plugin name="cordova-plugin-safariviewcontroller" spec="^1.5.3" />
     <allow-navigation href="http://192.168.0.15:8103" />
     <allow-navigation href="http://192.168.0.6:8100" />
     <allow-navigation href="http://192.168.0.6:8101" />
-    <engine name="ios" spec="^4.5.4" />
+    <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
+    <plugin name="cordova-plugin-ionic-webview" spec="^2.0.2" />
     <engine name="android" spec="^7.0.0" />
+    <engine name="ios" spec="^4.5.5" />
 </widget>

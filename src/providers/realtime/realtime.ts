@@ -14,7 +14,7 @@ export class RealtimeProvider {
     // wait for platform to become ready and plugins to become available
     this.platform.ready().then(() => {
     // alert('declaring ortc');
-      //this.ortc = window['plugins'].OrtcPushPlugin
+      this.ortc = window['plugins'].OrtcPushPlugin
     })
   }
 
@@ -39,6 +39,7 @@ export class RealtimeProvider {
         'projectId':'979214254876',
         'url':'https://ortc-developers.realtime.co/server/ssl/2.1/'
       }).then(() => {
+        alert('connected to ortc, subscribing to our channel, this is where app breaks on iOS');
         this.ortc.subscribe({'channel': currentUser}).then(() => {alert('subscribed to channel ' + currentUser)})
       })
     })
@@ -64,15 +65,17 @@ export class RealtimeProvider {
   // Post:  Subscribe to provided channel on our existing connection
   // Pre:   Connection has already been established
   // Param: Channel to subscribe to.
-  public subscribe(channel: string){
+  public subscribe(channel: String){
     if(this.ortc === '') return;
 
-    this.ortc.getIsConnected().then((connected) => {
-      if(connected === 1)
+    alert('connecting to channel' + channel);
+
+    //this.ortc.getIsConnected().then((connected) => {
+      //if(connected === 1)
         this.ortc.subscribe({
           'channel': channel
-        })
-    })
+        }).then(() => alert('succesfully connected. lets go'));
+    //})
   }
 
   // Post:  Unsubscribe from provided channel on our existing connection

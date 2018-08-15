@@ -17,9 +17,9 @@ import { GamesModal }  from "../../components/games-modal/games-modal";
 import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal';
 import { NotificationResponse } from '../../components/notification-response/notification-response';
 
-//import { RealtimeProvider } from '../../providers/realtime/realtime'
+import { RealtimeProvider } from '../../providers/realtime/realtime'
 
-import { JwtHelper } from 'angular2-jwt'
+import { JwtHelper } from 'angular2-jwt';
 
 import * as Realtime from 'realtime-messaging';
 
@@ -63,7 +63,8 @@ export class HoopMapPage {
               public events: Events,
               private toastCtrl: ToastController,
               private auth: AuthService,
-              public viewCtrl: ViewController)
+              public viewCtrl: ViewController,
+              public realtime: RealtimeProvider)
   {
 
     events.subscribe('homeCourtMessage', () => {
@@ -623,10 +624,7 @@ private getStyles(){
 }
 
 public tester(){
-  this.modalCtrl.create(GamesModal, {
-   baskets: 2,
-   court_id: "5a79e2f6698f5d132e1484f4"
- }).present();
+  this.realtime.subscribe('test12345');
 }
 
  }

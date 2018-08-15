@@ -18,6 +18,9 @@ import { RealtimeProvider } from '../providers/realtime/realtime';
 // Auth0Cordova
 import Auth0Cordova from '@auth0/cordova';
 
+
+import { AppCenterCrashes } from '@ionic-native/app-center-crashes';
+
 @Component({
   templateUrl: 'app.html',
 })
@@ -47,7 +50,8 @@ export class MyApp {
               private cdr: ChangeDetectorRef,
               private zone: NgZone,
               public realtime: RealtimeProvider,
-              public statusBar: StatusBar)
+              public statusBar: StatusBar,
+              private AppCenterCrashes: AppCenterCrashes)
   {
     this.initializeApp();
     this.initializeListeners();
@@ -69,6 +73,7 @@ export class MyApp {
       };
 
       // alert(location.href);
+      // this.initCrashReport();
 
       // lock the screen to portrait
       this.screenOrientation.lock('portrait');
@@ -275,5 +280,14 @@ export class MyApp {
     // else return "#D3D3D3"
   }
 
+  // Post: AppCenterCrashes enabled & last lastSessionCrashReport presented
+  private initCrashReport(){
+    this.AppCenterCrashes.setEnabled(true).then(() => {
+      alert('appCenterCrashes enabled');
+      this.AppCenterCrashes.lastSessionCrashReport().then(report => {
+        alert('Crash report\n' + JSON.stringify(report));
+     });
+   });
+  }
 
 }

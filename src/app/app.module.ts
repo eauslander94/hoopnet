@@ -13,6 +13,9 @@ import { Http } from '@angular/http'
 import { AuthHttp, AuthConfig } from 'angular2-jwt';
 import { authFactory } from './authFactory'
 
+import { AppCenterCrashes } from '@ionic-native/app-center-crashes';
+
+
 // pages
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
 import { SplashPage  }      from '../pages/splash/splash';
@@ -112,6 +115,7 @@ import {
   StatusBar,
   SplashScreen,
   HttpModule,
+  AppCenterCrashes,
   // AnimationService,
   ScreenOrientation,
   // auth0 providider
