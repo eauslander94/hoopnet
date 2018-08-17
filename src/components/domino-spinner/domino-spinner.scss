@@ -2,7 +2,6 @@ domino-spinner {
 
   .main {
     padding-top: 5px;
-    //border: 1px solid blue;
     text-align: center;
     height: 50px;
   }
@@ -15,13 +14,14 @@ domino-spinner {
   }
 
   .progressbar {
-  position: relative;
-  padding: 0;
-  width: 100px;
-  height: 25px;
-  list-style: none;
-  display: inline-block;
-}
+    position: relative;
+    padding: 0;
+    width: 100px;
+    height: 25px;
+    list-style: none;
+    display: inline-block;
+  }
+
 .progressbar li {
   display: block;
   position: absolute;
@@ -35,8 +35,11 @@ domino-spinner {
   -webkit-animation: bar linear 2.8s infinite;
           animation: bar linear 2.8s infinite;
   will-change: transform;
+
+  //display: inline-block;
 }
 .progressbar li:nth-child(1) {
+
   -webkit-transform: translateX(0) rotate(0deg);
           transform: translateX(0) rotate(0deg);
   opacity: 0.2;

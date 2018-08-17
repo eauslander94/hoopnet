@@ -72,7 +72,7 @@ export class MyApp {
         Auth0Cordova.onRedirectUri(url);
       };
 
-      // alert(location.href);
+      alert(location.href);
       // this.initCrashReport();
 
       // lock the screen to portrait
@@ -167,7 +167,7 @@ export class MyApp {
   private initUser(user: any){
     this.zone.run(() => { this.authFlag = true })
     this.saveUser(user)
-    this.realtime.connect(user._id)
+    //this.realtime.connect(user._id)
   }
 
 

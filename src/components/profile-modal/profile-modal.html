@@ -2,6 +2,7 @@
 
 <div class='goldenContent' id='content' [style.margin-top]="margin">
 
+  <!-- Picture -->
   <ion-item no-lines>
     <ion-avatar>
       <img src="data:{{user.avatar.contentType}};base64,{{user.avatar.data}}"/>
@@ -16,7 +17,7 @@
   </div>
 
   <!-- User Info -->
-  <div id="userInfo" *ngIf='myProfile'>
+  <div class='bottomInfo' id="myInfo" *ngIf='myProfile'>
     <div (tap)="navToFriends()">
       <p class="small">Friends</p>
       <p class="large">{{user.friends.length}}</p>
@@ -27,7 +28,8 @@
     </div>
   </div>
 
-  <div id="profileInfo" *ngIf=!myProfile>
+  <!-- User info when looking at another person's profile -->
+  <div class='bottomInfo' id="yourInfo" *ngIf=!myProfile>
     <div (tap)="navToFriends()">
       <p class="small">Friends</p>
       <p class="large">{{user.friends.length}}</p>

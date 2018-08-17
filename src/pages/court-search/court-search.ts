@@ -1,5 +1,5 @@
 import { Component, NgZone } from '@angular/core';
-import { IonicPage, NavController, NavParams, Events, AlertController } from 'ionic-angular';
+import { IonicPage, NavController, NavParams, Events, AlertController, ViewController } from 'ionic-angular';
 import { FormControl } from '@angular/forms';
 import { CourtDataService } from '../../services/courtDataService.service';
 
@@ -33,7 +33,8 @@ export class CourtSearchPage {
               public courtDataService: CourtDataService,
               public events: Events,
               public zone: NgZone,
-              public alertCtrl: AlertController
+              public alertCtrl: AlertController,
+              public viewCtrl: ViewController
   ) {
     this.searchControl = new FormControl;
     // Get user's recently visited courts as reference
@@ -126,7 +127,7 @@ export class CourtSearchPage {
              handler: () =>{
                // Dismiss alert, pop court search, spark response behavior
                alert.dismiss().then(() => {
-                 this.navCtrl.pop().then(() => {
+                 this.viewCtrl.dismiss().then(() => {
                    this.events.publish('newHomecourt', court);
                  })
                })

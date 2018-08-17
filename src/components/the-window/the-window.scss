@@ -97,16 +97,12 @@ the-window {
   }
 }
 
+// Loading feedback that appears while players are loaded
 #playersLoading{
-  text-align: center;
-  p{
-    font-family: Quicksand-regular;
-    font-color: grey;
+  height: 80%;
+  domino-spinner .main{
+    margin-top: 3%;
   }
-}
-
-domino-spinner{
-  border: 1px solid white;
 }
 
 #scoutPrompt{

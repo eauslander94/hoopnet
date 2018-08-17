@@ -65,18 +65,12 @@ page-friends-page {
     }
   }
 
-
+  // List of your friend
   #amigoDisplay{
-    border-top: 1px solid #030303;
     height: 60vh;
     width: 100vw;
-    //border: 2px solid red;
     white-space: nowrap;
     overflow: hidden;
-  }
-
-  ion-searchbar{
-    background-color: $background !important;
   }
 
 

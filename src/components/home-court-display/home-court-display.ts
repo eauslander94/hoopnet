@@ -162,6 +162,7 @@ export class HomeCourtDisplay {
                     this.zone.run(() => {
                       this.courts.splice(this.courts.indexOf(court), 1);
                       if(this.courts.length === 0) this.noHomecourts = true;
+                      else this.slides.slideTo(0);
                     })
                     this.courtDataService.notify('Homecourt Removed', court.name + ' has been removed from your homecourts.')
                   }

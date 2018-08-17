@@ -46,7 +46,6 @@ export class TheWindow {
 
   // whether or not we've retreived player data from db
   gotPlayers: boolean = false;
-  loadText: string = 'loading players';
 
   // user data for players in the window
   playerData: Array<any>;
@@ -58,6 +57,8 @@ export class TheWindow {
   // coordinates of the court
   coordinates: Array<number>;
   waitNum: string = '';
+
+  loadingMessage: string = 'loading players';
 
 
   constructor (public modalCtrl: ModalController,
@@ -115,7 +116,7 @@ export class TheWindow {
         })
       },
       err => {
-        console.log(err + 'err getPlayers in theWindow')
+        this.courtDataService.notify('Error', 'Error fetching player data');
       }
     )
 

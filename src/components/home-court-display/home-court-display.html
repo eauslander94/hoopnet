@@ -3,7 +3,7 @@
 <div id='content' *ngIf="!noHomecourts && !loading">
 
   <ion-slides pager='true'>
-    <ion-slide *ngFor='let court of courts' class='swiper-no-swiping'>
+    <ion-slide *ngFor='let court of courts'>
       <p id='homeCourtName' on-swipe-left='slideForward()' on-swipe-right='slideBack()'>{{court.name}}</p>
       <the-window [windowData]='court.windowData'></the-window>
     </ion-slide>

@@ -25,15 +25,43 @@ ion-content {
 // Font Variables
 $Montserrat: 'Montserrat', sans-serif;
 
+
+.toolbar{}
 .toolbar-background{
   background-color: $background;
+}
+
+.toolbar-content {
+  position: absolute;  // take a flexbox item out of the flow
+  top: 0;
+  width: 100%;         // take all the space, including that of the buttons on the left and right side
+  z-index: -1;         // go under the buttons
 }
 
 .toolbar-title {
   text-align: center;
   color: $primary;
   font-family: axis;
-  font-size: 5.5vw;
+  font-size: 20px;
+}
+
+.kodo-header .toolbar-title{
+  font-size: 25px;
+}
+
+// To fix the ststus bar issue on pages that come from modals on ios
+.platform-ios .ios-header {
+  height:calc(56px + 20px);
+  min-height:calc(56px + 20px);
+  padding-top:20px;
+  border-bottom: 1px solid $borderColor;
+  .toolbar-title {
+    width: 100%;
+    z-index: -1;
+    position: absolute;
+    top: 30px;
+    left: 0;
+  }
 }
 
 // Image icon on navbar
@@ -65,7 +93,8 @@ $Montserrat: 'Montserrat', sans-serif;
 }
 
 ion-menu{
-      height: 100%;
+  margin-top: 24px;
+  border-top: 1px solid $borderColor;
 }
 
 // Styling te side menu - html lives in app.html
@@ -96,7 +125,7 @@ ion-menu{
   }
 }
 
-// ackround for many modal compoents
+// backround for many modal compoents
 .hackground{
   height: 100vh;
   width: 100vw;
@@ -154,14 +183,13 @@ ion-menu{
   ion-icon{
     display: inline-block;
     float: right;
-    font-size: 4vw;
+    font-size: 20px;
     margin-right: 2vw;        margin-top: 2vw;
     border: 1px solid $borderColor;
     border-radius: 25vw;
-    padding: 1vw;
-    height: 6vw; width: 6vw;
+    padding-top: 1px;
+    height: 24px; width: 24px;
     color: $primary;
-    background: white;
   }
 }// gmHeader
 
@@ -197,34 +225,7 @@ ion-menu{
 
 
 
-#selectDiv{
-  border-radius: 3px;
-  background-color: $select-background-color;
-  height: 8%;
-  box-shadow: 0px 1px 1px grey;
-  display: table;
-  width: 100%;
-}
-
-// Centering of the following 2 divs on various screens can be an issue
-// perhaps a solution that uses table cells
-#selectDiv > p{
-  font-size: 5vw;
-  color: $in-primary-text;
-  float: left;
-  vertical-align: middle;
-  padding-left:5%;
-}
-
-#selectDiv > ion-select{
-
-  //border: 1px solid black;
-  float: right;
-  vertical-align: middle;
-  padding-right: 5%;
-}
-
-
+// Font collections
 @font-face {
   font-family: "bulls";
   src: url("../assets/fonts/bulls.ttf") format("truetype");

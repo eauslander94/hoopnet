@@ -18,8 +18,7 @@
 
     <!--  Load wheel which displays when fetching players -->
     <div id='playersLoading' *ngIf='!gotPlayers && !scoutPrompt'>
-      <p>loading players</p>
-      <ion-spinner></ion-spinner>
+      <domino-spinner [text]="loadingMessage"></domino-spinner>
     </div>
 
 

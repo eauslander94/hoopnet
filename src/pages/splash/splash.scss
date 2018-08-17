@@ -23,22 +23,16 @@ page-splash {
 }
 
 
-.splashLoadWheel{
-  position: absolute;
-  bottom: 10px;
-  right: 10px;
-  padding: auto;
-  display: inline-block;
-  -webkit-transition: opacity 3s;
-  transition: opacity 3s;
-}
 
-domino-spinner{
+
+#dominoWrapper{
   position: absolute; bottom: 0;
   margin-left: 25vw;
   width: 50vw;
-  -webkit-transition: opacity 1s;
-  transition: opacity 1s;
+  // -webkit-transition: opacity 1s;
+  // transition: opacity 1s;
+  
 }
+
 
 }

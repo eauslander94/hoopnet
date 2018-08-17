@@ -41,7 +41,7 @@ export class HoopMapPage {
   courts: Array<any>
 
   // To be used for determining if a marker was clicked or pressed
-  fingerOnScreen: boolean;
+  fingerOnScreen: boolean = false;
 
   allCourtsObservable: Observable<Response>;
 
@@ -624,7 +624,8 @@ private getStyles(){
 }
 
 public tester(){
-  this.realtime.subscribe('test12345');
+  //this.realtime.subscribe('test12345');
+  this.modalCtrl.create(GamesModal).present();
 }
 
  }
