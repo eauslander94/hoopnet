@@ -106,22 +106,21 @@ export class EnterProfileInfo {
     this.actionSheetCtrl.create({
       title: "Set Avatar",
       buttons: [
-        { text: 'take picture',
+        { text: 'Take picture',
           handler: () => {
-            this.camera.getPicture(cameraOptions).then(
-              (data_url) => {
-                alert('got data, image data length = ' + data_url.length)
-                this.user.avatar = {
-                  data: data_url,
-                  contentType: 'image/jpeg'
-                }
-                this.avatarChange = true;
-              },
-              (err) => {console.log(err)}
-            )
-          }
+            this.camera.getPicture(cameraOptions).then((data_url) => {
+              alert('got picture')
+              this.user.avatar = {
+                data: data_url,
+                contentType: 'image/jpeg'
+              }
+            alert('changing avatar icon')
+            this.avatarChange = true;
+            },
+            (err) => {this.courtDataService.notify('Picture not taken', 'Just letting you know. Please try again.')}
+          )}
         },
-        { text: 'choose from gallery',
+        { text: 'Choose from gallery',
           handler: () => {
             cameraOptions.sourceType = this.camera.PictureSourceType.PHOTOLIBRARY;
             this.camera.getPicture(cameraOptions).then(

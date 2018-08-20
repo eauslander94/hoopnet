@@ -312,19 +312,20 @@ export class HoopMapPage {
           role: 'cancel',
           handler: () => {}
         },
-        {
-          text: 'Invite Friends?',
-          handler: () => {
-            // dismiss the alert, then bring up invite friends page
-            alert.dismiss().then(() => {
-              this.navCtrl.push('InviteFriendsPage',{
-                courtName: court.name,
-                location: court.location
-              })
-            })
-            return false;
-          }
-        }
+        // Push noti feature, removed for time being
+        // {
+        //   text: 'Invite Friends?',
+        //   handler: () => {
+        //     // dismiss the alert, then bring up invite friends page
+        //     alert.dismiss().then(() => {
+        //       this.navCtrl.push('InviteFriendsPage',{
+        //         courtName: court.name,
+        //         location: court.location
+        //       })
+        //     })
+        //     return false;
+        //   }
+        // }
       ]
     });
     alert.present();

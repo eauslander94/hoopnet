@@ -22,7 +22,7 @@
     "@ionic-native/app-center-crashes": "4.7.0",
     "@ionic-native/background-fetch": "^4.5.2",
     "@ionic-native/background-geolocation": "^4.5.2",
-    "@ionic-native/camera": "4.5.2",
+    "@ionic-native/camera": "4.10.1",
     "@ionic-native/core": "^3.12.1",
     "@ionic-native/date-picker": "4.6.0",
     "@ionic-native/geolocation": "^3.13.0",
@@ -71,6 +71,7 @@
     "rxjs": "5.4.0",
     "socket.io": "^2.0.4",
     "sw-toolbox": "3.4.0",
+    "typescript": "^3.0.1",
     "zone": "^0.3.4",
     "zone.js": "0.6.26"
   },
@@ -112,12 +113,12 @@
         "IOS_HOST": "eauslander94-dev.auth0.com",
         "IOS_PATHPREFIX": "/cordova/com.eauslander94.courtlife/callback"
       },
-      "cordova-plugin-camera": {},
       "cordova-plugin-datepicker": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-safariviewcontroller": {},
       "cordova-plugin-ionic-webview": {},
-      "cordova-plugin-screen-orientation": {}
+      "cordova-plugin-screen-orientation": {},
+      "cordova-plugin-camera": {}
     },
     "platforms": [
       "android",

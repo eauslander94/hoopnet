@@ -72,7 +72,7 @@ export class MyApp {
         Auth0Cordova.onRedirectUri(url);
       };
 
-      alert(location.href);
+      // alert(location.href);
       // this.initCrashReport();
 
       // lock the screen to portrait
@@ -133,7 +133,8 @@ export class MyApp {
       this.zone.run(() => {
         this.authFlag = false;
       })
-      this.realtime.disconnect();
+      // Push noti feature, removed for time being
+      //this.realtime.disconnect();
     })
 
     // When user data is refreshed, repopulate current user here and in local storage
@@ -167,6 +168,7 @@ export class MyApp {
   private initUser(user: any){
     this.zone.run(() => { this.authFlag = true })
     this.saveUser(user)
+    // Push noti feature, removed for time being
     //this.realtime.connect(user._id)
   }
 
@@ -282,6 +284,7 @@ export class MyApp {
 
   // Post: AppCenterCrashes enabled & last lastSessionCrashReport presented
   private initCrashReport(){
+  alert('initializing crash report');
     this.AppCenterCrashes.setEnabled(true).then(() => {
       alert('appCenterCrashes enabled');
       this.AppCenterCrashes.lastSessionCrashReport().then(report => {
