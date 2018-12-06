@@ -1,10 +1,10 @@
 import { Component, NgZone } from '@angular/core';
 import { NavParams, ViewController, Events, ModalController} from 'ionic-angular';
 import { ProfileModal } from '../profile-modal/profile-modal';
+import { ModalWrapper } from '../../pages/modal-wrapper';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { RealtimeProvider } from '../../providers/realtime/realtime';
 import moment from 'moment';
-
 
 
 @Component({
@@ -91,12 +91,13 @@ export class NotificationResponse {
 
   // Post: profile of inviter is presented
   public presentProfileModal(){
-
     if(this.loading) return;
-    this.modalCtrl.create(ProfileModal, {
+    this.modalCtrl.create(ModalWrapper, {
       myProfile: false,
-      user: this.inviter
-    }).present()
+      user: this.inviter,
+      modalContent: ProfileModal },
+      {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'}
+    ).present();
   }
 
 }

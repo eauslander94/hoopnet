@@ -1,6 +1,6 @@
 <?xml version='1.0' encoding='utf-8'?>
-<widget id="com.eauslander94.Courtlife" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
-    <name>Courtlife</name>
+<widget id="com.eauslander94.kodo" version="0.0.1" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>Kodo</name>
     <description>A realtime window to your local court</description>
     <author email="hi@ionicframework" href="http://ionicframework.com/">Ionic Framework Team</author>
     <content src="index.html" />
@@ -12,7 +12,7 @@
     <allow-intent href="mailto:*" />
     <allow-intent href="geo:*" />
     <preference name="ScrollEnabled" value="false" />
-    <preference name="android-minSdkVersion" value="16" />
+    <preference name="android-minSdkVersion" value="19" />
     <preference name="BackupWebStorage" value="none" />
     <preference name="SplashMaintainAspectRatio" value="true" />
     <preference name="FadeSplashScreenDuration" value="300" />
@@ -104,6 +104,12 @@
     <allow-navigation href="http://192.168.0.5:8100" />
     <allow-navigation href="http://192.168.0.5:8101" />
     <allow-navigation href="http://192.168.0.15:8102" />
+    <allow-navigation href="http://192.168.0.15:8103" />
+    <allow-navigation href="http://192.168.0.6:8100" />
+    <allow-navigation href="http://192.168.0.6:8101" />
+    <allow-navigation href="http://192.168.0.12:8101" />
+    <allow-navigation href="http://10.13.10.71:8100" />
+    <allow-navigation href="http://10.13.18.63:8100" />
     <plugin name="cordova-plugin-device" spec="^1.1.7" />
     <plugin name="cordova-plugin-splashscreen" spec="^4.1.0" />
     <plugin name="cordova-plugin-statusbar" spec="^2.4.2" />
@@ -115,29 +121,23 @@
     <plugin name="cordova-plugin-photo-library" spec="^2.1.1">
         <variable name="PHOTO_LIBRARY_USAGE_DESCRIPTION" value="To choose photos" />
     </plugin>
-    <plugin name="cordova-plugin-compat" spec="^1.2.0" />
-    <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
-        <variable name="URL_SCHEME" value="com.eauslander94.courtlife" />
-        <variable name="ANDROID_SCHEME" value="com.eauslander94.courtlife" />
-        <variable name="ANDROID_HOST" value="eauslander94-dev.auth0.com" />
-        <variable name="ANDROID_PATHPREFIX" value="/cordova/com.eauslander94.courtlife/callback" />
-        <variable name="IOS_SCHEME" value="com.eauslander94.courtlife" />
-        <variable name="IOS_HOST" value="eauslander94-dev.auth0.com" />
-        <variable name="IOS_PATHPREFIX" value="/cordova/com.eauslander94.courtlife/callback" />
-    </plugin>
     <plugin name="cordova-plugin-datepicker" spec="^0.9.3" />
     <plugin name="cordova-plugin-inappbrowser" spec="^3.0.0" />
     <plugin name="cordova-plugin-safariviewcontroller" spec="^1.5.3" />
-    <allow-navigation href="http://192.168.0.15:8103" />
-    <allow-navigation href="http://192.168.0.6:8100" />
-    <allow-navigation href="http://192.168.0.6:8101" />
-    <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
     <plugin name="cordova-plugin-ionic-webview" spec="^2.0.2" />
-    <allow-navigation href="http://192.168.0.12:8101" />
-    <allow-navigation href="http://10.13.10.71:8100" />
-    <allow-navigation href="http://10.13.18.63:8100" />
-    <plugin name="cordova-plugin-screen-orientation" spec="^3.0.1" />
+    <plugin name="cordova-plugin-screen-orientation" spec="~3.0.1" />
     <plugin name="cordova-plugin-camera" spec="^4.0.3" />
-    <engine name="android" spec="^7.0.0" />
+    <plugin name="co.realtime.plugins.CordovaPush" spec="~0.2.2" />
+    <plugin name="cordova-plugin-add-swift-support" spec="~1.7.2" />
+    <plugin name="cordova-plugin-customurlscheme" spec="^4.3.0">
+        <variable name="URL_SCHEME" value="com.eauslander94.kodo" />
+        <variable name="ANDROID_SCHEME" value="com.eauslander94.kodo" />
+        <variable name="ANDROID_HOST" value="eauslander94-dev.auth0.com" />
+        <variable name="ANDROID_PATHPREFIX" value="/cordova/com.eauslander94.kodo/callback" />
+    </plugin>
+    <allow-navigation href="http://192.168.0.5:8102" sessionid="15d39ea8" />
+    <allow-navigation href="http://192.168.0.5:8103" sessionid="a42b7ffe" />
+    <allow-navigation href="http://192.168.0.5:8104" sessionid="717dcbef" />
     <engine name="ios" spec="^4.5.5" />
+    <engine name="android" spec="^7.1.1" />
 </widget>

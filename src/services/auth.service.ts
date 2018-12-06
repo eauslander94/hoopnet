@@ -20,7 +20,7 @@ const auth0Config = {
   clientId: 'pu0puMWvKB1XANUkPh0sygZwdGGR_oE1',
   domain: 'eauslander94-dev.auth0.com',
   // Below is from config.xml
-  packageIdentifier: 'com.eauslander94.courtlife',
+  packageIdentifier: 'com.eauslander94.kodo',
   callbackURL: location.href,
 };
 
@@ -33,6 +33,7 @@ export class AuthService {
   user: any;
 
   testJWT: string;
+  allowEntry: boolean = false;
 
   constructor(public zone: NgZone,
               public events: Events,
@@ -62,6 +63,8 @@ export class AuthService {
   }
 
   public isAuthenticated() {
+    if(this.allowEntry)
+      return true;
     const expiresAt = JSON.parse(localStorage.getItem('expires_at'));
     return Date.now() < expiresAt;
   }

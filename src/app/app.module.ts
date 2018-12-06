@@ -20,6 +20,9 @@ import { AppCenterCrashes } from '@ionic-native/app-center-crashes';
 import { HoopMapPage }      from '../pages/hoop-map-page/hoop-map-page';
 import { SplashPage  }      from '../pages/splash/splash';
 import { LoadingPage }      from '../pages/loading/loading';
+import { FriendsPage }      from '../pages/friends-page/friends-page';
+import { ModalWrapper }     from '../pages/modal-wrapper';
+
 // components
 import { TheWindow }        from '../components/the-window/the-window';
 import { WindowModal }      from '../components/window-modal/window-modal';
@@ -59,8 +62,8 @@ import {
     HoopMapPage,
     SplashPage,
     LoadingPage,
-
-
+    FriendsPage,
+    ModalWrapper,
     TheWindow,
     WindowModal,
     GamesModal,
@@ -93,8 +96,9 @@ import {
     MyApp,
     HoopMapPage,
     SplashPage,
+    FriendsPage,
     LoadingPage,
-
+    ModalWrapper,
     ProfileModal,
     WindowModal,
     GamesModal,
@@ -109,6 +113,7 @@ import {
   providers: [
   {provide: ErrorHandler, useClass: IonicErrorHandler},
   CourtDataService,
+  DominoSpinner,
   AuthService,
   Geolocation,
   PhotoLibrary,
@@ -125,7 +130,10 @@ import {
   },
   CourtHelper,
   RealtimeProvider,
-  Keyboard
+  Keyboard,
+],
+exports: [
+  DominoSpinner
 ]
 })
 export class AppModule {

@@ -16,6 +16,7 @@ import { WindowModal }  from '../../components/window-modal/window-modal';
 import { GamesModal }  from "../../components/games-modal/games-modal";
 import { WaitTimeModal } from '../../components/wait-time-modal/wait-time-modal';
 import { NotificationResponse } from '../../components/notification-response/notification-response';
+import { ModalWrapper }  from '../modal-wrapper';
 
 import { RealtimeProvider } from '../../providers/realtime/realtime'
 
@@ -268,7 +269,7 @@ export class HoopMapPage {
           this.nwd.wLastValidated = new Date();
         }
         // send data to server, thank user for scouting
-        this.courtDataService.scout(this.nwd)
+        this.courtDataService.scout(this.nwd);
         this.scoutedAlert(court);
       })
       waitTimeModal.present();
@@ -282,10 +283,9 @@ export class HoopMapPage {
   // Param: Court which we will connect to
   presentWindowModal(court: any, scoutPrompt: boolean){
 
-
-
-   let windowModal = this.modalCtrl.create(WindowModal,
-      { 'court': court, 'scoutPrompt': scoutPrompt }
+   let windowModal = this.modalCtrl.create(ModalWrapper,
+      { 'court': court, 'scoutPrompt': scoutPrompt, modalContent: WindowModal },
+      {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'}
     )
 
     // Disconnect when dismissing theWindow

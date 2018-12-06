@@ -9,6 +9,7 @@ import { WaitTimeModal } from '../wait-time-modal/wait-time-modal';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { AuthService }      from '../../services/auth.service';
 import { CourtHelper } from '../../providers/court-helper/court-helper';
+import { ModalWrapper } from '../../pages/modal-wrapper';
 
 import { ProfileModal } from '../profile-modal/profile-modal';
 import { DominoSpinner } from '../domino-spinner/domino-spinner';
@@ -430,11 +431,13 @@ export class TheWindow {
    if(!this.courtDataService.auth.isAuthenticated()) return;
 
    // Here, we would restrict access to user's profile if user is private
-   this.modalCtrl.create(ProfileModal, {
+   this.modalCtrl.create(ModalWrapper, {
      user: user,
      myProfile: false,
-     inWindow: true
-   }).present();
+     inWindow: true,
+     modalContent: ProfileModal },
+     {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'}
+   ).present();
  }
 
 

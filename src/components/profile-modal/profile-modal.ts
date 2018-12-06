@@ -4,6 +4,7 @@ import { ViewController, NavParams, AlertController, NavController, ModalControl
 
 import { HomeCourtDisplay } from '../home-court-display/home-court-display';
 import { CourtDataService } from '../../services/courtDataService.service';
+import { FriendsPage }      from '../../pages/friends-page/friends-page';
 
 @Component({
   selector: 'profile-modal',
@@ -42,13 +43,16 @@ export class ProfileModal {
     if(this.user._id === JSON.parse(window.localStorage.getItem('currentUser'))._id)
       this.myProfile = true;
     else this.myProfile = params.get('myProfile');
+    // If we're being used w/ modal wrapper, get viewCtrl from modal wrapper
+    if(params.get("viewCtrl"))
+      this.viewCtrl = params.get("viewCtrl");
   }
 
   // Post: Friends page is pushed onto the naviation stack
   public navToFriends(){
-    this.navCtrl.push('FriendsPage', {
-      'friends': this.user.friends,
-      'myProfile': false
+    this.navCtrl.push(FriendsPage, {
+      friends: this.user.friends,
+      myProfile: false
     })
   }
 

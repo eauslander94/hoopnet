@@ -10,7 +10,7 @@ import { Component, Input } from '@angular/core';
 export class DominoSpinner {
 
   // The text to dosplay next to the spinner
-  @Input() text
+  @Input() text;
 
   constructor() {}
 

@@ -48,7 +48,7 @@
 
   <!-- Load wheel -->
   <div class="spinDiv" *ngIf="friendLoading">
-    <ion-spinner></ion-spinner>
+    <domino-spinner [text]="loadingText"></domino-spinner>
   </div>
 </div>
 
@@ -71,7 +71,7 @@
 
   <!-- Load wheel -->
   <div class="spinDiv" *ngIf="addLoading">
-    <ion-spinner></ion-spinner>
+    <domino-spinner [text]="searchingUsers"></domino-spinner>
   </div>
 </div>
 
@@ -89,7 +89,7 @@
 
   <!-- Load wheel -->
   <div class="spinDiv" *ngIf="requestsLoading">
-    <ion-spinner></ion-spinner>
+    <domino-spinner></domino-spinner>
   </div>
 </div>
 

@@ -38,9 +38,10 @@
     "angular2-jwt": "^0.2.3",
     "animate.css": "^3.5.2",
     "auth0-js": "^9.0.2",
-    "cordova-android": "^7.0.0",
+    "co.realtime.plugins.CordovaPush": "~0.2.2",
+    "cordova-android": "^7.1.1",
     "cordova-ios": "^4.5.5",
-    "cordova-plugin-add-swift-support": "^1.6.0",
+    "cordova-plugin-add-swift-support": "^1.7.2",
     "cordova-plugin-appcenter-crashes": "0.1.7",
     "cordova-plugin-appcenter-shared": "0.1.6",
     "cordova-plugin-camera": "^4.0.3",
@@ -51,10 +52,10 @@
     "cordova-plugin-file": "^5.0.0",
     "cordova-plugin-geolocation": "^2.4.3",
     "cordova-plugin-inappbrowser": "^3.0.0",
-    "cordova-plugin-ionic-webview": "^2.0.2",
+    "cordova-plugin-ionic-webview": "^2.0.3",
     "cordova-plugin-photo-library": "^2.1.1",
-    "cordova-plugin-safariviewcontroller": "^1.5.3",
-    "cordova-plugin-screen-orientation": "3.0.1",
+    "cordova-plugin-safariviewcontroller": "^1.5.4",
+    "cordova-plugin-screen-orientation": "^3.0.1",
     "cordova-plugin-splashscreen": "^4.1.0",
     "cordova-plugin-statusbar": "^2.4.2",
     "cordova-plugin-whitelist": "^1.3.3",
@@ -77,6 +78,8 @@
   },
   "devDependencies": {
     "@ionic/app-scripts": "^3.1.10",
+    "@ionic/cli-plugin-cordova": "1.6.2",
+    "@ionic/cli-plugin-ionic-angular": "1.4.1",
     "typescript": "2.3.4"
   },
   "cordovaPlugins": [
@@ -104,25 +107,24 @@
         "PHOTO_LIBRARY_USAGE_DESCRIPTION": "To choose photos"
       },
       "cordova-plugin-compat": {},
-      "cordova-plugin-customurlscheme": {
-        "URL_SCHEME": "com.eauslander94.courtlife",
-        "ANDROID_SCHEME": "com.eauslander94.courtlife",
-        "ANDROID_HOST": "eauslander94-dev.auth0.com",
-        "ANDROID_PATHPREFIX": "/cordova/com.eauslander94.courtlife/callback",
-        "IOS_SCHEME": "com.eauslander94.courtlife",
-        "IOS_HOST": "eauslander94-dev.auth0.com",
-        "IOS_PATHPREFIX": "/cordova/com.eauslander94.courtlife/callback"
-      },
       "cordova-plugin-datepicker": {},
       "cordova-plugin-inappbrowser": {},
       "cordova-plugin-safariviewcontroller": {},
       "cordova-plugin-ionic-webview": {},
       "cordova-plugin-screen-orientation": {},
-      "cordova-plugin-camera": {}
+      "cordova-plugin-camera": {},
+      "co.realtime.plugins.CordovaPush": {},
+      "cordova-plugin-add-swift-support": {},
+      "cordova-plugin-customurlscheme": {
+        "URL_SCHEME": "com.eauslander94.kodo",
+        "ANDROID_SCHEME": "com.eauslander94.kodo",
+        "ANDROID_HOST": "eauslander94-dev.auth0.com",
+        "ANDROID_PATHPREFIX": "/cordova/com.eauslander94.kodo/callback"
+      }
     },
     "platforms": [
-      "android",
-      "ios"
+      "ios",
+      "android"
     ]
   }
 }

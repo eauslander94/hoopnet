@@ -6,11 +6,13 @@ import 'rxjs/add/operator/debounceTime';
 
 import { ProfileModal }     from '../../components/profile-modal/profile-modal';
 import { CourtDataService } from '../../services/courtDataService.service';
-
+import { ModalWrapper }     from '../modal-wrapper';
 import { Keyboard } from '@ionic-native/keyboard';
+import { DominoSpinner } from '../../components/domino-spinner/domino-spinner';
 
 
-@IonicPage()
+
+
 @Component({
   selector: 'page-friends-page',
   templateUrl: 'friends-page.html',
@@ -48,6 +50,9 @@ export class FriendsPage {
 
   //whether or not we are viewing the profile of the user currently logged in
   myProfile: boolean;
+
+  loadingText: string = 'loading friends';
+  searchingUsers: string = 'searching users'
 
   constructor(public navCtrl: NavController,
               public params: NavParams,
@@ -134,6 +139,8 @@ export class FriendsPage {
 
   // Post: Freind Requests set to usere retreived, got friend requests becomes true
   public getFriendRequests(ids: Array<string>){
+    if(!ids) return;
+
     this.courtDataService.getUsers(ids).subscribe(
       res => {
         this.friendRequests = res.json();
@@ -181,10 +188,12 @@ export class FriendsPage {
   // Post:  profile page is pulled up with the clicked friend's profile
   // Param: user - the user whose page we will pull up
   public presentProfile(user: any){
-    this.modalCtrl.create(ProfileModal, {
+    this.modalCtrl.create(ModalWrapper, {
       user: user,
-      myProfile: false
-    }).present()
+      myProfile: false,
+      modalContent: ProfileModal },
+      {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'}
+    ).present();
   }
 
   alreadyFriendsAlert(user: any) {
@@ -245,6 +254,7 @@ export class FriendsPage {
 
   // Post user data is refreshed and saved, refresher stops spinning
   public doRefresh(refresher: any){
+    if(!this.myProfile) return;
     this.courtDataService.getUsersByAuth_id(JSON.parse(window.localStorage.getItem('currentUser')).auth_id)
     .subscribe(res => {
       this.events.publish('updateCurrentUser', res.json())

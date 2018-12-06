@@ -10,6 +10,9 @@ import { Platform, Events, MenuController, ModalController } from 'ionic-angular
 import { HoopMapPage } from '../pages/hoop-map-page/hoop-map-page';
 import { SplashPage  } from '../pages/splash/splash';
 import { LoadingPage } from '../pages/loading/loading';
+import { FriendsPage } from '../pages/friends-page/friends-page';
+import { ModalWrapper } from '../pages/modal-wrapper';
+
 // Components for menu links
 import { HomeCourtDisplay }  from '../components/home-court-display/home-court-display';
 import { ProfileModal }      from '../components/profile-modal/profile-modal';
@@ -105,11 +108,10 @@ export class MyApp {
       }
       // else retreive our user from db, pull up load screen
       else {
-        this.loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'retrieving user data' },
-        {
-          enterAnimation: 'ModalEnterFadeIn',
-          leaveAnimation: 'ModalLeaveFadeOut'
-        })
+        this.loadScreen = this.modalCtrl.create(LoadingPage,
+          {loadingMessage: 'retrieving user data'},
+          {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'}
+        )
         this.loadScreen.present();
 
         this.courtDataService.getUsersByAuth_id(id_token.sub).subscribe(
@@ -117,7 +119,7 @@ export class MyApp {
             this.events.publish('gotCurrentUser');
             this.initUser(res.json())
             this.loadScreen.dismiss().then(() => { this.courtDataService.notify(
-              'Login Success', 'Enjoy Courtlife, my friend')
+              'Login Success', 'Enjoy Kodo, my friend')
             })
           },
           err => { this.loadScreen.dismiss().then(() => { this.courtDataService.notify(
@@ -199,10 +201,12 @@ export class MyApp {
 
     // Param: Pointers to court objects
     // Param: Flag telling modal that this is te user's homecourt display
-    this.modalCtrl.create(HomeCourtDisplay, {
-      "courtPointers": JSON.parse(window.localStorage.getItem('currentUser')).homecourts,
-      "myProfile": true
-    }).present();
+    this.modalCtrl.create(ModalWrapper, {
+      courtPointers: JSON.parse(window.localStorage.getItem('currentUser')).homecourts,
+      myProfile: true,
+      modalContent: HomeCourtDisplay
+    },
+    {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'}).present();
     this.menu.close();
   }
 
@@ -211,12 +215,15 @@ export class MyApp {
   public navToProfile(){
     // If we're not authenticated, do nothing
     if(!this.authFlag) return;
-
-    this.modalCtrl.create(ProfileModal, {
-      'user': this.currentUser,
-      'myProfile': 'true'
-    }).present()
-    this.menu.close();
+    let profile = this.modalCtrl.create(ModalWrapper, {
+      user: this.currentUser,
+      myProfile: 'true',
+      modalContent: ProfileModal },
+      {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'}
+    );
+    this.menu.close().then(() => {
+      profile.present();
+    });
   }
 
 
@@ -237,7 +244,7 @@ export class MyApp {
     if(!this.authFlag) return;
 
     let user = JSON.parse(window.localStorage.getItem('currentUser'))
-    this.nav.push('FriendsPage', {
+    this.nav.push(FriendsPage, {
       'myProfile': true,
       'friends': user.friends,
       'friendRequests': user.friendRequests

@@ -1,19 +1,4 @@
-// http://ionicframework.com/docs/v2/theming/
 
-
-// App Global Sass
-// --------------------------------------------------
-// Put style rules here that you want to apply globally. These
-// styles are for the entire app and not just one component.
-// Additionally, this file can be also used as an entry point
-// to import other Sass files to be included in the output CSS.
-//
-// Shared Sass variables, which can be used to adjust Ionic's
-// default Sass variables, belong in "theme/variables.scss".
-//
-// To declare rules for a specific mode, create a child rule
-// for the .md, .ios, or .wp mode classes. The mode class is
-// automatically applied to the <body> element in the app.
 
 ion-content {
   background-size: contain;
@@ -31,7 +16,7 @@ $Montserrat: 'Montserrat', sans-serif;
   background-color: $background;
 }
 
-.toolbar-content {
+.ios .toolbar-content{
   position: absolute;  // take a flexbox item out of the flow
   top: 0;
   width: 100%;         // take all the space, including that of the buttons on the left and right side
@@ -43,26 +28,15 @@ $Montserrat: 'Montserrat', sans-serif;
   color: $primary;
   font-family: axis;
   font-size: 20px;
+  //border: 1px solid red;
 }
+
+
 
 .kodo-header .toolbar-title{
   font-size: 25px;
 }
 
-// To fix the ststus bar issue on pages that come from modals on ios
-.platform-ios .ios-header {
-  height:calc(56px + 20px);
-  min-height:calc(56px + 20px);
-  padding-top:20px;
-  border-bottom: 1px solid $borderColor;
-  .toolbar-title {
-    width: 100%;
-    z-index: -1;
-    position: absolute;
-    top: 30px;
-    left: 0;
-  }
-}
 
 // Image icon on navbar
 #courtside{
@@ -92,9 +66,9 @@ $Montserrat: 'Montserrat', sans-serif;
   //border: 1px solid black;
 }
 
-ion-menu{
+// Fix for statusbar bug on menu on ios
+.ios ion-menu{
   margin-top: 24px;
-  border-top: 1px solid $borderColor;
 }
 
 // Styling te side menu - html lives in app.html
@@ -103,7 +77,7 @@ ion-menu{
 }
 
 #belowMenu{
-  height: 64%;
+  height: 70%;
   background: linear-gradient(to top,  #33ccff  0%, #fff 100%);
 }
 
@@ -223,8 +197,6 @@ ion-menu{
     left: 0;
 }
 
-
-
 // Font collections
 @font-face {
   font-family: "bulls";
@@ -263,73 +235,3 @@ ion-menu{
 }
 
 @import '../pages/loading/loading';
-
-
-
-// Below is the styling for the shared header on text/picture posts
-.postHeader {
-  height: 9vw;
-  width: 98%;
-  margin-left: 1%;
-  border-bottom: 1px solid grey;
-  position: relative;
-
-  // the avatar and the name
-  #avatarDiv {
-    display: inline-block;
-    // The user's icon
-    img {
-      height: 7vw;  width: 7vw;
-      border-radius: 25px;
-      display: inline-block;
-      margin-top: 1vw;
-      vertical-align: middle;
-    }
-    // The user's name
-    p {
-      display: inline-block;
-      vertical-align: middle;
-      margin-left: 1vw; margin-top: 1vw;
-      font-size: 3vw; font-family: Quicksand-bold;  color: black;
-    }
-  }
-
-  // the timestamp
-  #tsDiv{
-    display: inline-block;
-    position: absolute;   right: 11vw;    bottom: 2vw;
-    padding-right: 2vw;
-
-    // The actual text containing the timestamp
-    p {
-      font-size: 3vw;
-      font-family: Quicksand-bold;
-    }
-  }
-
-  // The thumbs up and the number
-  #validDivForPost{
-    display: inline-block;
-    float: right;
-    height: 100%;
-    font-size: 5vw;
-    margin-right: 1vw;
-    width: 10vw;
-    position:relative;
-    // The Number
-    p{
-      display: inline-block;
-      font-size: 4vw;   font-family: bulls;
-      position: absolute;   bottom: 1vw;  right: 5vw;
-    }
-    // The thumbs up icon
-    ion-icon{
-      float: right;
-      color: $primary;
-      position: absolute;  bottom: 2vw;  right: 0;
-    }
-  }
-
-
-
-}

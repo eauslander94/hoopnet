@@ -1,10 +1,13 @@
 import { Component, NgZone, ElementRef, Renderer2, ViewChild, ChangeDetectorRef } from '@angular/core';
-import { ViewController, NavParams, Content, ModalController, NavController, Events } from 'ionic-angular';
+import { ViewController, NavParams, Content, ModalController, NavController,
+  Events, AlertController } from 'ionic-angular';
 
 import { HoursDisplay }  from '../hours-display/hours-display';
 import { AuthService }   from '../../services/auth.service';
 import { CourtDataService } from '../../services/courtDataService.service';
 import { CourtHelper }   from '../../providers/court-helper/court-helper';
+import { LoadingPage }      from '../../pages/loading/loading';
+
 
 import * as Realtime from 'realtime-messaging';
 
@@ -28,11 +31,10 @@ export class WindowModal {
 
   expanded: boolean;
 
+  viewCtrl: ViewController;
+
   @ViewChild(Content) content: Content;
-
-
-  constructor(public viewCtrl: ViewController,
-              private params: NavParams,
+  constructor(private params: NavParams,
               public zone: NgZone,
               public renderer: Renderer2,
               public cdr: ChangeDetectorRef,
@@ -41,8 +43,10 @@ export class WindowModal {
               public auth: AuthService,
               public courtDataService: CourtDataService,
               public events: Events,
-              public courtHelper: CourtHelper)
+              public courtHelper: CourtHelper,
+              public alertCtrl: AlertController)
   {
+    this.viewCtrl = params.get("viewCtrl");
     this.court = params.get('court');
     this.windowData = params.get('court').windowData;
     this.windowData.coordinates = this.court.location.coordinates;
@@ -103,6 +107,48 @@ export class WindowModal {
       return;
     }
     this.navCtrl.push('SelectFriendsPage', { court: this.court})
+  }
+
+  public addHomecourt(){
+    if(!this.auth.isAuthenticated()){
+      this.courtDataService.toastMessage('Log in to perform this action.', 3000);
+      return;
+    }
+    let alert = this.alertCtrl.create({
+       title: 'Add Homecourt',
+       subTitle: 'Confirm to add ' + this.court.name + ' to your collection of homecourts.',
+       buttons: [
+         {text: 'Cancel', role: 'cancel'},
+         {text: 'Confirm', handler: () =>  {
+           alert.dismiss().then(() => {
+             this.viewCtrl.dismiss().then(() => {this.homecourtHelper()})
+            })
+            return false;
+       }}]
+     })
+     alert.present()
+  }
+
+  public homecourtHelper(){
+    // Push load page, send court data to server
+    let loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'adding homecourt' },
+    {enterAnimation: 'ModalEnterFadeIn', leaveAnimation: 'ModalLeaveFadeOut'})
+    loadScreen.present();
+
+    this.courtDataService.putHomecourt(this.court._id).subscribe(
+      res => {
+        // Pop load page, perform court updating, give user feedback/error message
+        loadScreen.dismiss().then(() => {
+          this.events.publish('updateCurrentUser', res.json())
+          this.courtDataService.notify('Homecourt Added', "\'" + this.court.name + '\' has been added to your homecourts.')
+        })
+      },
+      err => {
+        loadScreen.dismiss().then(() => {
+          this.courtDataService.notify('Error', 'Error adding \'' + this.court + '\' to your homecourts. Please try again.')
+        })
+      }
+    );
   }
 
 

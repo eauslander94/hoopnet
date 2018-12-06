@@ -20,7 +20,7 @@ export class SplashPage {
   lDisplay: number = 0;
 
   canNavigate: boolean = false;
-  loadingText: string = 'loading Courtlife'
+  loadingText: string = 'loading Kodo'
 
   // When we've finished our animation and can navigate to the map page
   splashReady: boolean = false;

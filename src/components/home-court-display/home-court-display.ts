@@ -43,45 +43,9 @@ export class HomeCourtDisplay {
     if(params.get('courtPointers').length > 0) this.noHomecourts = false;
     else this.noHomecourts = true;
 
-    // When we've got new omecourts, update homecourts display
-    this.events.subscribe('newHomecourt', (court) => {
-
-      // Check if this is already a homecourt
-      for(let homecourt of this.courts)
-        if(homecourt._id === court._id) {
-          this.courtDataService.notify('Already a homecourt', court.name + ' is already a homecourt of yours');
-          return;
-        }
-
-      // Push load page, send court data to server
-      let loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'adding homecourt' },
-      {
-        enterAnimation: 'ModalEnterFadeIn',
-        leaveAnimation: 'ModalLeaveFadeOut'
-      })
-      loadScreen.present();
-
-      this.courtDataService.putHomecourt(court._id).subscribe(
-        res => {
-          // Pop load page, perform court updating, give user feedback/error message
-          loadScreen.dismiss().then(() => {
-            court.windowData.court = JSON.stringify(court); // For window scouting
-            this.zone.run(() => {
-              this.courts.push(court);
-              this.noHomecourts = false;
-            })
-            this.events.publish('updateCurrentUser', res.json())
-            if(this.courts.length > 1)
-            this.courtDataService.notify('Homecourt Added', court.name + ' has been added to your homecourts.')
-          })
-        },
-        err => {
-          loadScreen.dismiss().then(() => {
-            this.courtDataService.notify('Error', 'Error adding ' + court + ' to your homecourts. Please try again.')
-          })
-        }
-      );
-    })
+    // If we're being used w/ modal wrapper, get viewCtrl from modal wrapper
+    if(params.get("viewCtrl"))
+      this.viewCtrl = params.get("viewCtrl");
   }
 
   ngOnDestroy(){
@@ -177,6 +141,49 @@ export class HomeCourtDisplay {
     }
   )
   alert.present();
+  }
+
+  // Listen for new homecourts being added & respond appropriately
+  private subscribeToNewHomecourts(){
+    // When we've got new omecourts, update homecourts display
+    this.events.subscribe('newHomecourt', (court) => {
+
+      // Check if this is already a homecourt
+      for(let homecourt of this.courts)
+        if(homecourt._id === court._id) {
+          this.courtDataService.notify('Already a homecourt', court.name + ' is already a homecourt of yours');
+          return;
+        }
+
+      // Push load page, send court data to server
+      let loadScreen = this.modalCtrl.create(LoadingPage, { loadingMessage: 'adding homecourt' },
+      {
+        enterAnimation: 'ModalEnterFadeIn',
+        leaveAnimation: 'ModalLeaveFadeOut'
+      })
+      loadScreen.present();
+
+      this.courtDataService.putHomecourt(court._id).subscribe(
+        res => {
+          // Pop load page, perform court updating, give user feedback/error message
+          loadScreen.dismiss().then(() => {
+            court.windowData.court = JSON.stringify(court); // For window scouting
+            this.zone.run(() => {
+              this.courts.push(court);
+              this.noHomecourts = false;
+            })
+            this.events.publish('updateCurrentUser', res.json())
+            if(this.courts.length > 1)
+            this.courtDataService.notify('Homecourt Added', court.name + ' has been added to your homecourts.')
+          })
+        },
+        err => {
+          loadScreen.dismiss().then(() => {
+            this.courtDataService.notify('Error', 'Error adding ' + court + ' to your homecourts. Please try again.')
+          })
+        }
+      );
+    })
   }
 
   public courtSearch(){
