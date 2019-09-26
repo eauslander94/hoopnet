@@ -79,7 +79,7 @@ export class MyApp {
       // this.initCrashReport();
 
       // lock the screen to portrait
-      this.screenOrientation.lock('portrait');
+        this.screenOrientation.lock('portrait');
 
       // If we're autenticated on startup
       if(this.auth.isAuthenticated()){
