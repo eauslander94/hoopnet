@@ -37,7 +37,7 @@
     "angular-storage": "0.0.15",
     "angular2-jwt": "^0.2.3",
     "animate.css": "^3.5.2",
-    "auth0-js": "^9.0.2",
+    "auth0-js": "^9.13.2",
     "cordova-android": "^7.1.1",
     "cordova-ios": "^4.5.5",
     "cordova-plugin-add-swift-support": "^1.7.2",
